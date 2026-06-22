@@ -21,7 +21,7 @@ def train(params_path: Path, data_yaml: Path, model_path: Path, metrics_path: Pa
 
         wandb.login(key=os.environ["WANDB_API_KEY"], relogin=False)
         run = wandb.init(
-            project=os.getenv("WANDB_PROJECT", params.get("project", "food-suggest-ingredient-detection")),
+            project=os.getenv("WANDB_PROJECT", params.get("project", "ingredient-detection")),
             entity=os.getenv("WANDB_ENTITY") or None,
             name=os.getenv("WANDB_RUN_NAME") or None,
             job_type="train",

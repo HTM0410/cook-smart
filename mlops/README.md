@@ -77,7 +77,7 @@ dvc push
 python -m pip install -r requirements-mlops.txt
 $env:WANDB_API_KEY="..."
 $env:WANDB_ENTITY="YOUR_ENTITY"
-$env:WANDB_PROJECT="food-suggest-ingredient-detection"
+$env:WANDB_PROJECT="ingredient-detection"
 dvc pull
 dvc repro
 dvc metrics show
@@ -90,7 +90,6 @@ Use `train.device: cpu` in `params.yaml` for a CPU smoke run.
 
 Create these Kaggle Secrets:
 
-- `GIT_REPOSITORY_URL`
 - `DVC_S3_REMOTE_URL`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
@@ -108,7 +107,7 @@ Review the evaluation metrics and sample predictions in W&B, then run:
 
 ```powershell
 $env:WANDB_ENTITY="YOUR_ENTITY"
-$env:WANDB_PROJECT="food-suggest-ingredient-detection"
+$env:WANDB_PROJECT="ingredient-detection"
 python -m mlops.ingredient_detection.promote
 ```
 
@@ -119,7 +118,7 @@ MLOPS_ENABLED=true
 MLOPS_REGISTRY=wandb
 WANDB_API_KEY=...
 WANDB_ENTITY=...
-WANDB_PROJECT=food-suggest-ingredient-detection
+WANDB_PROJECT=ingredient-detection
 WANDB_MODEL_ARTIFACT=ingredient-detector
 WANDB_MODEL_ALIAS=production
 ```

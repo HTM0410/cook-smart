@@ -10,7 +10,7 @@ train:
   deterministic: true
   workers: 4
   device: "0"
-  project: food-suggest-ingredient-detection
+  project: ingredient-detection
   wandb: true
 
 evaluate:

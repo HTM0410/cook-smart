@@ -13,7 +13,7 @@ def main() -> None:
     import wandb
 
     entity = os.environ["WANDB_ENTITY"]
-    project = os.getenv("WANDB_PROJECT", "food-suggest-ingredient-detection")
+    project = os.getenv("WANDB_PROJECT", "ingredient-detection")
     name = os.getenv("WANDB_MODEL_ARTIFACT", "ingredient-detector")
     artifact = wandb.Api().artifact(f"{entity}/{project}/{name}:{args.source_alias}")
     aliases = set(artifact.aliases)

@@ -11,7 +11,7 @@ def load_yolo_model_from_registry() -> tuple[Any, dict[str, Any]]:
     from ultralytics import YOLO
 
     entity = os.environ["WANDB_ENTITY"]
-    project = os.getenv("WANDB_PROJECT", "food-suggest-ingredient-detection")
+    project = os.getenv("WANDB_PROJECT", "ingredient-detection")
     artifact_name = os.getenv("WANDB_MODEL_ARTIFACT", "ingredient-detector")
     alias = os.getenv("WANDB_MODEL_ALIAS", "production")
     artifact_ref = f"{entity}/{project}/{artifact_name}:{alias}"
