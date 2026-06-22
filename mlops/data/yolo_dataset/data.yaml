@@ -1,0 +1,65 @@
+path: .
+train: images/train
+val: images/val
+
+nc: 59
+names:
+  - bac_ha
+  - bach_tuoc
+  - banh_mi
+  - bap_cai
+  - bap_ngo
+  - bi_ngo
+  - bun
+  - ca
+  - ca_chua
+  - ca_hoi
+  - ca_rot
+  - ca_tim
+  - cai_thao
+  - cam
+  - chanh
+  - chuoi
+  - cu_cai
+  - cua
+  - dau_hu
+  - dua-
+  - dua_hau
+  - dua_leo
+  - gao
+  - gung
+  - hanh_tay
+  - hanh_tim
+  - hau
+  - kho_qua
+  - khoai_lang
+  - khoai_tay
+  - muc
+  - muop
+  - nam_bao_ngu
+  - nam_huong
+  - nam_kim_cham
+  - ngao
+  - ot
+  - ot_chuong
+  - rau_cai
+  - rau_hung
+  - rau_mong_toi
+  - rau_mui
+  - rau_muong
+  - rau_ram
+  - rieng
+  - su_su
+  - tao
+  - thanh_long
+  - thi_la
+  - thit_bo
+  - thit_ga
+  - thit_heo
+  - toi
+  - tom
+  - trung_cut
+  - trung_ga
+  - xa_lach
+  - xoai
+  - xuc_xich

@@ -1,0 +1,5 @@
+dvc[s3]>=3.60,<4
+ultralytics>=8.4,<9
+wandb>=0.25,<1
+PyYAML>=6.0,<7
+Pillow>=10,<13

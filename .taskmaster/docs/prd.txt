@@ -1,0 +1,200 @@
+<context>
+# Overview  
+**CookSmart** là một website gợi ý công thức nấu ăn thông minh giúp người dùng dễ dàng tìm ra món ăn phù hợp dựa trên **nguyên liệu sẵn có**.  
+Ứng dụng giải quyết vấn đề quen thuộc của nhiều người: *“Có nguyên liệu nhưng không biết nấu món gì.”*  
+Người dùng chỉ cần nhập các nguyên liệu hiện có — hệ thống sẽ trả về danh sách món ăn phù hợp, kèm hướng dẫn nấu chi tiết, cho phép lưu món yêu thích, đánh giá và bình luận.  
+
+CookSmart hướng đến mục tiêu trở thành một **trợ lý nấu ăn kỹ thuật số**, thân thiện, nhanh gọn, và phù hợp với người dùng Việt Nam trong giai đoạn MVP.
+
+# Core Features  
+## 1. Gợi ý món ăn theo nguyên liệu  
+- Người dùng nhập từ 1 đến nhiều nguyên liệu (VD: “trứng, cà chua, hành lá”).  
+- Hệ thống tra cứu bảng **Recipe_Ingredient** để tìm các công thức chứa các nguyên liệu đó.  
+- Không yêu cầu trùng khớp 100% — chỉ cần có các nguyên liệu chính là được.  
+- Hệ thống hiển thị món phù hợp nhất trước (ưu tiên số lượng nguyên liệu khớp cao).  
+- Khi người dùng nhập nguyên liệu **chưa có trong hệ thống**, tên nguyên liệu đó sẽ được ghi lại trong bảng `Pending_Ingredient` để admin xem xét bổ sung.  
+- Autocomplete khi nhập nguyên liệu giúp thao tác nhanh và chính xác hơn.  
+
+## 2. Tìm kiếm & lọc nâng cao  
+- Tìm kiếm món ăn theo **tên**, **nguyên liệu**, hoặc **loại món**.  
+- Lọc kết quả theo:  
+  - **Thời gian nấu** (ngắn / trung bình / lâu)  
+  - **Độ khó** (dễ / trung bình / khó)  
+  - **Danh mục món** (món chính, món phụ, món canh, tráng miệng,...)  
+- Hiển thị các món có **độ tương thích cao nhất** ở đầu danh sách.  
+- Lưu lại **lịch sử tìm kiếm gần đây** (hiển thị gợi ý khi người dùng click lại thanh tìm kiếm).  
+
+## 3. Hướng dẫn nấu ăn chi tiết  
+- Mỗi món hiển thị **ảnh minh họa, mô tả ngắn, độ khó, thời gian, khẩu phần.**  
+- Danh sách nguyên liệu có thể tích chọn “đã chuẩn bị”.  
+- Các bước nấu hiển thị chi tiết từng bước, có thể kèm hình minh họa nhỏ.  
+- Phần “**Ghi chú đầu bếp (Cook’s Note)**” cung cấp mẹo nhỏ cho món ăn.  
+- Hiển thị thông tin dinh dưỡng cơ bản: năng lượng, chất đạm, chất béo, carb.  
+
+## 4. Tương tác người dùng  
+- Người dùng có thể **đánh giá** công thức (1–5 sao).  
+- Viết **bình luận** chia sẻ kinh nghiệm nấu.  
+- **Lưu món yêu thích** để truy cập nhanh trong trang cá nhân.  
+- Quản lý hồ sơ cá nhân: chỉnh sửa tên, ảnh đại diện, mật khẩu.  
+
+## 5. Trang quản trị (Admin Dashboard)  
+- **Quản lý công thức:** thêm, sửa, xóa, ẩn / hiển thị món.  
+- **Quản lý người dùng:** khóa / mở tài khoản.  
+- **Quản lý nguyên liệu & danh mục:** thêm, chỉnh sửa, xóa nguyên liệu.  
+- **Duyệt nguyên liệu chờ (Pending Ingredient):** phê duyệt hoặc từ chối nguyên liệu người dùng gửi.  
+- **Thống kê tổng quan:** tổng số món, người dùng, bình luận, nguyên liệu chờ duyệt.  
+
+# User Experience  
+## User Personas  
+- **Người nội trợ bận rộn:** Muốn tìm nhanh món ăn dựa trên nguyên liệu sẵn, không cần thao tác phức tạp.  
+- **Sinh viên hoặc người sống một mình:** Ưu tiên món ăn dễ nấu, ít nguyên liệu, tiết kiệm thời gian.  
+- **Người mới học nấu ăn:** Cần hướng dẫn chi tiết từng bước, có ảnh minh họa.  
+- **Admin:** Duyệt nguyên liệu mới, kiểm soát nội dung và người dùng.  
+
+## Key User Flows  
+1. **Tìm món ăn:**  
+   Nhập nguyên liệu → Hệ thống lọc món → Hiển thị danh sách gợi ý → Chọn món.  
+2. **Xem công thức:**  
+   Mở trang chi tiết → Xem nguyên liệu + bước nấu → Tích chọn đã chuẩn bị.  
+3. **Tương tác:**  
+   Lưu món → Đánh giá sao → Viết bình luận → Chia sẻ công thức.  
+4. **Quản trị:**  
+   Admin xem danh sách pending ingredient → Duyệt / từ chối → Cập nhật danh mục nguyên liệu.  
+
+## UI/UX Considerations  
+- Giao diện **tối giản, rõ ràng**, ưu tiên thao tác 1–2 bước.  
+- Sử dụng **autocomplete** khi nhập nguyên liệu.  
+- **Responsive design**: tương thích mobile, tablet, desktop.  
+- Giao diện sáng / tối (Dark mode support).  
+- Thông báo thân thiện (toast messages) cho hành động như lưu món, gửi đánh giá.  
+</context>
+
+<PRD>
+# Technical Architecture  
+## System Components  
+- **Frontend:** ReactJS + TailwindCSS  
+- **Backend:** Node.js + ExpressJS (REST API)  
+- **Database:** MySQL (ORM: Sequelize)  
+- **Authentication:** JWT + bcrypt  
+- **Hosting:**  
+  - Frontend: Vercel / Netlify  
+  - Backend: Render / Railway  
+  - Database: PlanetScale (MySQL Cloud)  
+
+## Data Models  
+### User  
+`user_id`, `full_name`, `email`, `password_hash`, `avatar`, `role`, `status`, `created_at`
+
+### Recipe  
+`recipe_id`, `recipe_name`, `description`, `image_url`, `servings`, `difficulty`, `prep_time`, `cook_time`, `created_by`, `created_at`, `status`
+
+### Ingredient  
+`ingredient_id`, `ingredient_name`, `category_id`, `description`, `created_at`
+
+### Ingredient_Category  
+`category_id`, `category_name`
+
+### Recipe_Ingredient  
+`recipe_id`, `ingredient_id`, `quantity`
+
+### Recipe_Step  
+`step_id`, `recipe_id`, `step_number`, `instruction`, `image_url`
+
+### Recipe_Review  
+`review_id`, `recipe_id`, `user_id`, `rating`, `comment`, `created_at`
+
+### User_Favorite  
+`user_id`, `recipe_id`, `added_at`
+
+### Pending_Ingredient  
+`pending_id`, `ingredient_name`, `submitted_by`, `submitted_at`, `status`, `note`
+
+### Admin  
+`admin_id`, `username`, `password_hash`, `role`, `created_at`
+
+## APIs and Integrations  
+### User APIs  
+- `POST /api/auth/register` → Đăng ký  
+- `POST /api/auth/login` → Đăng nhập  
+- `GET /api/user/profile` → Lấy thông tin  
+- `GET /api/user/favorites` → Xem món yêu thích  
+- `POST /api/user/favorites` → Thêm món yêu thích  
+
+### Recipe APIs  
+- `GET /api/recipes` → Danh sách món  
+- `GET /api/recipes/:id` → Chi tiết món ăn  
+- `GET /api/recipes/search` → Tìm kiếm theo nguyên liệu  
+- `POST /api/recipes/:id/reviews` → Gửi đánh giá  
+
+### Admin APIs  
+- `GET /api/admin/dashboard` → Tổng quan hệ thống  
+- `GET /api/admin/pending-ingredients` → Danh sách nguyên liệu chờ duyệt  
+- `PATCH /api/admin/pending-ingredients/:id/approve` → Duyệt nguyên liệu  
+- `PATCH /api/admin/users/:id/status` → Khóa/mở tài khoản  
+
+# Development Roadmap  
+## Phase 1: MVP  
+- Tìm kiếm món theo nguyên liệu  
+- Hiển thị danh sách món gợi ý  
+- Xem công thức chi tiết (ảnh + nguyên liệu + bước nấu)  
+- Đăng ký / đăng nhập  
+- Lưu món yêu thích  
+- Trang quản trị cơ bản (quản lý công thức, nguyên liệu)  
+
+## Phase 2: Core Completion  
+- Bình luận & đánh giá món ăn  
+- Quản lý nguyên liệu chờ duyệt  
+- Gợi ý món tương tự  
+- Tối ưu UI/UX  
+
+## Phase 3: Extended Features  
+- Bộ lọc nâng cao (độ khó, thời gian nấu)  
+- Dashboard thống kê admin  
+- Upload ảnh khi thêm công thức  
+
+## Phase 4: AI & Optimization (Future)  
+- AI gợi ý món dựa trên thói quen  
+- Chatbot hỗ trợ nấu ăn  
+- Tự động tính toán dinh dưỡng  
+- Gợi ý nguyên liệu thay thế  
+
+# Logical Dependency Chain  
+### Foundation (Build First)  
+1. Thiết lập CSDL (MySQL + Sequelize).  
+2. Đăng ký / đăng nhập (JWT Authentication).  
+3. API nền tảng (User, Recipe, Ingredient).  
+4. Giao diện cơ bản (React routing + layout).  
+
+### Core Functionality (Quick to Usable)  
+1. Tìm kiếm món ăn theo nguyên liệu.  
+2. Hiển thị chi tiết công thức.  
+3. Lưu món yêu thích, đánh giá.  
+4. Trang quản trị cơ bản.  
+
+### Enhanced Features (Build Upon)  
+1. Lọc nâng cao & thống kê.  
+2. Duyệt Pending Ingredient.  
+3. Trang người dùng hoàn chỉnh (Favorites + Reviews).  
+
+# Risks and Mitigations  
+| Rủi ro | Mô tả | Biện pháp giảm thiểu |
+|--------|--------|----------------------|
+| Dữ liệu công thức hạn chế | Ít món, khó gợi ý chính xác | Import dataset công khai (Spoonacular, Kaggle) |
+| Hiệu năng tìm kiếm | Query nhiều bảng | Tối ưu SQL JOIN, caching kết quả tìm kiếm |
+| Quá tải Admin | Duyệt nguyên liệu chậm | Thêm role moderator khi cần |
+| Phạm vi vượt quá MVP | Tính năng phụ chiếm thời gian | Chốt MVP trước, thêm AI sau |
+
+# Appendix  
+## Technical Specifications  
+- **API response:** <500ms  
+- **Security:** HTTPS, JWT, chống SQL Injection  
+- **Performance:** Page load <3s  
+- **Scalability:** 5k+ người dùng song song  
+- **Accessibility:** Responsive, Dark mode  
+
+## Research Findings  
+- 71% người dùng “không biết nấu gì” khi nhìn vào tủ lạnh  
+- 82% mong muốn được gợi ý món theo nguyên liệu sẵn  
+- 68% lưu công thức để nấu lại sau  
+- Mobile-first UX giúp tăng 40% tương tác người dùng  
+</PRD>

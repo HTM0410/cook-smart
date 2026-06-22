@@ -1,0 +1,317 @@
+[
+  {
+    "ingredient_a": "Thịt bò",
+    "ingredient_a_id": 30,
+    "ingredient_b": "Lươn",
+    "ingredient_b_id": 523,
+    "severity": "warning",
+    "reason": "Thịt bò kết hợp lươn dễ gây đầy bụng, khó tiêu, đau bụng",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt bò",
+    "ingredient_a_id": 30,
+    "ingredient_b": "Khoai lang",
+    "ingredient_b_id": 85,
+    "severity": "warning",
+    "reason": "Ăn chung gây đầy hơi, chướng bụng, khó tiêu",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Gà",
+    "ingredient_a_id": 53,
+    "ingredient_b": "Mật ong",
+    "ingredient_b_id": 174,
+    "severity": "danger",
+    "reason": "Thịt gà ăn cùng mật ong có thể gây ngộ độc, đau bụng dữ dội",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt gà",
+    "ingredient_a_id": 99,
+    "ingredient_b": "Mật Ong",
+    "ingredient_b_id": 552,
+    "severity": "danger",
+    "reason": "Thịt gà ăn cùng mật ong có thể gây ngộ độc, đau bụng dữ dội",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt vịt",
+    "ingredient_a_id": 104,
+    "ingredient_b": "Mận",
+    "ingredient_b_id": 551,
+    "severity": "warning",
+    "reason": "Thịt vịt ăn cùng mận gây tiêu chảy, rối loạn tiêu hóa",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt Vịt",
+    "ingredient_a_id": 700,
+    "ingredient_b": "Mận",
+    "ingredient_b_id": 551,
+    "severity": "warning",
+    "reason": "Thịt vịt ăn cùng mận gây tiêu chảy, rối loạn tiêu hóa",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt Dê",
+    "ingredient_a_id": 708,
+    "ingredient_b": "Dưa Hấu",
+    "ingredient_b_id": 421,
+    "severity": "warning",
+    "reason": "Thịt dê tính nóng, dưa hấu tính hàn, ăn chung gây mất cân bằng, tiêu chảy",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt heo",
+    "ingredient_a_id": 29,
+    "ingredient_b": "Tôm",
+    "ingredient_b_id": 34,
+    "severity": "warning",
+    "reason": "Ăn cùng có thể gây đau bụng, khó tiêu theo Đông y",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Gan heo",
+    "ingredient_a_id": 49,
+    "ingredient_b": "Cà rốt",
+    "ingredient_b_id": 24,
+    "severity": "warning",
+    "reason": "Enzyme trong cà rốt phá hủy vitamin C có trong gan, giảm giá trị dinh dưỡng",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Cà rốt",
+    "ingredient_a_id": 24,
+    "ingredient_b": "Củ cải trắng",
+    "ingredient_b_id": 86,
+    "severity": "warning",
+    "reason": "Ascorbinase trong cà rốt phá hủy vitamin C của củ cải trắng",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Rau muống",
+    "ingredient_a_id": 75,
+    "ingredient_b": "Sữa tươi",
+    "ingredient_b_id": 120,
+    "severity": "warning",
+    "reason": "Oxalat trong rau muống kết hợp canxi trong sữa tạo kết tủa, giảm hấp thu canxi",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Cua",
+    "ingredient_a_id": 115,
+    "ingredient_b": "Khoai lang",
+    "ingredient_b_id": 85,
+    "severity": "danger",
+    "reason": "Protein trong cua kết hợp tinh bột khoai lang tạo khối kết tủa, gây tắc ruột",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Tôm",
+    "ingredient_a_id": 34,
+    "ingredient_b": "Cam",
+    "ingredient_b_id": 317,
+    "severity": "warning",
+    "reason": "Vitamin C liều cao có thể chuyển As+5 trong tôm thành As+3 độc hại (cần lượng lớn)",
+    "source": "Y khoa"
+  },
+  {
+    "ingredient_a": "Nghêu",
+    "ingredient_a_id": 117,
+    "ingredient_b": "Cam",
+    "ingredient_b_id": 317,
+    "severity": "warning",
+    "reason": "Hải sản chứa arsenic kết hợp vitamin C liều cao có thể gây khó chịu tiêu hóa",
+    "source": "Y khoa"
+  },
+  {
+    "ingredient_a": "Sữa tươi",
+    "ingredient_a_id": 120,
+    "ingredient_b": "Chanh",
+    "ingredient_b_id": 10,
+    "severity": "warning",
+    "reason": "Acid citric trong chanh gây đông vón casein trong sữa, khó tiêu hóa",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Sữa tươi",
+    "ingredient_a_id": 120,
+    "ingredient_b": "Cam",
+    "ingredient_b_id": 317,
+    "severity": "warning",
+    "reason": "Acid trong cam gây đông vón protein sữa, gây đầy hơi và khó tiêu",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Trứng gà",
+    "ingredient_a_id": 276,
+    "ingredient_b": "Sữa Đậu Nành",
+    "ingredient_b_id": 695,
+    "severity": "warning",
+    "reason": "Trypsin trong đậu nành ức chế enzyme tiêu hóa protein trứng, giảm hấp thu",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Trứng gà",
+    "ingredient_a_id": 276,
+    "ingredient_b": "Mật Ong",
+    "ingredient_b_id": 552,
+    "severity": "warning",
+    "reason": "Glucose trong mật ong oxy hóa khi gặp protein trứng, tạo chất khó hấp thu",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Mật ong",
+    "ingredient_a_id": 174,
+    "ingredient_b": "Hành tây",
+    "ingredient_b_id": 4,
+    "severity": "warning",
+    "reason": "Acid hữu cơ trong mật ong phản ứng với lưu huỳnh trong hành, gây đau bụng",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Mật ong",
+    "ingredient_a_id": 174,
+    "ingredient_b": "Tỏi",
+    "ingredient_b_id": 15,
+    "severity": "warning",
+    "reason": "Mật ong kết hợp tỏi gây nóng trong, kích ứng dạ dày",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Mật ong",
+    "ingredient_a_id": 174,
+    "ingredient_b": "Đậu hũ",
+    "ingredient_b_id": 802,
+    "severity": "warning",
+    "reason": "Khoáng chất trong đậu hũ phản ứng với đường trong mật ong, gây khó tiêu",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Bí đỏ",
+    "ingredient_a_id": 83,
+    "ingredient_b": "Rau muống",
+    "ingredient_b_id": 75,
+    "severity": "warning",
+    "reason": "Ăn chung gây đầy bụng, chướng hơi theo y học cổ truyền",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Sầu Riêng",
+    "ingredient_a_id": 714,
+    "ingredient_b": "Bia",
+    "ingredient_b_id": 195,
+    "severity": "danger",
+    "reason": "Sầu riêng ức chế enzyme aldehyde dehydrogenase phân giải rượu, gây ngộ độc rượu nặng",
+    "source": "Y khoa"
+  },
+  {
+    "ingredient_a": "Sầu Riêng",
+    "ingredient_a_id": 714,
+    "ingredient_b": "Rượu trắng",
+    "ingredient_b_id": 214,
+    "severity": "danger",
+    "reason": "Sầu riêng ức chế enzyme phân giải rượu, gây tăng aldehyde máu, nguy hiểm cho tim mạch",
+    "source": "Y khoa"
+  },
+  {
+    "ingredient_a": "Sầu Riêng",
+    "ingredient_a_id": 714,
+    "ingredient_b": "Sữa tươi",
+    "ingredient_b_id": 120,
+    "severity": "warning",
+    "reason": "Caffeine trong sầu riêng kết hợp sữa gây tăng huyết áp, đầy bụng",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt Ếch",
+    "ingredient_a_id": 722,
+    "ingredient_b": "Chanh",
+    "ingredient_b_id": 10,
+    "severity": "warning",
+    "reason": "Protein ếch phản ứng với acid chanh gây co thắt dạ dày, đau bụng",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Cá",
+    "ingredient_a_id": 55,
+    "ingredient_b": "Đậu xanh",
+    "ingredient_b_id": 147,
+    "severity": "warning",
+    "reason": "Đậu xanh tính hàn kết hợp cá gây rối loạn tiêu hóa",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Ghẹ",
+    "ingredient_a_id": 116,
+    "ingredient_b": "Khoai lang",
+    "ingredient_b_id": 85,
+    "severity": "danger",
+    "reason": "Tương tự cua, protein ghẹ phản ứng tinh bột khoai lang gây kết tủa, tắc ruột",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Cua",
+    "ingredient_a_id": 115,
+    "ingredient_b": "Cam",
+    "ingredient_b_id": 317,
+    "severity": "warning",
+    "reason": "Tanin trong cam kết tủa protein cua, gây buồn nôn, đau bụng",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Thịt bò tái",
+    "ingredient_a_id": 2,
+    "ingredient_b": "Lươn",
+    "ingredient_b_id": 523,
+    "severity": "warning",
+    "reason": "Thịt bò kết hợp lươn dễ gây đầy bụng, khó tiêu",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Rau ngót",
+    "ingredient_a_id": 79,
+    "ingredient_b": "Sữa tươi",
+    "ingredient_b_id": 120,
+    "severity": "warning",
+    "reason": "Oxalat trong rau ngót kết hợp canxi sữa tạo kết tủa canxi oxalat",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Rau dền",
+    "ingredient_a_id": 77,
+    "ingredient_b": "Sữa tươi",
+    "ingredient_b_id": 120,
+    "severity": "warning",
+    "reason": "Oxalat cao trong rau dền cản trở hấp thu canxi từ sữa",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Khoai tây",
+    "ingredient_a_id": 43,
+    "ingredient_b": "Chuối",
+    "ingredient_b_id": 322,
+    "severity": "warning",
+    "reason": "Tinh bột khoai tây kết hợp chuối gây đầy hơi, nổi mụn theo Đông y",
+    "source": "Đông y"
+  },
+  {
+    "ingredient_a": "Khổ qua",
+    "ingredient_a_id": 177,
+    "ingredient_b": "Tôm",
+    "ingredient_b_id": 34,
+    "severity": "warning",
+    "reason": "Oxalat trong khổ qua kết hợp canxi trong tôm tạo kết tủa khó hấp thu",
+    "source": "Dinh dưỡng học"
+  },
+  {
+    "ingredient_a": "Bưởi",
+    "ingredient_a_id": 310,
+    "ingredient_b": "Cua",
+    "ingredient_b_id": 115,
+    "severity": "warning",
+    "reason": "Acid trong bưởi gây kết tủa protein cua, gây buồn nôn và đau bụng",
+    "source": "Đông y"
+  }
+]

@@ -1,0 +1,77 @@
+# Cursor Rules cho Food Suggest Project
+
+## 🎯 Mục tiêu dự án
+Dự án Food Suggest là một ứng dụng gợi ý món ăn thông minh sử dụng AI để giúp người dùng tìm kiếm và khám phá các món ăn phù hợp.
+
+## 🔧 Quy tắc phát triển
+
+### Auto Git Commit
+- Sau mỗi khi hoàn thành task, sử dụng MCP tool `auto_commit` với xác nhận
+- Commit message format: "✅ Hoàn thành task: [TÊN_TASK] - [timestamp]"
+- Bắt buộc phải có xác nhận (confirm: true) trước khi commit
+- Tự động push lên GitHub repository
+- Ghi log commit vào `.taskmaster/reports/git-commits.log`
+
+### Cách sử dụng Auto Commit:
+```
+Sử dụng MCP tool auto_commit với:
+- taskName: "Tên task đã hoàn thành"
+- confirm: true (bắt buộc)
+- message: "Mô tả bổ sung (optional)"
+```
+
+### Code Standards
+- Sử dụng TypeScript cho frontend (React/Next.js)
+- Sử dụng Node.js/Express cho backend
+- Database: MySQL cho dữ liệu chính, Redis cho cache
+- Follow ESLint và Prettier rules
+- Viết unit tests cho các functions quan trọng
+
+### Task Management
+- Sử dụng MCP Taskmaster để quản lý tasks
+- Mỗi task phải có subtasks chi tiết
+- Update task status khi hoàn thành
+- Sử dụng Vietnamese cho comments và documentation
+
+### File Structure
+```
+food-suggest/
+├── .cursor/           # Cursor configuration
+├── .taskmaster/       # Task management
+├── scripts/           # Auto scripts
+├── src/              # Source code
+├── docs/             # Documentation
+└── tests/            # Test files
+```
+
+### Git Workflow
+1. Làm việc trên feature branch
+2. Commit thường xuyên với auto-commit
+3. Merge vào main khi hoàn thành
+4. Tag releases với semantic versioning
+
+### Error Handling
+- Nếu có lỗi build, tự động chạy `git restore .`
+- Log errors vào `.taskmaster/reports/error.log`
+- Notify user về errors và suggest solutions
+
+## 🚀 Commands cho Cursor
+
+### Khởi tạo dự án
+"Tạo dự án Food Suggest với React frontend và Node.js backend"
+
+### Kết nối GitHub
+"Liên kết dự án này với repository food-suggest trên GitHub"
+
+### Cập nhật code
+"Thêm tính năng [tên tính năng] vào dự án"
+
+### Auto commit
+"Hoàn thành task [TÊN_TASK] và commit code với xác nhận"
+
+## 📝 Notes
+- Luôn sử dụng Vietnamese trong giao tiếp
+- Ưu tiên performance và user experience
+- Implement responsive design cho mobile
+- Sử dụng modern JavaScript/TypeScript features
+- Follow security best practices

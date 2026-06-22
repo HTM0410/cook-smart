@@ -1,0 +1,71 @@
+label_yolo,label_norm,ingredient_predicted,ingredient_predicted_norm,confidence,method
+banh_mi,banh mi,Bánh mì,banh mi,1.0000,exact
+bap_cai,bap cai,Bắp cải,bap cai,1.0000,exact
+bap_ngo,bap ngo,Bắp Ngô,bap ngo,1.0000,exact
+bot_mi,bot mi,Bột mì,bot mi,1.0000,exact
+bun,bun,Bún,bun,1.0000,exact
+ca,ca,Cá,ca,1.0000,exact
+ca_chua,ca chua,Cà chua,ca chua,1.0000,exact
+ca_hoi,ca hoi,Cá Hồi,ca hoi,1.0000,exact
+ca_rot,ca rot,Cà rốt,ca rot,1.0000,exact
+cai_thao,cai thao,Cải thảo,cai thao,1.0000,exact
+cam,cam,Cam,cam,1.0000,exact
+chuoi,chuoi,Chuối,chuoi,1.0000,exact
+dau_hu,dau hu,Đậu Hũ,dau hu,1.0000,exact
+dua_hau,dua hau,Dưa Hấu,dua hau,1.0000,exact
+dua_leo,dua leo,Dưa leo,dua leo,1.0000,exact
+gao,gao,Gạo,gao,1.0000,exact
+gung,gung,Gừng,gung,1.0000,exact
+hanh_la,hanh la,Hành lá,hanh la,1.0000,exact
+hanh_tay,hanh tay,Hành tây,hanh tay,1.0000,exact
+hanh_tim,hanh tim,Hành tím,hanh tim,1.0000,exact
+khoai_lang,khoai lang,Khoai lang,khoai lang,1.0000,exact
+khoai_tay,khoai tay,Khoai tây,khoai tay,1.0000,exact
+muc,muc,Mực,muc,1.0000,exact
+nam_bao_ngu,nam bao ngu,Nấm bào ngư,nam bao ngu,1.0000,exact
+nam_huong,nam huong,Nấm hương,nam huong,1.0000,exact
+nam_kim_cham,nam kim cham,Nấm kim châm,nam kim cham,1.0000,exact
+ot,ot,Ớt,ot,1.0000,exact
+rau_cai,rau cai,Rau cải,rau cai,1.0000,exact
+rau_muong,rau muong,Rau muống,rau muong,1.0000,exact
+rau_ram,rau ram,Rau răm,rau ram,1.0000,exact
+sa,sa,Sả,sa,1.0000,exact
+tao,tao,Táo,tao,1.0000,exact
+thit_bo,thit bo,Thịt bò,thit bo,1.0000,exact
+thit_ga,thit ga,Thịt gà,thit ga,1.0000,exact
+thit_heo,thit heo,Thịt heo,thit heo,1.0000,exact
+thit_xong_khoi,thit xong khoi,Thịt Xông Khói,thit xong khoi,1.0000,exact
+toi,toi,Tỏi,toi,1.0000,exact
+tom,tom,Tôm,tom,1.0000,exact
+trung_ga,trung ga,Trứng gà,trung ga,1.0000,exact
+xa_lach,xa lach,Rau Xà Lách,rau xa lach,0.6364,contains
+xoai,xoai,Xoài,xoai,1.0000,exact
+xuc_xich,xuc xich,Xúc Xích,xuc xich,1.0000,exact
+yen_mach,yen mach,Yến mạch,yen mach,1.0000,exact
+bach_tuoc,bach tuoc,Bạch tuộc,bach tuoc,1.0000,exact
+chanh,chanh,Chanh,chanh,1.0000,exact
+cua,cua,Cua,cua,1.0000,exact
+dau_tay,dau tay,Dâu Tây,dau tay,1.0000,exact
+dua.,dua,Dứa,dua,1.0000,exact
+ngao,ngao,Gạo,gao,0.7500,contains
+bi_ngo,bi ngo,Bí ngòi,bi ngoi,0.8571,contains
+bo,bo,Bơ,bo,1.0000,exact
+buoi,buoi,Bưởi,buoi,1.0000,exact
+ca_tim,ca tim,Cà tím,ca tim,1.0000,exact
+cu_cai,cu cai,Củ Cải,cu cai,1.0000,exact
+dau_nanh,dau nanh,Đậu nành,dau nanh,1.0000,exact
+kho_qua,kho qua,Khổ qua,kho qua,1.0000,exact
+muop,muop,Mướp,muop,1.0000,exact
+ot_chuong,ot chuong,Ớt chuông,ot chuong,1.0000,exact
+rieng,rieng,Riềng,rieng,1.0000,exact
+sup_lo,sup lo,Súp Miso,sup miso,0.7143,similarity
+thanh_long,thanh long,Hành lá,hanh la,0.7059,similarity
+trung_cut,trung cut,Trứng cút,trung cut,1.0000,exact
+hau,hau,Hàu,hau,1.0000,exact
+bac_ha,bac ha,Bạc hà,bac ha,1.0000,exact
+pho_mai,pho mai,Phô mai,pho mai,1.0000,exact
+rau_hung,rau hung,Rau Rừng,rau rung,0.8750,similarity
+rau_mong_toi,rau mong toi,Mồng tơi,mong toi,0.6667,contains
+rau_mui,rau mui,Rau mùi,rau mui,1.0000,exact
+su_su,su su,Su Su,su su,1.0000,exact
+thi_la,thi la,Thì là,thi la,1.0000,exact

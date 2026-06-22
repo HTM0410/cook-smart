@@ -1,0 +1,37 @@
+{
+  "name": "food-suggest",
+  "version": "1.0.0",
+  "description": "Food Suggest - Ứng dụng gợi ý món ăn thông minh",
+  "main": "index.js",
+  "scripts": {
+    "auto-commit": "node scripts/git-auto.js",
+    "dev": "node scripts/start-all.js",
+    "build": "echo 'Building project...'",
+    "test": "echo 'Running tests...'",
+    "test:codex": "node scripts/test-codex-connection.js",
+    "codex": "node scripts/codex-integration.js",
+    "codex:test": "node scripts/codex-integration.js test",
+    "codex:analyze": "node scripts/codex-integration.js analyze",
+    "codex:generate": "node scripts/codex-integration.js generate",
+    "codex:fix": "node scripts/codex-integration.js fix",
+    "codex:refactor": "node scripts/codex-integration.js refactor",
+    "codex:docs": "node scripts/codex-integration.js docs",
+    "import:data": "node data/import-tool.js --dir data",
+    "crawl:export": "node data/crawl-and-export.js --dir data"
+  },
+  "keywords": [
+    "food",
+    "recipe",
+    "suggestion",
+    "ai",
+    "cooking"
+  ],
+  "author": "Food Suggest Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.1"
+  },
+  "devDependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

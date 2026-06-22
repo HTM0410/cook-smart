@@ -1,0 +1,45 @@
+{
+  "name": "cooksmart-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "vite",
+    "tailwindcss",
+    "cooksmart"
+  ],
+  "author": "CookSmart Team",
+  "license": "MIT",
+  "description": "CookSmart Frontend - Ứng dụng gợi ý món ăn thông minh",
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.5",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.12.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.546.0",
+    "postcss": "^8.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.4",
+    "react-toastify": "^11.0.5",
+    "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
+  }
+}

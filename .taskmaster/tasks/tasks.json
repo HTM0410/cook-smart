@@ -1,0 +1,577 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Thiết lập cấu trúc cơ sở dữ liệu",
+        "description": "Khởi tạo schema cơ sở dữ liệu MySQL với các bảng và quan hệ theo yêu cầu PRD",
+        "details": "Sử dụng MySQL 8.0+ và Sequelize 6.x để thiết lập các model:\n- Tạo migration scripts cho tất cả các bảng (User, Recipe, Ingredient, etc.)\n- Thiết lập các ràng buộc khóa ngoại và index\n- Cấu hình kết nối PlanetScale\n- Implement các model Sequelize với validation và hooks\n- Thiết lập seed data cho testing",
+        "testStrategy": "- Unit test cho mỗi model Sequelize\n- Kiểm tra các ràng buộc và quan hệ\n- Verify migration up/down\n- Test kết nối PlanetScale",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Xây dựng hệ thống xác thực",
+        "description": "Implement hệ thống đăng ký/đăng nhập với JWT và bcrypt",
+        "details": "Sử dụng:\n- express-jwt 7.x cho JWT\n- bcrypt 5.x cho password hashing\n- express-validator cho input validation\n- Implement refresh token flow\n- Rate limiting với express-rate-limit\n- Implement password reset flow",
+        "testStrategy": "- Unit test các hàm auth\n- Test các endpoint đăng ký/đăng nhập\n- Verify token generation/validation\n- Test rate limiting",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Thiết lập project React frontend",
+        "description": "Khởi tạo dự án React với các công nghệ và cấu trúc cần thiết",
+        "details": "Sử dụng:\n- Create React App hoặc Vite\n- TailwindCSS 3.x\n- React Router 6.x\n- React Query 5.x\n- Axios\n- Cấu trúc thư mục theo atomic design\n- Thiết lập dark mode với TailwindCSS",
+        "testStrategy": "- Verify build process\n- Test routing setup\n- Kiểm tra responsive layout\n- Test dark mode switching",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Xây dựng API Core",
+        "description": "Implement các API cơ bản cho User, Recipe và Ingredient",
+        "details": "Sử dụng Express.js:\n- Implement CRUD operations\n- Setup middleware chain\n- Error handling middleware\n- Request validation\n- Response formatting\n- API documentation với Swagger/OpenAPI",
+        "testStrategy": "- Integration test cho mỗi endpoint\n- Test error handling\n- Verify response format\n- Load testing với k6",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Thiết lập cấu trúc project Express.js cơ bản",
+            "description": "Khởi tạo và cấu hình project Express.js với các thư mục và file cần thiết",
+            "dependencies": [],
+            "details": "- Khởi tạo package.json\n- Cài đặt dependencies cần thiết\n- Tạo cấu trúc thư mục MVC\n- Cấu hình file .env và biến môi trường\n- Setup file index.js và app.js\n- Cấu hình middleware cơ bản",
+            "status": "done",
+            "testStrategy": "- Kiểm tra server khởi động thành công\n- Verify middleware chain hoạt động"
+          },
+          {
+            "id": 2,
+            "title": "Implement User API endpoints",
+            "description": "Xây dựng các API endpoint cho quản lý người dùng bao gồm đăng ký, đăng nhập, quản lý profile",
+            "dependencies": [
+              1
+            ],
+            "details": "- Tạo User model và migration\n- Implement đăng ký tài khoản\n- Implement đăng nhập với JWT\n- API quản lý thông tin cá nhân\n- API đổi mật khẩu\n- API quên mật khẩu",
+            "status": "done",
+            "testStrategy": "- Unit test cho mỗi endpoint\n- Test JWT authentication\n- Validate request/response format"
+          },
+          {
+            "id": 3,
+            "title": "Implement Recipe API endpoints",
+            "description": "Xây dựng các API endpoint cho quản lý công thức nấu ăn",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "- Tạo Recipe model và migration\n- API tạo công thức mới\n- API cập nhật công thức\n- API xóa công thức\n- API lấy danh sách công thức\n- API lấy chi tiết công thức\n- Phân trang và filtering",
+            "status": "done",
+            "testStrategy": "- Integration test CRUD operations\n- Test pagination\n- Verify response format"
+          },
+          {
+            "id": 4,
+            "title": "Implement Ingredient API endpoints",
+            "description": "Xây dựng các API endpoint cho quản lý nguyên liệu",
+            "dependencies": [
+              1
+            ],
+            "details": "- Tạo Ingredient model và migration\n- API thêm nguyên liệu mới\n- API cập nhật nguyên liệu\n- API xóa nguyên liệu\n- API lấy danh sách nguyên liệu\n- API lấy chi tiết nguyên liệu",
+            "status": "done",
+            "testStrategy": "- Test CRUD operations\n- Validate data consistency\n- Test error cases"
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Handling Middleware",
+            "description": "Xây dựng middleware xử lý lỗi tập trung cho toàn bộ API",
+            "dependencies": [
+              1
+            ],
+            "details": "- Setup global error handler\n- Định nghĩa các custom error class\n- Xử lý validation errors\n- Xử lý database errors\n- Xử lý authentication errors\n- Format error response",
+            "status": "done",
+            "testStrategy": "- Test các loại error khác nhau\n- Verify error response format\n- Test error logging"
+          },
+          {
+            "id": 6,
+            "title": "Implement Request Validation",
+            "description": "Xây dựng validation middleware cho các request đến API",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "- Setup validation middleware với Joi/express-validator\n- Validate request body\n- Validate query parameters\n- Validate URL parameters\n- Custom validation rules\n- Sanitize input data",
+            "status": "done",
+            "testStrategy": "- Test validation rules\n- Test invalid input cases\n- Verify sanitization"
+          },
+          {
+            "id": 7,
+            "title": "Implement Response Formatting",
+            "description": "Xây dựng middleware format response theo chuẩn thống nhất",
+            "dependencies": [
+              1,
+              5
+            ],
+            "details": "- Định nghĩa response structure\n- Format success response\n- Format error response\n- Handle pagination metadata\n- Implement response compression\n- Setup response headers",
+            "status": "done",
+            "testStrategy": "- Verify response format\n- Test pagination format\n- Test compression"
+          },
+          {
+            "id": 8,
+            "title": "Implement API Documentation",
+            "description": "Xây dựng tài liệu API với Swagger/OpenAPI",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              6,
+              7
+            ],
+            "details": "- Setup Swagger UI\n- Viết API specifications\n- Generate API documentation\n- Thêm request/response examples\n- Thêm authentication documentation\n- Deploy documentation site",
+            "status": "done",
+            "testStrategy": "- Verify documentation accuracy\n- Test API examples\n- Validate OpenAPI spec"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement tìm kiếm theo nguyên liệu",
+        "description": "Xây dựng logic tìm kiếm công thức dựa trên nguyên liệu đầu vào",
+        "details": "- Implement fuzzy search với fuse.js\n- Tối ưu SQL query với indexing\n- Implement Redis caching\n- Xử lý autocomplete với Elasticsearch\n- Weighted scoring cho kết quả phù hợp",
+        "testStrategy": "- Test search accuracy\n- Benchmark query performance\n- Test cache hit/miss\n- Verify autocomplete response time",
+        "priority": "high",
+        "dependencies": [
+          1,
+          4
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Thiết kế và tối ưu database index cho tìm kiếm nguyên liệu",
+            "description": "Phân tích và thiết kế cấu trúc index cho các bảng liên quan đến nguyên liệu để tối ưu hiệu suất tìm kiếm",
+            "dependencies": [],
+            "details": "- Phân tích query patterns và access patterns\n- Thiết kế composite indexes cho bảng ingredients và recipe_ingredients\n- Implement EXPLAIN ANALYZE để verify query performance\n- Tối ưu các câu query với proper JOIN conditions\n- Benchmark và so sánh performance trước và sau khi index",
+            "status": "done",
+            "testStrategy": "- Kiểm tra execution plan của các queries\n- Benchmark thời gian thực thi query\n- Test với large dataset (>100k records)\n- Verify index usage effectiveness"
+          },
+          {
+            "id": 2,
+            "title": "Implement fuzzy search với Fuse.js",
+            "description": "Tích hợp và cấu hình Fuse.js để hỗ trợ tìm kiếm mờ cho tên nguyên liệu",
+            "dependencies": [
+              1
+            ],
+            "details": "- Cài đặt và cấu hình Fuse.js library\n- Định nghĩa search patterns và threshold\n- Implement search algorithm với weight cho các fields\n- Xử lý edge cases và special characters\n- Tối ưu search performance",
+            "status": "done",
+            "testStrategy": "- Unit test các search patterns\n- Test độ chính xác của kết quả\n- Benchmark search performance\n- Test với các ký tự đặc biệt"
+          },
+          {
+            "id": 3,
+            "title": "Tích hợp Redis cache cho kết quả tìm kiếm",
+            "description": "Thiết lập và cấu hình Redis cache để lưu trữ và tối ưu kết quả tìm kiếm phổ biến",
+            "dependencies": [
+              2
+            ],
+            "details": "- Cài đặt Redis server và client\n- Thiết kế cache key strategy\n- Implement cache invalidation logic\n- Xử lý concurrent access\n- Monitor cache hit rate và memory usage\n- Implement cache warm-up mechanism\n<info added on 2025-10-19T08:24:15.761Z>\nChi tiết triển khai Redis cache:\n\nCơ sở hạ tầng:\n- Đã cài đặt các dependencies Redis (redis, ioredis, @types/redis)\n- Đã thiết lập cấu hình Redis với quản lý kết nối\n- Xây dựng CacheService đầy đủ với hỗ trợ TTL\n- Triển khai chiến lược cache key cho các loại dữ liệu khác nhau\n\nTích hợp cache:\n- Đã tích hợp cache vào SearchController và RecipeController\n- Thêm logging và thống kê cache hit/miss\n- Triển khai logic invalidation cache\n\nQuản lý cache:\n- Tạo CacheController với các endpoint quản trị\n- Thêm thống kê và giám sát cache\n- Triển khai tính năng xóa và khởi tạo cache\n- Thêm invalidation riêng cho công thức và người dùng\n\nAPI Endpoints:\n- GET /api/cache/stats - Thống kê cache\n- DELETE /api/cache/clear - Xóa cache cụ thể\n- DELETE /api/cache/clear-all - Xóa toàn bộ cache\n- POST /api/cache/warm-up - Khởi tạo cache\n- DELETE /api/cache/recipe/:id - Invalidate cache công thức\n- DELETE /api/cache/user/:id - Invalidate cache người dùng\n\nChiến lược TTL:\n- Kết quả tìm kiếm: 15 phút\n- Chi tiết công thức: 30 phút  \n- Công thức phổ biến: 10 phút\n- Yêu thích của người dùng: 5 phút\n- Công thức theo nguyên liệu: 20 phút\n\nĐã hoàn thành kiểm thử với Redis server.\n</info added on 2025-10-19T08:24:15.761Z>\n<info added on 2025-10-19T08:44:54.490Z>\nKết quả kiểm thử cuối cùng và triển khai Redis cache:\n\nKết quả kiểm thử:\n- Tích hợp cache tìm kiếm hoạt động tốt với fallback bộ nhớ\n- Cache chi tiết công thức hoạt động đúng\n- Thống kê cache hiển thị chính xác hits/misses/tỷ lệ hit\n- Xóa cache hoạt động thành công\n- Tất cả endpoint quản lý cache hoạt động ổn định\n\nTính năng đã triển khai:\n- Hỗ trợ fallback Redis + In-Memory khi Redis server không khả dụng\n- Đã xử lý và loại bỏ log lỗi kết nối Redis dư thừa\n- Triển khai đầy đủ các thao tác cache: GET, SET, DEL, pattern matching\n- Giám sát thống kê cache realtime\n- Hỗ trợ TTL cho cache hết hạn\n- Xóa cache theo công thức và người dùng cụ thể\n\nHiệu năng:\n- Tổng số request cache: 3\n- Thời gian phản hồi nhanh và ổn định  \n- Sử dụng bộ nhớ hiệu quả\n- Xử lý lỗi graceful với fallback\n\nTrạng thái: Hoàn thành và sẵn sàng cho production\n</info added on 2025-10-19T08:44:54.490Z>",
+            "status": "done",
+            "testStrategy": "- Test cache hit/miss scenarios\n- Verify cache invalidation\n- Load test với concurrent users\n- Monitor memory usage"
+          },
+          {
+            "id": 4,
+            "title": "Cấu hình Elasticsearch cho autocomplete",
+            "description": "Thiết lập và tích hợp Elasticsearch để cung cấp tính năng gợi ý từ khóa tìm kiếm",
+            "dependencies": [
+              1
+            ],
+            "details": "- Setup Elasticsearch cluster\n- Định nghĩa mapping và analyzers\n- Implement sync mechanism với database\n- Cấu hình completion suggester\n- Xử lý real-time indexing\n- Implement error handling và fallback\n<info added on 2025-10-19T08:59:41.587Z>\nCập nhật tiến độ triển khai:\n\n- Đã hoàn thành setup Elasticsearch client với cơ chế fallback\n- Cấu hình biến môi trường với ELASTICSEARCH_ENABLED mặc định là false\n- Tạo INDEX_MAPPINGS cho ingredients và recipes kèm completion suggester\n- Triển khai ElasticsearchService với các tính năng:\n  + Autocomplete cho ingredients và recipes\n  + Fuzzy search với multi_match queries \n  + Xử lý fallback data\n  + Bulk indexing và thao tác document đơn lẻ\n  + Health check và error handling\n- Tích hợp API endpoints:\n  + GET /api/search/ingredients/autocomplete với tham số fuzzy\n  + GET /api/search/recipes/autocomplete\n- Hoàn thành testing:\n  + Script test-elasticsearch.js\n  + Kiểm tra fallback mode\n  + Test fuzzy search, recipe autocomplete và error handling\n  + Tất cả test cases đều pass\n\nHệ thống autocomplete với Elasticsearch đã sẵn sàng cho production khi có server.\n</info added on 2025-10-19T08:59:41.587Z>",
+            "status": "done",
+            "testStrategy": "- Test suggestion accuracy\n- Verify response time\n- Test data sync\n- Benchmark suggester performance"
+          },
+          {
+            "id": 5,
+            "title": "Implement weighted scoring system",
+            "description": "Xây dựng hệ thống tính điểm cho kết quả tìm kiếm dựa trên nhiều tiêu chí",
+            "dependencies": [
+              2,
+              4
+            ],
+            "details": "- Định nghĩa các tiêu chí scoring (relevance, popularity, rating)\n- Implement scoring algorithm\n- Tích hợp với existing search results\n- Cấu hình weight cho từng tiêu chí\n- Xử lý normalize scores\n- Implement sorting based on final score",
+            "status": "done",
+            "testStrategy": "- Test scoring accuracy\n- Verify result ranking\n- Test với various search scenarios\n- Benchmark sorting performance"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Xây dựng UI công thức chi tiết",
+        "description": "Implement giao diện hiển thị chi tiết công thức nấu ăn",
+        "details": "Sử dụng:\n- React components cho từng phần\n- Lazy loading cho hình ảnh\n- Responsive grid layout\n- Step-by-step UI với animations\n- Interactive checklist cho nguyên liệu",
+        "testStrategy": "- Test responsive behavior\n- Verify image loading\n- Test interactive features\n- Cross-browser testing",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement chức năng yêu thích và đánh giá",
+        "description": "Xây dựng hệ thống lưu món yêu thích và đánh giá công thức",
+        "details": "- Implement real-time updates với WebSocket\n- Optimistic UI updates\n- Caching favorite status\n- Star rating component\n- Comment threading system",
+        "testStrategy": "- Test realtime updates\n- Verify data persistence\n- Test concurrent operations\n- Verify UI feedback",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Setup WebSocket cho real-time updates",
+            "description": "Thiết lập và cấu hình WebSocket server để hỗ trợ cập nhật thời gian thực cho tính năng yêu thích và đánh giá",
+            "dependencies": [],
+            "details": "- Cài đặt thư viện Socket.io\n- Thiết lập WebSocket server\n- Xử lý kết nối/ngắt kết nối\n- Implement các event handlers cho favorite/rating\n- Xử lý room management cho từng công thức\n<info added on 2025-10-19T08:18:01.694Z>\nCập nhật xử lý lỗi và tối ưu WebSocket cho favorite/rating:\n\n- Thêm debouncing 500ms cho các sự kiện click FavoriteButton và StarRating\n- Cài đặt rate limiting phía server:\n  + 1 giây cho favorite toggles\n  + 2 giây cho rating submissions\n  + Tracking rate limit theo user\n\n- Sửa logic xử lý yêu thích:\n  + Thay thế random toggle bằng add/remove từ danh sách favorites\n  + Thêm userFavorites Map để theo dõi công thức yêu thích của user\n  + Thêm recipeFavoriteCounts Map để đếm tổng số favorite cho mỗi công thức\n  + Thêm event get-favorite-status để lấy trạng thái ban đầu\n\n- Nâng cấp WebSocket events:\n  + Event favorite-updated bổ sung favoriteCount\n  + Thêm event favorite-status cho trạng thái khởi tạo\n  + Thêm method getFavoriteStatus() trong socketService\n\n- Ngăn chặn duplicate submissions cho rating\n- Thêm user-specific rate limiting maps\n</info added on 2025-10-19T08:18:01.694Z>\n<info added on 2025-10-19T09:08:19.552Z>\nCập nhật trạng thái hoàn thành và kết quả triển khai WebSocket:\n\n- Hoàn thành setup Socket.IO server với đầy đủ:\n  + CORS configuration \n  + JWT authentication middleware\n  + Room management cho từng recipe\n  + Event handlers cho favorite/rating\n\n- Triển khai thành công real-time features:\n  + Favorite toggle với optimistic updates\n  + Rating submission và broadcasting\n  + Recipe stats broadcasting (favorite/rating counts, average)\n  + User-specific favorite status tracking\n\n- Tối ưu performance với:\n  + Rate limiting server-side: 1s cho favorite, 2s cho rating\n  + Frontend debouncing 500ms\n  + User-specific rate limiting\n  + Chặn duplicate submissions\n\n- Frontend integration hoàn chỉnh:\n  + SocketService với auto-reconnect\n  + FavoriteButton tích hợp WebSocket\n  + StarRating với real-time updates\n  + Event listeners đầy đủ\n\n- Kết quả testing:\n  + Basic WebSocket functionality: PASSED\n  + Multi-client integration: PASSED  \n  + Rate limiting: PASSED\n  + Broadcasting: PASSED\n  + Connection stability: PASSED\n\n=> WebSocket system hoạt động ổn định, hỗ trợ đầy đủ real-time updates, rate limiting và multi-client.\n</info added on 2025-10-19T09:08:19.552Z>",
+            "status": "done",
+            "testStrategy": "- Unit test các event handlers\n- Test WebSocket connection stability\n- Load testing với nhiều concurrent connections\n- Verify message delivery"
+          },
+          {
+            "id": 2,
+            "title": "Xây dựng UI components cho favorite và rating",
+            "description": "Phát triển các components cho chức năng yêu thích và đánh giá sao, đảm bảo UX mượt mà",
+            "dependencies": [
+              1
+            ],
+            "details": "- Tạo reusable Favorite button component\n- Implement Star Rating component với animation\n- Xử lý hover states và tooltips\n- Tích hợp với WebSocket events\n- Thêm loading states và error handling",
+            "status": "done",
+            "testStrategy": "- Unit test components\n- Integration test với WebSocket\n- Visual regression testing\n- Test accessibility"
+          },
+          {
+            "id": 3,
+            "title": "Implement hệ thống comment threading",
+            "description": "Xây dựng hệ thống comment có threading, hỗ trợ replies và pagination",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "- Thiết kế database schema cho threaded comments\n- Implement API endpoints cho CRUD operations\n- Xử lý pagination và lazy loading\n- Tích hợp realtime updates\n- Implement comment sorting và filtering",
+            "status": "done",
+            "testStrategy": "- Test comment CRUD operations\n- Verify threading logic\n- Test pagination\n- Performance testing với large datasets"
+          },
+          {
+            "id": 4,
+            "title": "Xây dựng caching layer",
+            "description": "Implement caching system để tối ưu performance cho favorite status và ratings",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "- Setup Redis caching\n- Implement cache invalidation strategy\n- Cache favorite counts và rating averages\n- Xử lý race conditions\n- Implement cache warming mechanism",
+            "status": "done",
+            "testStrategy": "- Test cache hit/miss rates\n- Verify cache invalidation\n- Test concurrent updates\n- Benchmark performance improvements"
+          },
+          {
+            "id": 5,
+            "title": "Implement optimistic UI updates",
+            "description": "Xây dựng logic để xử lý optimistic updates cho trải nghiệm người dùng mượt mà",
+            "dependencies": [
+              2,
+              4
+            ],
+            "details": "- Implement local state management\n- Xử lý rollback khi có lỗi\n- Sync state với server\n- Implement retry mechanism\n- Xử lý conflict resolution",
+            "status": "done",
+            "testStrategy": "- Test optimistic update flow\n- Verify error handling\n- Test state synchronization\n- Test conflict scenarios"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Xây dựng trang Admin Dashboard",
+        "description": "Implement giao diện quản trị cho admin",
+        "details": "Sử dụng:\n- React Admin framework\n- Material-UI components\n- Chart.js cho thống kê\n- Real-time updates\n- Batch operations UI",
+        "testStrategy": "- Test CRUD operations\n- Verify permission checks\n- Test bulk actions\n- Verify real-time updates",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Implement quản lý Pending Ingredient",
+        "description": "Xây dựng hệ thống quản lý và duyệt nguyên liệu chờ",
+        "details": "- Queue system cho pending items\n- Admin approval workflow\n- Notification system\n- Audit logging\n- Automated ingredient validation",
+        "testStrategy": "- Test approval flow\n- Verify notification delivery\n- Test concurrent approvals\n- Verify audit logs",
+        "priority": "medium",
+        "dependencies": [
+          8
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Xây dựng Queue System và Admin Approval Workflow",
+            "description": "Thiết kế và implement hệ thống queue cho pending ingredients và quy trình phê duyệt của admin",
+            "dependencies": [],
+            "details": "- Implement queue data structure với Redis\n- Xây dựng state machine cho approval workflow\n- Xử lý concurrent operations\n- Setup priority queue cho urgent items\n- Implement rollback mechanism cho failed approvals",
+            "status": "done",
+            "testStrategy": "- Unit test queue operations\n- Integration test workflow states\n- Load test concurrent approvals\n- Test queue priority handling"
+          },
+          {
+            "id": 2,
+            "title": "Phát triển Admin Approval Interface",
+            "description": "Xây dựng giao diện quản lý và phê duyệt nguyên liệu cho admin",
+            "dependencies": [
+              1
+            ],
+            "details": "- Thiết kế UI cho danh sách pending items\n- Implement bulk approval/rejection\n- Tích hợp preview functionality\n- Thêm filter và search capability\n- Responsive design cho mobile view",
+            "status": "done",
+            "testStrategy": "- E2E test approval flows\n- Test UI responsiveness\n- Verify bulk operations\n- Cross-browser testing"
+          },
+          {
+            "id": 3,
+            "title": "Implement Notification System",
+            "description": "Xây dựng hệ thống thông báo realtime cho các cập nhật trạng thái nguyên liệu",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "- Setup WebSocket cho real-time notifications\n- Implement notification queue\n- Tích hợp email notifications\n- Thêm in-app notifications\n- Implement notification preferences",
+            "status": "done",
+            "testStrategy": "- Test WebSocket connections\n- Verify notification delivery\n- Test email sending\n- Performance test notification queue"
+          },
+          {
+            "id": 4,
+            "title": "Xây dựng Audit Logging và Validation System",
+            "description": "Implement hệ thống logging chi tiết và validation tự động cho nguyên liệu",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "- Setup structured logging với Winston\n- Implement validation rules engine\n- Tích hợp automated checks\n- Setup audit trail visualization\n- Implement export functionality cho audit logs",
+            "status": "done",
+            "testStrategy": "- Test logging accuracy\n- Verify validation rules\n- Test export functionality\n- Performance test logging system"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Xây dựng hệ thống filter nâng cao",
+        "description": "Implement bộ lọc công thức theo nhiều tiêu chí",
+        "details": "- Dynamic filter generation\n- Query builder UI\n- Filter persistence\n- Performance optimization\n- URL-based filtering",
+        "testStrategy": "- Test filter combinations\n- Verify query performance\n- Test filter persistence\n- Verify URL sharing",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Thiết kế và implement Query Builder UI",
+            "description": "Xây dựng giao diện Query Builder cho phép người dùng tạo và tùy chỉnh các bộ lọc một cách trực quan",
+            "dependencies": [],
+            "details": "- Implement drag-and-drop interface cho việc tạo filter\n- Tạo các component cho các loại filter khác nhau (dropdown, range, text, etc.)\n- Thiết kế UI/UX cho việc kết hợp nhiều điều kiện lọc\n- Implement preview kết quả filter realtime\n- Tích hợp validation và error handling",
+            "status": "done",
+            "testStrategy": "- Unit test các component filter\n- E2E test cho việc tạo và chỉnh sửa filter\n- Visual regression testing\n- Usability testing với người dùng"
+          },
+          {
+            "id": 2,
+            "title": "Xây dựng Dynamic Filter Generation",
+            "description": "Phát triển hệ thống tạo filter động dựa trên input từ Query Builder UI",
+            "dependencies": [
+              1
+            ],
+            "details": "- Thiết kế cấu trúc dữ liệu cho filter configuration\n- Implement logic chuyển đổi UI state sang query parameters\n- Xây dựng query generator cho các loại filter\n- Tối ưu hóa việc generate complex queries\n- Implement caching cho frequently used filters",
+            "status": "done",
+            "testStrategy": "- Unit test cho query generation\n- Performance testing cho complex filters\n- Integration test với database\n- Test các edge cases và filter combinations"
+          },
+          {
+            "id": 3,
+            "title": "Implement Filter Persistence và URL Sharing",
+            "description": "Xây dựng hệ thống lưu trữ và chia sẻ filter thông qua URL",
+            "dependencies": [
+              2
+            ],
+            "details": "- Thiết kế schema cho việc lưu trữ filter configuration\n- Implement URL serialization/deserialization\n- Xây dựng API endpoints cho filter persistence\n- Implement sharing mechanism\n- Tích hợp với user preferences system",
+            "status": "done",
+            "testStrategy": "- Test URL encoding/decoding\n- Verify filter state persistence\n- Test sharing functionality\n- Security testing cho shared filters"
+          },
+          {
+            "id": 4,
+            "title": "Tối ưu Query Performance",
+            "description": "Tối ưu hiệu năng của hệ thống filter để đảm bảo tốc độ với complex queries",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "- Implement query caching với Redis\n- Tối ưu database indexes\n- Implement lazy loading cho kết quả filter\n- Thiết kế query execution plan optimization\n- Monitor và fine-tune query performance",
+            "status": "done",
+            "testStrategy": "- Benchmark performance tests\n- Load testing với large datasets\n- Cache hit ratio monitoring\n- Memory usage optimization testing"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Implement trang profile người dùng",
+        "description": "Xây dựng trang profile với quản lý món yêu thích và đánh giá",
+        "details": "- Avatar upload với Cloudinary\n- Activity feed\n- Preference management\n- Social sharing features\n- Profile customization",
+        "testStrategy": "- Test image upload\n- Verify data display\n- Test preference updates\n- Verify sharing features",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          7
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Xây dựng hệ thống thông báo",
+        "description": "Implement toast messages và notification system",
+        "details": "Sử dụng:\n- React-Toastify\n- WebSocket cho real-time\n- Service Worker cho push notifications\n- Notification preferences",
+        "testStrategy": "- Test notification delivery\n- Verify real-time updates\n- Test preference handling\n- Cross-browser testing",
+        "priority": "low",
+        "dependencies": [
+          3,
+          7
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Implement tính năng chia sẻ công thức",
+        "description": "Xây dựng chức năng chia sẻ công thức qua mạng xã hội",
+        "details": "- Social media API integration\n- Share preview generation\n- URL shortening\n- Analytics tracking\n- WhatsApp/Telegram sharing",
+        "testStrategy": "- Test sharing flow\n- Verify preview generation\n- Test analytics capture\n- Cross-platform testing",
+        "priority": "low",
+        "dependencies": [
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Tối ưu hiệu năng và SEO",
+        "description": "Implement các best practice về performance và SEO",
+        "details": "- Implement SSR với Next.js\n- Image optimization\n- Schema markup\n- Sitemap generation\n- Core Web Vitals optimization",
+        "testStrategy": "- Lighthouse testing\n- SEO audit\n- Performance monitoring\n- Mobile optimization check",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Triển khai hệ thống monitoring",
+        "description": "Setup monitoring và logging system",
+        "details": "Sử dụng:\n- Sentry cho error tracking\n- Prometheus + Grafana monitoring\n- ELK stack cho logging\n- Uptime monitoring\n- Performance metrics collection",
+        "testStrategy": "- Verify error capture\n- Test alert system\n- Check logging pipeline\n- Verify metric collection",
+        "priority": "low",
+        "dependencies": [
+          4,
+          14
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Implement Authentication System theo PRD CookSmart",
+        "description": "Triển khai hệ thống authentication và user management theo PRD CookSmart: cập nhật DB & model, backend auth endpoints, frontend auth UI/flow, security hardening, và protected features.",
+        "details": "- Cập nhật User model: password policy ≥8 ký tự, có chữ và số; bcrypt 12 rounds; JWT 24h\n- Backend: register/login/refresh/logout/change password/forgot-reset password; validation middleware\n- Frontend: Auth pages (Login/Register), AuthContext, ProtectedRoute, AuthButton; auto refresh token\n- Security: CORS theo env, helmet headers, rate limit, input sanitization\n- Protected features: profile/me endpoints, guard routes/pages",
+        "testStrategy": "- Unit/integration tests cho auth endpoints\n- FE smoke test luồng đăng nhập/đăng ký\n- Kiểm thử rate limit (HTTP 429)\n- Health/CORS preflight và headers",
+        "status": "done",
+        "dependencies": [
+          15
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Cập nhật User Model và Database Schema",
+            "description": "Thiết kế và cập nhật User model với các yêu cầu bảo mật mới theo PRD CookSmart",
+            "dependencies": [],
+            "details": "- Cập nhật schema với password policy mới (≥8 ký tự, bắt buộc có chữ và số)\n- Cấu hình bcrypt với 12 rounds cho mã hóa password\n- Thiết kế JWT schema với thời hạn 24h\n- Thêm các trường cần thiết cho user profile\n- Tạo migration scripts\n- Cập nhật model validation",
+            "status": "done",
+            "testStrategy": "- Unit test cho password validation\n- Test bcrypt hash/compare\n- Verify JWT generation/validation\n- Test migration scripts"
+          },
+          {
+            "id": 2,
+            "title": "Phát triển Backend Authentication Endpoints",
+            "description": "Xây dựng các API endpoints cho toàn bộ luồng authentication",
+            "dependencies": [
+              1
+            ],
+            "details": "- Implement endpoints: register, login, refresh token, logout\n- Xây dựng endpoints quản lý password: change, forgot, reset\n- Tạo validation middleware\n- Implement rate limiting\n- Setup error handling\n- Tích hợp JWT authentication",
+            "status": "done",
+            "testStrategy": "- Integration tests cho mỗi endpoint\n- Test validation cases\n- Verify rate limit behavior\n- Test token refresh flow"
+          },
+          {
+            "id": 3,
+            "title": "Phát triển Frontend Authentication UI",
+            "description": "Xây dựng giao diện người dùng và luồng xác thực phía frontend",
+            "dependencies": [
+              2
+            ],
+            "details": "- Tạo các trang Login và Register\n- Implement AuthContext để quản lý state\n- Xây dựng ProtectedRoute component\n- Tạo AuthButton component\n- Setup auto refresh token mechanism\n- Implement form validation\n- Thiết kế responsive UI cho auth pages",
+            "status": "done",
+            "testStrategy": "- Unit test cho components\n- E2E test cho auth flows\n- Test responsive design\n- Verify token refresh behavior"
+          },
+          {
+            "id": 4,
+            "title": "Triển khai Security Hardening",
+            "description": "Tăng cường bảo mật cho hệ thống authentication",
+            "dependencies": [
+              2
+            ],
+            "details": "- Cấu hình CORS theo environment\n- Setup Helmet security headers\n- Implement rate limiting cho API\n- Thêm input sanitization\n- Cấu hình secure cookies\n- Setup CSP headers\n- Implement brute force protection",
+            "status": "done",
+            "testStrategy": "- Test CORS policies\n- Verify security headers\n- Test rate limiting\n- Security penetration testing"
+          },
+          {
+            "id": 5,
+            "title": "Tích hợp Protected Features",
+            "description": "Tích hợp và bảo vệ các tính năng yêu cầu xác thực",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "- Implement profile/me endpoints\n- Setup route guards cho protected pages\n- Tích hợp authentication check vào API calls\n- Xây dựng error boundary cho auth errors\n- Implement permission-based access control\n- Setup logging cho auth events",
+            "status": "done",
+            "testStrategy": "- Test protected routes access\n- Verify permission checks\n- Integration test với auth system\n- Test error handling"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-10-18T15:29:29.028Z",
+      "updated": "2025-10-21T11:48:41.637Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

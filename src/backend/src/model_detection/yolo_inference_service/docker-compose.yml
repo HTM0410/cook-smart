@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  yolo-inference:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yolo-inference-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - YOLO_MODEL_PATH=/app/models/best59.pt
+      - CONF_INFERENCE_FLOOR=0.25
+      - MLOPS_ENABLED=false
+      - EMBEDDING_MODEL=BAAI/bge-m3
+    volumes:
+      - ./models:/app/models:ro
+      - ./label_mapping.json:/app/label_mapping.json:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+    networks:
+      - yolo-network
+
+networks:
+  yolo-network:
+    driver: bridge

@@ -1,0 +1,16 @@
+{
+  "name": "CookSmart - Ứng dụng gợi ý món ăn thông minh",
+  "short_name": "CookSmart",
+  "description": "Ứng dụng gợi ý món ăn thông minh sử dụng AI",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#f97316",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}

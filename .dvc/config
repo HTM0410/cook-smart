@@ -1,0 +1,6 @@
+[core]
+    remote = storage
+['remote "storage"']
+    url = s3://cooksmart-dvc-storage/dvc-store
+    region = ap-southeast-1
+    sse = AES256

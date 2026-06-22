@@ -1,0 +1,1107 @@
+{
+  "generated_at": "2026-06-17T19:04:45",
+  "geo": "VN",
+  "timeframe": "today 12-m",
+  "results": [
+    {
+      "name": "Hành lá",
+      "category": "Rau củ quả",
+      "recipes": 1041,
+      "trends": {
+        "avg": 16,
+        "max": 26,
+        "current": 10,
+        "peak_month": "2025-09"
+      }
+    },
+    {
+      "name": "Thịt bò",
+      "category": "Thịt",
+      "recipes": 947,
+      "trends": {
+        "avg": 83,
+        "max": 100,
+        "current": 71,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Thịt gà",
+      "category": "Thịt",
+      "recipes": 703,
+      "trends": {
+        "avg": 50,
+        "max": 64,
+        "current": 44,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Salad Roman",
+      "category": "Thực phẩm chế biến sẵn",
+      "recipes": 443,
+      "trends": {
+        "avg": 0,
+        "max": 1,
+        "current": 0,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Cà rốt",
+      "category": "Rau củ quả",
+      "recipes": 440,
+      "trends": {
+        "avg": 34,
+        "max": 44,
+        "current": 29,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Hành tây",
+      "category": "Rau củ quả",
+      "recipes": 429,
+      "trends": {
+        "avg": 33,
+        "max": 46,
+        "current": 23,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Sữa đặc",
+      "category": "Sản phẩm từ sữa",
+      "recipes": 296,
+      "trends": {
+        "avg": 20,
+        "max": 24,
+        "current": 21,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Cà chua",
+      "category": "Rau củ quả",
+      "recipes": 276,
+      "trends": {
+        "avg": 65,
+        "max": 100,
+        "current": 55,
+        "peak_month": "2026-03"
+      }
+    },
+    {
+      "name": "Rau Xà Lách",
+      "category": "Rau củ quả",
+      "recipes": 254,
+      "trends": {
+        "avg": 4,
+        "max": 7,
+        "current": 3,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Dưa chuột",
+      "category": "Rau củ quả",
+      "recipes": 205,
+      "trends": {
+        "avg": 16,
+        "max": 26,
+        "current": 18,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Mè Rang",
+      "category": "Ngũ cốc",
+      "recipes": 195,
+      "trends": {
+        "avg": 17,
+        "max": 24,
+        "current": 16,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Cần tây (Cần tàu)",
+      "category": "Rau củ quả",
+      "recipes": 151,
+      "trends": {
+        "avg": 4,
+        "max": 11,
+        "current": 3,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Bắp Ngô",
+      "category": "Ngũ cốc",
+      "recipes": 147,
+      "trends": {
+        "avg": 26,
+        "max": 39,
+        "current": 17,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Húng Lủi",
+      "category": "Rau củ quả",
+      "recipes": 144,
+      "trends": {
+        "avg": 6,
+        "max": 14,
+        "current": 6,
+        "peak_month": "2026-03"
+      }
+    },
+    {
+      "name": "Đậu Hũ",
+      "category": "Đậu & sản phẩm từ đậu",
+      "recipes": 140,
+      "trends": {
+        "avg": 80,
+        "max": 100,
+        "current": 87,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Thịt heo",
+      "category": "Thịt",
+      "recipes": 131,
+      "trends": {
+        "avg": 8,
+        "max": 11,
+        "current": 8,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Tôm sú",
+      "category": "Hải sản",
+      "recipes": 127,
+      "trends": {
+        "avg": 1,
+        "max": 2,
+        "current": 1,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Cơm",
+      "category": "Ngũ cốc",
+      "recipes": 124,
+      "trends": {
+        "avg": 86,
+        "max": 100,
+        "current": 86,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Cà chua bi",
+      "category": "Rau củ quả",
+      "recipes": 120,
+      "trends": {
+        "avg": 0,
+        "max": 0,
+        "current": 0,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Nước Dừa",
+      "category": "Trái cây",
+      "recipes": 119,
+      "trends": {
+        "avg": 14,
+        "max": 19,
+        "current": 13,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Rượu trắng",
+      "category": "Thực phẩm chế biến sẵn",
+      "recipes": 119,
+      "trends": {
+        "avg": 2,
+        "max": 3,
+        "current": 1,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Dứa",
+      "category": "Trái cây",
+      "recipes": 111,
+      "trends": {
+        "avg": 24,
+        "max": 41,
+        "current": 37,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Thịt ba chỉ",
+      "category": "Thịt",
+      "recipes": 108,
+      "trends": {
+        "avg": 3,
+        "max": 4,
+        "current": 3,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Mực",
+      "category": "Hải sản",
+      "recipes": 104,
+      "trends": {
+        "avg": 66,
+        "max": 100,
+        "current": 63,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Bì",
+      "category": "Thịt",
+      "recipes": 104,
+      "trends": {
+        "avg": 34,
+        "max": 39,
+        "current": 32,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Giò sống",
+      "category": "Thịt",
+      "recipes": 100,
+      "trends": {
+        "avg": 1,
+        "max": 2,
+        "current": 1,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Đậu phộng",
+      "category": "Ngũ cốc",
+      "recipes": 98,
+      "trends": {
+        "avg": 7,
+        "max": 8,
+        "current": 7,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Bún",
+      "category": "Ngũ cốc",
+      "recipes": 96,
+      "trends": {
+        "avg": 83,
+        "max": 100,
+        "current": 86,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Rau răm",
+      "category": "Rau củ quả",
+      "recipes": 90,
+      "trends": {
+        "avg": 3,
+        "max": 4,
+        "current": 3,
+        "peak_month": "2026-03"
+      }
+    },
+    {
+      "name": "Nấm rơm",
+      "category": "Nấm",
+      "recipes": 90,
+      "trends": {
+        "avg": 3,
+        "max": 4,
+        "current": 3,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Chuối",
+      "category": "Trái cây",
+      "recipes": 82,
+      "trends": {
+        "avg": 65,
+        "max": 90,
+        "current": 65,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Dừa",
+      "category": "Trái cây",
+      "recipes": 71,
+      "trends": {
+        "avg": 82,
+        "max": 100,
+        "current": 82,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Giá đỗ",
+      "category": "Rau củ quả",
+      "recipes": 67,
+      "trends": {
+        "avg": 5,
+        "max": 7,
+        "current": 5,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Nấm Đông Cô",
+      "category": "Nấm",
+      "recipes": 66,
+      "trends": {
+        "avg": 2,
+        "max": 2,
+        "current": 1,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Nấm mèo",
+      "category": "Nấm",
+      "recipes": 65,
+      "trends": {
+        "avg": 2,
+        "max": 3,
+        "current": 2,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Rau thơm",
+      "category": "Rau củ quả",
+      "recipes": 65,
+      "trends": {
+        "avg": 3,
+        "max": 3,
+        "current": 2,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Thịt nạc",
+      "category": "Thịt",
+      "recipes": 60,
+      "trends": {
+        "avg": 3,
+        "max": 4,
+        "current": 3,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Bắp cải",
+      "category": "Rau củ quả",
+      "recipes": 59,
+      "trends": {
+        "avg": 12,
+        "max": 17,
+        "current": 7,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Chanh",
+      "category": "Rau củ quả",
+      "recipes": 58,
+      "trends": {
+        "avg": 82,
+        "max": 100,
+        "current": 89,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Bánh tráng",
+      "category": "Ngũ cốc",
+      "recipes": 58,
+      "trends": {
+        "avg": 32,
+        "max": 37,
+        "current": 31,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Củ Kiệu",
+      "category": "Rau củ quả",
+      "recipes": 57,
+      "trends": {
+        "avg": 15,
+        "max": 100,
+        "current": 5,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Rau Om",
+      "category": "Rau củ quả",
+      "recipes": 56,
+      "trends": {
+        "avg": 5,
+        "max": 10,
+        "current": 4,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Bánh mì baguette",
+      "category": "Ngũ cốc",
+      "recipes": 53,
+      "trends": {
+        "avg": 1,
+        "max": 5,
+        "current": 2,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Nấm kim châm",
+      "category": "Nấm",
+      "recipes": 51,
+      "trends": {
+        "avg": 16,
+        "max": 24,
+        "current": 15,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Nấm hương",
+      "category": "Nấm",
+      "recipes": 50,
+      "trends": {
+        "avg": 33,
+        "max": 42,
+        "current": 27,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Mì",
+      "category": "Ngũ cốc",
+      "recipes": 50,
+      "trends": {
+        "avg": 81,
+        "max": 100,
+        "current": 78,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Bánh phở",
+      "category": "Ngũ cốc",
+      "recipes": 49,
+      "trends": {
+        "avg": 63,
+        "max": 100,
+        "current": 45,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Củ Cải",
+      "category": "Rau củ quả",
+      "recipes": 44,
+      "trends": {
+        "avg": 60,
+        "max": 100,
+        "current": 38,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Cá Hồi",
+      "category": "Hải sản",
+      "recipes": 44,
+      "trends": {
+        "avg": 90,
+        "max": 100,
+        "current": 88,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Rau muống",
+      "category": "Rau củ quả",
+      "recipes": 44,
+      "trends": {
+        "avg": 69,
+        "max": 100,
+        "current": 80,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Sườn Non",
+      "category": "Thịt",
+      "recipes": 44,
+      "trends": {
+        "avg": 5,
+        "max": 8,
+        "current": 5,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Tàu hũ ky",
+      "category": "Đậu & sản phẩm từ đậu",
+      "recipes": 43,
+      "trends": {
+        "avg": 0,
+        "max": 1,
+        "current": 0,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Nước Dùng",
+      "category": "Thực phẩm chế biến sẵn",
+      "recipes": 42,
+      "trends": {
+        "avg": 67,
+        "max": 100,
+        "current": 49,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Hẹ",
+      "category": "Rau củ quả",
+      "recipes": 38,
+      "trends": {
+        "avg": 19,
+        "max": 26,
+        "current": 17,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Phô mai",
+      "category": "Sản phẩm từ sữa",
+      "recipes": 37,
+      "trends": {
+        "avg": 45,
+        "max": 53,
+        "current": 45,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Trứng cút",
+      "category": "Trứng",
+      "recipes": 37,
+      "trends": {
+        "avg": 68,
+        "max": 100,
+        "current": 64,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Nấm Linh Chi",
+      "category": "Nấm",
+      "recipes": 37,
+      "trends": {
+        "avg": 40,
+        "max": 57,
+        "current": 32,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Nước cốt dừa",
+      "category": "Sản phẩm từ sữa",
+      "recipes": 36,
+      "trends": {
+        "avg": 45,
+        "max": 58,
+        "current": 48,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Nước Cốt Me",
+      "category": "Trái cây",
+      "recipes": 35,
+      "trends": {
+        "avg": 0,
+        "max": 1,
+        "current": 0,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Củ Sắn",
+      "category": "Rau củ quả",
+      "recipes": 35,
+      "trends": {
+        "avg": 28,
+        "max": 42,
+        "current": 19,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Hành tím",
+      "category": "Rau củ quả",
+      "recipes": 34,
+      "trends": {
+        "avg": 0,
+        "max": 1,
+        "current": 0,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Táo",
+      "category": "Trái cây",
+      "recipes": 33,
+      "trends": {
+        "avg": 14,
+        "max": 100,
+        "current": 9,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Tôm Đất",
+      "category": "Hải sản",
+      "recipes": 33,
+      "trends": {
+        "avg": 0,
+        "max": 0,
+        "current": 0,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Bí đỏ",
+      "category": "Rau củ quả",
+      "recipes": 32,
+      "trends": {
+        "avg": 2,
+        "max": 2,
+        "current": 2,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Khế chua",
+      "category": "Rau củ quả",
+      "recipes": 31,
+      "trends": {
+        "avg": 0,
+        "max": 0,
+        "current": 0,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Rau Mầm",
+      "category": "Rau củ quả",
+      "recipes": 31,
+      "trends": {
+        "avg": 9,
+        "max": 16,
+        "current": 5,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Hạt Sen",
+      "category": "Rau củ quả",
+      "recipes": 31,
+      "trends": {
+        "avg": 56,
+        "max": 100,
+        "current": 64,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Tôm khô",
+      "category": "Hải sản",
+      "recipes": 31,
+      "trends": {
+        "avg": 16,
+        "max": 29,
+        "current": 13,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Cải thảo",
+      "category": "Rau củ quả",
+      "recipes": 31,
+      "trends": {
+        "avg": 17,
+        "max": 25,
+        "current": 14,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Củ Sen",
+      "category": "Rau củ quả",
+      "recipes": 29,
+      "trends": {
+        "avg": 17,
+        "max": 28,
+        "current": 17,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Rau sống",
+      "category": "Rau củ quả",
+      "recipes": 29,
+      "trends": {
+        "avg": 2,
+        "max": 4,
+        "current": 2,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Lá lốt",
+      "category": "Rau củ quả",
+      "recipes": 28,
+      "trends": {
+        "avg": 9,
+        "max": 12,
+        "current": 10,
+        "peak_month": "2026-03"
+      }
+    },
+    {
+      "name": "Măng Tây",
+      "category": "Rau củ quả",
+      "recipes": 27,
+      "trends": {
+        "avg": 3,
+        "max": 3,
+        "current": 2,
+        "peak_month": "2025-06"
+      }
+    },
+    {
+      "name": "Tôm",
+      "category": "Hải sản",
+      "recipes": 27,
+      "trends": {
+        "avg": 83,
+        "max": 100,
+        "current": 89,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Bí ngòi",
+      "category": "Rau củ quả",
+      "recipes": 27,
+      "trends": {
+        "avg": 1,
+        "max": 2,
+        "current": 1,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Đậu Cove",
+      "category": "Rau củ quả",
+      "recipes": 26,
+      "trends": {
+        "avg": 60,
+        "max": 100,
+        "current": 36,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Nấm bào ngư",
+      "category": "Nấm",
+      "recipes": 26,
+      "trends": {
+        "avg": 66,
+        "max": 100,
+        "current": 60,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Cá lóc",
+      "category": "Hải sản",
+      "recipes": 25,
+      "trends": {
+        "avg": 59,
+        "max": 100,
+        "current": 57,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Cá Thác Lác",
+      "category": "Hải sản",
+      "recipes": 25,
+      "trends": {
+        "avg": 76,
+        "max": 100,
+        "current": 61,
+        "peak_month": "2025-12"
+      }
+    },
+    {
+      "name": "Bánh mì sandwich",
+      "category": "Ngũ cốc",
+      "recipes": 25,
+      "trends": {
+        "avg": 64,
+        "max": 100,
+        "current": 57,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Lá Dứa",
+      "category": "Rau củ quả",
+      "recipes": 24,
+      "trends": {
+        "avg": 73,
+        "max": 100,
+        "current": 71,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Đậu Hà Lan",
+      "category": "Rau củ quả",
+      "recipes": 24,
+      "trends": {
+        "avg": 52,
+        "max": 100,
+        "current": 35,
+        "peak_month": "2025-11"
+      }
+    },
+    {
+      "name": "Khoai môn",
+      "category": "Rau củ quả",
+      "recipes": 24,
+      "trends": {
+        "avg": 74,
+        "max": 100,
+        "current": 59,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Thịt Xay",
+      "category": "Thịt",
+      "recipes": 24,
+      "trends": {
+        "avg": 78,
+        "max": 100,
+        "current": 69,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Cà tím",
+      "category": "Rau củ quả",
+      "recipes": 24,
+      "trends": {
+        "avg": 74,
+        "max": 100,
+        "current": 77,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Khoai lang",
+      "category": "Rau củ quả",
+      "recipes": 24,
+      "trends": {
+        "avg": 39,
+        "max": 49,
+        "current": 39,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Xoài",
+      "category": "Trái cây",
+      "recipes": 23,
+      "trends": {
+        "avg": 65,
+        "max": 100,
+        "current": 79,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Củ Năng",
+      "category": "Rau củ quả",
+      "recipes": 23,
+      "trends": {
+        "avg": 4,
+        "max": 5,
+        "current": 3,
+        "peak_month": "2025-10"
+      }
+    },
+    {
+      "name": "Thịt Ếch",
+      "category": "Hải sản",
+      "recipes": 23,
+      "trends": {
+        "avg": 2,
+        "max": 3,
+        "current": 2,
+        "peak_month": "2025-07"
+      }
+    },
+    {
+      "name": "Miến",
+      "category": "Ngũ cốc",
+      "recipes": 23,
+      "trends": {
+        "avg": 26,
+        "max": 39,
+        "current": 22,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Xúc Xích",
+      "category": "Thịt",
+      "recipes": 22,
+      "trends": {
+        "avg": 56,
+        "max": 79,
+        "current": 49,
+        "peak_month": "2026-01"
+      }
+    },
+    {
+      "name": "Dâu Tây",
+      "category": "Trái cây",
+      "recipes": 22,
+      "trends": {
+        "avg": 35,
+        "max": 74,
+        "current": 26,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Khổ qua",
+      "category": "Rau củ quả",
+      "recipes": 21,
+      "trends": {
+        "avg": 43,
+        "max": 51,
+        "current": 39,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Đậu xanh",
+      "category": "Ngũ cốc",
+      "recipes": 21,
+      "trends": {
+        "avg": 76,
+        "max": 100,
+        "current": 73,
+        "peak_month": "2026-05"
+      }
+    },
+    {
+      "name": "Sữa tươi",
+      "category": "Sản phẩm từ sữa",
+      "recipes": 20,
+      "trends": {
+        "avg": 79,
+        "max": 98,
+        "current": 84,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Thịt nguội",
+      "category": "Thịt",
+      "recipes": 20,
+      "trends": {
+        "avg": 3,
+        "max": 9,
+        "current": 2,
+        "peak_month": "2026-02"
+      }
+    },
+    {
+      "name": "Đu đủ",
+      "category": "Rau củ quả",
+      "recipes": 19,
+      "trends": {
+        "avg": 80,
+        "max": 100,
+        "current": 75,
+        "peak_month": "2025-08"
+      }
+    },
+    {
+      "name": "Tôm Tươi",
+      "category": "Hải sản",
+      "recipes": 19,
+      "trends": {
+        "avg": 5,
+        "max": 7,
+        "current": 5,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Nghêu",
+      "category": "Hải sản",
+      "recipes": 19,
+      "trends": {
+        "avg": 15,
+        "max": 22,
+        "current": 13,
+        "peak_month": "2026-04"
+      }
+    },
+    {
+      "name": "Rau Tần Ô",
+      "category": "Rau củ quả",
+      "recipes": 19,
+      "trends": {
+        "avg": 3,
+        "max": 6,
+        "current": 2,
+        "peak_month": "2025-12"
+      }
+    }
+  ]
+}

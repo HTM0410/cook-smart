@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "task-master-ai": {
+      "command": "npx",
+      "args": ["task-master-ai"]
+    },
+    "cursor-auto-git": {
+      "command": "node",
+      "args": ["./scripts/mcp-git-server.js"],
+      "env": {
+        "GITHUB_USER": "HTM0410",
+        "GITHUB_REPO": "food-suggest",
+        "AUTO_COMMIT_MESSAGE": "Auto update by Cursor - Food Suggest"
+      }
+    }
+  }
+}

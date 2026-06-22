@@ -1,0 +1,146 @@
+<context>
+# Overview  
+Food Suggest là một ứng dụng gợi ý món ăn thông minh sử dụng AI để giúp người dùng tìm kiếm và khám phá các món ăn phù hợp với sở thích, tình trạng sức khỏe và ngân sách của họ. Ứng dụng giải quyết vấn đề khó khăn trong việc quyết định ăn gì hàng ngày và giúp người dùng có trải nghiệm ẩm thực phong phú hơn.
+
+# Core Features  
+## 1. Gợi ý món ăn thông minh
+- Phân tích sở thích cá nhân của người dùng
+- Gợi ý dựa trên nguyên liệu có sẵn
+- Tùy chỉnh theo chế độ ăn kiêng (vegetarian, keto, low-carb, etc.)
+- Xem xét tình trạng sức khỏe và dị ứng
+
+## 2. Tìm kiếm và lọc nâng cao
+- Tìm kiếm theo tên món, nguyên liệu, xuất xứ
+- Lọc theo thời gian nấu, độ khó, giá cả
+- Lưu món ăn yêu thích
+- Đánh giá và review món ăn
+
+## 3. Hướng dẫn nấu ăn chi tiết
+- Công thức từng bước với hình ảnh
+- Video hướng dẫn nấu ăn
+- Danh sách nguyên liệu và dụng cụ cần thiết
+- Thời gian chuẩn bị và nấu nướng
+
+# User Experience  
+## User Personas
+- **Người nội trợ bận rộn**: Cần gợi ý nhanh, dễ nấu
+- **Người mới học nấu ăn**: Cần hướng dẫn chi tiết, đơn giản
+- **Foodie**: Muốn khám phá món mới, phức tạp
+- **Người ăn kiêng**: Cần tùy chỉnh theo chế độ ăn
+
+## Key User Flows
+1. **Onboarding**: Đăng ký → Thiết lập sở thích → Chọn chế độ ăn
+2. **Tìm món ăn**: Nhập nguyên liệu → Xem gợi ý → Chọn món
+3. **Nấu ăn**: Xem công thức → Chuẩn bị nguyên liệu → Theo dõi hướng dẫn
+4. **Đánh giá**: Rate món ăn → Lưu vào yêu thích → Chia sẻ
+
+## UI/UX Considerations
+- Giao diện đơn giản, trực quan
+- Tối ưu cho mobile (responsive design)
+- Tích hợp camera để quét nguyên liệu
+- Dark mode support
+</context>
+<PRD>
+# Technical Architecture  
+## System Components
+- **Frontend**: React/Next.js với TypeScript
+- **Backend**: Node.js/Express hoặc Python/FastAPI
+- **Database**: PostgreSQL cho dữ liệu người dùng, MongoDB cho công thức
+- **AI/ML**: OpenAI GPT hoặc Claude cho gợi ý thông minh
+- **Image Processing**: Cloudinary hoặc AWS S3 cho hình ảnh
+- **Search Engine**: Elasticsearch cho tìm kiếm nâng cao
+
+## Data Models
+- **User**: profile, preferences, dietary_restrictions, favorites
+- **Recipe**: title, ingredients, instructions, images, nutrition_info
+- **Ingredient**: name, category, nutritional_value, allergens
+- **Review**: rating, comment, user_id, recipe_id
+
+## APIs and Integrations
+- **Nutrition API**: Để tính toán thông tin dinh dưỡng
+- **Image Recognition API**: Nhận diện nguyên liệu từ ảnh
+- **Translation API**: Hỗ trợ đa ngôn ngữ
+- **Social Media APIs**: Chia sẻ món ăn
+
+## Infrastructure Requirements
+- **Hosting**: Vercel/Netlify cho frontend, AWS/DigitalOcean cho backend
+- **CDN**: CloudFlare cho tối ưu tốc độ
+- **Monitoring**: Sentry cho error tracking, Google Analytics
+- **CI/CD**: GitHub Actions
+
+# Development Roadmap  
+## Phase 1: MVP (Minimum Viable Product)
+- Đăng ký/đăng nhập cơ bản
+- Database công thức món ăn cơ bản (100+ món)
+- Tìm kiếm đơn giản theo tên món
+- Hiển thị công thức cơ bản
+- Giao diện web responsive
+
+## Phase 2: Core Features
+- Hệ thống gợi ý AI dựa trên sở thích
+- Lọc theo chế độ ăn kiêng
+- Upload và quản lý hình ảnh món ăn
+- Đánh giá và review món ăn
+- Lưu món ăn yêu thích
+
+## Phase 3: Advanced Features
+- Nhận diện nguyên liệu từ ảnh
+- Video hướng dẫn nấu ăn
+- Tích hợp social media
+- Push notification cho gợi ý hàng ngày
+- Offline mode cho công thức đã lưu
+
+## Phase 4: Scale & Optimize
+- Mobile app (React Native)
+- AI chat bot hỗ trợ nấu ăn
+- Tích hợp với dịch vụ giao hàng
+- Analytics và recommendation engine nâng cao
+- Multi-language support
+
+# Logical Dependency Chain
+## Foundation (Build First)
+1. **Database Setup**: Thiết lập PostgreSQL và MongoDB
+2. **Authentication System**: JWT-based auth với bcrypt
+3. **Basic API Structure**: RESTful APIs cho CRUD operations
+4. **Frontend Foundation**: React setup với routing và state management
+
+## Core Functionality (Quick to Usable)
+1. **Recipe Management**: CRUD cho công thức món ăn
+2. **Search Functionality**: Tìm kiếm cơ bản theo tên và nguyên liệu
+3. **User Interface**: Giao diện hiển thị danh sách và chi tiết món ăn
+4. **Basic Recommendation**: Gợi ý đơn giản dựa trên từ khóa
+
+## Enhanced Features (Build Upon)
+1. **AI Integration**: Tích hợp OpenAI/Claude cho gợi ý thông minh
+2. **User Preferences**: Hệ thống lưu sở thích và chế độ ăn
+3. **Image Processing**: Upload và xử lý hình ảnh
+4. **Advanced Search**: Elasticsearch cho tìm kiếm nâng cao
+
+# Risks and Mitigations  
+## Technical Challenges
+- **AI Model Accuracy**: Gợi ý không chính xác → Thu thập feedback và cải thiện model
+- **Image Recognition**: Nhận diện nguyên liệu sai → Sử dụng multiple APIs và human verification
+- **Performance**: Tải chậm với nhiều hình ảnh → CDN và image optimization
+
+## MVP Scope Management
+- **Feature Creep**: Quá nhiều tính năng → Tập trung vào core features trước
+- **Data Quality**: Công thức không đầy đủ → Bắt đầu với dataset nhỏ nhưng chất lượng cao
+- **User Adoption**: Khó thu hút người dùng → Focus vào UX và onboarding experience
+
+## Resource Constraints
+- **Development Time**: Timeline quá gấp → Ưu tiên MVP trước, features nâng cao sau
+- **Budget**: Chi phí AI APIs cao → Optimize API calls và caching
+- **Team Size**: Thiếu nhân lực → Sử dụng third-party services và templates
+
+# Appendix  
+## Research Findings
+- Người dùng thường gặp khó khăn trong việc quyết định ăn gì (67% survey)
+- Ảnh hưởng lớn đến quyết định mua nguyên liệu (89% users)
+- Mobile-first approach quan trọng (78% users sử dụng mobile)
+
+## Technical Specifications
+- **Performance**: Page load < 3s, API response < 500ms
+- **Scalability**: Support 10k+ concurrent users
+- **Security**: HTTPS, input validation, SQL injection prevention
+- **Accessibility**: WCAG 2.1 AA compliance
+</PRD>

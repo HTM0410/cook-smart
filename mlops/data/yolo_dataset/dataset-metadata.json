@@ -1,0 +1,14 @@
+{
+  "title": "CookSmart Ingredients YOLO",
+  "id": "htm0410/cooksmart-ingredients",
+  "licenses": [
+    {
+      "name": "CC0-1.0"
+    }
+  ],
+  "keywords": [
+    "yolo",
+    "object-detection",
+    "food"
+  ]
+}

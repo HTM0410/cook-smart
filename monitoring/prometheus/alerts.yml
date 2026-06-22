@@ -1,0 +1,56 @@
+groups:
+  - name: food-suggest-service-alerts
+    rules:
+      - alert: CookSmartBackendDown
+        expr: up{job="cooksmart-backend"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: CookSmart backend is unavailable
+          description: Prometheus has not scraped the Node backend for more than 2 minutes.
+
+      - alert: IngredientYoloDown
+        expr: up{job="ingredient-yolo"} == 0 or yolo_model_loaded == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Ingredient detection service is unavailable
+          description: The YOLO service is unreachable or has no loaded model.
+
+      - alert: BackendHighErrorRate
+        expr: |
+          sum(rate(cooksmart_http_requests_total{status_code=~"5.."}[5m]))
+          /
+          clamp_min(sum(rate(cooksmart_http_requests_total[5m])), 0.001) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Backend 5xx rate is above 5%
+          description: More than 5% of backend requests failed during the last 5 minutes.
+
+      - alert: YoloInferenceP95Slow
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le) (rate(yolo_inference_duration_seconds_bucket[5m]))
+          ) > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: YOLO p95 inference latency is above 3 seconds
+          description: Ingredient inference has remained slow for at least 5 minutes.
+
+      - alert: YoloEmptyResultRateHigh
+        expr: |
+          sum(rate(yolo_empty_results_total[15m]))
+          /
+          clamp_min(sum(rate(yolo_inference_duration_seconds_count[15m])), 0.001) > 0.30
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: More than 30% of inference requests return no ingredients
+          description: Check image quality, confidence threshold, and possible data drift.

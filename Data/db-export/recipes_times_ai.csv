@@ -1,0 +1,3365 @@
+﻿id,recipe_name,prep_time_ai,cook_time_ai,time_source
+51,Cơm nắm xốt mè,15,15,gemma-4-31b-it_estimate
+52,TÚI NGỌC XỐT MÈ,15,15,gemma-4-31b-it_estimate
+53,Ức gà trộn quinoa và rau củ,25,20,gemma-4-31b-it_estimate
+54,Kem “Blendy”,15,240,gemma-4-31b-it_estimate
+55,Bánh cuốn lạnh,20,15,gemma-4-31b-it_estimate
+56,Salad bò đậu rồng,20,10,gemma-4-31b-it_estimate
+57,Snack salad,20,10,gemma-4-31b-it_estimate
+58,Cơm nắm rong biển Mayo,15,0,gemma-4-31b-it_estimate
+59,Salad táo phô mai,15,0,gemma-4-31b-it_estimate
+60,Salad rong biển thanh cua,20,15,gemma-4-31b-it_estimate
+61,Salad trộn xốt phô mai cay,15,0,gemma-4-31b-it_estimate
+62,Miến măng trộn,40,60,gemma-4-31b-it_estimate
+63,Gỏi bắp bò hoa,20,25,gemma-4-31b-it_estimate
+64,Miến gà trộn,20,15,gemma-4-31b-it_estimate
+65,Salad mì udon cá hồi xốt mè rang,30,15,gemma-4-31b-it_estimate
+66,Gỏi ngó sen tôm thịt,120,20,gemma-4-31b-it_estimate
+67,Gỏi gà giòn,30,20,gemma-4-31b-it_estimate
+68,Miến trộn hải sản,30,15,gemma-4-31b-it_estimate
+69,Mì Trộn Vị Thái,20,15,gemma-4-31b-it_estimate
+70,Salad bacon,15,10,gemma-4-31b-it_estimate
+71,Salad cá ngừ rau thơm,15,10,gemma-4-31b-it_estimate
+72,Salad bơ bacon,20,10,gemma-4-31b-it_estimate
+73,Salad rong nho xốt mè rang,15,5,gemma-4-31b-it_estimate
+74,Salad bít tết,20,10,gemma-4-31b-it_estimate
+75,Gỏi gà cần tây,30,20,gemma-4-31b-it_estimate
+76,Salad trứng,15,10,gemma-4-31b-it_estimate
+77,Bún trộn ngũ sắc,20,15,gemma-4-31b-it_estimate
+78,Salad bơ cải kale ức gà,20,10,gemma-4-31b-it_estimate
+79,Đậu trộn dầu giấm xốt mè rang,15,10,gemma-4-31b-it_estimate
+80,Gỏi cuốn tôm,20,10,gemma-4-31b-it_estimate
+81,Cơm gạo lứt trộn,30,30,gemma-4-31b-it_estimate
+82,Salad táo với hạt óc chó,20,5,gemma-4-31b-it_estimate
+83,Gỏi cá kiểu Nhật,30,15,gemma-4-31b-it_estimate
+84,Salad khoai tây trứng cút,20,25,gemma-4-31b-it_estimate
+85,Cải ngồng trộn gà xé,25,15,gemma-4-31b-it_estimate
+86,Gỏi gà hoa súng,30,20,gemma-4-31b-it_estimate
+87,Miến trộn kiểu Thái,15,10,gemma-4-31b-it_estimate
+88,Salad mực măng tây,20,15,gemma-4-31b-it_estimate
+89,Salad cam đậu đỏ,25,10,gemma-4-31b-it_estimate
+90,Snack phồng tôm rau củ,20,15,gemma-4-31b-it_estimate
+91,Gỏi xoài tôm sả,25,10,gemma-4-31b-it_estimate
+92,Salad bò rau má,20,10,gemma-4-31b-it_estimate
+93,Tôm chua trộn cóc xanh mayo,20,5,gemma-4-31b-it_estimate
+94,Gỏi xoài cá trê,30,15,gemma-4-31b-it_estimate
+95,Salad cam tình yêu,20,10,gemma-4-31b-it_estimate
+96,Salad ổi,20,15,gemma-4-31b-it_estimate
+97,Ếch xé phay trộn rau mầm,20,15,gemma-4-31b-it_estimate
+98,Mì trộn xốt mayonnaise,20,15,gemma-4-31b-it_estimate
+99,Salad cua táo xanh,20,5,gemma-4-31b-it_estimate
+100,Bắp cải tím trộn tôm,15,10,gemma-4-31b-it_estimate
+101,Salad rong nho,15,0,gemma-4-31b-it_estimate
+102,Salad tôm thanh mát,25,15,gemma-4-31b-it_estimate
+103,Nộm lưỡi lợn su hào,35,50,gemma-4-31b-it_estimate
+104,Gỏi rau má tai heo,20,20,gemma-4-31b-it_estimate
+105,Gỏi hoa chuối thịt gà chay,30,15,gemma-4-31b-it_estimate
+106,Cơm gạo lức trộn rau củ,75,25,gemma-4-31b-it_estimate
+107,Măng trộn tôm thịt,40,20,gemma-4-31b-it_estimate
+108,Salad trái thơm mayo,20,10,gemma-4-31b-it_estimate
+109,Salad mực phổ tai,25,10,gemma-4-31b-it_estimate
+110,Salad mùa hè,15,5,gemma-4-31b-it_estimate
+111,Salad bắp tôm,25,15,gemma-4-31b-it_estimate
+112,Salad cầu vồng ngày hè,20,10,gemma-4-31b-it_estimate
+113,Gỏi cóc tai heo,30,20,gemma-4-31b-it_estimate
+114,Lưỡi heo trộn kiệu chua,30,25,gemma-4-31b-it_estimate
+115,Gỏi rau mầm tôm mực,20,10,gemma-4-31b-it_estimate
+116,Salad bí đỏ,20,15,gemma-4-31b-it_estimate
+117,Salad bơ gà nướng,20,25,gemma-4-31b-it_estimate
+118,Salad cam cá hồi,20,15,gemma-4-31b-it_estimate
+119,Gỏi cuốn chay xốt đậu phộng,25,20,gemma-4-31b-it_estimate
+120,Salad mực ống rong biển,20,15,gemma-4-31b-it_estimate
+121,Gỏi bốn mùa,20,10,gemma-4-31b-it_estimate
+122,Salad rong nho xốt cam,25,10,gemma-4-31b-it_estimate
+123,Hàu trộn mầm cải,20,5,gemma-4-31b-it_estimate
+124,Salad tôm đậu hũ,20,10,gemma-4-31b-it_estimate
+125,Salad thanh long chanh dây,15,5,gemma-4-31b-it_estimate
+126,Salad hoa lý tôm xá xíu,20,15,gemma-4-31b-it_estimate
+127,Ớt chuông hải sản phô mai,25,30,gemma-4-31b-it_estimate
+128,Salad bò dưa kiệu,20,10,gemma-4-31b-it_estimate
+129,Salad cải mầm tôm chiên,20,15,gemini-3.1-flash-lite-preview_estimate
+130,Cơm gạo lứt trộn,30,45,gemini-3.1-flash-lite-preview_estimate
+131,Gỏi gà nướng trái dừa,25,20,gemini-3.1-flash-lite-preview_estimate
+132,Gỏi khổ qua cá khô,25,20,gemini-3.1-flash-lite-preview_estimate
+133,Cháo nấm – Gà trộn é tía,30,45,gemini-3.1-flash-lite-preview_estimate
+134,Gỏi ếch cóc xanh,30,15,gemini-3.1-flash-lite-preview_estimate
+135,Gỏi dưa leo khô cá cơm,20,10,gemini-3.1-flash-lite-preview_estimate
+136,Salad rong nho cá hồi,25,0,gemini-3.1-flash-lite-preview_estimate
+137,Gỏi gà dưa leo,25,15,gemini-3.1-flash-lite-preview_estimate
+138,Salad tôm lạnh,30,15,gemini-3.1-flash-lite-preview_estimate
+139,Salad xanh,35,20,gemini-3.1-flash-lite-preview_estimate
+142,Salad nấm linh chi,20,15,gemini-3.1-flash-lite-preview_estimate
+143,Salad trái cây nhiệt đới,20,15,gemini-3.1-flash-lite-preview_estimate
+144,Salad dưa lê,25,10,gemini-3.1-flash-lite-preview_estimate
+145,Gỏi gân bò trứng muối,30,45,gemini-3.1-flash-lite-preview_estimate
+146,Salad hạt chia,20,10,gemini-3.1-flash-lite-preview_estimate
+147,Gỏi củ hủ dừa bao tử,30,40,gemini-3.1-flash-lite-preview_estimate
+148,Salad cua thanh,15,10,gemini-3.1-flash-lite-preview_estimate
+149,Salad rong sụn trứng muối,20,10,gemini-3.1-flash-lite-preview_estimate
+150,Gỏi rau má tôm khô chiên giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+151,Mì nưa trộn sườn chay,15,15,gemini-3.1-flash-lite-preview_estimate
+152,Gỏi mít thịt ba chỉ,30,20,gemini-3.1-flash-lite-preview_estimate
+153,Gỏi gà sứa sả tắc,25,15,gemini-3.1-flash-lite-preview_estimate
+154,Gỏi bưởi cá hồi,20,10,gemini-3.1-flash-lite-preview_estimate
+155,Gỏi cá,25,15,gemini-3.1-flash-lite-preview_estimate
+156,Salad cam tôm sú,20,10,gemini-3.1-flash-lite-preview_estimate
+157,Gỏi sứa khoai môn,20,15,gemini-3.1-flash-lite-preview_estimate
+158,Gỏi cua,30,20,gemini-3.1-flash-lite-preview_estimate
+159,Gỏi bạch tuộc ớt chuông,25,15,gemini-3.1-flash-lite-preview_estimate
+160,Salad dưa leo trộn xúc xích,20,10,gemini-3.1-flash-lite-preview_estimate
+161,Salad ngũ sắc chay,20,10,gemini-3.1-flash-lite-preview_estimate
+162,Cần tây bóp xổi sụn gà,40,15,gemini-3.1-flash-lite-preview_estimate
+163,Salad bò rau đắng,25,15,gemini-3.1-flash-lite-preview_estimate
+164,Salad mì Udon cá hồi,20,15,gemini-3.1-flash-lite-preview_estimate
+165,Salad ức gà áp chảo,25,15,gemini-3.1-flash-lite-preview_estimate
+166,Salad nui,20,15,gemini-3.1-flash-lite-preview_estimate
+167,Salad táo rau mầm,20,10,gemini-3.1-flash-lite-preview_estimate
+168,Salad tôm dâu tây táo đỏ,25,10,gemini-3.1-flash-lite-preview_estimate
+169,Gỏi ổi ốc giác,30,20,gemini-3.1-flash-lite-preview_estimate
+170,Miến trộn kiểu Thái,20,15,gemini-3.1-flash-lite-preview_estimate
+171,Gỏi nấm rau mầm,25,15,gemini-3.1-flash-lite-preview_estimate
+172,Nicoise salad (Salad trứng cá ngừ),30,20,gemini-3.1-flash-lite-preview_estimate
+173,Gỏi sứa tiến vua,45,25,gemini-3.1-flash-lite-preview_estimate
+174,Đu đủ trộn gà khìa,40,30,gemini-3.1-flash-lite-preview_estimate
+175,Cuốn cá xốt xoài,30,20,gemini-3.1-flash-lite-preview_estimate
+176,Gỏi ếch rau rừng,25,20,gemini-3.1-flash-lite-preview_estimate
+177,Gỏi bưởi chay,30,15,gemini-3.1-flash-lite-preview_estimate
+178,Gỏi bò rau mầm,20,10,gemini-3.1-flash-lite-preview_estimate
+179,Salad tôm và thịt hun khói,20,15,gemini-3.1-flash-lite-preview_estimate
+180,Cuốn cá lóc xốt đậu phộng,30,15,gemini-3.1-flash-lite-preview_estimate
+181,Tai heo thấu chua,40,20,gemini-3.1-flash-lite-preview_estimate
+182,Gỏi bò rau càng cua,25,25,gemini-3.1-flash-lite-preview_estimate
+183,Gỏi sò lông,75,15,gemini-3.1-flash-lite-preview_estimate
+184,Cuộn hành hoa,30,20,gemini-3.1-flash-lite-preview_estimate
+185,Salad trái tim,30,10,gemini-3.1-flash-lite-preview_estimate
+186,Gỏi tôm rau câu,25,10,gemini-3.1-flash-lite-preview_estimate
+187,Salad bắp nướng,20,25,gemini-3.1-flash-lite-preview_estimate
+188,Gỏi lá cóc,30,15,gemini-3.1-flash-lite-preview_estimate
+189,Gỏi khoai môn chiên giòn,25,20,gemini-3.1-flash-lite-preview_estimate
+190,Nộm gà chay hoa chuối,45,30,gemini-3.1-flash-lite-preview_estimate
+191,Mỳ Ý xốt kem,20,15,gemini-3.1-flash-lite-preview_estimate
+192,Nộm bì,30,20,gemini-3.1-flash-lite-preview_estimate
+193,Gỏi ngó sen tôm thịt,120,20,gemini-3.1-flash-lite-preview_estimate
+194,Đùi ếch xé phay,30,20,gemini-3.1-flash-lite-preview_estimate
+195,Xà lách trứng,15,10,gemini-3.1-flash-lite-preview_estimate
+196,Salad dâu tằm,20,10,gemini-3.1-flash-lite-preview_estimate
+197,Gỏi trộn khô mực,30,20,gemini-3.1-flash-lite-preview_estimate
+198,Gỏi rau mầm tôm,20,15,gemini-3.1-flash-lite-preview_estimate
+199,Cơm gà,25,45,gemini-3.1-flash-lite-preview_estimate
+200,Gỏi ớt chuông cần tây,25,15,gemini-3.1-flash-lite-preview_estimate
+201,Gỏi mực cay,30,10,gemini-3.1-flash-lite-preview_estimate
+202,Miến trộn cua lột,35,20,gemini-3.1-flash-lite-preview_estimate
+203,Gỏi củ sen,30,15,gemini-3.1-flash-lite-preview_estimate
+204,Gỏi hải sản rau nhút,35,15,gemini-3.1-flash-lite-preview_estimate
+205,Nộm hoa chuối hải sản,30,20,gemini-3.1-flash-lite-preview_estimate
+206,Salad bí ngòi,20,15,gemini-3.1-flash-lite-preview_estimate
+207,Gỏi củ kiệu,25,10,gemini-3.1-flash-lite-preview_estimate
+208,Gỏi cuốn tôm chiên,30,15,gemini-3.1-flash-lite-preview_estimate
+209,Gỏi miến thịt bằm,20,10,gemini-3.1-flash-lite-preview_estimate
+210,Gỏi đu đủ khô cá lóc,25,10,gemini-3.1-flash-lite-preview_estimate
+211,Gỏi râu mực chiên giòn,15,15,gemini-3.1-flash-lite-preview_estimate
+212,Bánh mì thịt nguội bắp cải,15,5,gemini-3.1-flash-lite-preview_estimate
+213,Hoa thiên lý trộn mực xé,20,10,gemini-3.1-flash-lite-preview_estimate
+214,Gỏi bông bí,25,10,gemini-3.1-flash-lite-preview_estimate
+215,Rau càng cua trộn cá mòi,15,10,gemini-3.1-flash-lite-preview_estimate
+216,Salad cá hồi xông khói,15,5,gemini-3.1-flash-lite-preview_estimate
+217,Gỏi thập cẩm cá hồi,20,15,gemini-3.1-flash-lite-preview_estimate
+218,Cá cuộn rong biển,20,15,gemini-3.1-flash-lite-preview_estimate
+219,Gỏi trứng chiên,25,10,gemini-3.1-flash-lite-preview_estimate
+220,Gà chiên trộn xốt ngọt Mayonnaise,20,20,gemini-3.1-flash-lite-preview_estimate
+221,Salad ngũ sắc,20,15,gemini-3.1-flash-lite-preview_estimate
+222,Gỏi rau má,25,15,gemini-3.1-flash-lite-preview_estimate
+223,Salad củ sen khoai tây,30,20,gemini-3.1-flash-lite-preview_estimate
+224,Bánh mì kẹp thịt gà,20,25,gemini-3.1-flash-lite-preview_estimate
+225,Tôm trộn bông cải,15,10,gemini-3.1-flash-lite-preview_estimate
+226,Salad su su,15,10,gemini-3.1-flash-lite-preview_estimate
+227,Bắp vàng trộn xúc xích,15,10,gemini-3.1-flash-lite-preview_estimate
+228,Gỏi khổ qua,30,20,gemini-3.1-flash-lite-preview_estimate
+229,Nui trộn cá ngừ,15,15,gemini-3.1-flash-lite-preview_estimate
+230,Salad trái cây,20,0,gemini-3.1-flash-lite-preview_estimate
+231,Gỏi rau nước tương,25,10,gemini-3.1-flash-lite-preview_estimate
+232,Gỏi gà rau răm,20,25,gemini-3.1-flash-lite-preview_estimate
+233,Salad nui cá hồi,15,10,gemini-3.1-flash-lite-preview_estimate
+234,Gỏi vịt rau rừng,25,30,gemini-3.1-flash-lite-preview_estimate
+235,Gỏi rau cần thịt bò,20,10,gemini-3.1-flash-lite-preview_estimate
+236,Bánh mì cuộn cá hộp,20,15,gemini-3.1-flash-lite-preview_estimate
+237,Gỏi sò huyết nấm tuyết,30,10,gemini-3.1-flash-lite-preview_estimate
+238,Salad thịt gà trộn táo đỏ,15,5,gemini-3.1-flash-lite-preview_estimate
+239,Cải thảo gói tôm thịt,25,25,gemini-3.1-flash-lite-preview_estimate
+240,Đậu trộn xà lách,15,10,gemini-3.1-flash-lite-preview_estimate
+241,Gỏi rong biển,20,15,gemini-3.1-flash-lite-preview_estimate
+242,Gỏi bưởi bắp cải gà xé,25,15,gemini-3.1-flash-lite-preview_estimate
+243,Salad Nga,20,15,gemini-3.1-flash-lite-preview_estimate
+244,Mực trộn khổ qua chua ngọt,20,10,gemini-3.1-flash-lite-preview_estimate
+245,Rau càng cua trộn tôm,25,45,gemini-3.1-flash-lite-preview_estimate
+246,Gỏi su hào,30,20,gemini-3.1-flash-lite-preview_estimate
+247,Heo thấu,25,20,gemini-3.1-flash-lite-preview_estimate
+248,Lòng heo trộn riềng sả,30,20,gemini-3.1-flash-lite-preview_estimate
+249,Gỏi bưởi,35,15,gemini-3.1-flash-lite-preview_estimate
+250,Gỏi thịt bò trộn rau,20,10,gemini-3.1-flash-lite-preview_estimate
+251,Khai vị cá hồi táo trộn,20,15,gemini-3.1-flash-lite-preview_estimate
+252,Bầu non trộn heo quay,15,10,gemini-3.1-flash-lite-preview_estimate
+253,Khoai tây trộn Mayonnaise,25,20,gemini-3.1-flash-lite-preview_estimate
+254,Gỏi hải sản phương Đông,30,15,gemini-3.1-flash-lite-preview_estimate
+255,Lưỡi heo trộn chua ngọt,40,30,gemini-3.1-flash-lite-preview_estimate
+256,Mì gói trộn,15,10,gemini-3.1-flash-lite-preview_estimate
+257,Gỏi cải thảo,20,5,gemini-3.1-flash-lite-preview_estimate
+258,Mì xào trộn mayonnaise,25,15,gemini-3.1-flash-lite-preview_estimate
+259,Bún thịt nướng mayonnaise,35,20,gemini-3.1-flash-lite-preview_estimate
+260,Salad rau củ trộn xốt mayonnaise,15,10,gemini-3.1-flash-lite-preview_estimate
+261,Salad khoai tây thịt gà,20,15,gemini-3.1-flash-lite-preview_estimate
+262,Salad khoai trộn thịt bò,25,15,gemini-3.1-flash-lite-preview_estimate
+263,Salad dầu giấm trộn Mayonnaise,15,0,gemini-3.1-flash-lite-preview_estimate
+264,Gỏi xoài tôm,25,10,gemini-3.1-flash-lite-preview_estimate
+265,Salad trộn thịt bò,40,15,gemini-3.1-flash-lite-preview_estimate
+266,Nui trộn cá hồi nướng Mayonnaise,20,25,gemini-3.1-flash-lite-preview_estimate
+267,Salad kiểu Ý,15,10,gemini-3.1-flash-lite-preview_estimate
+268,Bò lá lốt mayonnaise,25,15,gemini-3.1-flash-lite-preview_estimate
+269,Salad trái bơ,25,15,gemini-3.1-flash-lite-preview_estimate
+270,Salad tự chọn,20,15,gemini-3.1-flash-lite-preview_estimate
+271,Salad bông cải thịt nguội,20,10,gemini-3.1-flash-lite-preview_estimate
+272,Mít non trộn đậu hũ ky,25,15,gemini-3.1-flash-lite-preview_estimate
+273,Gỏi cá kèo,20,15,gemini-3.1-flash-lite-preview_estimate
+274,Gỏi nấm,20,15,gemini-3.1-flash-lite-preview_estimate
+275,Cải làn trộn Mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+276,Thịt bò trộn rau muống chẻ,30,10,gemini-3.1-flash-lite-preview_estimate
+277,Gỏi rau mầm,20,15,gemini-3.1-flash-lite-preview_estimate
+278,Gỏi cuốn Mayonnaise,20,0,gemini-3.1-flash-lite-preview_estimate
+279,Hến trộn hoa chuối,40,15,gemini-3.1-flash-lite-preview_estimate
+280,Gỏi mực bắp cải,30,5,gemini-3.1-flash-lite-preview_estimate
+281,Vịt quay trộn cần tây,20,5,gemini-3.1-flash-lite-preview_estimate
+282,Gỏi bắp bò hoa,45,15,gemini-3.1-flash-lite-preview_estimate
+283,Salad bắp tôm,15,10,gemini-3.1-flash-lite-preview_estimate
+284,Gỏi rau muống chiên giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+285,Thịt bò trộn ngũ sắc,20,10,gemini-3.1-flash-lite-preview_estimate
+286,Salad bánh đa tôm,20,10,gemini-3.1-flash-lite-preview_estimate
+287,Gỏi bao tử cá basa,30,15,gemini-3.1-flash-lite-preview_estimate
+288,Salad bưởi trộn bơ,20,10,gemini-3.1-flash-lite-preview_estimate
+289,Gỏi sứa rau thơm,35,5,gemini-3.1-flash-lite-preview_estimate
+290,Gỏi bắp bò rau thơm,30,25,gemini-3.1-flash-lite-preview_estimate
+291,Salad chip chip,25,15,gemini-3.1-flash-lite-preview_estimate
+292,Gỏi chân gà tôm chua,20,10,gemini-3.1-flash-lite-preview_estimate
+293,Salad măng cụt,30,10,gemini-3.1-flash-lite-preview_estimate
+294,Salad dưa leo thịt gà,20,15,gemini-3.1-flash-lite-preview_estimate
+295,Gỏi thanh long,25,10,gemini-3.1-flash-lite-preview_estimate
+296,Gỏi dưa leo khô cá,30,15,gemini-3.1-flash-lite-preview_estimate
+297,Gỏi bông thiên lý chay,45,20,gemini-3.1-flash-lite-preview_estimate
+298,Gỏi đu đủ ba khía,25,10,gemini-3.1-flash-lite-preview_estimate
+299,Gỏi xoài khô cá sặc,20,10,gemini-3.1-flash-lite-preview_estimate
+300,Salad đậu cô ve,25,15,gemini-3.1-flash-lite-preview_estimate
+301,Mì lạnh,40,20,gemini-3.1-flash-lite-preview_estimate
+302,Gỏi trái cóc,120,15,gemini-3.1-flash-lite-preview_estimate
+303,Salad khoai tây trộn bê thui,20,15,gemini-3.1-flash-lite-preview_estimate
+304,Gà trộn gừng chua ngọt,30,25,gemini-3.1-flash-lite-preview_estimate
+305,Gỏi mực chiên,20,10,gemini-3.1-flash-lite-preview_estimate
+306,Gỏi đu đủ,30,15,gemini-3.1-flash-lite-preview_estimate
+307,Salad trộn kiểu Nhật,15,5,gemini-3.1-flash-lite-preview_estimate
+308,Salad bắp trộn tôm,20,15,gemini-3.1-flash-lite-preview_estimate
+309,Gỏi nghêu bông thiên lý,30,20,gemini-3.1-flash-lite-preview_estimate
+310,Salad bắp cải xốt mè,15,5,gemini-3.1-flash-lite-preview_estimate
+311,Gỏi bò lá chanh,30,15,gemini-3.1-flash-lite-preview_estimate
+312,Gỏi nấm bào ngư,35,20,gemini-3.1-flash-lite-preview_estimate
+313,Rong biển trộn nấm tuyết,20,10,gemini-3.1-flash-lite-preview_estimate
+314,Salad đậu,20,25,gemini-3.1-flash-lite-preview_estimate
+315,Salad mực phổ tai,25,15,gemini-3.1-flash-lite-preview_estimate
+316,Bông cải trộn tôm,20,15,gemini-3.1-flash-lite-preview_estimate
+317,Gỏi đu đủ thịt bò áp chảo,25,10,gemini-3.1-flash-lite-preview_estimate
+318,Gỏi nha đam,20,10,gemini-3.1-flash-lite-preview_estimate
+319,Rau càng cua trộn dầu giấm,20,15,gemini-3.1-flash-lite-preview_estimate
+320,Tôm chiên xốt Mayo,15,10,gemini-3.1-flash-lite-preview_estimate
+321,Nui hải sản cho ngày tình yêu,20,20,gemini-3.1-flash-lite-preview_estimate
+322,Cuốn nấm dưa gừng,30,15,gemini-3.1-flash-lite-preview_estimate
+323,Chả giò thanh cua mayo,20,15,gemini-3.1-flash-lite-preview_estimate
+324,Phở xào giòn,25,20,gemini-3.1-flash-lite-preview_estimate
+325,Cá hồi ngâm nước tương,15,10,gemini-3.1-flash-lite-preview_estimate
+326,Canh cá dưa cải,20,20,gemini-3.1-flash-lite-preview_estimate
+327,Salad cá hồi trộn bông cải trắng,25,15,gemini-3.1-flash-lite-preview_estimate
+328,SÚP RAU CHÙM NGÂY ĐẬU HỦ NON,20,25,gemini-3.1-flash-lite-preview_estimate
+329,Miến xào cua măng tây,25,15,gemini-3.1-flash-lite-preview_estimate
+330,Ốc hương xóc xốt trứng muối,20,10,gemini-3.1-flash-lite-preview_estimate
+331,Bánh mì sandwich nướng phô mai,15,6,gemini-3.1-flash-lite-preview_estimate
+332,Khoai tây nướng phô mai,15,15,gemini-3.1-flash-lite-preview_estimate
+333,Bánh xèo Nhật Bản,20,10,gemini-3.1-flash-lite-preview_estimate
+334,NẤM LỘC NHUNG KHO TIÊU XANH ĂN VỚI CHÁO ĐẬU ĐỎ (chay),30,40,gemini-3.1-flash-lite-preview_estimate
+335,GYOZA DÙNG NỒI CHIÊN KHÔNG DẦU ĂN KÈM RAU CỦ SẤY,15,16,gemini-3.1-flash-lite-preview_estimate
+336,Bánh hẹ,10,12,gemini-3.1-flash-lite-preview_estimate
+337,Cơm chiên tôm thơm,15,10,gemini-3.1-flash-lite-preview_estimate
+338,THỊT HEO CHIÊN GIÒN VỊ CÀ RI,20,15,gemini-3.1-flash-lite-preview_estimate
+339,Salad cá hồi trái cây nhiệt đới,15,10,gemini-3.1-flash-lite-preview_estimate
+340,Pancake Trứng và Bacon,10,20,gemini-3.1-flash-lite-preview_estimate
+341,HOÀNH THÁNH TÁ LẢ,20,15,gemini-3.1-flash-lite-preview_estimate
+342,SÚP GÀ BÍ ĐỎ,25,20,gemini-3.1-flash-lite-preview_estimate
+343,Cơm thịt xào cay,10,10,gemini-3.1-flash-lite-preview_estimate
+344,Nấm và hành tây chiên giòn,15,10,gemini-3.1-flash-lite-preview_estimate
+345,Thịt heo chiên xù Tonkatsu,20,15,gemini-3.1-flash-lite-preview_estimate
+346,CHẢ GIÒ NGŨ VỊ,45,20,gemini-3.1-flash-lite-preview_estimate
+347,Cơm cháy mỡ hành,10,10,gemini-3.1-flash-lite-preview_estimate
+348,BÁNH MÌ CHẢO,20,15,gemini-3.1-flash-lite-preview_estimate
+349,ĐẬU HŨ XỐT CAY XÈ,15,15,gemini-3.1-flash-lite-preview_estimate
+350,Nui ngũ sắc,20,25,gemini-3.1-flash-lite-preview_estimate
+351,Cơm trộn Vetula,15,30,gemini-3.1-flash-lite-preview_estimate
+352,Snack rong biển thanh cua,10,5,gemini-3.1-flash-lite-preview_estimate
+353,BÁNH TRÁNG CUỐN THỊT BĂM,20,15,gemini-3.1-flash-lite-preview_estimate
+354,MÌ TRỘN GYOZA,15,20,gemini-3.1-flash-lite-preview_estimate
+355,MÌ XÀO BÒ,15,15,gemini-3.1-flash-lite-preview_estimate
+356,CƠM TÔM TRỨNG MUỐI,65,10,gemini-3.1-flash-lite-preview_estimate
+357,SALAD GÀ ÁP CHẢO,20,15,gemini-3.1-flash-lite-preview_estimate
+358,RONG BIỂN CUỘN CHIÊN XÙ,30,10,gemini-3.1-flash-lite-preview_estimate
+359,SANDWICH TRỨNG NƯỚNG,10,15,gemini-3.1-flash-lite-preview_estimate
+360,Mì ý cá hồi xốt mè rang,15,20,gemini-3.1-flash-lite-preview_estimate
+361,Bún gạo xào gà,25,15,gemini-3.1-flash-lite-preview_estimate
+362,Bánh mì áp chảo,10,5,gemini-3.1-flash-lite-preview_estimate
+363,Sandwiches bò xốt mè rang,20,10,gemini-3.1-flash-lite-preview_estimate
+364,Gyoza mì phô mai,2,5,gemini-3.1-flash-lite-preview_estimate
+365,Cuộn trứng mayo,15,10,gemini-3.1-flash-lite-preview_estimate
+366,Bánh mì xíu mại,25,30,gemini-3.1-flash-lite-preview_estimate
+367,Canh bóng nấu thả,40,20,gemini-3.1-flash-lite-preview_estimate
+368,Mì trộn tôm trứng mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+369,Há cảo tam sắc,30,20,gemini-3.1-flash-lite-preview_estimate
+370,Bánh rán phô mai trứng muối,10,10,gemini-3.1-flash-lite-preview_estimate
+371,Miến trộn bò bằm,20,15,gemini-3.1-flash-lite-preview_estimate
+372,Bún giò heo cay,25,60,gemini-3.1-flash-lite-preview_estimate
+373,Bánh canh cua phồng tôm,80,30,gemini-3.1-flash-lite-preview_estimate
+374,Gyoza,15,6,gemini-3.1-flash-lite-preview_estimate
+375,Bánh bông lan bơ hành,30,25,gemini-3.1-flash-lite-preview_estimate
+376,Phở tái lăn,25,20,gemini-3.1-flash-lite-preview_estimate
+377,Bánh rán burger bò,25,15,gemini-3.1-flash-lite-preview_estimate
+378,Bún thang,40,60,gemini-3.1-flash-lite-preview_estimate
+379,Bún riêu cua bắp bò,20,15,gemini-3.1-flash-lite-preview_estimate
+380,Cupcake trứng muối chà bông phô mai,30,40,gemini-3.1-flash-lite-preview_estimate
+381,Hotdog bắp cải,15,15,gemini-3.1-flash-lite-preview_estimate
+382,Tôm xốt sữa,20,15,gemini-3.1-flash-lite-preview_estimate
+383,Bún riêu cua,30,45,gemini-3.1-flash-lite-preview_estimate
+384,Pancake xốt đậu gà,20,15,gemini-3.1-flash-lite-preview_estimate
+385,Bò áp chảo sốt tiêu,15,15,gemini-3.1-flash-lite-preview_estimate
+386,Bánh crepe nhân mặn,15,20,gemini-3.1-flash-lite-preview_estimate
+387,Bánh rán kẹp cá ngừ mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+388,Bánh mì hạnh nhân,15,10,gemini-3.1-flash-lite-preview_estimate
+389,Sandwich nóng phô mai thịt nguội,15,25,gemini-3.1-flash-lite-preview_estimate
+390,Pancake trứng khuấy,10,15,gemini-3.1-flash-lite-preview_estimate
+391,Sandwich trứng cút mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+392,Pancake sắc màu,15,15,gemini-3.1-flash-lite-preview_estimate
+393,Bún bò bắp cải chua,25,30,gemini-3.1-flash-lite-preview_estimate
+394,Cơm chiên dưa bò,20,15,gemini-3.1-flash-lite-preview_estimate
+395,Pancake hoa cúc,20,15,gemini-3.1-flash-lite-preview_estimate
+396,Bún mắm,45,40,gemini-3.1-flash-lite-preview_estimate
+397,Bánh rán trái cây,15,20,gemini-3.1-flash-lite-preview_estimate
+398,Pancake jambon trứng cút,20,15,gemini-3.1-flash-lite-preview_estimate
+399,Xôi xá xíu,120,60,gemini-3.1-flash-lite-preview_estimate
+400,Sake chiên giòn 2 vị,15,20,gemini-3.1-flash-lite-preview_estimate
+401,Phở trộn,20,15,gemini-3.1-flash-lite-preview_estimate
+402,Bún sườn non nấu chuối đậu,30,35,gemini-3.1-flash-lite-preview_estimate
+403,Brulee trà sữa,25,45,gemini-3.1-flash-lite-preview_estimate
+404,Bò bít tết,40,20,gemini-3.1-flash-lite-preview_estimate
+405,Bánh rán bơ dừa,20,15,gemini-3.1-flash-lite-preview_estimate
+406,Sườn nấu đậu ngự,30,60,gemini-3.1-flash-lite-preview_estimate
+407,Bánh mì – Lưỡi heo khìa,45,60,gemini-3.1-flash-lite-preview_estimate
+408,Xôi gà đậu xanh,120,45,gemini-3.1-flash-lite-preview_estimate
+409,Bánh mì nướng tỏi,15,20,gemini-3.1-flash-lite-preview_estimate
+410,Cơm chiên Dương Châu,25,20,gemini-3.1-flash-lite-preview_estimate
+411,Bánh rán nhân khoai lang,20,15,gemini-3.1-flash-lite-preview_estimate
+412,Bún gạo xào lòng nghệ,30,15,gemini-3.1-flash-lite-preview_estimate
+413,Bánh rán trứng phô mai,15,10,gemini-3.1-flash-lite-preview_estimate
+414,Lẩu bò chua cay,30,45,gemini-3.1-flash-lite-preview_estimate
+415,Bánh mì kẹp cá chiên xù,20,15,gemini-3.1-flash-lite-preview_estimate
+416,Sandwich nướng trứng xốt Mayonnaise,15,15,gemini-3.1-flash-lite-preview_estimate
+417,Súp thanh cua hạt chia,20,25,gemini-3.1-flash-lite-preview_estimate
+418,Bánh trứng phô mai rau củ,20,15,gemini-3.1-flash-lite-preview_estimate
+419,Pancake sushi,10,15,gemini-3.1-flash-lite-preview_estimate
+420,Pancake tôm phô mai,20,25,gemini-3.1-flash-lite-preview_estimate
+421,Bún bò gân,30,120,gemini-3.1-flash-lite-preview_estimate
+422,Cháo hạt sen nấu bò viên,25,45,gemini-3.1-flash-lite-preview_estimate
+423,Bánh rán thịt nguội pate,15,15,gemini-3.1-flash-lite-preview_estimate
+424,Pancake bò bằm,20,30,gemini-3.1-flash-lite-preview_estimate
+425,Bánh mì thịt nướng sả mayo,25,15,gemini-3.1-flash-lite-preview_estimate
+426,Sandwich kẹp chả tôm,30,15,gemini-3.1-flash-lite-preview_estimate
+427,Burger cá hồi,20,15,gemini-3.1-flash-lite-preview_estimate
+428,Mì EFU xào xá xíu,20,15,gemini-3.1-flash-lite-preview_estimate
+429,Thăn heo chiên giòn rau quế,25,20,gemini-3.1-flash-lite-preview_estimate
+430,Bún gạo xào mayo,25,15,gemini-3.1-flash-lite-preview_estimate
+431,Cơm chanh ấn độ,20,25,gemini-3.1-flash-lite-preview_estimate
+432,Bánh mì que xốt thịt cay Mayo,15,10,gemini-3.1-flash-lite-preview_estimate
+433,Cá ngừ đại dương lúc lắc,20,15,gemini-3.1-flash-lite-preview_estimate
+434,Mì cay,15,15,gemini-3.1-flash-lite-preview_estimate
+435,Phở bò bắp hoa,20,70,gemini-3.1-flash-lite-preview_estimate
+436,Cháo yến mạch thịt bò,10,15,gemini-3.1-flash-lite-preview_estimate
+437,Bánh cuốn lòng vịt,30,25,gemini-3.1-flash-lite-preview_estimate
+438,Sandwich cuộn thịt cua,25,15,gemini-3.1-flash-lite-preview_estimate
+439,Pizza phở hải sản,20,20,gemini-3.1-flash-lite-preview_estimate
+440,Bún bò giò heo,45,90,gemini-3.1-flash-lite-preview_estimate
+441,Bánh rán hamburger,20,25,gemini-3.1-flash-lite-preview_estimate
+442,Cánh gà chiên Coca,20,25,gemini-3.1-flash-lite-preview_estimate
+443,Hàu chiên giòn sốt mayonnaise mù tạt,20,10,gemini-3.1-flash-lite-preview_estimate
+444,Bánh kim chi hải sản,25,15,gemini-3.1-flash-lite-preview_estimate
+445,Rong biển cuộn đậu hũ,20,20,gemini-3.1-flash-lite-preview_estimate
+446,Bánh rán chocolate đậu đỏ,20,25,gemini-3.1-flash-lite-preview_estimate
+447,Bánh rán chocolate jelly chanh dây,25,20,gemini-3.1-flash-lite-preview_estimate
+448,Trứng chiên đậu hủ thịt cua,15,10,gemini-3.1-flash-lite-preview_estimate
+449,Bánh canh khoai tím,45,40,gemini-3.1-flash-lite-preview_estimate
+450,Lâu đài bánh rán,20,25,gemini-3.1-flash-lite-preview_estimate
+451,Cơm phô mai chiên giòn,25,20,gemini-3.1-flash-lite-preview_estimate
+452,Bánh đúc củ cải,25,30,gemini-3.1-flash-lite-preview_estimate
+453,Bánh rán Chocolate,15,20,gemini-3.1-flash-lite-preview_estimate
+454,Bánh rau củ chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+455,Salad gà giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+456,Chả giò sứa,40,20,gemini-3.1-flash-lite-preview_estimate
+457,Bánh há cảo,45,25,gemini-3.1-flash-lite-preview_estimate
+458,Bánh mì que nướng rau củ,20,10,gemini-3.1-flash-lite-preview_estimate
+459,Sushi đậu hũ,30,15,gemini-3.1-flash-lite-preview_estimate
+460,Chả ốc chiên,35,15,gemini-3.1-flash-lite-preview_estimate
+461,Bánh rán xiên que,20,15,gemini-3.1-flash-lite-preview_estimate
+462,Bánh rán thú cưng,15,20,gemini-3.1-flash-lite-preview_estimate
+463,Xôi chay ngũ sắc,30,45,gemini-3.1-flash-lite-preview_estimate
+464,Bún mì xào tép,20,15,gemini-3.1-flash-lite-preview_estimate
+465,Bún củ hủ dừa lá chanh,25,10,gemini-3.1-flash-lite-preview_estimate
+466,Sandwich nướng tôm,20,20,gemini-3.1-flash-lite-preview_estimate
+467,Viên xôi chiên,30,20,gemini-3.1-flash-lite-preview_estimate
+468,Khổ qua xào chay,20,10,gemini-3.1-flash-lite-preview_estimate
+469,Bánh rán vị chanh,15,15,gemini-3.1-flash-lite-preview_estimate
+470,Phở xào,20,15,gemini-3.1-flash-lite-preview_estimate
+471,Bánh canh cá lóc,30,70,gemini-3.1-flash-lite-preview_estimate
+472,Bí đỏ hấp hải sản,25,35,gemini-3.1-flash-lite-preview_estimate
+473,"Cá cơm, bắp chiên phô mai",20,15,gemini-3.1-flash-lite-preview_estimate
+474,Bún gạo xào rau củ,30,20,gemini-3.1-flash-lite-preview_estimate
+475,Salad thịt bò chiên,25,15,gemini-3.1-flash-lite-preview_estimate
+476,Canh rau má khoai lang,20,25,gemini-3.1-flash-lite-preview_estimate
+477,Canh đọt khổ qua rừng tôm thả,15,15,gemini-3.1-flash-lite-preview_estimate
+478,Canh rong biển thịt bò,20,20,gemini-3.1-flash-lite-preview_estimate
+479,Salad đậu cay,20,10,gemini-3.1-flash-lite-preview_estimate
+480,Bánh khoai tây chiên xù,25,15,gemini-3.1-flash-lite-preview_estimate
+481,Salad romain tôm chiên,20,10,gemini-3.1-flash-lite-preview_estimate
+482,Canh cua rau nhút,30,20,gemini-3.1-flash-lite-preview_estimate
+483,Bánh bí đỏ tôm thịt,40,15,gemini-3.1-flash-lite-preview_estimate
+484,Chân giò cuộn hầm sâm,25,60,gemini-3.1-flash-lite-preview_estimate
+485,Cháo hàu sữa đậu xanh,25,45,gemini-3.1-flash-lite-preview_estimate
+486,Mì Spaghetti xốt chay,20,25,gemini-3.1-flash-lite-preview_estimate
+487,Salad cá chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+488,Mực nhồi tôm chiên hạnh nhân,30,20,gemini-3.1-flash-lite-preview_estimate
+489,Canh cải gói thịt gà nấm hương,25,20,gemini-3.1-flash-lite-preview_estimate
+490,Cá tẩm bột cay chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+491,Mì Quảng xào lươn,25,15,gemini-3.1-flash-lite-preview_estimate
+492,Bánh tart thập cẩm,45,35,gemini-3.1-flash-lite-preview_estimate
+493,Xúc xích ếch,40,30,gemini-3.1-flash-lite-preview_estimate
+494,Bánh ướt xá xíu áp chảo,20,25,gemini-3.1-flash-lite-preview_estimate
+495,Hamburger bí đỏ,30,20,gemini-3.1-flash-lite-preview_estimate
+496,Canh gân bò cải chua,15,60,gemini-3.1-flash-lite-preview_estimate
+497,Xôi tôm củ sen,30,30,gemini-3.1-flash-lite-preview_estimate
+498,Udon thịt xíu,45,60,gemini-3.1-flash-lite-preview_estimate
+499,Sakê bột chiên,20,20,gemini-3.1-flash-lite-preview_estimate
+500,Bánh xếp chay,45,25,gemini-3.1-flash-lite-preview_estimate
+501,Bún cua lưỡi heo,40,45,gemini-3.1-flash-lite-preview_estimate
+502,Tàu hũ ki cuộn tôm,35,20,gemini-3.1-flash-lite-preview_estimate
+503,Bánh giò trứng cút,45,45,gemini-3.1-flash-lite-preview_estimate
+504,Bánh bông lan trứng muối,20,20,gemini-3.1-flash-lite-preview_estimate
+505,Canh ghẹ húng quế,25,15,gemini-3.1-flash-lite-preview_estimate
+506,Bánh mì hấp bì chay,30,25,gemini-3.1-flash-lite-preview_estimate
+507,Bì bún chay,25,20,gemini-3.1-flash-lite-preview_estimate
+508,Cơm rau củ nấm hương,20,15,gemini-3.1-flash-lite-preview_estimate
+509,Ragu bò,30,60,gemini-3.1-flash-lite-preview_estimate
+510,Bánh cóng,45,30,gemini-3.1-flash-lite-preview_estimate
+511,Cuốn tàu hũ ky xốt tiêu,30,25,gemini-3.1-flash-lite-preview_estimate
+512,Mì tương đen,20,25,gemini-3.1-flash-lite-preview_estimate
+513,Đùi gà mật ong,30,35,gemini-3.1-flash-lite-preview_estimate
+514,Mì vịt tiềm chay,40,45,gemini-3.1-flash-lite-preview_estimate
+515,Chả trứng hấp,20,22,gemini-3.1-flash-lite-preview_estimate
+516,Phở bò,45,70,gemini-3.1-flash-lite-preview_estimate
+517,Bò né chay,30,10,gemini-3.1-flash-lite-preview_estimate
+518,Nem nướng,45,30,gemini-3.1-flash-lite-preview_estimate
+519,Bánh bao chiên,60,25,gemini-3.1-flash-lite-preview_estimate
+520,Chả giò rong biển,30,15,gemini-3.1-flash-lite-preview_estimate
+521,Phở chay,45,80,gemini-3.1-flash-lite-preview_estimate
+522,Bò nấu pate tiêu xanh,40,45,gemini-3.1-flash-lite-preview_estimate
+523,Cải rổ xào tỏi,15,10,gemini-3.1-flash-lite-preview_estimate
+524,Súp cồi điệp rau củ,20,15,gemini-3.1-flash-lite-preview_estimate
+525,Bánh cuốn nhân cá hồi,25,20,gemini-3.1-flash-lite-preview_estimate
+526,Canh rong biển hạt sen,15,15,gemini-3.1-flash-lite-preview_estimate
+527,Cua lột xào chua ngọt,20,15,gemini-3.1-flash-lite-preview_estimate
+528,Cháo ếch,30,45,gemini-3.1-flash-lite-preview_estimate
+529,Canh bí đỏ rong biển,20,25,gemini-3.1-flash-lite-preview_estimate
+530,Bánh ít nhân tôm thịt,60,45,gemini-3.1-flash-lite-preview_estimate
+531,Bánh mì kẹp phô mai thịt nguội,20,15,gemini-3.1-flash-lite-preview_estimate
+532,Cơm chiên cá mặn,30,20,gemini-3.1-flash-lite-preview_estimate
+533,Bánh cuốn củ cải,45,30,gemini-3.1-flash-lite-preview_estimate
+534,Bánh đa cua,60,45,gemini-3.1-flash-lite-preview_estimate
+535,Nui xào bò,30,20,gemini-3.1-flash-lite-preview_estimate
+536,Salad mì Ý với giò thủ,20,15,gemini-3.1-flash-lite-preview_estimate
+537,Súp sắc màu,25,15,gemini-3.1-flash-lite-preview_estimate
+538,Bún gạo xào thịt bò,30,15,gemini-3.1-flash-lite-preview_estimate
+539,Cơm chiên dừa,20,15,gemini-3.1-flash-lite-preview_estimate
+540,Súp chua cay chay,30,45,gemini-3.1-flash-lite-preview_estimate
+541,Cháo tim gan,25,40,gemini-3.1-flash-lite-preview_estimate
+542,Súp nghêu rong biển,25,15,gemini-3.1-flash-lite-preview_estimate
+543,Bánh mì trứng thịt nguội,15,10,gemini-3.1-flash-lite-preview_estimate
+544,Cơm chiên nấm thịt bò,30,15,gemini-3.1-flash-lite-preview_estimate
+545,Ra-gu chay,20,30,gemini-3.1-flash-lite-preview_estimate
+546,Cháo tôm nếp cẩm,25,45,gemini-3.1-flash-lite-preview_estimate
+547,Súp tôm bí đỏ,20,35,gemini-3.1-flash-lite-preview_estimate
+548,Nui nơ nấu thịt băm,15,15,gemini-3.1-flash-lite-preview_estimate
+549,Súp cua củ năng,25,20,gemini-3.1-flash-lite-preview_estimate
+550,Hủ tiếu mì xào,20,15,gemini-3.1-flash-lite-preview_estimate
+551,Cháo trứng thịt bằm,20,45,gemini-3.1-flash-lite-preview_estimate
+552,Chả giò Spaghetti,30,20,gemini-3.1-flash-lite-preview_estimate
+553,Mì xào giòn chay,25,15,gemini-3.1-flash-lite-preview_estimate
+554,Cháo nghêu,30,40,gemini-3.1-flash-lite-preview_estimate
+555,Bánh mì chiên tôm,20,15,gemini-3.1-flash-lite-preview_estimate
+556,Salad nui ba màu,25,10,gemini-3.1-flash-lite-preview_estimate
+557,Hủ tiếu xào cua thanh,20,15,gemini-3.1-flash-lite-preview_estimate
+558,Miến gà măng khô,30,45,gemini-3.1-flash-lite-preview_estimate
+559,Bún chay lá chanh,25,30,gemini-3.1-flash-lite-preview_estimate
+560,Bò lúc lắc Mayo,20,15,gemini-3.1-flash-lite-preview_estimate
+561,Mì Quảng xào chay,25,20,gemini-3.1-flash-lite-preview_estimate
+562,Trứng chiên lạp xưởng,10,10,gemini-3.1-flash-lite-preview_estimate
+563,Salad mì Ý chua ngọt,20,15,gemini-3.1-flash-lite-preview_estimate
+564,Miến xào xốt tương,25,20,gemini-3.1-flash-lite-preview_estimate
+565,Bánh mì đút lò xốt mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+566,Bánh mì phô mai thịt nguội,15,10,gemini-3.1-flash-lite-preview_estimate
+567,Bánh mì kẹp xúc xích,20,5,gemini-3.1-flash-lite-preview_estimate
+568,Nui xào hải sản,25,20,gemini-3.1-flash-lite-preview_estimate
+569,Đậu hũ chiên sả ớt,20,15,gemini-3.1-flash-lite-preview_estimate
+570,Cuốn gà,30,25,gemini-3.1-flash-lite-preview_estimate
+571,Bánh mì xíu mại,30,30,gemini-3.1-flash-lite-preview_estimate
+572,Bánh mì kẹp thịt gà khìa,20,25,gemini-3.1-flash-lite-preview_estimate
+573,Bánh mì tẩm trứng chiên,15,15,gemini-3.1-flash-lite-preview_estimate
+574,Bánh mì kẹp tôm trộn Mayonnaise,25,10,gemini-3.1-flash-lite-preview_estimate
+575,Sandwich cuốn tôm,30,15,gemini-3.1-flash-lite-preview_estimate
+576,Bánh canh cua,45,60,gemini-3.1-flash-lite-preview_estimate
+577,Sandwich cá ngừ,15,0,gemini-3.1-flash-lite-preview_estimate
+578,Mì Quảng,30,25,gemini-3.1-flash-lite-preview_estimate
+579,Bê thấu,25,10,gemini-3.1-flash-lite-preview_estimate
+580,Bánh mì nướng xốt cà,20,15,gemini-3.1-flash-lite-preview_estimate
+581,Bún bò Huế Chay,30,45,gemini-3.1-flash-lite-preview_estimate
+582,Xôi gà,20,40,gemini-3.1-flash-lite-preview_estimate
+583,Bánh mì nướng hoa hồng,15,10,gemini-3.1-flash-lite-preview_estimate
+584,Burger cá kiểu Hawaii,20,15,gemini-3.1-flash-lite-preview_estimate
+585,Hamburger kiểu Mehico,30,20,gemini-3.1-flash-lite-preview_estimate
+586,Nui xào gà,25,25,gemini-3.1-flash-lite-preview_estimate
+587,Bánh cuốn chay,30,25,gemini-3.1-flash-lite-preview_estimate
+588,Bánh mì ốp la cá mòi,15,10,gemini-3.1-flash-lite-preview_estimate
+589,Burger cá ngừ,20,5,gemini-3.1-flash-lite-preview_estimate
+590,Bánh mì bì Sài Gòn,45,40,gemini-3.1-flash-lite-preview_estimate
+591,Bún riêu cua xí quách,60,90,gemini-3.1-flash-lite-preview_estimate
+592,Bún ốc,40,30,gemini-3.1-flash-lite-preview_estimate
+593,Bún giò heo nấu giấm,30,25,gemini-3.1-flash-lite-preview_estimate
+594,Khai vị đầu xuân,20,10,gemini-3.1-flash-lite-preview_estimate
+595,Bò kho,45,60,gemini-3.1-flash-lite-preview_estimate
+596,THĂN BÊ NƯỚNG Y,15,10,gemini-3.1-flash-lite-preview_estimate
+597,Lẩu sườn bò chua cay,25,45,gemini-3.1-flash-lite-preview_estimate
+598,Salad bò nướng áp chảo,20,15,gemini-3.1-flash-lite-preview_estimate
+599,CÁ ĐIÊU HỒNG CHIÊN RAU CỦ NGŨ SẮC,20,15,gemini-3.1-flash-lite-preview_estimate
+600,LẨU CHAO CỦ SEN KHOAI MÔN CHAY,30,25,gemini-3.1-flash-lite-preview_estimate
+601,GÀ GIÒN ÁP CHẢO XỐT THÁI,15,20,gemini-3.1-flash-lite-preview_estimate
+602,Canh cua rau đay,20,15,gemini-3.1-flash-lite-preview_estimate
+603,Sườn nướng mật ong,40,18,gemini-3.1-flash-lite-preview_estimate
+604,Miến xào nghêu,30,20,gemini-3.1-flash-lite-preview_estimate
+605,Lươn kho sả ớt,20,25,gemini-3.1-flash-lite-preview_estimate
+606,Gà chiên xúc xích ớt xiêm,30,25,gemini-3.1-flash-lite-preview_estimate
+607,Cá bông lau chua ngọt,25,20,gemini-3.1-flash-lite-preview_estimate
+608,Cá nục kho tóp mỡ,15,25,gemini-3.1-flash-lite-preview_estimate
+609,Cà ri lươn,25,30,gemini-3.1-flash-lite-preview_estimate
+610,Cánh gà chiên lá quế,40,20,gemini-3.1-flash-lite-preview_estimate
+611,Vịt kho riềng ớt khô,25,45,gemini-3.1-flash-lite-preview_estimate
+612,Cơm sen gạo lứt chay,30,35,gemini-3.1-flash-lite-preview_estimate
+613,Sườn kho khoai tây,20,30,gemini-3.1-flash-lite-preview_estimate
+614,Tôm sú kho lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+615,Canh tôm bồ ngót,15,10,gemini-3.1-flash-lite-preview_estimate
+616,Tim heo nướng ngũ vị,25,20,gemini-3.1-flash-lite-preview_estimate
+617,Cá nục kho mía,25,40,gemini-3.1-flash-lite-preview_estimate
+618,Cá basa fillet chiên trứng,20,15,gemini-3.1-flash-lite-preview_estimate
+619,Mề gà xào cay,20,15,gemini-3.1-flash-lite-preview_estimate
+620,Thịt bò chiên trộn cải mầm,20,15,gemini-3.1-flash-lite-preview_estimate
+621,Sườn chay om nấm đùi gà,30,25,gemini-3.1-flash-lite-preview_estimate
+622,Lẩu bò thảo mộc,25,60,gemini-3.1-flash-lite-preview_estimate
+623,Thịt bê xào lăn,20,15,gemini-3.1-flash-lite-preview_estimate
+624,Cá chép kho riềng,45,60,gemini-3.1-flash-lite-preview_estimate
+625,Cơm gà nướng nước tương,20,20,gemini-3.1-flash-lite-preview_estimate
+626,Gà xào tiêu đen,20,15,gemini-3.1-flash-lite-preview_estimate
+627,Canh chua cá lóc đậu tương,25,20,gemini-3.1-flash-lite-preview_estimate
+628,Gà hấp hành răm,30,40,gemini-3.1-flash-lite-preview_estimate
+629,Bông cải xào nước tương,20,10,gemini-3.1-flash-lite-preview_estimate
+630,Trà sữa blendy trái cây,10,5,gemini-3.1-flash-lite-preview_estimate
+631,Gà nướng xiên,30,25,gemini-3.1-flash-lite-preview_estimate
+632,Đậu hũ hấp trứng,20,25,gemini-3.1-flash-lite-preview_estimate
+633,Mực chiên giòn sốt tắc,25,15,gemini-3.1-flash-lite-preview_estimate
+634,Pad Thái chay,30,20,gemini-3.1-flash-lite-preview_estimate
+635,Canh tôm chua cay,30,25,gemini-3.1-flash-lite-preview_estimate
+636,Sườn non kho dưa cải,20,40,gemini-3.1-flash-lite-preview_estimate
+637,Dồi trường xào bông hẹ,45,15,gemini-3.1-flash-lite-preview_estimate
+638,Đông cô bách hoa chay,30,25,gemini-3.1-flash-lite-preview_estimate
+639,Lẩu hoa cá kèo,25,20,gemini-3.1-flash-lite-preview_estimate
+640,Đùi gà Barbecue,20,40,gemini-3.1-flash-lite-preview_estimate
+641,Thịt bò xào bông so đũa,20,10,gemini-3.1-flash-lite-preview_estimate
+642,Cua rang sốt tắc,30,25,gemini-3.1-flash-lite-preview_estimate
+643,Cánh gà nướng cay,90,40,gemini-3.1-flash-lite-preview_estimate
+644,Lẩu vịt tía tô,30,45,gemini-3.1-flash-lite-preview_estimate
+645,Bao tử khìa nước dừa,40,50,gemini-3.1-flash-lite-preview_estimate
+646,Mì căn xốt nấm,25,20,gemini-3.1-flash-lite-preview_estimate
+647,Canh cua khổ qua,25,30,gemini-3.1-flash-lite-preview_estimate
+648,Mì spaghetti xào tôm nấm,30,20,gemini-3.1-flash-lite-preview_estimate
+649,Canh bí đỏ đậu phộng,20,25,gemini-3.1-flash-lite-preview_estimate
+650,Khổ qua nhồi nấm kho nước tương,25,30,gemini-3.1-flash-lite-preview_estimate
+651,Cá nục kho thơm,30,45,gemini-3.1-flash-lite-preview_estimate
+652,Mực ống hấp củ đậu,20,20,gemini-3.1-flash-lite-preview_estimate
+653,Lẩu vịt hầm sả,30,45,gemini-3.1-flash-lite-preview_estimate
+654,Cà ri gà,35,40,gemini-3.1-flash-lite-preview_estimate
+655,Canh khổ qua hầm thịt,25,35,gemini-3.1-flash-lite-preview_estimate
+656,Cua xào xốt tương,25,20,gemini-3.1-flash-lite-preview_estimate
+657,Canh hàu sữa măng chua,20,15,gemini-3.1-flash-lite-preview_estimate
+658,Trứng cút xào chua ngọt,20,15,gemini-3.1-flash-lite-preview_estimate
+659,Lẩu gà chua cay,30,40,gemini-3.1-flash-lite-preview_estimate
+660,Đùi gà áp chảo xốt thơm,25,35,gemini-3.1-flash-lite-preview_estimate
+661,Canh chua tôm nước trong,20,45,gemini-3.1-flash-lite-preview_estimate
+662,Canh sườn bò củ sen,20,45,gemini-3.1-flash-lite-preview_estimate
+663,Canh giò heo rau củ,15,30,gemini-3.1-flash-lite-preview_estimate
+664,Canh nấm hạt sen,15,20,gemini-3.1-flash-lite-preview_estimate
+665,Đậu bắp nhồi chả cá chiên,25,15,gemini-3.1-flash-lite-preview_estimate
+666,Cánh gà xốt mù tạt,20,20,gemini-3.1-flash-lite-preview_estimate
+667,Gan bò áp chảo,20,15,gemini-3.1-flash-lite-preview_estimate
+668,Trứng cuộn kiểu Nhật,20,15,gemini-3.1-flash-lite-preview_estimate
+669,Mực xào sả ớt,25,10,gemini-3.1-flash-lite-preview_estimate
+670,Canh chua sườn,20,35,gemini-3.1-flash-lite-preview_estimate
+671,Cốt lết chiên sả ớt,20,25,gemini-3.1-flash-lite-preview_estimate
+672,Bánh gạo xào cay,25,15,gemini-3.1-flash-lite-preview_estimate
+673,Cá nục xốt thơm,20,20,gemini-3.1-flash-lite-preview_estimate
+674,Chả lụa chay kho thơm,25,30,gemini-3.1-flash-lite-preview_estimate
+675,Cánh gà chiên nước mắm,30,20,gemini-3.1-flash-lite-preview_estimate
+676,Sườn non kho củ sen,20,40,gemini-3.1-flash-lite-preview_estimate
+677,Cá cuộn tôm trứng cút,30,15,gemini-3.1-flash-lite-preview_estimate
+678,Canh gân bò chua cay,20,60,gemini-3.1-flash-lite-preview_estimate
+679,Đậu chiên thả nước tương,25,25,gemini-3.1-flash-lite-preview_estimate
+680,Canh chả tôm chùm ngây,20,15,gemini-3.1-flash-lite-preview_estimate
+681,Rau củ xào đậu hũ xốt mè,25,15,gemini-3.1-flash-lite-preview_estimate
+682,Cá trứng chấm tương me,15,15,gemini-3.1-flash-lite-preview_estimate
+683,Mì căn kho nấm – Cháo lá dứa,20,40,gemini-3.1-flash-lite-preview_estimate
+684,Dồi ốc lá chúc,30,25,gemini-3.1-flash-lite-preview_estimate
+685,Măng tây xào tôm mực,20,15,gemini-3.1-flash-lite-preview_estimate
+686,Lươn kho cà tím,20,25,gemini-3.1-flash-lite-preview_estimate
+687,Nui xào chay thập cẩm,30,20,gemini-3.1-flash-lite-preview_estimate
+688,Cá trê kho gừng nghệ,25,30,gemini-3.1-flash-lite-preview_estimate
+689,Bầu xào nghêu,20,15,gemini-3.1-flash-lite-preview_estimate
+690,Ruốc chiên lá quế,25,15,gemini-3.1-flash-lite-preview_estimate
+691,Canh mọc bí ngòi,20,20,gemini-3.1-flash-lite-preview_estimate
+692,Trà sữa hoa đậu biếc,10,5,gemini-3.1-flash-lite-preview_estimate
+693,Gà kho nấm,20,25,gemini-3.1-flash-lite-preview_estimate
+694,Canh cá đồng nấu khế,25,20,gemini-3.1-flash-lite-preview_estimate
+695,Cháo đậu chà bông cá hồi,45,60,gemini-3.1-flash-lite-preview_estimate
+696,Canh sườn nha đam,120,40,gemini-3.1-flash-lite-preview_estimate
+697,Canh nghêu kim chi tía tô,20,15,gemini-3.1-flash-lite-preview_estimate
+698,Canh nấm gà lá giang,20,25,gemini-3.1-flash-lite-preview_estimate
+699,Súp bát trân chay,40,30,gemini-3.1-flash-lite-preview_estimate
+700,Canh hến kim chi,15,15,gemini-3.1-flash-lite-preview_estimate
+701,Canh cá chim dưa muối,25,20,gemini-3.1-flash-lite-preview_estimate
+702,Chả thịt heo trứng muối,20,15,gemini-3.1-flash-lite-preview_estimate
+703,Chả tôm xiên que nướng mè,40,20,gemini-3.1-flash-lite-preview_estimate
+704,Cá hấp ngưu bàng,25,20,gemini-3.1-flash-lite-preview_estimate
+705,Chả giò hàu,30,15,gemini-3.1-flash-lite-preview_estimate
+706,Đậu hũ áp chảo xốt sambal,35,25,gemini-3.1-flash-lite-preview_estimate
+707,Mực que chiên giòn xốt cam,20,15,gemini-3.1-flash-lite-preview_estimate
+708,Cải thảo cuộn tôm cá,30,30,gemini-3.1-flash-lite-preview_estimate
+709,Sườn non kho chao,15,35,gemini-3.1-flash-lite-preview_estimate
+710,Canh gà bí xanh,25,30,gemini-3.1-flash-lite-preview_estimate
+711,Cà tím nướng tôm cháy mỡ hẹ,20,20,gemini-3.1-flash-lite-preview_estimate
+712,Canh gà quay tam sắc,15,15,gemini-3.1-flash-lite-preview_estimate
+713,Cá kho quẹt,30,25,gemini-3.1-flash-lite-preview_estimate
+714,Chả tôm chiên mặt nguyệt,40,15,gemini-3.1-flash-lite-preview_estimate
+715,Salad mực ống,25,10,gemini-3.1-flash-lite-preview_estimate
+716,Cá dứa một nắng chua ngọt,20,15,gemini-3.1-flash-lite-preview_estimate
+717,Đậu hũ cuộn chiên giòn,30,20,gemini-3.1-flash-lite-preview_estimate
+718,Phở sắn xào thập cẩm,25,15,gemini-3.1-flash-lite-preview_estimate
+719,Ếch khói lửa,25,20,gemini-3.1-flash-lite-preview_estimate
+720,Bắp bò xốt pate chấm muối tắc,20,55,gemini-3.1-flash-lite-preview_estimate
+721,Canh chân nấm táo đỏ,20,25,gemini-3.1-flash-lite-preview_estimate
+722,Cánh gà xào ớt xiêm,20,25,gemini-3.1-flash-lite-preview_estimate
+723,Cá chép nấu riềng mẻ,25,30,gemini-3.1-flash-lite-preview_estimate
+724,Cơm gạo lứt hạt sen,40,50,gemini-3.1-flash-lite-preview_estimate
+725,Chả cá thác lác bọc củ quả chiên,30,20,gemini-3.1-flash-lite-preview_estimate
+726,Đậu bắp nhồi chiên giòn,35,15,gemini-3.1-flash-lite-preview_estimate
+727,Gà cuộn xúc xích khô,25,20,gemini-3.1-flash-lite-preview_estimate
+728,Canh bạch quả bí đỏ,25,35,gemini-3.1-flash-lite-preview_estimate
+729,Củ hũ dừa xào ba chỉ,20,15,gemini-3.1-flash-lite-preview_estimate
+730,Đậu hũ xào lăn,20,20,gemini-3.1-flash-lite-preview_estimate
+731,Cá cuộn Jambon chiên,25,15,gemini-3.1-flash-lite-preview_estimate
+732,Gà ta kho riềng sả,20,30,gemini-3.1-flash-lite-preview_estimate
+733,Súp nấm hải sản chua cay,30,20,gemini-3.1-flash-lite-preview_estimate
+734,Cá hường chiên sả nghệ,20,15,gemini-3.1-flash-lite-preview_estimate
+735,Canh bóng cuộn bí ngòi,40,20,gemini-3.1-flash-lite-preview_estimate
+736,Đậu hũ hấp nấm Nhật,25,25,gemini-3.1-flash-lite-preview_estimate
+737,Lẩu ếch lá lốt,30,40,gemini-3.1-flash-lite-preview_estimate
+738,Ba chỉ xiên que chiên giòn,25,35,gemini-3.1-flash-lite-preview_estimate
+739,Canh cua chả cá,35,25,gemini-3.1-flash-lite-preview_estimate
+740,Gà nướng cỏ xạ hương,20,30,gemini-3.1-flash-lite-preview_estimate
+741,Salad sò điệp chiên giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+742,Vịt nướng nồi đất,40,40,gemini-3.1-flash-lite-preview_estimate
+743,Cá cam phủ tuyết,25,20,gemini-3.1-flash-lite-preview_estimate
+744,Tôm chiên xiên sả trái tim,20,15,gemini-3.1-flash-lite-preview_estimate
+745,Gan chiên cháy tỏi,40,15,gemini-3.1-flash-lite-preview_estimate
+746,Salad đậu hũ chiên,20,10,gemini-3.1-flash-lite-preview_estimate
+747,Lẩu tả pí lù,25,30,gemini-3.1-flash-lite-preview_estimate
+748,Lẩu sữa đậu nành hải sản,30,20,gemini-3.1-flash-lite-preview_estimate
+749,Gà hấp riềng sả,25,25,gemini-3.1-flash-lite-preview_estimate
+750,Mì căn xào bắp non,20,15,gemini-3.1-flash-lite-preview_estimate
+751,Đậu hũ thịt cua viên chiên,30,25,gemini-3.1-flash-lite-preview_estimate
+752,Lẩu cá hồi chanh dây,20,25,gemini-3.1-flash-lite-preview_estimate
+753,Bò áp chảo bản gang,25,15,gemini-3.1-flash-lite-preview_estimate
+754,Cánh gà kho bắp non,20,30,gemini-3.1-flash-lite-preview_estimate
+755,Cơm gạo lứt bí đỏ hấp,30,45,gemini-3.1-flash-lite-preview_estimate
+756,Nấm mỡ khìa nước dừa,25,35,gemini-3.1-flash-lite-preview_estimate
+757,Cật xào khoai tây,20,15,gemini-3.1-flash-lite-preview_estimate
+758,Heo xiên que nướng mắc khén,30,20,gemini-3.1-flash-lite-preview_estimate
+759,Lẩu riêu bắp bò,40,30,gemini-3.1-flash-lite-preview_estimate
+760,Lẩu cá khoai chua cay,25,20,gemini-3.1-flash-lite-preview_estimate
+761,Pizza hải sản,30,25,gemini-3.1-flash-lite-preview_estimate
+762,Bê xào đọt su,20,10,gemini-3.1-flash-lite-preview_estimate
+763,Mọc cua chiên giòn xốt mayonnaise,35,15,gemini-3.1-flash-lite-preview_estimate
+764,Thịt ba chỉ rim chanh sả,20,25,gemini-3.1-flash-lite-preview_estimate
+765,Gà chiên sả lá chanh,25,20,gemini-3.1-flash-lite-preview_estimate
+766,Cá dứa chiên giòn – xốt chanh dây,20,20,gemini-3.1-flash-lite-preview_estimate
+767,Sườn chay kho đậu hũ,20,25,gemini-3.1-flash-lite-preview_estimate
+768,Canh gà hương vị thái,25,20,gemini-3.1-flash-lite-preview_estimate
+769,Gà cuộn bacon chiên lá hương thảo,30,15,gemini-3.1-flash-lite-preview_estimate
+770,Canh ngó môn tôm thịt,20,25,gemini-3.1-flash-lite-preview_estimate
+771,Gan bò xào thơm cà,45,15,gemini-3.1-flash-lite-preview_estimate
+772,Tàu hũ ky xào nấm,20,15,gemini-3.1-flash-lite-preview_estimate
+773,Cá rô phi kho lạt,20,25,gemini-3.1-flash-lite-preview_estimate
+774,Tôm chiên cánh bướm,25,15,gemini-3.1-flash-lite-preview_estimate
+775,Tàu hũ ky cuốn ngũ sắc,30,20,gemini-3.1-flash-lite-preview_estimate
+776,Canh tôm lá ớt,20,15,gemini-3.1-flash-lite-preview_estimate
+777,Nấm đùi gà hấp cải xanh,30,30,gemini-3.1-flash-lite-preview_estimate
+778,Xôi gà nướng,120,60,gemini-3.1-flash-lite-preview_estimate
+779,Cà tím xào tôm thịt,25,20,gemini-3.1-flash-lite-preview_estimate
+780,Súp tomyum hải sản,30,25,gemini-3.1-flash-lite-preview_estimate
+781,Bánh xèo nấm mối chay,35,40,gemini-3.1-flash-lite-preview_estimate
+782,Chả tôm lá chúc,40,15,gemini-3.1-flash-lite-preview_estimate
+783,Bạch tuộc nhúng lá me,30,20,gemini-3.1-flash-lite-preview_estimate
+784,Cá bớp chiên giòn xốt mận,20,15,gemini-3.1-flash-lite-preview_estimate
+785,Đậu hũ Croquette,30,20,gemini-3.1-flash-lite-preview_estimate
+786,Tôm mực xào rau nhút,20,10,gemini-3.1-flash-lite-preview_estimate
+787,Mực trứng nướng mỡ hành,25,15,gemini-3.1-flash-lite-preview_estimate
+788,Sườn kho bắp non,20,25,gemini-3.1-flash-lite-preview_estimate
+789,Bò chiên một nắng,15,15,gemini-3.1-flash-lite-preview_estimate
+790,Hoành thánh hải sản chiên giòn,30,15,gemini-3.1-flash-lite-preview_estimate
+791,Bánh bạch tuộc Takoyaki,20,25,gemini-3.1-flash-lite-preview_estimate
+792,Bò ping pong,30,20,gemini-3.1-flash-lite-preview_estimate
+793,Tàu hủ ky rim nấm,25,20,gemini-3.1-flash-lite-preview_estimate
+794,Lẩu sườn chua cay,30,45,gemini-3.1-flash-lite-preview_estimate
+795,Mắm kho,25,30,gemini-3.1-flash-lite-preview_estimate
+796,Cá nướng thảo mộc,20,22,gemini-3.1-flash-lite-preview_estimate
+797,Khổ qua xào chả cá,20,15,gemini-3.1-flash-lite-preview_estimate
+798,Ốc móng tay nướng chanh sả,45,20,gemini-3.1-flash-lite-preview_estimate
+799,Miến xào giá đậu nành,30,15,gemini-3.1-flash-lite-preview_estimate
+800,Cá chẽm xốt kem chanh,25,30,gemini-3.1-flash-lite-preview_estimate
+801,Canh chua củ hủ dừa tôm đất,20,15,gemini-3.1-flash-lite-preview_estimate
+802,Cải rổ xốt mè đậu hũ,40,10,gemini-3.1-flash-lite-preview_estimate
+803,Nấm đùi gà hấp tía tô,25,30,gemini-3.1-flash-lite-preview_estimate
+804,Súp phồng tôm hải sản,30,25,gemini-3.1-flash-lite-preview_estimate
+805,Cá hồi ngâm chua,20,15,gemini-3.1-flash-lite-preview_estimate
+806,Canh nghêu măng le vị lẩu thái,20,25,gemini-3.1-flash-lite-preview_estimate
+807,Đùi gà nướng rượu,25,20,gemini-3.1-flash-lite-preview_estimate
+808,Heo nướng mỡ hẹ,30,25,gemini-3.1-flash-lite-preview_estimate
+809,Sụn heo xào thơm,20,15,gemini-3.1-flash-lite-preview_estimate
+810,Mít non om chao đỏ,25,30,gemini-3.1-flash-lite-preview_estimate
+811,Chim cút chiên mắm me,30,20,gemini-3.1-flash-lite-preview_estimate
+812,Ốc xào thơm,30,20,gemini-3.1-flash-lite-preview_estimate
+813,Chả giò hải sản phô mai,45,15,gemini-3.1-flash-lite-preview_estimate
+814,Súp nui nha đam tôm thả,40,20,gemini-3.1-flash-lite-preview_estimate
+815,Cá cam chiên giòn lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+816,Khoai tây xào thạch Konnyaku,25,15,gemini-3.1-flash-lite-preview_estimate
+817,Đậu bắp xào hải sản,20,10,gemini-3.1-flash-lite-preview_estimate
+818,Bao tử cá basa chiên xốt me,25,20,gemini-3.1-flash-lite-preview_estimate
+819,Burger trứng gà áp chảo,30,15,gemini-3.1-flash-lite-preview_estimate
+820,Thịt giò heo kho củ cải,20,40,gemini-3.1-flash-lite-preview_estimate
+821,Cuốn rong biển đậu hũ,20,25,gemini-3.1-flash-lite-preview_estimate
+822,Vịt om ớt xanh hoa chuối,30,40,gemini-3.1-flash-lite-preview_estimate
+823,Canh chua cá kèo bông so đũa,25,15,gemini-3.1-flash-lite-preview_estimate
+824,Bí ngòi hấp chả chay,20,30,gemini-3.1-flash-lite-preview_estimate
+825,Đuông khoai lang cốt dừa,30,20,gemini-3.1-flash-lite-preview_estimate
+826,Mướp hương nhồi tôm hấp,15,15,gemini-3.1-flash-lite-preview_estimate
+827,Lẩu cá chình,25,20,gemini-3.1-flash-lite-preview_estimate
+828,Chả thịt lá lốt,20,15,gemini-3.1-flash-lite-preview_estimate
+829,Cơm tấm sườn chay,30,35,gemini-3.1-flash-lite-preview_estimate
+830,Cá chạch chiên lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+831,Canh cải cầu vồng nấu cua,25,20,gemini-3.1-flash-lite-preview_estimate
+832,Nấm chiên giòn xốt chanh dây,20,15,gemini-3.1-flash-lite-preview_estimate
+833,Canh gà lá quế,20,25,gemini-3.1-flash-lite-preview_estimate
+834,Lẩu nghêu sò ốc hến,45,30,gemini-3.1-flash-lite-preview_estimate
+835,Củ sen kẹp chả cá basa,30,15,gemini-3.1-flash-lite-preview_estimate
+836,Lẩu bạch tuộc,30,70,gemini-3.1-flash-lite-preview_estimate
+837,Thịt nướng xí muội,20,20,gemini-3.1-flash-lite-preview_estimate
+838,Bầu xào giò thủ,15,10,gemini-3.1-flash-lite-preview_estimate
+839,Súp gạo lứt tóc tiên,30,75,gemini-3.1-flash-lite-preview_estimate
+840,Tôm bao mọc chiên giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+841,Trăm trứng tiến vua,35,20,gemini-3.1-flash-lite-preview_estimate
+842,Thăn heo chiên giòn,20,15,gemma-4-31b-it_estimate
+843,Gà hon đậu phộng,30,40,gemma-4-31b-it_estimate
+844,Bún thịt heo xiên sả nướng,30,15,gemma-4-31b-it_estimate
+845,Sườn non rim củ nén,40,35,gemini-3.1-flash-lite-preview_estimate
+846,Cuốn lá lốt thịt ếch,50,25,gemini-3.1-flash-lite-preview_estimate
+847,Gan kho tộ,45,30,gemini-3.1-flash-lite-preview_estimate
+848,Ba chỉ chiên giòn – mắm thơm,20,25,gemini-3.1-flash-lite-preview_estimate
+849,Tôm rang củ nén húng chanh,25,15,gemini-3.1-flash-lite-preview_estimate
+850,Canh măng sườn lá giang,20,45,gemini-3.1-flash-lite-preview_estimate
+851,Đậu hũ nhồi tôm chiên,25,15,gemini-3.1-flash-lite-preview_estimate
+852,Xíu mại chay,30,20,gemini-3.1-flash-lite-preview_estimate
+853,Sườn xóc tỏi,20,25,gemini-3.1-flash-lite-preview_estimate
+854,Bacon xào bông cải măng tây,20,15,gemini-3.1-flash-lite-preview_estimate
+855,Mì tàu hũ cá hồi,25,20,gemini-3.1-flash-lite-preview_estimate
+856,Ngưu bàng xào hải sản,30,15,gemini-3.1-flash-lite-preview_estimate
+857,Lẩu nhúng chay,20,15,gemma-4-31b-it_estimate
+858,Gyoza cá hồi – Há cảo Nhật Bản,30,20,gemma-4-31b-it_estimate
+859,Ốc mỡ xào me,30,15,gemma-4-31b-it_estimate
+860,Gà xào xốt táo,20,25,gemma-4-31b-it_estimate
+861,TẾT 3 MIỀN – Miền Nam: Cải bẹ xanh cuốn củ hủ dừa,25,15,gemma-4-31b-it_estimate
+862,TẾT 3 MIỀN – Miền Trung: Cuốn nem chua mì căn,20,15,gemma-4-31b-it_estimate
+863,TẾT 3 MIỀN – Miền Bắc: Cuốn đậu mơ su hào,20,15,gemma-4-31b-it_estimate
+864,Cá trứng chiên xốt trứng muối,15,20,gemma-4-31b-it_estimate
+865,Chân gà sả tắc,30,15,gemma-4-31b-it_estimate
+866,Hoành thánh chay áp chảo,30,20,gemma-4-31b-it_estimate
+867,Mực lụi sả nướng,40,15,gemma-4-31b-it_estimate
+868,Canh tôm mọc hạt sen,25,20,gemma-4-31b-it_estimate
+869,Cuốn tàu hũ ky xốt rô ti,30,25,gemini-3.1-flash-lite-preview_estimate
+870,Cá lá lốt chiên mè,25,15,gemini-3.1-flash-lite-preview_estimate
+871,Lẩu tôm càng,20,20,gemini-3.1-flash-lite-preview_estimate
+872,Canh gà măng chua lá giang,20,30,gemma-4-31b-it_estimate
+873,Ram hến,30,20,gemma-4-31b-it_estimate
+874,Sườn sụn om hành phi,20,45,gemma-4-31b-it_estimate
+875,Canh chùm ngây sườn non,20,25,gemma-4-31b-it_estimate
+876,Nấm xào bí ngòi,20,15,gemma-4-31b-it_estimate
+877,Nấm xốt tiêu xanh,20,15,gemma-4-31b-it_estimate
+878,Viên chả mực chiên giòn,30,20,gemma-4-31b-it_estimate
+879,Vịt om dưa cải khoai sọ,30,40,gemma-4-31b-it_estimate
+880,Cá chiên bông điên điển,20,15,gemma-4-31b-it_estimate
+881,Đùi ếch nướng lá cách,20,25,gemma-4-31b-it_estimate
+882,Chả cua nấm hương,25,15,gemma-4-31b-it_estimate
+883,Cá lóc chiên mắm sả,20,20,gemma-4-31b-it_estimate
+884,Lẩu mực nấm,30,20,gemma-4-31b-it_estimate
+885,Lẩu bầu cua,30,15,gemma-4-31b-it_estimate
+886,Cải thìa xào nấm đông cô thịt cua,20,15,gemma-4-31b-it_estimate
+887,Cánh gà nhồi củ năng,30,20,gemma-4-31b-it_estimate
+888,Lẩu ngưu bàng rong biển,30,45,gemma-4-31b-it_estimate
+889,Cá gáy chiên xốt chanh sả,20,20,gemma-4-31b-it_estimate
+890,Bún mè đen xào nghêu,20,20,gemma-4-31b-it_estimate
+891,Cơm tấm sườn cây,75,30,gemma-4-31b-it_estimate
+892,Bánh bột báng ngũ sắc,60,40,gemma-4-31b-it_estimate
+893,Gà viên phô mai chiên giòn,20,15,gemma-4-31b-it_estimate
+894,Mướp khía xào mực,15,10,gemma-4-31b-it_estimate
+895,Canh ếch lá giang,20,15,gemma-4-31b-it_estimate
+896,Tôm xốt nụ bạch hoa,45,15,gemma-4-31b-it_estimate
+897,Cá đổng kho dưa cà,20,30,gemma-4-31b-it_estimate
+898,Cải xoong xào tôm,20,10,gemma-4-31b-it_estimate
+899,Súp hành tây kiểu Pháp,20,45,gemma-4-31b-it_estimate
+900,Gỏi cuốn cá hồi,25,15,gemma-4-31b-it_estimate
+901,Cá hồi chiên sốt chanh,15,15,gemma-4-31b-it_estimate
+902,Cá hồi nướng mía,30,15,gemma-4-31b-it_estimate
+903,Canape cá hồi xông khói,15,5,gemma-4-31b-it_estimate
+904,Canh mực nấu chua,25,20,gemma-4-31b-it_estimate
+905,Cá hố kho hành gừng,20,25,gemma-4-31b-it_estimate
+906,Bê hấp bia,20,10,gemma-4-31b-it_estimate
+907,Chả giò khoai tây trứng muối,30,20,gemma-4-31b-it_estimate
+908,Nấm bào ngư hấp sả,20,25,gemma-4-31b-it_estimate
+909,Sụn heo xáo nghệ,30,30,gemma-4-31b-it_estimate
+910,Lươn kho củ nén,20,35,gemma-4-31b-it_estimate
+911,Mì nưa xào kim chi thịt bò,20,15,gemma-4-31b-it_estimate
+912,Bánh khọt chay,45,25,gemma-4-31b-it_estimate
+913,Chả chay rim ngũ vị,15,15,gemma-4-31b-it_estimate
+914,Đậu hũ nhồi nấm bào ngư,20,20,gemma-4-31b-it_estimate
+915,Canh củ quả nấu tôm,15,15,gemma-4-31b-it_estimate
+916,Tôm nướng lá chúc,20,10,gemma-4-31b-it_estimate
+917,Bún xí quách nước tương,45,120,gemma-4-31b-it_estimate
+918,Cánh gà chiên tiêu lốp,60,20,gemma-4-31b-it_estimate
+919,Thịt ba chỉ kho cam,20,30,gemma-4-31b-it_estimate
+920,Canh cá chép rau cần,30,20,gemma-4-31b-it_estimate
+921,Pancake chocolate nhân kem dâu,20,30,gemma-4-31b-it_estimate
+922,Sườn và đậu hũ kho thơm,30,40,gemma-4-31b-it_estimate
+923,Gà xào ngũ sắc,30,20,gemma-4-31b-it_estimate
+924,Cá trê chiên giòn,20,15,gemma-4-31b-it_estimate
+925,Bún chùm ngây xào hải sản,25,15,gemma-4-31b-it_estimate
+926,Mướp hương xào tim,20,15,gemma-4-31b-it_estimate
+927,Bột chiên,15,10,gemma-4-31b-it_estimate
+928,Lẩu thái cua đồng,40,30,gemma-4-31b-it_estimate
+929,Canh cá cơm lá me đất,20,15,gemma-4-31b-it_estimate
+930,Vịt nướng me cay,30,40,gemma-4-31b-it_estimate
+931,Đậu đũa xào tôm,20,15,gemma-4-31b-it_estimate
+932,Lẩu cá dìa,30,25,gemma-4-31b-it_estimate
+933,Bạch tuộc xào rượu gừng,40,10,gemma-4-31b-it_estimate
+934,Cá hồi cuộn cơm chiên,30,15,gemma-4-31b-it_estimate
+935,Ba rọi kho măng,30,25,gemma-4-31b-it_estimate
+936,Chạo chay sả cây,30,20,gemma-4-31b-it_estimate
+937,Ốc cà na hấp sả,20,10,gemma-4-31b-it_estimate
+938,Bánh xếp,60,30,gemma-4-31b-it_estimate
+939,Canh chua bông thiên lý,20,15,gemma-4-31b-it_estimate
+940,Vịt kho chanh muối,45,45,gemma-4-31b-it_estimate
+941,Chả cá vị cà ri,20,15,gemma-4-31b-it_estimate
+942,Đu đủ xào thịt gà,30,15,gemma-4-31b-it_estimate
+943,Cá đục chiên giòn,30,15,gemma-4-31b-it_estimate
+944,Thăn heo cuốn cải hấp,30,20,gemma-4-31b-it_estimate
+945,Vịt kho dưa gừng non,25,40,gemma-4-31b-it_estimate
+946,Cá thu chiên giòn xốt chanh dây,20,15,gemma-4-31b-it_estimate
+947,Thịt heo xông khói hương sả,30,45,gemma-4-31b-it_estimate
+948,Lẩu gà hầm sả,40,60,gemma-4-31b-it_estimate
+949,Cải thảo xào tôm khô,25,10,gemma-4-31b-it_estimate
+950,Ngồng tỏi xào hải sản,20,10,gemma-4-31b-it_estimate
+951,Đọt su xào trứng bắc thảo,15,12,gemma-4-31b-it_estimate
+952,Chả tôm ốc hương,30,15,gemma-4-31b-it_estimate
+953,Cá cuộn Bacon hương thảo,20,15,gemma-4-31b-it_estimate
+954,Canh gà cuộn cải thảo,30,20,gemma-4-31b-it_estimate
+955,Nem chay rán,25,15,gemma-4-31b-it_estimate
+956,Cá nục kho rục,20,60,gemma-4-31b-it_estimate
+957,Cuốn gà xào xốt mè,30,15,gemma-4-31b-it_estimate
+958,Bánh khoai môn đút lò,25,20,gemma-4-31b-it_estimate
+959,Canh gà lá é,25,35,gemini-3.1-flash-lite-preview_estimate
+960,Tôm chiên xốt chanh,30,20,gemini-3.1-flash-lite-preview_estimate
+961,Lẩu khổ qua hải sản,40,30,gemini-3.1-flash-lite-preview_estimate
+962,Mực trứng xào rau răm,15,10,gemma-4-31b-it_estimate
+963,Ba rọi nướng riềng,30,15,gemma-4-31b-it_estimate
+964,Canh gà nấm mỡ,30,25,gemma-4-31b-it_estimate
+965,Khổ qua hấp tam cô,30,25,gemma-4-31b-it_estimate
+966,Bò kho dưa kiệu,20,20,gemma-4-31b-it_estimate
+967,Bó củi bào ngư,40,30,gemma-4-31b-it_estimate
+968,Pasta tình yêu,20,20,gemma-4-31b-it_estimate
+969,Cà tím kẹp thịt gà chiên,30,15,gemma-4-31b-it_estimate
+970,Cá điêu hồng chiên xốt tắc,25,15,gemma-4-31b-it_estimate
+971,Cá chẽm xiên que xốt thì là,20,15,gemma-4-31b-it_estimate
+972,Canh cua rau cần,30,20,gemma-4-31b-it_estimate
+973,Sườn nướng quả lê,25,30,gemma-4-31b-it_estimate
+974,Tôm chiên lá cà ri,20,15,gemma-4-31b-it_estimate
+975,Cá viên chiên,15,10,gemma-4-31b-it_estimate
+976,Kèo nèo xào tép,20,10,gemma-4-31b-it_estimate
+977,Bò kho nước dừa,30,45,gemma-4-31b-it_estimate
+978,Củ sen xào ngũ vị,20,15,gemma-4-31b-it_estimate
+979,Chả lui,45,40,gemma-4-31b-it_estimate
+980,Ếch xào sả lá chanh,30,25,gemma-4-31b-it_estimate
+981,Canh nghêu bó xôi,20,15,gemma-4-31b-it_estimate
+982,Gà cuộn rong biển,40,20,gemma-4-31b-it_estimate
+983,Cuốn rau đậu hũ,20,15,gemma-4-31b-it_estimate
+984,Sườn non ram mè,15,25,gemma-4-31b-it_estimate
+985,Đậu kho gừng,15,15,gemma-4-31b-it_estimate
+986,Canh cá hồi nấu nấm,15,15,gemma-4-31b-it_estimate
+987,Gân bò xào sả ớt,20,15,gemma-4-31b-it_estimate
+988,Sườn chiên cay,30,20,gemma-4-31b-it_estimate
+989,Cua đồng xúc bánh tráng,20,25,gemma-4-31b-it_estimate
+990,Nghêu hấp vang trắng,30,15,gemma-4-31b-it_estimate
+991,Canh cải xoăn,15,20,gemma-4-31b-it_estimate
+992,Sườn kho quế mật ong,20,40,gemma-4-31b-it_estimate
+993,Cá chim chiên giòn,20,25,gemma-4-31b-it_estimate
+994,Salad bí ngòi nướng,15,15,gemma-4-31b-it_estimate
+995,Trứng ốp la ớt chuông,10,15,gemma-4-31b-it_estimate
+996,Canh bó xôi bò viên,20,20,gemma-4-31b-it_estimate
+997,Sườn tiềm hoa thanh long,20,90,gemma-4-31b-it_estimate
+998,Bánh xèo Nhật Bản,20,10,gemma-4-31b-it_estimate
+999,Khoai lang kho rong biển,25,20,gemma-4-31b-it_estimate
+1000,Cá hồi chiên mắm dừa,30,20,gemma-4-31b-it_estimate
+1001,Canh cá nấu mẻ,20,20,gemma-4-31b-it_estimate
+1002,Bò xào khổ qua bắp cải tím,25,10,gemma-4-31b-it_estimate
+1003,Rau củ kho mía,25,25,gemma-4-31b-it_estimate
+1004,Miến đậu xanh xào thập cẩm,35,20,gemma-4-31b-it_estimate
+1005,Gà viên xốt cà ri,25,15,gemma-4-31b-it_estimate
+1006,Đậu cove xào ba rọi xông khói,15,10,gemma-4-31b-it_estimate
+1007,Canh nấm càng cua,25,15,gemma-4-31b-it_estimate
+1008,Thịt rang gừng lá chanh,15,20,gemma-4-31b-it_estimate
+1009,Gà chiên lá é,45,20,gemma-4-31b-it_estimate
+1010,Cá rô phi chiên xốt cà,30,25,gemma-4-31b-it_estimate
+1011,Vịt rang tỏi,20,20,gemma-4-31b-it_estimate
+1012,Canh hào thanh mát,15,15,gemma-4-31b-it_estimate
+1013,Đậu hũ xào nấm,20,20,gemma-4-31b-it_estimate
+1014,Váng đậu cuộn rau củ chiên,30,25,gemma-4-31b-it_estimate
+1015,Thịt quay kho cà pháo,15,25,gemma-4-31b-it_estimate
+1016,Spagetty xốt vẹm,20,25,gemma-4-31b-it_estimate
+1017,Rau củ luộc xốt nấm,20,15,gemma-4-31b-it_estimate
+1018,Phèo nướng lá hẹ,50,20,gemma-4-31b-it_estimate
+1019,Thịt kho đậu phộng,30,45,gemma-4-31b-it_estimate
+1020,Viên đậu hũ xốt nước tương,30,30,gemma-4-31b-it_estimate
+1021,Tôm chiên ủ rơm,20,20,gemma-4-31b-it_estimate
+1022,Cá chạch kho sả,20,20,gemma-4-31b-it_estimate
+1023,Salad Cá Mòi,20,10,gemma-4-31b-it_estimate
+1024,Cá điêu hồng chiên xốt chanh dây,20,20,gemma-4-31b-it_estimate
+1025,Cá hồi xốt cà ri me,20,30,gemma-4-31b-it_estimate
+1026,Pizza mì sợi,15,20,gemma-4-31b-it_estimate
+1027,Sườn BBQ,60,45,gemma-4-31b-it_estimate
+1028,Gà xào cay,20,15,gemma-4-31b-it_estimate
+1029,Canh tương đậu,15,20,gemma-4-31b-it_estimate
+1030,Bí đỏ kho rong biển,15,15,gemma-4-31b-it_estimate
+1031,Mực xào hoa trứng,20,25,gemma-4-31b-it_estimate
+1032,Cá lưỡi trâu chiên giòn,30,15,gemma-4-31b-it_estimate
+1033,Sườn kho củ năng,30,40,gemma-4-31b-it_estimate
+1034,Canh cua đồng rong biển,30,20,gemma-4-31b-it_estimate
+1035,Đọt su xào tép,20,15,gemma-4-31b-it_estimate
+1036,Bánh tráng cuốn xốt Mayo,25,10,gemma-4-31b-it_estimate
+1037,Gà nổ muối,45,30,gemma-4-31b-it_estimate
+1038,Nụ bí bọc giò sống,30,15,gemma-4-31b-it_estimate
+1039,Cua xào cay,30,20,gemma-4-31b-it_estimate
+1040,Gnocchi khoai tây xào bò,45,25,gemini-3.1-flash-lite-preview_estimate
+1041,Canh rau củ ba rọi xông khói,20,20,gemini-3.1-flash-lite-preview_estimate
+1042,Canh chua hải sản,25,15,gemini-3.1-flash-lite-preview_estimate
+1043,Cá lóc đồng kho nghệ,20,40,gemma-4-31b-it_estimate
+1044,Dồi trường xào bắp cải tím,25,15,gemma-4-31b-it_estimate
+1045,Canh cà chua thịt bò,15,15,gemma-4-31b-it_estimate
+1046,Mít non om nước cốt dừa,20,30,gemma-4-31b-it_estimate
+1047,Cơm chiên nấm mặn,25,20,gemma-4-31b-it_estimate
+1048,Bao tử kho xốt cay,30,45,gemma-4-31b-it_estimate
+1049,Tôm thịt xào mắm ruốc,20,15,gemma-4-31b-it_estimate
+1050,Gà kho rau củ,25,30,gemma-4-31b-it_estimate
+1051,Lẩu nhúng cay,30,15,gemma-4-31b-it_estimate
+1052,Cá rô kho cà na,20,30,gemma-4-31b-it_estimate
+1053,Gà xào cà ri,15,15,gemma-4-31b-it_estimate
+1054,Lẩu khoai mỡ,30,25,gemma-4-31b-it_estimate
+1055,Cá nướng mù tạt,20,20,gemma-4-31b-it_estimate
+1056,Gỏi xoài cá cơm chiên,30,15,gemma-4-31b-it_estimate
+1057,Cá chuồn kho mít non,25,40,gemma-4-31b-it_estimate
+1058,Thịt ba rọi nướng lá chanh,30,20,gemma-4-31b-it_estimate
+1059,Chả giò ngũ vị,40,15,gemma-4-31b-it_estimate
+1060,Bò cuộn rau củ,20,15,gemma-4-31b-it_estimate
+1061,Cá kèo chiên chấm tương bần,20,20,gemma-4-31b-it_estimate
+1062,Cá cuốn tôm chiên xốt quả bơ,25,15,gemma-4-31b-it_estimate
+1063,Bắp bò kho thơm,30,40,gemma-4-31b-it_estimate
+1064,Chân giò kho tương sả,30,60,gemma-4-31b-it_estimate
+1065,Khổ qua chiên me cay,20,20,gemma-4-31b-it_estimate
+1066,Miến xào hến xốt me,25,15,gemma-4-31b-it_estimate
+1067,Cá rô phi kho lá lốt,20,30,gemma-4-31b-it_estimate
+1068,Canh chua cá củ thì là,15,20,gemma-4-31b-it_estimate
+1069,Canh chua gà bông so đũa,25,25,gemma-4-31b-it_estimate
+1070,Mì Soba Xào Kiểu Nhật,20,15,gemma-4-31b-it_estimate
+1071,Mì căn nhồi rô ti,30,30,gemma-4-31b-it_estimate
+1072,Bò kho khoai sọ,30,60,gemma-4-31b-it_estimate
+1073,Thăn bò nướng,30,20,gemma-4-31b-it_estimate
+1074,Bò xào nấm mỡ,20,15,gemma-4-31b-it_estimate
+1075,Bánh tráng cuộn rau rừng,30,20,gemma-4-31b-it_estimate
+1076,Bánh qui chay tam sắc,45,30,gemma-4-31b-it_estimate
+1077,Gà hầm tứ quý,30,60,gemma-4-31b-it_estimate
+1078,Lẩu bò chua cay,30,45,gemma-4-31b-it_estimate
+1079,Cá nục chiên xốt mè Wasabi,30,20,gemma-4-31b-it_estimate
+1080,Rau củ xào thịt cua,20,15,gemma-4-31b-it_estimate
+1081,Cá bớp chiên giòn xốt chanh,25,15,gemma-4-31b-it_estimate
+1082,Cá lăng kho chuối và tai chua,30,45,gemma-4-31b-it_estimate
+1083,Nấm đùi gà kho măng tây,15,20,gemma-4-31b-it_estimate
+1084,Mực nhồi gạo lức rim,120,30,gemma-4-31b-it_estimate
+1085,Salad cá hồi,20,10,gemma-4-31b-it_estimate
+1086,Mì Linguine xào tôm bắp,25,15,gemma-4-31b-it_estimate
+1087,Cá nướng xốt Mayo khoai tây,30,15,gemma-4-31b-it_estimate
+1088,Gà quay xốt hành tăm,30,60,gemma-4-31b-it_estimate
+1089,Lẩu gà hành cần,30,45,gemma-4-31b-it_estimate
+1090,Tai heo kho cải chua,30,45,gemma-4-31b-it_estimate
+1091,Sườn non om chuối,25,30,gemini-3.1-flash-lite-preview_estimate
+1092,Cuốn vịt mắm sả,30,15,gemini-3.1-flash-lite-preview_estimate
+1093,Thịt lăn mè,40,20,gemini-3.1-flash-lite-preview_estimate
+1094,Tôm mực xào tiêu xanh,25,15,gemini-3.1-flash-lite-preview_estimate
+1095,Chả tôm thịt mắc khén,40,30,gemini-3.1-flash-lite-preview_estimate
+1096,Đuôi heo nướng chao,20,35,gemini-3.1-flash-lite-preview_estimate
+1097,Canh thính đu đủ,30,20,gemma-4-31b-it_estimate
+1098,Mì Soba xào bạch tuộc,25,15,gemma-4-31b-it_estimate
+1099,Canh gà hạt lựu,20,45,gemma-4-31b-it_estimate
+1100,Ếch xào chua ngọt,30,20,gemma-4-31b-it_estimate
+1101,Canh bông bí nấm kim châm,20,15,gemma-4-31b-it_estimate
+1102,Cà tím áp chảo xốt cay,40,25,gemma-4-31b-it_estimate
+1103,Măng trúc kho ruốc Huế,30,30,gemma-4-31b-it_estimate
+1104,Bí đỏ xào thịt xông khói,15,15,gemma-4-31b-it_estimate
+1105,Sườn nướng lá hương thảo,45,40,gemma-4-31b-it_estimate
+1106,Gà xào nước tương,20,20,gemma-4-31b-it_estimate
+1107,Sườn nấu cá mòi,15,25,gemma-4-31b-it_estimate
+1108,Mì cay chay,20,15,gemma-4-31b-it_estimate
+1109,Cá điêu hồng kho tương hột,30,40,gemma-4-31b-it_estimate
+1110,Canh chua tôm cà ri,25,20,gemma-4-31b-it_estimate
+1111,Dimsum hải sản,40,20,gemma-4-31b-it_estimate
+1112,Cá hồi kho nước tương,15,10,gemma-4-31b-it_estimate
+1113,Thịt ba chỉ kho mơ,20,25,gemma-4-31b-it_estimate
+1114,Gà nướng xí muội,30,40,gemma-4-31b-it_estimate
+1115,Thịt bê xào cải rổ,20,15,gemma-4-31b-it_estimate
+1116,Cá kèo kho kim chi củ cải,15,25,gemma-4-31b-it_estimate
+1117,Chả cá chiên bánh tráng,20,15,gemma-4-31b-it_estimate
+1118,Đu đủ hường xào tôm đất,20,10,gemma-4-31b-it_estimate
+1119,Bò áp chảo chanh dây,25,15,gemma-4-31b-it_estimate
+1120,Nghêu kho gừng,20,20,gemma-4-31b-it_estimate
+1121,Canh đu đủ viên cua,25,20,gemma-4-31b-it_estimate
+1122,Giò heo um nước cốt dừa,20,45,gemma-4-31b-it_estimate
+1123,Canh cà chua nấu đậu,30,20,gemma-4-31b-it_estimate
+1124,Thanh gà chiên xốt cay,20,15,gemma-4-31b-it_estimate
+1125,Ếch chiên ngũ vị,25,20,gemma-4-31b-it_estimate
+1126,Bánh hành tóp mỡ,45,20,gemma-4-31b-it_estimate
+1127,Lẩu cháo chùm ngây,15,30,gemma-4-31b-it_estimate
+1128,Cà ri hải sản,20,25,gemma-4-31b-it_estimate
+1129,Dồi trường xào chua cay,15,10,gemma-4-31b-it_estimate
+1130,Gà nướng chảo,45,20,gemma-4-31b-it_estimate
+1131,Lẩu cá hồng nhúng giấm,20,15,gemma-4-31b-it_estimate
+1132,Đà điểu xốt trái cây,30,20,gemma-4-31b-it_estimate
+1133,Trứng đúc nấm rơm,15,15,gemma-4-31b-it_estimate
+1134,Canh dưa hường tôm viên,20,15,gemma-4-31b-it_estimate
+1135,Lẩu gà tứ xuyên,45,30,gemma-4-31b-it_estimate
+1136,Mì áp chảo thịt heo,20,20,gemma-4-31b-it_estimate
+1137,Gà quay xốt kem nấm,15,50,gemma-4-31b-it_estimate
+1138,Ngọc mực xóc tỏi,15,15,gemma-4-31b-it_estimate
+1139,Bồn bồn xào tôm,20,10,gemma-4-31b-it_estimate
+1140,Bao tử cá kho tiêu,25,30,gemma-4-31b-it_estimate
+1141,Đậu hủ bách hoa xốt thịt cua,30,25,gemma-4-31b-it_estimate
+1142,Sườn kinh đô,20,30,gemma-4-31b-it_estimate
+1143,Gà nướng xiên xốt đậu phộng,25,15,gemma-4-31b-it_estimate
+1144,Cá trắm kho khế,30,60,gemma-4-31b-it_estimate
+1145,Vịt nướng nước cốt dừa,30,35,gemma-4-31b-it_estimate
+1146,Lẩu cá chẽm đậu hũ non,25,20,gemma-4-31b-it_estimate
+1147,Mề gà kho thơm,20,15,gemma-4-31b-it_estimate
+1148,Canh thơm cá ngừ,20,15,gemini-3.1-flash-lite-preview_estimate
+1149,Mì xào xá xíu,30,20,gemini-3.1-flash-lite-preview_estimate
+1150,Cánh gà chiên ngũ cốc,40,15,gemini-3.1-flash-lite-preview_estimate
+1151,Cơm hến trộn,30,20,gemma-4-31b-it_estimate
+1152,Cá lăng kho nghệ,25,40,gemma-4-31b-it_estimate
+1153,Bắp bò xào xốt tiêu xanh,20,15,gemma-4-31b-it_estimate
+1154,Teriyaki cá hồi,20,15,gemma-4-31b-it_estimate
+1155,Bò tiềm trái dừa,20,60,gemma-4-31b-it_estimate
+1156,Canh gà măng chua,25,25,gemma-4-31b-it_estimate
+1157,Bí nhồi thịt kho,25,30,gemini-3.1-flash-lite-preview_estimate
+1158,Gà lên mâm,40,45,gemini-3.1-flash-lite-preview_estimate
+1159,Giò heo da giòn,80,80,gemini-3.1-flash-lite-preview_estimate
+1160,Hủ tiếu mực,45,90,gemma-4-31b-it_estimate
+1161,Gà kho nghệ chua cay,20,30,gemma-4-31b-it_estimate
+1162,Cá lăng nướng thì là,25,15,gemma-4-31b-it_estimate
+1163,Kho quẹt chay,20,25,gemma-4-31b-it_estimate
+1164,Bò nấu trái cây,40,45,gemma-4-31b-it_estimate
+1165,Chả mực bắp áp chảo,20,15,gemma-4-31b-it_estimate
+1166,Mì căn xào sả ớt,20,15,gemma-4-31b-it_estimate
+1167,Đà điểu xào lá cách,20,15,gemma-4-31b-it_estimate
+1168,Phá lấu thịt bê,45,60,gemma-4-31b-it_estimate
+1169,Lẩu ốc thả,45,30,gemini-3.1-flash-lite-preview_estimate
+1170,Lươn nướng lá dứa,30,45,gemini-3.1-flash-lite-preview_estimate
+1171,Măng tây xào tôm,20,10,gemini-3.1-flash-lite-preview_estimate
+1172,Bắp bò xào sả ớt cơm cháy,20,20,gemma-4-31b-it_estimate
+1173,Cá lăng kho cà bi,30,30,gemma-4-31b-it_estimate
+1174,Gà rang muối,30,25,gemma-4-31b-it_estimate
+1175,Canh cá lóc lá giang,30,20,gemma-4-31b-it_estimate
+1176,Lẩu bò,40,60,gemma-4-31b-it_estimate
+1177,Canh mực nấu nước dừa,25,15,gemma-4-31b-it_estimate
+1178,Salad cá hồi húng quế,20,15,gemma-4-31b-it_estimate
+1179,Vịt kho củ hũ dừa,30,45,gemma-4-31b-it_estimate
+1180,Mực xáo nước cốt dừa,25,10,gemma-4-31b-it_estimate
+1181,Tôm xốt cocktail,20,15,gemma-4-31b-it_estimate
+1182,Gà nấu nước tương,25,40,gemma-4-31b-it_estimate
+1183,Tôm chiên rong biển,30,10,gemma-4-31b-it_estimate
+1184,Cơm gà xối mỡ,45,40,gemini-3.1-flash-lite-preview_estimate
+1185,Lẩu đầu cá bớp rau kèo nèo,30,25,gemini-3.1-flash-lite-preview_estimate
+1186,Nghêu xào lá khổ qua,20,10,gemini-3.1-flash-lite-preview_estimate
+1187,Giò hoa rong biển,30,20,gemma-4-31b-it_estimate
+1188,Lẩu cá cờ,20,15,gemma-4-31b-it_estimate
+1189,Cuốn rau rừng thịt khìa chay,40,30,gemma-4-31b-it_estimate
+1190,Giò heo hầm tứ quý,30,45,gemma-4-31b-it_estimate
+1191,Hoành thánh nhân đậu chiên,20,15,gemma-4-31b-it_estimate
+1192,Cá chim kho gừng ớt,25,30,gemma-4-31b-it_estimate
+1193,Cá nướng cà ri,30,30,gemma-4-31b-it_estimate
+1194,Lẩu kim chi,20,15,gemma-4-31b-it_estimate
+1195,Sò lông xào chua ngọt,30,15,gemma-4-31b-it_estimate
+1196,Mực xào nấm hương,20,15,gemma-4-31b-it_estimate
+1197,Thịt kho hạt dẻ,30,70,gemma-4-31b-it_estimate
+1198,Gà nướng lá húng lủi,30,35,gemma-4-31b-it_estimate
+1199,Đuôi bò hầm hoa atiso,45,25,gemma-4-31b-it_estimate
+1200,Canh ba rọi cuộn nấm,30,15,gemma-4-31b-it_estimate
+1201,Cánh gà nhồi sả chiên xốt me,40,25,gemma-4-31b-it_estimate
+1202,Trứng chiên ngải cứu,15,10,gemma-4-31b-it_estimate
+1203,Cá viên chiên mè,30,20,gemma-4-31b-it_estimate
+1204,Bánh đa xào hải sản,20,10,gemma-4-31b-it_estimate
+1205,Gà hấp lá sen,30,40,gemma-4-31b-it_estimate
+1206,Cơm chiên thịt bò và phô mai,20,15,gemma-4-31b-it_estimate
+1207,Chả cá Lã Vọng,30,15,gemma-4-31b-it_estimate
+1208,Lẩu bắp bò tôm chua,30,60,gemma-4-31b-it_estimate
+1209,Gà tiềm chôm chôm,45,120,gemma-4-31b-it_estimate
+1210,Chân giò nấu nước tương,30,75,gemma-4-31b-it_estimate
+1211,Lẩu gà ớt hiểm,30,30,gemma-4-31b-it_estimate
+1212,Gan heo xào chua ngọt,20,10,gemma-4-31b-it_estimate
+1213,Sò huyết xào tỏi,25,10,gemma-4-31b-it_estimate
+1214,Lẩu cá bớp,20,25,gemma-4-31b-it_estimate
+1215,Xáo lòng,25,20,gemma-4-31b-it_estimate
+1216,Heo quay hon,15,45,gemma-4-31b-it_estimate
+1217,Gà cuộn cải bó xôi đút lò,20,30,gemma-4-31b-it_estimate
+1218,Cá hấp củ sen,25,30,gemma-4-31b-it_estimate
+1219,Thịt bò chiên mắm bò hóc,15,10,gemma-4-31b-it_estimate
+1220,Canh lươn hầm cải chua,30,15,gemma-4-31b-it_estimate
+1221,Tôm xào tàu xì,20,10,gemma-4-31b-it_estimate
+1222,Cá nục hấp cuốn cải xanh,30,20,gemma-4-31b-it_estimate
+1223,Tôm xào bông so đũa,20,15,gemma-4-31b-it_estimate
+1224,Chả lụa kho trứng cút,25,20,gemma-4-31b-it_estimate
+1225,Lẩu nấm đầu cá hồi,30,30,gemma-4-31b-it_estimate
+1226,Canh măng cua đồng,30,30,gemma-4-31b-it_estimate
+1227,Canh cá rau muống,25,25,gemma-4-31b-it_estimate
+1228,Cá rim giấm mè,20,20,gemma-4-31b-it_estimate
+1229,Mọc đông trứng cút,30,45,gemma-4-31b-it_estimate
+1230,Bò cuộn nấm xốt tiêu,30,25,gemma-4-31b-it_estimate
+1231,Cuốn chả tôm,30,20,gemma-4-31b-it_estimate
+1232,Gà nấu đậu ngự,40,45,gemma-4-31b-it_estimate
+1233,Sườn nướng xốt cay,30,25,gemma-4-31b-it_estimate
+1234,Tôm ram thịt ba chỉ,20,20,gemma-4-31b-it_estimate
+1235,Mít kho tương,30,25,gemma-4-31b-it_estimate
+1236,Tôm sú xốt gấc,20,15,gemma-4-31b-it_estimate
+1237,Đậu hũ xốt mè mayonnaise,20,15,gemma-4-31b-it_estimate
+1238,Canh cá kèo rau đắng,15,15,gemma-4-31b-it_estimate
+1239,Chả cá chiên cốm,30,15,gemma-4-31b-it_estimate
+1240,Gà xào thơm bông cải,20,10,gemma-4-31b-it_estimate
+1241,Canh ba màu,20,30,gemma-4-31b-it_estimate
+1242,Cuốn thịt ram mắm tép,40,20,gemma-4-31b-it_estimate
+1243,Cá thu kho nước tương,20,25,gemma-4-31b-it_estimate
+1244,Mực nhồi thịt xốt cà,30,25,gemma-4-31b-it_estimate
+1245,Gà viên chiên,30,20,gemma-4-31b-it_estimate
+1246,Cá chiên xốt me,25,20,gemma-4-31b-it_estimate
+1247,Mực xào chua cay,20,15,gemma-4-31b-it_estimate
+1248,Ngồng cải hấp tôm,30,20,gemma-4-31b-it_estimate
+1249,Tôm càng rim tỏi,30,15,gemma-4-31b-it_estimate
+1250,Rau xào thập cẩm,20,10,gemma-4-31b-it_estimate
+1251,Canh khoai tím hột lựu,15,15,gemma-4-31b-it_estimate
+1252,Canh bí đao dồn thịt,25,25,gemma-4-31b-it_estimate
+1253,Gà xào tương hột,20,15,gemma-4-31b-it_estimate
+1254,Canh sườn củ cải muối,30,30,gemma-4-31b-it_estimate
+1255,Mực muối rim thịt,45,20,gemma-4-31b-it_estimate
+1256,Ếch xào lá lốt,30,15,gemma-4-31b-it_estimate
+1257,Giò heo kho quế,30,60,gemma-4-31b-it_estimate
+1258,Bông bí chiên giòn chay,45,15,gemma-4-31b-it_estimate
+1259,Chả mực chiên,30,15,gemma-4-31b-it_estimate
+1260,Súp tóc tiên bí đao,20,15,gemma-4-31b-it_estimate
+1261,Đuôi heo hầm măng,45,20,gemma-4-31b-it_estimate
+1262,Thịt quay chay,20,30,gemma-4-31b-it_estimate
+1263,Thịt bò kho tàu,30,45,gemma-4-31b-it_estimate
+1264,Sườn chay nấu đậu,30,30,gemma-4-31b-it_estimate
+1265,Cơm tôm bí đỏ,20,15,gemma-4-31b-it_estimate
+1266,Xúc xích chiên xù,15,10,gemma-4-31b-it_estimate
+1267,Cật heo xào bí ngòi,20,10,gemma-4-31b-it_estimate
+1268,Sườn cốt lết xốt dầu hào,20,25,gemma-4-31b-it_estimate
+1269,Tim heo hầm hạt sen,20,30,gemma-4-31b-it_estimate
+1270,Cá hồi xốt cay,15,15,gemma-4-31b-it_estimate
+1271,Thịt gà nấu long nhãn,30,25,gemma-4-31b-it_estimate
+1272,Cá cuộn cải chiên xù,30,15,gemma-4-31b-it_estimate
+1273,Mực kho củ cải,20,15,gemma-4-31b-it_estimate
+1274,Nấm chiên xốt tôm,20,20,gemma-4-31b-it_estimate
+1275,Heo quay xào kim chi cà bát,25,15,gemma-4-31b-it_estimate
+1276,Đậu rồng xào tép,15,10,gemma-4-31b-it_estimate
+1277,Canh gà nấu khoai môn,20,30,gemma-4-31b-it_estimate
+1278,Canh hến nấu bầu,15,15,gemma-4-31b-it_estimate
+1279,Nghêu xào lá lốt,25,15,gemma-4-31b-it_estimate
+1280,Tôm thịt kho măng,30,20,gemma-4-31b-it_estimate
+1281,Cá hồi cuộn măng tây,25,15,gemma-4-31b-it_estimate
+1282,Mực xốt cay,40,20,gemma-4-31b-it_estimate
+1283,Canh sườn khoai sọ,20,20,gemma-4-31b-it_estimate
+1284,Thịt ba rọi xào nấm,20,15,gemma-4-31b-it_estimate
+1285,Xúc xích xào khoai tây,25,10,gemma-4-31b-it_estimate
+1286,Khổ qua xào trứng thịt bằm,15,10,gemma-4-31b-it_estimate
+1287,Khoai tây xào kim chi,20,15,gemma-4-31b-it_estimate
+1288,Cơm sen cốm,30,20,gemma-4-31b-it_estimate
+1289,Gà cuộn xôi chiên,30,30,gemma-4-31b-it_estimate
+1290,Tàu hủ ky chiên xả ớt,20,15,gemma-4-31b-it_estimate
+1291,Giá hẹ xào lòng gà,20,10,gemma-4-31b-it_estimate
+1292,Canh bông súng nấu tôm,20,15,gemma-4-31b-it_estimate
+1293,Rau muống xào mắm ruốc,25,10,gemma-4-31b-it_estimate
+1294,Gà nấu trái lê,20,30,gemma-4-31b-it_estimate
+1295,Giò heo hầm bông atiso,20,25,gemma-4-31b-it_estimate
+1296,Canh cá rau đay,25,20,gemma-4-31b-it_estimate
+1297,Canh đuôi heo củ sen,20,30,gemma-4-31b-it_estimate
+1298,Canh ốc nấu tía tô,25,15,gemini-3.1-flash-lite-preview_estimate
+1299,Bò cuộn nấm kim châm,30,15,gemini-3.1-flash-lite-preview_estimate
+1300,Mực chiên ngũ sắc,40,20,gemini-3.1-flash-lite-preview_estimate
+1301,Chả giò mực,30,15,gemini-3.1-flash-lite-preview_estimate
+1302,Súp hột lựu chay,40,30,gemini-3.1-flash-lite-preview_estimate
+1303,Gỏi cuốn 3 loại,35,10,gemini-3.1-flash-lite-preview_estimate
+1304,Tôm chiên hoành thánh,25,10,gemma-4-31b-it_estimate
+1305,Cá kèo kho rau răm,20,20,gemma-4-31b-it_estimate
+1306,Cà tím hấp nước tương tỏi,15,15,gemma-4-31b-it_estimate
+1307,Súp nghêu chua cay,20,25,gemma-4-31b-it_estimate
+1308,Canh gà nấu bông cải,20,30,gemma-4-31b-it_estimate
+1309,Đậu hũ khìa,30,30,gemma-4-31b-it_estimate
+1310,Rau củ chiên tẩm nước tương,20,25,gemma-4-31b-it_estimate
+1311,Súp nghêu rau củ,30,45,gemma-4-31b-it_estimate
+1312,Chả nghêu húng quế,30,20,gemma-4-31b-it_estimate
+1313,Canh bí đỏ đậu xanh,30,25,gemma-4-31b-it_estimate
+1314,Chả nấm chiên giòn,20,15,gemma-4-31b-it_estimate
+1315,Lạp xưởng xào ngũ sắc,25,15,gemma-4-31b-it_estimate
+1316,Sườn kho nấm,20,30,gemma-4-31b-it_estimate
+1317,Bí ngòi xào hải sản,20,15,gemma-4-31b-it_estimate
+1318,Ếch xào bồn bồn,20,15,gemma-4-31b-it_estimate
+1319,Salad dồi quẩy,20,15,gemma-4-31b-it_estimate
+1320,Ếch xào cải chua,15,15,gemma-4-31b-it_estimate
+1321,Cá điêu hồng xốt hạt lựu,25,20,gemma-4-31b-it_estimate
+1322,Trái cây và rau củ chiên giòn,20,15,gemma-4-31b-it_estimate
+1323,Cá tai tượng hấp xì dầu,30,30,gemma-4-31b-it_estimate
+1324,Tôm xào hạnh nhân chay,15,10,gemma-4-31b-it_estimate
+1325,Cá thác lác bách hoa,30,15,gemma-4-31b-it_estimate
+1326,Cá rô kho cà bát,30,30,gemma-4-31b-it_estimate
+1327,Canh măng khô đuôi bò,60,60,gemma-4-31b-it_estimate
+1328,Canh rau dền khoai sọ,15,15,gemma-4-31b-it_estimate
+1329,Cá lóc xào lưu ly,20,20,gemma-4-31b-it_estimate
+1330,Củ sắn xào thịt,20,10,gemma-4-31b-it_estimate
+1331,Sườn kho đậu hũ non,20,20,gemma-4-31b-it_estimate
+1332,Rau củ xào hỷ lạc,15,10,gemma-4-31b-it_estimate
+1333,Lươn om chuối đậu,30,20,gemma-4-31b-it_estimate
+1334,Củ sen chiên tôm,30,15,gemma-4-31b-it_estimate
+1335,Cải thảo xào tim heo,20,10,gemma-4-31b-it_estimate
+1336,Canh gà nấu khoai tây,20,30,gemma-4-31b-it_estimate
+1337,Chả bắp,20,20,gemma-4-31b-it_estimate
+1338,Kiểm,60,60,gemma-4-31b-it_estimate
+1339,Bạch tuộc xào chua cay,20,15,gemma-4-31b-it_estimate
+1340,Tôm xào sả cay,15,10,gemma-4-31b-it_estimate
+1341,Gà kho hành phi,30,25,gemma-4-31b-it_estimate
+1342,Đậu hũ xốt nấm,15,15,gemma-4-31b-it_estimate
+1343,Dừa kho ngũ vị,20,30,gemma-4-31b-it_estimate
+1344,Cua nấm xào măng tây,15,10,gemma-4-31b-it_estimate
+1345,Mắm lóc chưng,20,20,gemma-4-31b-it_estimate
+1346,Cá đối kho cải chua,30,30,gemma-4-31b-it_estimate
+1347,Canh cá rô rau nhút,20,20,gemma-4-31b-it_estimate
+1348,Cồi sò điệp chiên khoai,20,10,gemma-4-31b-it_estimate
+1349,Gà kho củ cải muối,30,25,gemma-4-31b-it_estimate
+1350,Nấm hấp sả,20,10,gemma-4-31b-it_estimate
+1351,Lươn om khoai sọ,30,30,gemma-4-31b-it_estimate
+1352,Tôm thịt kho quẹt,15,20,gemma-4-31b-it_estimate
+1353,Thịt bò xào cần nước,15,10,gemma-4-31b-it_estimate
+1354,Gà xào hạnh nhân,30,25,gemma-4-31b-it_estimate
+1355,Canh mít non củ năng,20,15,gemma-4-31b-it_estimate
+1356,Canh cá chim nấu ngót,20,20,gemma-4-31b-it_estimate
+1357,Canh long thả,25,15,gemma-4-31b-it_estimate
+1358,Canh ếch lá me non,20,15,gemma-4-31b-it_estimate
+1359,Vịt kho sấu,30,40,gemma-4-31b-it_estimate
+1360,Rau củ chiên giòn,20,15,gemma-4-31b-it_estimate
+1361,Ốc móng tay xào tiêu xanh,20,15,gemma-4-31b-it_estimate
+1362,Lươn kho sả ớt,25,30,gemma-4-31b-it_estimate
+1363,Bánh hến chiên,20,20,gemma-4-31b-it_estimate
+1364,Thịt ram xốt mayonnaise,20,15,gemma-4-31b-it_estimate
+1365,Lưỡi heo xào riềng sả,30,15,gemma-4-31b-it_estimate
+1366,Thịt kho nước tương giấm,30,45,gemma-4-31b-it_estimate
+1367,Heo viên chiên xù,30,20,gemma-4-31b-it_estimate
+1368,Cá long tong kho lạt,25,30,gemma-4-31b-it_estimate
+1369,Cá đối kho cà chua,20,35,gemma-4-31b-it_estimate
+1370,Canh nghêu mồng tơi,20,15,gemma-4-31b-it_estimate
+1371,Canh rau tập tàng,20,15,gemma-4-31b-it_estimate
+1372,Trứng chiên rau củ xốt mayonnaise,15,10,gemma-4-31b-it_estimate
+1373,Canh chua chem chép,30,15,gemma-4-31b-it_estimate
+1374,Cá bông lau kho tộ,20,30,gemma-4-31b-it_estimate
+1375,Nghêu hấp nước tương,20,10,gemma-4-31b-it_estimate
+1376,Củ sen hấp thập cẩm,30,20,gemma-4-31b-it_estimate
+1377,Đậu bắp xào tôm,20,10,gemma-4-31b-it_estimate
+1378,Cá lóc kho củ cải,25,30,gemma-4-31b-it_estimate
+1379,Cá ba sa om xốt mayonnaise,25,20,gemma-4-31b-it_estimate
+1380,Cơm chiên trái thơm,30,20,gemma-4-31b-it_estimate
+1381,Canh bí ngòi nấu nấm,15,20,gemma-4-31b-it_estimate
+1382,Thịt heo chiên xù,20,15,manual_estimate
+1383,Cá xào cần tỏi,15,10,manual_estimate
+1384,Cà chua nhồi đậu hũ,25,20,manual_estimate
+1385,Canh măng giò heo,30,45,gemma-4-31b-it_estimate
+1386,Canh cá lóc rau cần,20,20,gemma-4-31b-it_estimate
+1387,Cá rô kho tộ,30,30,gemma-4-31b-it_estimate
+1388,Ếch xào lăn,30,15,gemma-4-31b-it_estimate
+1389,Thịt vịt xào bầu,20,10,gemma-4-31b-it_estimate
+1390,Cải rổ xào trứng muối,15,10,gemma-4-31b-it_estimate
+1391,Gà ram gừng,20,25,gemma-4-31b-it_estimate
+1392,Sườn ram mặn,20,30,gemma-4-31b-it_estimate
+1393,Tôm rim thịt ba chỉ,20,15,gemma-4-31b-it_estimate
+1394,Canh cá rô nấu cải bẹ xanh,20,25,gemma-4-31b-it_estimate
+1395,Canh chua cá lóc,30,25,gemma-4-31b-it_estimate
+1396,Canh cá rau cần,25,30,gemma-4-31b-it_estimate
+1397,Cá chép kho quả sấu,20,45,gemma-4-31b-it_estimate
+1398,Canh cá trân châu,30,30,gemma-4-31b-it_estimate
+1399,Canh chua trái tắc,25,20,gemma-4-31b-it_estimate
+1400,Cá trê kho rau răm,20,30,gemma-4-31b-it_estimate
+1401,Cá xào lá quế,15,15,gemma-4-31b-it_estimate
+1402,Hủ tiếu xào chay vị me,20,15,gemma-4-31b-it_estimate
+1403,Ếch xào tía tô,20,20,gemma-4-31b-it_estimate
+1404,Cá kho tàu,25,30,gemma-4-31b-it_estimate
+1405,Chả nấm xốt chua ngọt,30,20,gemma-4-31b-it_estimate
+1406,Ốc bươu kho gừng,120,20,gemma-4-31b-it_estimate
+1407,Cá thu Nhật kho nước dừa,30,30,gemma-4-31b-it_estimate
+1408,Bắp hạt xào gà giòn Mayonnaise,30,20,gemma-4-31b-it_estimate
+1409,Sò điệp xào cần tây,20,10,gemma-4-31b-it_estimate
+1410,Khô cá cơm kho khế,15,25,gemma-4-31b-it_estimate
+1411,Cháo thập cẩm,15,45,gemma-4-31b-it_estimate
+1412,Đậu que xào thịt,20,10,gemma-4-31b-it_estimate
+1413,Khoai tây xào thịt bò,25,15,gemma-4-31b-it_estimate
+1414,Canh song thủy,20,15,gemma-4-31b-it_estimate
+1415,Ngồng cải xào bao tử cá basa,20,15,gemma-4-31b-it_estimate
+1416,Vịt kho ngũ vị,30,45,gemma-4-31b-it_estimate
+1417,Đậu bắp kho nước tương,15,20,gemma-4-31b-it_estimate
+1418,Cá ngừ kho nước mía,20,40,gemma-4-31b-it_estimate
+1419,Canh bí ngòi quấn tôm,25,10,gemma-4-31b-it_estimate
+1420,Bao tử cá basa xào bạc hà,30,10,gemma-4-31b-it_estimate
+1421,Trứng đúc hẹ,15,10,gemma-4-31b-it_estimate
+1422,Bò xào ớt khô,25,10,gemma-4-31b-it_estimate
+1423,Bò né hoa thiên lý,20,7,gemma-4-31b-it_estimate
+1424,Canh gà thuốc bắc,20,70,gemma-4-31b-it_estimate
+1425,Canh đuôi bò củ cải,30,45,gemma-4-31b-it_estimate
+1426,Thịt kho củ sen tương hột,25,30,gemma-4-31b-it_estimate
+1427,Bao tử kho dưa cải trứng cút,30,45,gemma-4-31b-it_estimate
+1428,Cá đối kho cần tàu,20,30,gemma-4-31b-it_estimate
+1429,Canh giò heo đu đủ hườm,25,60,gemma-4-31b-it_estimate
+1430,Thịt om chuối xanh,20,45,gemma-4-31b-it_estimate
+1431,Ếch kho tiêu xanh,25,30,gemma-4-31b-it_estimate
+1432,Sườn xào chua ngọt,20,25,gemma-4-31b-it_estimate
+1433,Bông thiên lý xào hải sản,20,10,gemma-4-31b-it_estimate
+1434,Cá thu xốt xòai tượng,15,10,gemma-4-31b-it_estimate
+1435,Bún xào chay,20,10,gemma-4-31b-it_estimate
+1436,Lẩu đuôi bò cay,30,60,gemma-4-31b-it_estimate
+1437,Cá điêu hồng kho tương bần,25,40,gemma-4-31b-it_estimate
+1438,Măng le xào gan,30,15,gemma-4-31b-it_estimate
+1439,Sò lông kho tiêu xanh,20,20,gemma-4-31b-it_estimate
+1440,Bắp cải cuộn thịt kho bơ,30,20,gemma-4-31b-it_estimate
+1441,Canh mồng tơi bắp nụ,20,10,gemma-4-31b-it_estimate
+1442,Gà xào giấm gừng,20,10,gemma-4-31b-it_estimate
+1443,Bò xào lăn,25,12,gemma-4-31b-it_estimate
+1444,Thịt bò xào kiểu Hàn Quốc,20,8,gemma-4-31b-it_estimate
+1445,Canh riêu cá chép,20,30,gemma-4-31b-it_estimate
+1446,Cánh gà kho khoai môn,15,20,gemma-4-31b-it_estimate
+1447,Sườn chiên xốt chanh dây,25,35,gemma-4-31b-it_estimate
+1448,Canh hến nấu khế,30,15,gemma-4-31b-it_estimate
+1449,Canh chua măng,20,25,gemma-4-31b-it_estimate
+1450,Bao tử khìa tiêu xanh,30,30,gemma-4-31b-it_estimate
+1451,Gà kho me,20,25,gemma-4-31b-it_estimate
+1452,Sườn xào bắp non,20,15,gemma-4-31b-it_estimate
+1453,Lưỡi heo kho quế,25,45,gemma-4-31b-it_estimate
+1454,Miến xào đậu ngự,20,10,gemma-4-31b-it_estimate
+1455,Cà bung thịt heo,20,25,gemma-4-31b-it_estimate
+1456,Nấm đùi gà kho gừng,15,15,gemma-4-31b-it_estimate
+1457,Canh đu đủ lá lốt,15,20,gemma-4-31b-it_estimate
+1458,Thịt bò xào ngồng cải,20,10,gemma-4-31b-it_estimate
+1459,Đậu bắp thịt gà xào chao,15,12,gemma-4-31b-it_estimate
+1460,Tôm chiên xóc lá quế,20,15,gemma-4-31b-it_estimate
+1461,Hải sâm xào rau củ,25,10,gemma-4-31b-it_estimate
+1462,Cá thu kho riềng,40,30,gemma-4-31b-it_estimate
+1463,Canh gà cải bó xôi,20,20,gemma-4-31b-it_estimate
+1464,Cà tím nhồi thịt kho,30,30,gemma-4-31b-it_estimate
+1465,Canh vịt khoai sọ,25,35,gemma-4-31b-it_estimate
+1466,Rau củ kho mayonnaise,20,25,gemma-4-31b-it_estimate
+1467,Bánh rôti cuộn thịt gà,30,20,gemma-4-31b-it_estimate
+1468,Tôm càng xốt nước tương,25,15,gemma-4-31b-it_estimate
+1469,Thịt kho khổ qua tây,15,20,gemma-4-31b-it_estimate
+1470,Gà xào hạt điều,20,15,gemma-4-31b-it_estimate
+1471,Canh mướp hương thịt viên,20,15,gemma-4-31b-it_estimate
+1472,Canh kim chi thịt bò,20,25,gemma-4-31b-it_estimate
+1473,Tôm hấp su hào,15,15,gemma-4-31b-it_estimate
+1474,Canh dưa leo nhồi thịt,25,15,gemma-4-31b-it_estimate
+1475,Canh chua bông so đũa chay,20,15,gemma-4-31b-it_estimate
+1476,Lòng non xào nghệ,25,10,gemma-4-31b-it_estimate
+1477,Sườn chiên mayonnaise sa tế,20,20,gemma-4-31b-it_estimate
+1478,Dồi trường xào cải chua,20,10,gemma-4-31b-it_estimate
+1479,Canh bầu nấu riêu tép,20,15,gemma-4-31b-it_estimate
+1480,Cá thu nhật kho me,25,30,gemma-4-31b-it_estimate
+1481,Củ hũ dừa kho nấm,20,15,gemma-4-31b-it_estimate
+1482,Canh cá thác lác nấu hoa,25,15,gemma-4-31b-it_estimate
+1483,Thịt heo quay kho củ hũ dừa,30,20,gemma-4-31b-it_estimate
+1484,Bao tử xào đông cô,30,15,gemma-4-31b-it_estimate
+1485,Canh khế cá cơm,15,10,gemma-4-31b-it_estimate
+1486,Lòng heo xào thơm,25,12,gemma-4-31b-it_estimate
+1487,Đậu hũ hấp tôm,20,25,gemma-4-31b-it_estimate
+1488,Canh riêu cua,30,20,gemma-4-31b-it_estimate
+1489,Thịt gà kho kim chi,25,30,gemma-4-31b-it_estimate
+1490,Canh bắp cải gói thịt,30,20,gemma-4-31b-it_estimate
+1491,Tôm xào bông cải,25,15,gemma-4-31b-it_estimate
+1492,Canh ốc thì là,20,15,gemma-4-31b-it_estimate
+1493,Canh cải chua nấu cá cơm,15,10,gemma-4-26b-a4b-it_estimate
+1494,Canh boaro nấu đậu hũ non,20,15,gemma-4-26b-a4b-it_estimate
+1495,Cà chua nhồi thịt ghẹ,25,20,gemma-4-26b-a4b-it_estimate
+1496,Ba rọi kho gừng,20,30,gemma-4-31b-it_estimate
+1497,Đọt su xào tôm,15,10,gemma-4-31b-it_estimate
+1498,Thịt chiên xốt nước tương,30,25,gemma-4-31b-it_estimate
+1499,Thịt quay kho dưa cải,20,30,gemma-4-31b-it_estimate
+1500,Cá chiên ngâm nước tương,25,15,gemma-4-31b-it_estimate
+1501,Canh chua cá lăng rau nhút,25,20,gemma-4-31b-it_estimate
+1502,Nấm bào ngư xào xốt mè,25,15,gemma-4-31b-it_estimate
+1503,Củ năng xào tôm thịt,20,15,gemma-4-31b-it_estimate
+1504,Sườn non kho khế,30,40,gemma-4-31b-it_estimate
+1505,Chả cá kho vân trứng,15,20,gemma-4-31b-it_estimate
+1506,Canh chả mực thì là,20,15,gemma-4-31b-it_estimate
+1507,Mực rối,30,25,gemma-4-31b-it_estimate
+1508,Cá lóc phi lê xốt gừng,20,15,gemma-4-31b-it_estimate
+1509,Ốc xào chuối xanh,30,20,gemma-4-31b-it_estimate
+1510,Cá kèo kho khế,20,20,gemma-4-31b-it_estimate
+1511,Lưỡi heo xào lăn,20,25,gemma-4-31b-it_estimate
+1512,Canh dền cơm nấu nghêu,15,10,gemma-4-31b-it_estimate
+1513,Thịt bò xào đậu cove,15,10,gemma-4-31b-it_estimate
+1514,Cà ri chay,30,40,gemma-4-31b-it_estimate
+1515,Nấm tuyết xào hải sâm,25,15,gemma-4-31b-it_estimate
+1516,Canh thanh long,20,20,gemma-4-31b-it_estimate
+1517,Cá đối kho thơm,20,25,gemma-4-26b-a4b-it_estimate
+1518,Canh măng gà viên,15,20,gemma-4-26b-a4b-it_estimate
+1519,Vịt quay kho trứng cút,15,20,gemma-4-26b-a4b-it_estimate
+1520,Canh cá khoai lá giang,30,20,gemma-4-31b-it_estimate
+1521,Bắp non xào mực cay,30,15,gemma-4-31b-it_estimate
+1522,Cơm chiên chay,25,15,gemma-4-31b-it_estimate
+1523,Thịt xay kho bắp đậu,15,20,gemma-4-31b-it_estimate
+1524,Canh sườn non táo đỏ,20,45,gemma-4-31b-it_estimate
+1525,Cá nục kho kiểu Nhật,20,30,gemma-4-31b-it_estimate
+1526,Khổ qua tây xào thịt bò,15,10,gemma-4-26b-a4b-it_estimate
+1527,Hủ tiếu chay,20,45,gemma-4-26b-a4b-it_estimate
+1528,Lươn chiên giòn xốt tiêu xanh,20,15,gemma-4-26b-a4b-it_estimate
+1529,Canh khoai rau đắng,20,15,gemma-4-31b-it_estimate
+1530,Vịt xào măng,30,15,gemma-4-31b-it_estimate
+1531,Canh bí đao nấu sườn non,20,25,gemma-4-31b-it_estimate
+1532,Sushi,25,15,gemma-4-26b-a4b-it_estimate
+1533,Bún thịt xào sả ớt,15,10,gemma-4-26b-a4b-it_estimate
+1534,Cà bát om thịt ba chỉ,15,25,gemma-4-26b-a4b-it_estimate
+1535,Gà rim nước tương cà,20,25,gemma-4-31b-it_estimate
+1536,Sườn chay rim mật ong,45,20,gemma-4-31b-it_estimate
+1537,Heo quay kho măng,30,30,gemma-4-31b-it_estimate
+1538,Nấm bào ngư xào sả ớt,15,10,gemma-4-31b-it_estimate
+1539,Canh hến dưa cải,20,20,gemma-4-31b-it_estimate
+1540,Canh lươn nấu bắp chuối hột,30,25,gemma-4-31b-it_estimate
+1541,Vịt kho rau củ,20,30,gemma-4-31b-it_estimate
+1542,Súp gà chua cay,20,15,gemma-4-31b-it_estimate
+1543,Đậu hũ nhồi xốt me,30,20,gemma-4-31b-it_estimate
+1544,Bò viên chay xào thập cẩm,20,15,gemma-4-31b-it_estimate
+1545,Suông tôm giò heo,30,60,gemma-4-31b-it_estimate
+1546,Cháo cá giò heo,25,45,gemma-4-31b-it_estimate
+1547,Cháo bồ câu,30,90,gemma-4-31b-it_estimate
+1548,Thịt kho xốt tương,20,25,gemma-4-31b-it_estimate
+1549,Sườn hầm tỏi,15,45,gemma-4-31b-it_estimate
+1550,Bí xanh tiềm tứ hải,30,60,gemma-4-31b-it_estimate
+1551,Đậu hũ kho nấm rơm,15,20,gemma-4-31b-it_estimate
+1552,Canh thịt bò cải xoong,10,10,gemma-4-31b-it_estimate
+1553,Chả hấp chay,20,15,gemma-4-31b-it_estimate
+1554,Gà tiềm hạt sen,25,40,gemma-4-31b-it_estimate
+1555,Sườn nấu đậu,30,45,gemma-4-31b-it_estimate
+1556,Bồ câu quay nước dừa,20,30,gemma-4-31b-it_estimate
+1557,Bắp cải tím xào hải sản,30,15,gemma-4-31b-it_estimate
+1558,Cá thu rim nước trà xanh,25,20,gemma-4-31b-it_estimate
+1559,Cá hú kho xốt tương,45,30,gemma-4-31b-it_estimate
+1560,Chè dưỡng nhan Blendy®,30,40,gemma-4-31b-it_estimate
+1561,Chả cá lóc xốt mayo mật ong,20,10,gemma-4-31b-it_estimate
+1562,Lươn cuộn mía nướng,30,20,gemma-4-31b-it_estimate
+1563,Mì ý xốt cua,20,15,gemma-4-31b-it_estimate
+1564,Mực nhúng giấm,25,10,gemma-4-31b-it_estimate
+1565,Salad gà nướng thơm,20,15,gemma-4-26b-a4b-it_estimate
+1566,Phở chay,80,70,gemma-4-26b-a4b-it_estimate
+1567,Đùi ếch chiên,25,15,gemma-4-31b-it_estimate
+1568,Súp mộc nhĩ thịt cua,20,20,gemma-4-26b-a4b-it_estimate
+1569,Ức gà nhồi phô mai,40,15,gemma-4-26b-a4b-it_estimate
+1570,Lẩu kim chi phô mai,15,15,gemma-4-26b-a4b-it_estimate
+1571,Cá chép chiên giòn cuốn bánh tráng,45,20,gemma-4-26b-a4b-it_estimate
+1572,Mì Ý bò băm,20,15,gemma-4-26b-a4b-it_estimate
+1573,Bò cuộn xúc xích chiên giòn,10,10,gemma-4-26b-a4b-it_estimate
+1574,Súp gà mọc nấm hương,30,20,gemma-4-31b-it_estimate
+1575,Cháo cá nấu bắp nếp,25,45,gemma-4-31b-it_estimate
+1576,Lẩu sườn khoai môn,30,40,gemma-4-31b-it_estimate
+1577,Cá hồi hạnh nhân xốt chanh dây,20,15,gemma-4-31b-it_estimate
+1578,Vịt nấu cơm rượu,40,60,gemma-4-31b-it_estimate
+1579,Cơm giòn tôm kho quẹt,30,20,gemma-4-31b-it_estimate
+1580,Canh cá rau cần,20,45,gemma-4-31b-it_estimate
+1581,Bò cuộn rong biển,20,10,gemma-4-31b-it_estimate
+1582,Bò áp chảo,25,20,gemma-4-31b-it_estimate
+1583,Ốc xào khế,20,15,gemma-4-31b-it_estimate
+1584,Rau củ luộc và cơm chiên giòn chấm kho quẹt,15,15,gemma-4-31b-it_estimate
+1585,Pizza khoai tây,20,15,gemma-4-31b-it_estimate
+1586,Ba rọi nướng mè rau củ,20,30,gemma-4-26b-a4b-it_estimate
+1587,Sụn gà rang lá cà ri cay,20,15,gemma-4-26b-a4b-it_estimate
+1588,Cà tím nhồi thịt áp chảo,20,15,gemma-4-26b-a4b-it_estimate
+1589,Lẩu cua đồng,30,30,gemma-4-26b-a4b-it_estimate
+1590,Cá lóc nướng ớt xiêm xanh,30,40,gemma-4-26b-a4b-it_estimate
+1591,Bò nướng lá cách,20,15,gemma-4-26b-a4b-it_estimate
+1592,Cá chiên xốt cam,20,20,gemma-4-31b-it_estimate
+1593,Cua lột chiên giòn,25,15,gemma-4-31b-it_estimate
+1594,Cá sapa nhồi ngọc kê nướng,40,30,gemma-4-31b-it_estimate
+1595,Cá bớp kho thịt ba rọi,20,30,gemma-4-31b-it_estimate
+1596,Đậu hủ non xốt cay,25,20,gemma-4-31b-it_estimate
+1597,Lẩu xí quách kim chi,30,60,gemma-4-31b-it_estimate
+1598,Thịt bò nướng mè kiểu Hàn Quốc,30,15,gemma-4-31b-it_estimate
+1599,Bánh rán cam mật ong,15,10,gemma-4-31b-it_estimate
+1600,Sò lông nướng bơ tỏi,20,10,gemma-4-31b-it_estimate
+1601,Cá hồi áp chảo xốt tiêu,25,15,gemma-4-26b-a4b-it_estimate
+1602,Càng cua chiên mè xốt Mayo,30,20,gemma-4-26b-a4b-it_estimate
+1603,Lẩu nấm tiềm củ quả,25,40,gemma-4-26b-a4b-it_estimate
+1604,Gà nướng lửa trại,30,45,manual_estimate
+1605,Bánh canh vịt,30,40,manual_estimate
+1606,Chả bò chiên,15,10,manual_estimate
+1607,Cá hồi chiên xốt xoài,20,15,gemma-4-26b-a4b-it_estimate
+1608,Cháo hạt sen bạch quả,30,0,gemma-4-26b-a4b-it_estimate
+1609,Hàu nướng lá hương thảo,15,10,gemma-4-26b-a4b-it_estimate
+1610,Gà nấu nấm,30,30,gemma-4-31b-it_estimate
+1611,Lẩu gà nấu giấm,20,25,gemma-4-31b-it_estimate
+1612,Mì Ý xào thịt bò băm,25,20,gemma-4-31b-it_estimate
+1613,Cá cuốn tôm chiên,30,20,gemma-4-31b-it_estimate
+1614,Chả giò cua,20,15,gemma-4-31b-it_estimate
+1615,Tam hữu,30,15,gemma-4-31b-it_estimate
+1616,Gà om bia,45,40,gemma-4-31b-it_estimate
+1617,Cá nướng muối ớt,30,30,gemma-4-31b-it_estimate
+1618,Nghêu xào mayonnaise hung quế,20,15,gemma-4-31b-it_estimate
+1619,Nem cua rán,30,20,gemma-4-26b-a4b-it_estimate
+1620,Cà tím nướng mayonnaise,20,15,gemma-4-26b-a4b-it_estimate
+1621,Càng cua bách hoa,25,15,gemma-4-26b-a4b-it_estimate
+1622,Miến xào cua,20,15,gemma-4-31b-it_estimate
+1623,Nem thịt bò chiên xù,30,15,gemma-4-31b-it_estimate
+1624,Súp cua nấm tuyết,40,30,gemma-4-31b-it_estimate
+1625,Bò nhúng giấm,25,15,gemma-4-26b-a4b-it_estimate
+1626,Lẩu cá kèo lá giang,20,20,gemma-4-26b-a4b-it_estimate
+1627,Cuốn diếp chay,30,20,gemma-4-26b-a4b-it_estimate
+1628,Ếch chiên bột,20,15,gemma-4-31b-it_estimate
+1629,Gà hấp cải bẹ xanh,45,30,gemma-4-31b-it_estimate
+1630,Vịt nấu thơm,30,60,gemma-4-31b-it_estimate
+1631,Lẩu uyên ương,30,30,gemma-4-26b-a4b-it_estimate
+1632,Trứng hấp rau củ,15,15,gemma-4-26b-a4b-it_estimate
+1633,Bò xốt vang,20,0,gemma-4-26b-a4b-it_estimate
+1634,Lẩu cá lăng măng chua,30,25,gemma-4-31b-it_estimate
+1635,Gà chiên lá dứa,40,15,gemma-4-31b-it_estimate
+1636,Phở xào chua ngọt,25,15,gemma-4-31b-it_estimate
+1637,Cá lóc hấp bầu,20,25,gemma-4-26b-a4b-it_estimate
+1638,Cơm chiên trái cây,15,15,gemma-4-26b-a4b-it_estimate
+1639,Chả tôm chiên lá trà xanh,15,15,gemma-4-26b-a4b-it_estimate
+1640,Táo tàu tiềm chôm chôm,25,30,gemma-4-26b-a4b-it_estimate
+1641,Sườn nướng ngũ vị,20,45,gemma-4-26b-a4b-it_estimate
+1642,Vây cá hồi xốt kem Mayo,15,15,gemma-4-26b-a4b-it_estimate
+1643,Bạch tuộc xào rau muống,20,10,gemma-4-31b-it_estimate
+1644,Lươn chiên mắm sả,25,15,gemma-4-31b-it_estimate
+1645,Chả giò trái cây xốt sầu riêng,30,20,gemma-4-31b-it_estimate
+1646,Bún chả cá,30,40,gemma-4-31b-it_estimate
+1647,Cá chiên giòn xốt chanh ớt,20,25,gemma-4-31b-it_estimate
+1648,Vịt kho chuối xanh,30,45,gemma-4-31b-it_estimate
+1649,Nhộng xào bông hẹ,10,10,gemma-4-26b-a4b-it_estimate
+1650,Cháo cá hồi,20,25,gemma-4-26b-a4b-it_estimate
+1651,Cháo nấm tràm,15,15,gemma-4-26b-a4b-it_estimate
+1652,Gà hấp đậu hũ non,20,10,gemma-4-31b-it_estimate
+1653,Đông cô hấp tôm,25,10,gemma-4-31b-it_estimate
+1654,Mực nhúng giấm,30,15,gemma-4-31b-it_estimate
+1655,Bánh ướt xào hải sản,20,15,gemma-4-31b-it_estimate
+1656,Gà nướng táo,20,25,gemma-4-31b-it_estimate
+1657,Gà chiên lạp xưởng,30,20,gemma-4-31b-it_estimate
+1658,Gà chiên bơ,20,25,gemma-4-31b-it_estimate
+1659,Mì gói xào bò,30,15,gemma-4-31b-it_estimate
+1660,Miến măng gà,60,45,gemma-4-31b-it_estimate
+1661,Chân giò ninh măng lưỡi lợn,30,90,gemma-4-26b-a4b-it_estimate
+1662,Bò nướng sa tế,45,25,gemma-4-26b-a4b-it_estimate
+1663,Cá tai tượng hấp,30,30,gemma-4-26b-a4b-it_estimate
+1664,Gỏi cá hấp kiểu Nhật,20,15,gemma-4-31b-it_estimate
+1665,Đà điểu lúc lắc,15,10,gemma-4-31b-it_estimate
+1666,Cánh gà xốt nước tương,30,20,gemma-4-31b-it_estimate
+1667,Heo nướng bắp cải chua,30,60,gemma-4-31b-it_estimate
+1668,Cơm trân châu,20,25,gemma-4-31b-it_estimate
+1669,Đậu đũa xào tôm thịt,15,15,gemma-4-31b-it_estimate
+1670,Cá hồi xốt trái cây,20,15,gemma-4-31b-it_estimate
+1671,Gan gà xào chua ngọt,25,10,gemma-4-31b-it_estimate
+1672,Cháo lươn khoai môn đậu xanh,30,45,gemma-4-31b-it_estimate
+1673,Mực xào ớt khô Caramen,15,15,gemma-4-26b-a4b-it_estimate
+1674,Súp vịt quay,15,15,gemma-4-26b-a4b-it_estimate
+1675,Cần nước xào bao tử cá basa,15,0,gemma-4-26b-a4b-it_estimate
+1676,Bánh ruốc chiên giòn,10,10,gemma-4-31b-it_estimate
+1677,Lươn cuốn thịt om riềng,30,30,gemma-4-31b-it_estimate
+1678,Cơm chiên cá mặn chay,15,15,gemma-4-31b-it_estimate
+1679,Lẩu sườn non,20,30,gemma-4-31b-it_estimate
+1680,Thịt heo kho thơm,20,30,gemma-4-31b-it_estimate
+1681,Bánh Rôti cuốn thịt bò,25,15,gemma-4-31b-it_estimate
+1682,Cồi sò điệp xốt cay,15,10,gemma-4-31b-it_estimate
+1683,Cá cơm chiên giòn xốt tiêu,10,10,gemma-4-31b-it_estimate
+1684,Đậu hũ nhồi hạt sen,25,20,gemma-4-31b-it_estimate
+1685,Tôm nướng lá chuối,30,15,gemma-4-31b-it_estimate
+1686,Vịt quay xào thơm,20,10,gemma-4-31b-it_estimate
+1687,Cá trứng ngâm giấm,30,20,gemma-4-31b-it_estimate
+1688,Trứng hấp tôm nấm,20,15,gemma-4-26b-a4b-it_estimate
+1689,Miến xào lươn chay,30,20,gemma-4-26b-a4b-it_estimate
+1690,Gà chiên xốt táo,15,25,gemma-4-26b-a4b-it_estimate
+1691,Canh chua nấu cá hồi,40,20,gemma-4-26b-a4b-it_estimate
+1692,Cá chép nấu bung,30,25,gemma-4-26b-a4b-it_estimate
+1693,Lẩu cua lá me,25,20,gemma-4-26b-a4b-it_estimate
+1694,Xúc xích khìa nước dừa,20,15,gemma-4-26b-a4b-it_estimate
+1695,Bún gạo xào thập cẩm,25,15,gemma-4-26b-a4b-it_estimate
+1696,Nải chuối mực,25,15,gemma-4-26b-a4b-it_estimate
+1697,Ốc giác xào bông hành,20,10,gemma-4-31b-it_estimate
+1698,Tôm hấp rau củ,30,15,gemma-4-31b-it_estimate
+1699,Canh râu mực nấu ngót,25,15,gemma-4-31b-it_estimate
+1700,Trứng cá kho nghệ,30,25,gemma-4-31b-it_estimate
+1701,Cơm gạo lức chiên nghêu,30,20,gemma-4-31b-it_estimate
+1702,Gà nướng bưởi xốt giấm,30,15,gemma-4-31b-it_estimate
+1703,Gà chiên sa tế xốt mayonnaise,20,15,gemma-4-26b-a4b-it_estimate
+1704,Bắp bò kho chua ngọt,35,30,gemma-4-26b-a4b-it_estimate
+1705,Dê nướng sa tế,30,20,gemma-4-31b-it_estimate
+1706,Lẩu xí quách chua cay,30,60,gemma-4-31b-it_estimate
+1707,Cua lột xốt cam,20,20,gemma-4-31b-it_estimate
+1708,Cá hồi nướng xốt Mayo,30,30,gemma-4-31b-it_estimate
+1709,Bê thui xào sa tế,20,10,gemma-4-26b-a4b-it_estimate
+1710,Canh sườn hạt sen,25,35,gemma-4-26b-a4b-it_estimate
+1711,Miến xào nghêu tay cầm,25,20,gemma-4-26b-a4b-it_estimate
+1712,Thịt bò nướng mù tạt,20,15,gemma-4-31b-it_estimate
+1713,Gà cuộn xôi xoài,30,25,gemma-4-31b-it_estimate
+1714,Lẩu chua thịt bò,20,15,gemma-4-31b-it_estimate
+1715,Su hào xào hải sản,20,15,gemma-4-31b-it_estimate
+1716,Salad cá hồi nướng xốt mayo,25,15,gemma-4-31b-it_estimate
+1717,Ốc mỡ xốt mayo,30,15,gemma-4-31b-it_estimate
+1718,Trứng hấp,10,15,gemma-4-31b-it_estimate
+1719,Chả cá ngũ sắc,15,10,gemma-4-31b-it_estimate
+1720,Sò điệp nướng ba màu,20,15,gemma-4-31b-it_estimate
+1721,Bánh flan hạt chia matcha,20,45,gemma-4-31b-it_estimate
+1722,Bánh rán socola mứt xoài,15,15,gemma-4-31b-it_estimate
+1723,Salad mực chiên,25,20,gemma-4-31b-it_estimate
+1724,Pancake vị trà sữa,15,10,gemma-4-26b-a4b-it_estimate
+1725,Salad cá hồi sốt tôm khô,45,10,gemma-4-26b-a4b-it_estimate
+1726,Bắp hạt chiên giòn,10,10,gemma-4-26b-a4b-it_estimate
+1727,Panna Cotta Kem Muối,15,15,gemma-4-26b-a4b-it_estimate
+1728,Pancake chocolate trái cây nhiệt đới,15,15,gemma-4-26b-a4b-it_estimate
+1729,Ngưu bàng chiên tôm,20,15,gemma-4-26b-a4b-it_estimate
+1730,Súp đậu non trứng rong biển,15,15,gemma-4-31b-it_estimate
+1731,Canh chua cá dứa 1 nắng,20,20,gemma-4-31b-it_estimate
+1732,Gà xào măng tây,25,15,gemma-4-31b-it_estimate
+1733,Cá kèo chiên mè,15,15,gemma-4-26b-a4b-it_estimate
+1734,Gà chiên sốt taru taru,25,15,gemma-4-26b-a4b-it_estimate
+1735,Măng tây chiên bia xốt cá ngừ,20,10,gemma-4-26b-a4b-it_estimate
+1736,Salad cá hồi xốt thanh long,20,10,gemma-4-31b-it_estimate
+1737,Tim heo xào măng tây,20,10,gemma-4-31b-it_estimate
+1738,Sandwich trái cây chiên giòn,20,10,gemma-4-31b-it_estimate
+1739,Canh chua Thái,20,25,gemma-4-31b-it_estimate
+1740,Khai vị cá hồi,15,10,gemma-4-31b-it_estimate
+1741,Cá cơm chiên bông hẹ mắm me,20,20,gemma-4-31b-it_estimate
+1742,Bacon cuộn hành tây phô mai,20,15,gemma-4-31b-it_estimate
+1743,Canh cá hồng,30,30,gemma-4-31b-it_estimate
+1744,Bắp cải hấp nấm tôm,30,20,gemma-4-31b-it_estimate
+1745,Canh sụn bò củ cải,20,45,gemma-4-31b-it_estimate
+1746,Lòng gà xào tiêu xanh,25,15,gemma-4-31b-it_estimate
+1747,Tôm chiên dừa,20,15,gemma-4-31b-it_estimate
+1748,Hồ lô cá,30,15,gemma-4-31b-it_estimate
+1749,Đậu mơ kẹp phô mai chiên,20,10,gemma-4-31b-it_estimate
+1750,Bánh nếp nhân sò điệp,60,20,gemma-4-31b-it_estimate
+1751,Canh gà lá me non,20,30,gemma-4-31b-it_estimate
+1752,Hoành thánh bắp chiên,30,15,gemma-4-31b-it_estimate
+1753,Tôm thịt bọc trứng cút,30,15,gemma-4-31b-it_estimate
+1754,Hoành thánh hoa hồng,30,15,gemma-4-31b-it_estimate
+1755,Chả khoanh hành tây,25,15,gemma-4-31b-it_estimate
+1756,Canh đầu cá bớp,20,25,gemma-4-31b-it_estimate
+1757,Canh gà nấm mỡ,20,25,gemma-4-31b-it_estimate
+1758,Chả giò cá chẽm,25,15,gemma-4-31b-it_estimate
+1759,Dê xào tía tô cà bát,20,15,gemma-4-31b-it_estimate
+1760,Chả cốm tạo hình,30,25,gemma-4-31b-it_estimate
+1761,Canh cá hanh vị Thái,20,20,gemma-4-31b-it_estimate
+1762,Canh củ sen rong biển,25,30,gemma-4-31b-it_estimate
+1763,Bánh tôm hẹ chiên giòn,20,15,gemma-4-31b-it_estimate
+1764,Dưa chuột ngâm giấm,40,15,gemma-4-31b-it_estimate
+1765,Cá điêu hồng cuộn dưa kiệu,30,15,gemma-4-31b-it_estimate
+1766,Bánh cá khoai tây,30,30,gemma-4-31b-it_estimate
+1767,Pancake lá dứa,20,20,gemma-4-31b-it_estimate
+1768,Jambon cuộn thanh cua,20,15,gemma-4-31b-it_estimate
+1769,Súp óc heo tóc tiên,25,25,gemma-4-26b-a4b-it_estimate
+1770,Sườn cuộn bacon chiên mè,30,40,gemma-4-26b-a4b-it_estimate
+1771,Chả lụa chay,20,25,gemma-4-26b-a4b-it_estimate
+1772,Canape cá hồi trái bơ,20,10,gemma-4-31b-it_estimate
+1773,Chả cua áp chảo,25,20,gemma-4-31b-it_estimate
+1774,Chả giò cua thanh,15,15,gemma-4-31b-it_estimate
+1775,Bắp xào ngũ sắc,20,10,gemma-4-31b-it_estimate
+1776,Snack cốm,30,15,gemma-4-31b-it_estimate
+1777,Ốc lác xào cay,25,10,gemma-4-31b-it_estimate
+1778,Lạc xá chay,30,25,gemma-4-31b-it_estimate
+1779,Cánh gà xốt kem thơm,20,20,gemma-4-31b-it_estimate
+1780,Bánh mì nướng hải sản,25,15,gemma-4-31b-it_estimate
+1781,Bánh đúc chiên hải sản,20,15,gemma-4-31b-it_estimate
+1782,Đầu cá hồi xốc muối sả,25,20,gemma-4-31b-it_estimate
+1783,Cua xốt me,30,20,gemma-4-31b-it_estimate
+1784,Súp trái cây,20,15,gemma-4-31b-it_estimate
+1785,Tôm chiên mè,30,10,gemma-4-31b-it_estimate
+1786,Cá basa chiên giòn,20,12,gemma-4-31b-it_estimate
+1787,Đùi gà bọc xôi,20,20,gemma-4-31b-it_estimate
+1788,Sò điệp nướng ba màu,20,15,gemma-4-31b-it_estimate
+1789,Sườn chiên giấm đỏ,30,25,gemma-4-31b-it_estimate
+1790,Vịt chiên xốt chua ngọt,30,35,gemma-4-31b-it_estimate
+1791,Thịt bò xào lá lốt,20,10,gemma-4-31b-it_estimate
+1792,Đậu hũ nướng giấy bạc,25,25,gemma-4-31b-it_estimate
+1793,Tôm mực chiên giòn,20,15,gemma-4-31b-it_estimate
+1794,Bánh đa xúc thịt bằm,15,10,gemma-4-31b-it_estimate
+1795,Cuốn gà khai vị,25,20,gemma-4-31b-it_estimate
+1796,Bò cuộn xốt lá quế,30,15,gemma-4-31b-it_estimate
+1797,Viên tôm chiên tỏi thì là,40,15,gemma-4-31b-it_estimate
+1798,Bánh đúc tôm thịt,45,30,gemma-4-31b-it_estimate
+1799,Tôm sú san hô,20,10,gemma-4-31b-it_estimate
+1800,Thăn heo cuộn dừa,30,15,gemma-4-31b-it_estimate
+1801,Bò cuộn ba rọi xông khói,30,15,gemma-4-31b-it_estimate
+1802,Chả giò cá,25,15,gemma-4-26b-a4b-it_estimate
+1803,Tàu hủ ky cuộn mực chiên,25,15,gemma-4-26b-a4b-it_estimate
+1804,Bánh rán nhân cua,45,15,gemma-4-26b-a4b-it_estimate
+1805,Gân bò ngâm chua ngọt,30,150,gemma-4-31b-it_estimate
+1806,Cá chiên hoa cúc,20,25,gemma-4-31b-it_estimate
+1807,Cá basa chiên giòn vị chanh,20,15,gemma-4-31b-it_estimate
+1808,Thịt heo ngâm nước mắm,25,30,gemma-4-26b-a4b-it_estimate
+1809,Chân gà chiên chấm mắm mè,20,15,gemma-4-26b-a4b-it_estimate
+1810,Dưa món,20,15,gemma-4-26b-a4b-it_estimate
+1811,Chả tôm nhân phô mai,20,10,gemma-4-26b-a4b-it_estimate
+1812,Gà cuộn khoai chiên giòn,25,10,gemma-4-26b-a4b-it_estimate
+1813,Rau tiến vua ngâm chua,120,10,gemma-4-26b-a4b-it_estimate
+1814,Rau muống ngâm chua,25,15,gemma-4-26b-a4b-it_estimate
+1815,Tai heo ngâm giấm,30,25,gemma-4-26b-a4b-it_estimate
+1816,Nem chay vỏ bưởi,45,20,gemma-4-26b-a4b-it_estimate
+1817,Mực nướng sa tế,45,20,gemma-4-31b-it_estimate
+1818,Ngọc mực rang tổ chim,20,15,gemma-4-31b-it_estimate
+1819,Hải sản chiên xù,30,15,gemma-4-31b-it_estimate
+1820,Bánh bông lan xốt dâu mayonnaise,20,25,gemma-4-31b-it_estimate
+1821,Mực né,20,10,gemma-4-31b-it_estimate
+1822,Viên mè chiên giòn,25,15,gemma-4-31b-it_estimate
+1823,Bánh xèo cuốn áp chảo,30,30,gemma-4-31b-it_estimate
+1824,Sò huyết Tứ Xuyên,20,10,gemma-4-31b-it_estimate
+1825,Vịt xiêm giả cầy,40,30,gemma-4-31b-it_estimate
+1826,Mực nướng tương hột,30,30,gemma-4-31b-it_estimate
+1827,Phở cuốn,25,15,gemma-4-31b-it_estimate
+1352,Tôm thịt kho quẹt,20,25,gemini-3.1-flash-lite-preview_estimate
+1353,Thịt bò xào cần nước,20,10,gemini-3.1-flash-lite-preview_estimate
+1354,Gà xào hạnh nhân,40,20,gemini-3.1-flash-lite-preview_estimate
+715,Salad mực ống,30,10,gemma-4-31b-it_estimate
+716,Cá dứa một nắng chua ngọt,20,20,gemma-4-31b-it_estimate
+717,Đậu hũ cuộn chiên giòn,30,15,gemma-4-31b-it_estimate
+718,Phở sắn xào thập cẩm,,,gemma-4-31b-it_error
+719,Ếch khói lửa,,,gemma-4-31b-it_error
+720,Bắp bò xốt pate chấm muối tắc,,,gemma-4-31b-it_error
+721,Canh chân nấm táo đỏ,,,gemma-4-31b-it_error
+722,Cánh gà xào ớt xiêm,,,gemma-4-31b-it_error
+723,Cá chép nấu riềng mẻ,,,gemma-4-31b-it_error
+724,Cơm gạo lứt hạt sen,,,gemma-4-31b-it_error
+725,Chả cá thác lác bọc củ quả chiên,,,gemma-4-31b-it_error
+726,Đậu bắp nhồi chiên giòn,,,gemma-4-31b-it_error
+1355,Canh mít non củ năng,20,15,gemini-3.1-flash-lite-preview_estimate
+1356,Canh cá chim nấu ngót,25,20,gemini-3.1-flash-lite-preview_estimate
+1357,Canh long thả,30,25,gemini-3.1-flash-lite-preview_estimate
+727,Gà cuộn xúc xích khô,,,gemma-4-31b-it_error
+728,Canh bạch quả bí đỏ,,,gemma-4-31b-it_error
+729,Củ hũ dừa xào ba chỉ,,,gemma-4-31b-it_error
+1358,Canh ếch lá me non,25,15,gemini-3.1-flash-lite-preview_estimate
+1359,Vịt kho sấu,20,35,gemini-3.1-flash-lite-preview_estimate
+1360,Rau củ chiên giòn,30,20,gemini-3.1-flash-lite-preview_estimate
+730,Đậu hũ xào lăn,,,gemma-4-31b-it_error
+731,Cá cuộn Jambon chiên,,,gemma-4-31b-it_error
+732,Gà ta kho riềng sả,,,gemma-4-31b-it_error
+1361,Ốc móng tay xào tiêu xanh,20,15,gemini-3.1-flash-lite-preview_estimate
+1362,Lươn kho sả ớt,25,30,gemini-3.1-flash-lite-preview_estimate
+1363,Bánh hến chiên,20,20,gemini-3.1-flash-lite-preview_estimate
+1364,Thịt ram xốt mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+1365,Lưỡi heo xào riềng sả,25,15,gemini-3.1-flash-lite-preview_estimate
+1366,Thịt kho nước tương giấm,30,45,gemini-3.1-flash-lite-preview_estimate
+1367,Heo viên chiên xù,25,20,gemini-3.1-flash-lite-preview_estimate
+1368,Cá long tong kho lạt,20,30,gemini-3.1-flash-lite-preview_estimate
+1369,Cá đối kho cà chua,20,25,gemini-3.1-flash-lite-preview_estimate
+1370,Canh nghêu mồng tơi,20,15,gemini-3.1-flash-lite-preview_estimate
+1371,Canh rau tập tàng,25,15,gemini-3.1-flash-lite-preview_estimate
+1372,Trứng chiên rau củ xốt mayonnaise,15,10,gemini-3.1-flash-lite-preview_estimate
+733,Súp nấm hải sản chua cay,,,gemma-4-31b-it_error
+734,Cá hường chiên sả nghệ,,,gemma-4-31b-it_error
+735,Canh bóng cuộn bí ngòi,,,gemma-4-31b-it_error
+1373,Canh chua chem chép,75,20,gemini-3.1-flash-lite-preview_estimate
+1374,Cá bông lau kho tộ,40,30,gemini-3.1-flash-lite-preview_estimate
+1375,Nghêu hấp nước tương,25,10,gemini-3.1-flash-lite-preview_estimate
+736,Đậu hũ hấp nấm Nhật,,,gemma-4-31b-it_error
+737,Lẩu ếch lá lốt,,,gemma-4-31b-it_error
+738,Ba chỉ xiên que chiên giòn,,,gemma-4-31b-it_error
+1376,Củ sen hấp thập cẩm,25,20,gemini-3.1-flash-lite-preview_estimate
+1377,Đậu bắp xào tôm,20,10,gemini-3.1-flash-lite-preview_estimate
+1378,Cá lóc kho củ cải,20,30,gemini-3.1-flash-lite-preview_estimate
+739,Canh cua chả cá,,,gemma-4-31b-it_error
+740,Gà nướng cỏ xạ hương,,,gemma-4-31b-it_error
+741,Salad sò điệp chiên giòn,,,gemma-4-31b-it_error
+742,Vịt nướng nồi đất,,,gemma-4-31b-it_error
+743,Cá cam phủ tuyết,,,gemma-4-31b-it_error
+744,Tôm chiên xiên sả trái tim,,,gemma-4-31b-it_error
+745,Gan chiên cháy tỏi,,,gemma-4-31b-it_error
+746,Salad đậu hũ chiên,,,gemma-4-31b-it_error
+747,Lẩu tả pí lù,,,gemma-4-31b-it_error
+1379,Cá ba sa om xốt mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+1380,Cơm chiên trái thơm,30,20,gemini-3.1-flash-lite-preview_estimate
+1381,Canh bí ngòi nấu nấm,15,20,gemini-3.1-flash-lite-preview_estimate
+748,Lẩu sữa đậu nành hải sản,,,gemma-4-31b-it_error
+749,Gà hấp riềng sả,,,gemma-4-31b-it_error
+750,Mì căn xào bắp non,,,gemma-4-31b-it_error
+1382,Thịt heo chiên xù,25,20,gemini-3.1-flash-lite-preview_estimate
+1383,Cá xào cần tỏi,30,15,gemini-3.1-flash-lite-preview_estimate
+1384,Cà chua nhồi đậu hũ,35,25,gemini-3.1-flash-lite-preview_estimate
+751,Đậu hũ thịt cua viên chiên,,,gemma-4-31b-it_error
+752,Lẩu cá hồi chanh dây,,,gemma-4-31b-it_error
+753,Bò áp chảo bản gang,,,gemma-4-31b-it_error
+1385,Canh măng giò heo,20,50,gemini-3.1-flash-lite-preview_estimate
+1386,Canh cá lóc rau cần,15,15,gemini-3.1-flash-lite-preview_estimate
+1387,Cá rô kho tộ,40,30,gemini-3.1-flash-lite-preview_estimate
+754,Cánh gà kho bắp non,,,gemma-4-31b-it_error
+755,Cơm gạo lứt bí đỏ hấp,,,gemma-4-31b-it_error
+756,Nấm mỡ khìa nước dừa,,,gemma-4-31b-it_error
+1388,Ếch xào lăn,25,15,gemini-3.1-flash-lite-preview_estimate
+1389,Thịt vịt xào bầu,20,10,gemini-3.1-flash-lite-preview_estimate
+1390,Cải rổ xào trứng muối,20,10,gemini-3.1-flash-lite-preview_estimate
+757,Cật xào khoai tây,,,gemma-4-31b-it_error
+758,Heo xiên que nướng mắc khén,,,gemma-4-31b-it_error
+759,Lẩu riêu bắp bò,,,gemma-4-31b-it_error
+1391,Gà ram gừng,15,20,gemini-3.1-flash-lite-preview_estimate
+1392,Sườn ram mặn,15,25,gemini-3.1-flash-lite-preview_estimate
+1393,Tôm rim thịt ba chỉ,20,15,gemini-3.1-flash-lite-preview_estimate
+1394,Canh cá rô nấu cải bẹ xanh,20,20,gemini-3.1-flash-lite-preview_estimate
+1395,Canh chua cá lóc,30,25,gemini-3.1-flash-lite-preview_estimate
+1396,Canh cá rau cần,25,35,gemini-3.1-flash-lite-preview_estimate
+1397,Cá chép kho quả sấu,25,60,gemini-3.1-flash-lite-preview_estimate
+1398,Canh cá trân châu,30,40,gemini-3.1-flash-lite-preview_estimate
+1399,Canh chua trái tắc,20,25,gemini-3.1-flash-lite-preview_estimate
+760,Lẩu cá khoai chua cay,,,gemma-4-31b-it_error
+761,Pizza hải sản,,,gemma-4-31b-it_error
+762,Bê xào đọt su,,,gemma-4-31b-it_error
+1400,Cá trê kho rau răm,25,40,gemini-3.1-flash-lite-preview_estimate
+1401,Cá xào lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+1402,Hủ tiếu xào chay vị me,20,15,gemini-3.1-flash-lite-preview_estimate
+763,Mọc cua chiên giòn xốt mayonnaise,,,gemma-4-31b-it_error
+764,Thịt ba chỉ rim chanh sả,,,gemma-4-31b-it_error
+765,Gà chiên sả lá chanh,,,gemma-4-31b-it_error
+1403,Ếch xào tía tô,20,25,gemini-3.1-flash-lite-preview_estimate
+1404,Cá kho tàu,15,40,gemini-3.1-flash-lite-preview_estimate
+1405,Chả nấm xốt chua ngọt,25,20,gemini-3.1-flash-lite-preview_estimate
+1406,Ốc bươu kho gừng,140,20,gemini-3.1-flash-lite-preview_estimate
+1407,Cá thu Nhật kho nước dừa,20,30,gemini-3.1-flash-lite-preview_estimate
+1408,Bắp hạt xào gà giòn Mayonnaise,25,20,gemini-3.1-flash-lite-preview_estimate
+766,Cá dứa chiên giòn – xốt chanh dây,,,gemma-4-31b-it_error
+767,Sườn chay kho đậu hũ,,,gemma-4-31b-it_error
+768,Canh gà hương vị thái,,,gemma-4-31b-it_error
+1409,Sò điệp xào cần tây,20,10,gemini-3.1-flash-lite-preview_estimate
+1410,Khô cá cơm kho khế,15,25,gemini-3.1-flash-lite-preview_estimate
+1411,Cháo thập cẩm,15,45,gemini-3.1-flash-lite-preview_estimate
+1412,Đậu que xào thịt,20,10,gemini-3.1-flash-lite-preview_estimate
+1413,Khoai tây xào thịt bò,25,15,gemini-3.1-flash-lite-preview_estimate
+1414,Canh song thủy,20,15,gemini-3.1-flash-lite-preview_estimate
+1415,Ngồng cải xào bao tử cá basa,20,15,gemini-3.1-flash-lite-preview_estimate
+1416,Vịt kho ngũ vị,25,40,gemini-3.1-flash-lite-preview_estimate
+1417,Đậu bắp kho nước tương,15,20,gemini-3.1-flash-lite-preview_estimate
+769,Gà cuộn bacon chiên lá hương thảo,,,gemma-4-31b-it_error
+770,Canh ngó môn tôm thịt,,,gemma-4-31b-it_error
+771,Gan bò xào thơm cà,,,gemma-4-31b-it_error
+1418,Cá ngừ kho nước mía,20,40,gemini-3.1-flash-lite-preview_estimate
+1419,Canh bí ngòi quấn tôm,25,15,gemini-3.1-flash-lite-preview_estimate
+1420,Bao tử cá basa xào bạc hà,25,10,gemini-3.1-flash-lite-preview_estimate
+1421,Trứng đúc hẹ,15,10,gemini-3.1-flash-lite-preview_estimate
+1422,Bò xào ớt khô,25,10,gemini-3.1-flash-lite-preview_estimate
+1423,Bò né hoa thiên lý,20,8,gemini-3.1-flash-lite-preview_estimate
+1424,Canh gà thuốc bắc,20,60,gemini-3.1-flash-lite-preview_estimate
+1425,Canh đuôi bò củ cải,30,45,gemini-3.1-flash-lite-preview_estimate
+1426,Thịt kho củ sen tương hột,20,30,gemini-3.1-flash-lite-preview_estimate
+1427,Bao tử kho dưa cải trứng cút,25,45,gemini-3.1-flash-lite-preview_estimate
+1428,Cá đối kho cần tàu,20,25,gemini-3.1-flash-lite-preview_estimate
+1429,Canh giò heo đu đủ hườm,20,40,gemini-3.1-flash-lite-preview_estimate
+1430,Thịt om chuối xanh,25,35,gemini-3.1-flash-lite-preview_estimate
+1431,Ếch kho tiêu xanh,20,25,gemini-3.1-flash-lite-preview_estimate
+1432,Sườn xào chua ngọt,20,20,gemini-3.1-flash-lite-preview_estimate
+772,Tàu hũ ky xào nấm,,,gemma-4-31b-it_error
+773,Cá rô phi kho lạt,,,gemma-4-31b-it_error
+774,Tôm chiên cánh bướm,,,gemma-4-31b-it_error
+1433,Bông thiên lý xào hải sản,20,10,gemini-3.1-flash-lite-preview_estimate
+1434,Cá thu xốt xòai tượng,15,15,gemini-3.1-flash-lite-preview_estimate
+1435,Bún xào chay,25,10,gemini-3.1-flash-lite-preview_estimate
+1436,Lẩu đuôi bò cay,30,45,gemini-3.1-flash-lite-preview_estimate
+1437,Cá điêu hồng kho tương bần,25,40,gemini-3.1-flash-lite-preview_estimate
+1438,Măng le xào gan,20,15,gemini-3.1-flash-lite-preview_estimate
+775,Tàu hũ ky cuốn ngũ sắc,,,gemma-4-31b-it_error
+776,Canh tôm lá ớt,,,gemma-4-31b-it_error
+777,Nấm đùi gà hấp cải xanh,,,gemma-4-31b-it_error
+1439,Sò lông kho tiêu xanh,20,15,gemini-3.1-flash-lite-preview_estimate
+1440,Bắp cải cuộn thịt kho bơ,30,20,gemini-3.1-flash-lite-preview_estimate
+1441,Canh mồng tơi bắp nụ,25,10,gemini-3.1-flash-lite-preview_estimate
+1442,Gà xào giấm gừng,20,10,gemini-3.1-flash-lite-preview_estimate
+1443,Bò xào lăn,25,12,gemini-3.1-flash-lite-preview_estimate
+1444,Thịt bò xào kiểu Hàn Quốc,20,10,gemini-3.1-flash-lite-preview_estimate
+1445,Canh riêu cá chép,20,25,gemini-3.1-flash-lite-preview_estimate
+1446,Cánh gà kho khoai môn,15,20,gemini-3.1-flash-lite-preview_estimate
+1447,Sườn chiên xốt chanh dây,25,30,gemini-3.1-flash-lite-preview_estimate
+778,Xôi gà nướng,,,gemma-4-31b-it_error
+779,Cà tím xào tôm thịt,,,gemma-4-31b-it_error
+780,Súp tomyum hải sản,,,gemma-4-31b-it_error
+1448,Canh hến nấu khế,25,20,gemini-3.1-flash-lite-preview_estimate
+1449,Canh chua măng,30,25,gemini-3.1-flash-lite-preview_estimate
+1450,Bao tử khìa tiêu xanh,35,25,gemini-3.1-flash-lite-preview_estimate
+1451,Gà kho me,20,25,gemini-3.1-flash-lite-preview_estimate
+1452,Sườn xào bắp non,25,20,gemini-3.1-flash-lite-preview_estimate
+1453,Lưỡi heo kho quế,30,45,gemini-3.1-flash-lite-preview_estimate
+1454,Miến xào đậu ngự,20,15,gemini-3.1-flash-lite-preview_estimate
+1455,Cà bung thịt heo,25,20,gemini-3.1-flash-lite-preview_estimate
+1456,Nấm đùi gà kho gừng,15,15,gemini-3.1-flash-lite-preview_estimate
+781,Bánh xèo nấm mối chay,,,gemma-4-31b-it_error
+782,Chả tôm lá chúc,,,gemma-4-31b-it_error
+783,Bạch tuộc nhúng lá me,,,gemma-4-31b-it_error
+1457,Canh đu đủ lá lốt,15,15,gemini-3.1-flash-lite-preview_estimate
+784,Cá bớp chiên giòn xốt mận,,,gemma-4-31b-it_error
+1458,Thịt bò xào ngồng cải,20,10,gemini-3.1-flash-lite-preview_estimate
+785,Đậu hũ Croquette,,,gemma-4-31b-it_error
+1459,Đậu bắp thịt gà xào chao,20,12,gemini-3.1-flash-lite-preview_estimate
+786,Tôm mực xào rau nhút,,,gemma-4-31b-it_error
+1460,Tôm chiên xóc lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+1461,Hải sâm xào rau củ,30,15,gemini-3.1-flash-lite-preview_estimate
+1462,Cá thu kho riềng,15,45,gemini-3.1-flash-lite-preview_estimate
+1463,Canh gà cải bó xôi,20,25,gemini-3.1-flash-lite-preview_estimate
+1464,Cà tím nhồi thịt kho,30,35,gemini-3.1-flash-lite-preview_estimate
+1465,Canh vịt khoai sọ,25,40,gemini-3.1-flash-lite-preview_estimate
+787,Mực trứng nướng mỡ hành,,,gemma-4-31b-it_error
+788,Sườn kho bắp non,,,gemma-4-31b-it_error
+789,Bò chiên một nắng,,,gemma-4-31b-it_error
+1466,Rau củ kho mayonnaise,20,25,gemini-3.1-flash-lite-preview_estimate
+1467,Bánh rôti cuộn thịt gà,25,20,gemini-3.1-flash-lite-preview_estimate
+1468,Tôm càng xốt nước tương,25,15,gemini-3.1-flash-lite-preview_estimate
+1469,Thịt kho khổ qua tây,20,25,gemini-3.1-flash-lite-preview_estimate
+1470,Gà xào hạt điều,25,15,gemini-3.1-flash-lite-preview_estimate
+1471,Canh mướp hương thịt viên,15,15,gemini-3.1-flash-lite-preview_estimate
+790,Hoành thánh hải sản chiên giòn,,,gemma-4-31b-it_error
+791,Bánh bạch tuộc Takoyaki,,,gemma-4-31b-it_error
+792,Bò ping pong,,,gemma-4-31b-it_error
+793,Tàu hủ ky rim nấm,,,gemma-4-31b-it_error
+794,Lẩu sườn chua cay,,,gemma-4-31b-it_error
+795,Mắm kho,,,gemma-4-31b-it_error
+1472,Canh kim chi thịt bò,20,25,gemini-3.1-flash-lite-preview_estimate
+1473,Tôm hấp su hào,15,15,gemini-3.1-flash-lite-preview_estimate
+1474,Canh dưa leo nhồi thịt,25,20,gemini-3.1-flash-lite-preview_estimate
+1475,Canh chua bông so đũa chay,20,15,gemini-3.1-flash-lite-preview_estimate
+1476,Lòng non xào nghệ,25,10,gemini-3.1-flash-lite-preview_estimate
+1477,Sườn chiên mayonnaise sa tế,40,20,gemini-3.1-flash-lite-preview_estimate
+1478,Dồi trường xào cải chua,20,10,gemini-3.1-flash-lite-preview_estimate
+1479,Canh bầu nấu riêu tép,15,15,gemini-3.1-flash-lite-preview_estimate
+1480,Cá thu nhật kho me,20,30,gemini-3.1-flash-lite-preview_estimate
+1481,Củ hũ dừa kho nấm,20,20,gemini-3.1-flash-lite-preview_estimate
+1482,Canh cá thác lác nấu hoa,25,15,gemini-3.1-flash-lite-preview_estimate
+1483,Thịt heo quay kho củ hũ dừa,15,30,gemini-3.1-flash-lite-preview_estimate
+796,Cá nướng thảo mộc,,,gemma-4-31b-it_error
+797,Khổ qua xào chả cá,,,gemma-4-31b-it_error
+798,Ốc móng tay nướng chanh sả,,,gemma-4-31b-it_error
+1484,Bao tử xào đông cô,30,15,gemini-3.1-flash-lite-preview_estimate
+1485,Canh khế cá cơm,15,10,gemini-3.1-flash-lite-preview_estimate
+1486,Lòng heo xào thơm,25,12,gemini-3.1-flash-lite-preview_estimate
+1487,Đậu hũ hấp tôm,20,25,gemini-3.1-flash-lite-preview_estimate
+1488,Canh riêu cua,25,20,gemini-3.1-flash-lite-preview_estimate
+1489,Thịt gà kho kim chi,20,30,gemini-3.1-flash-lite-preview_estimate
+1490,Canh bắp cải gói thịt,30,20,gemini-3.1-flash-lite-preview_estimate
+1491,Tôm xào bông cải,25,15,gemini-3.1-flash-lite-preview_estimate
+1492,Canh ốc thì là,25,20,gemini-3.1-flash-lite-preview_estimate
+1493,Canh cải chua nấu cá cơm,15,15,gemini-3.1-flash-lite-preview_estimate
+1494,Canh boaro nấu đậu hũ non,20,15,gemini-3.1-flash-lite-preview_estimate
+1495,Cà chua nhồi thịt ghẹ,30,25,gemini-3.1-flash-lite-preview_estimate
+799,Miến xào giá đậu nành,,,gemma-4-31b-it_error
+800,Cá chẽm xốt kem chanh,,,gemma-4-31b-it_error
+801,Canh chua củ hủ dừa tôm đất,,,gemma-4-31b-it_error
+1496,Ba rọi kho gừng,20,30,gemini-3.1-flash-lite-preview_estimate
+1497,Đọt su xào tôm,15,10,gemini-3.1-flash-lite-preview_estimate
+1498,Thịt chiên xốt nước tương,20,40,gemini-3.1-flash-lite-preview_estimate
+1499,Thịt quay kho dưa cải,20,40,gemini-3.1-flash-lite-preview_estimate
+1500,Cá chiên ngâm nước tương,25,20,gemini-3.1-flash-lite-preview_estimate
+1501,Canh chua cá lăng rau nhút,30,25,gemini-3.1-flash-lite-preview_estimate
+1502,Nấm bào ngư xào xốt mè,20,15,gemini-3.1-flash-lite-preview_estimate
+1503,Củ năng xào tôm thịt,25,15,gemini-3.1-flash-lite-preview_estimate
+1504,Sườn non kho khế,20,40,gemini-3.1-flash-lite-preview_estimate
+802,Cải rổ xốt mè đậu hũ,,,gemma-4-31b-it_error
+803,Nấm đùi gà hấp tía tô,,,gemma-4-31b-it_error
+804,Súp phồng tôm hải sản,,,gemma-4-31b-it_error
+1505,Chả cá kho vân trứng,20,15,gemini-3.1-flash-lite-preview_estimate
+1506,Canh chả mực thì là,25,20,gemini-3.1-flash-lite-preview_estimate
+1507,Mực rối,30,25,gemini-3.1-flash-lite-preview_estimate
+805,Cá hồi ngâm chua,,,gemma-4-31b-it_error
+806,Canh nghêu măng le vị lẩu thái,,,gemma-4-31b-it_error
+807,Đùi gà nướng rượu,,,gemma-4-31b-it_error
+1508,Cá lóc phi lê xốt gừng,20,15,gemini-3.1-flash-lite-preview_estimate
+1509,Ốc xào chuối xanh,30,25,gemini-3.1-flash-lite-preview_estimate
+1510,Cá kèo kho khế,15,20,gemini-3.1-flash-lite-preview_estimate
+1511,Lưỡi heo xào lăn,30,25,gemini-3.1-flash-lite-preview_estimate
+1512,Canh dền cơm nấu nghêu,20,10,gemini-3.1-flash-lite-preview_estimate
+1513,Thịt bò xào đậu cove,15,10,gemini-3.1-flash-lite-preview_estimate
+1514,Cà ri chay,30,40,gemini-3.1-flash-lite-preview_estimate
+1515,Nấm tuyết xào hải sâm,25,15,gemini-3.1-flash-lite-preview_estimate
+1516,Canh thanh long,20,25,gemini-3.1-flash-lite-preview_estimate
+1517,Cá đối kho thơm,25,40,gemini-3.1-flash-lite-preview_estimate
+1518,Canh măng gà viên,20,25,gemini-3.1-flash-lite-preview_estimate
+1519,Vịt quay kho trứng cút,15,30,gemini-3.1-flash-lite-preview_estimate
+808,Heo nướng mỡ hẹ,,,gemma-4-31b-it_error
+809,Sụn heo xào thơm,,,gemma-4-31b-it_error
+810,Mít non om chao đỏ,,,gemma-4-31b-it_error
+1520,Canh cá khoai lá giang,20,15,gemini-3.1-flash-lite-preview_estimate
+1521,Bắp non xào mực cay,25,10,gemini-3.1-flash-lite-preview_estimate
+1522,Cơm chiên chay,20,15,gemini-3.1-flash-lite-preview_estimate
+1523,Thịt xay kho bắp đậu,15,20,gemini-3.1-flash-lite-preview_estimate
+1524,Canh sườn non táo đỏ,20,45,gemini-3.1-flash-lite-preview_estimate
+1525,Cá nục kho kiểu Nhật,20,30,gemini-3.1-flash-lite-preview_estimate
+1526,Khổ qua tây xào thịt bò,15,10,gemini-3.1-flash-lite-preview_estimate
+1527,Hủ tiếu chay,25,45,gemini-3.1-flash-lite-preview_estimate
+1528,Lươn chiên giòn xốt tiêu xanh,20,20,gemini-3.1-flash-lite-preview_estimate
+1529,Canh khoai rau đắng,20,15,gemini-3.1-flash-lite-preview_estimate
+1530,Vịt xào măng,25,15,gemini-3.1-flash-lite-preview_estimate
+1531,Canh bí đao nấu sườn non,15,25,gemini-3.1-flash-lite-preview_estimate
+811,Chim cút chiên mắm me,,,gemma-4-31b-it_error
+812,Ốc xào thơm,,,gemma-4-31b-it_error
+813,Chả giò hải sản phô mai,,,gemma-4-31b-it_error
+1532,Sushi,30,15,gemini-3.1-flash-lite-preview_estimate
+1533,Bún thịt xào sả ớt,20,15,gemini-3.1-flash-lite-preview_estimate
+1534,Cà bát om thịt ba chỉ,25,25,gemini-3.1-flash-lite-preview_estimate
+1535,Gà rim nước tương cà,20,25,gemini-3.1-flash-lite-preview_estimate
+1536,Sườn chay rim mật ong,40,20,gemini-3.1-flash-lite-preview_estimate
+1537,Heo quay kho măng,25,30,gemini-3.1-flash-lite-preview_estimate
+1538,Nấm bào ngư xào sả ớt,15,10,gemini-3.1-flash-lite-preview_estimate
+1539,Canh hến dưa cải,20,20,gemini-3.1-flash-lite-preview_estimate
+1540,Canh lươn nấu bắp chuối hột,25,30,gemini-3.1-flash-lite-preview_estimate
+1541,Vịt kho rau củ,20,30,gemini-3.1-flash-lite-preview_estimate
+1542,Súp gà chua cay,25,20,gemini-3.1-flash-lite-preview_estimate
+1543,Đậu hũ nhồi xốt me,30,25,gemini-3.1-flash-lite-preview_estimate
+814,Súp nui nha đam tôm thả,,,gemma-4-31b-it_error
+815,Cá cam chiên giòn lá quế,,,gemma-4-31b-it_error
+816,Khoai tây xào thạch Konnyaku,,,gemma-4-31b-it_error
+1544,Bò viên chay xào thập cẩm,20,15,gemini-3.1-flash-lite-preview_estimate
+1545,Suông tôm giò heo,40,60,gemini-3.1-flash-lite-preview_estimate
+1546,Cháo cá giò heo,25,50,gemini-3.1-flash-lite-preview_estimate
+817,Đậu bắp xào hải sản,,,gemma-4-31b-it_error
+818,Bao tử cá basa chiên xốt me,,,gemma-4-31b-it_error
+819,Burger trứng gà áp chảo,,,gemma-4-31b-it_error
+1547,Cháo bồ câu,30,90,gemini-3.1-flash-lite-preview_estimate
+1548,Thịt kho xốt tương,20,25,gemini-3.1-flash-lite-preview_estimate
+1549,Sườn hầm tỏi,15,45,gemini-3.1-flash-lite-preview_estimate
+1550,Bí xanh tiềm tứ hải,45,60,gemini-3.1-flash-lite-preview_estimate
+1551,Đậu hũ kho nấm rơm,20,15,gemini-3.1-flash-lite-preview_estimate
+1552,Canh thịt bò cải xoong,15,10,gemini-3.1-flash-lite-preview_estimate
+1553,Chả hấp chay,25,15,gemini-3.1-flash-lite-preview_estimate
+1554,Gà tiềm hạt sen,20,40,gemini-3.1-flash-lite-preview_estimate
+1555,Sườn nấu đậu,20,45,gemini-3.1-flash-lite-preview_estimate
+820,Thịt giò heo kho củ cải,,,gemma-4-31b-it_error
+821,Cuốn rong biển đậu hũ,,,gemma-4-31b-it_error
+822,Vịt om ớt xanh hoa chuối,,,gemma-4-31b-it_error
+1556,Bồ câu quay nước dừa,40,25,gemini-3.1-flash-lite-preview_estimate
+1557,Bắp cải tím xào hải sản,30,15,gemini-3.1-flash-lite-preview_estimate
+1558,Cá thu rim nước trà xanh,20,25,gemini-3.1-flash-lite-preview_estimate
+1559,Cá hú kho xốt tương,40,30,gemini-3.1-flash-lite-preview_estimate
+1560,Chè dưỡng nhan Blendy®,60,45,gemini-3.1-flash-lite-preview_estimate
+1561,Chả cá lóc xốt mayo mật ong,20,15,gemini-3.1-flash-lite-preview_estimate
+1562,Lươn cuộn mía nướng,30,20,gemini-3.1-flash-lite-preview_estimate
+1563,Mì ý xốt cua,15,20,gemini-3.1-flash-lite-preview_estimate
+1564,Mực nhúng giấm,25,15,gemini-3.1-flash-lite-preview_estimate
+1565,Salad gà nướng thơm,20,15,gemini-3.1-flash-lite-preview_estimate
+1566,Phở chay,40,80,gemini-3.1-flash-lite-preview_estimate
+1567,Đùi ếch chiên,25,20,gemini-3.1-flash-lite-preview_estimate
+823,Canh chua cá kèo bông so đũa,,,gemma-4-31b-it_error
+824,Bí ngòi hấp chả chay,,,gemma-4-31b-it_error
+825,Đuông khoai lang cốt dừa,,,gemma-4-31b-it_error
+1568,Súp mộc nhĩ thịt cua,25,20,gemini-3.1-flash-lite-preview_estimate
+1569,Ức gà nhồi phô mai,20,15,gemini-3.1-flash-lite-preview_estimate
+1570,Lẩu kim chi phô mai,15,15,gemini-3.1-flash-lite-preview_estimate
+1571,Cá chép chiên giòn cuốn bánh tráng,45,20,gemini-3.1-flash-lite-preview_estimate
+1572,Mì Ý bò băm,20,15,gemini-3.1-flash-lite-preview_estimate
+1573,Bò cuộn xúc xích chiên giòn,15,10,gemini-3.1-flash-lite-preview_estimate
+826,Mướp hương nhồi tôm hấp,20,15,gemma-4-31b-it_estimate
+827,Lẩu cá chình,30,25,gemma-4-31b-it_estimate
+828,Chả thịt lá lốt,30,15,gemma-4-31b-it_estimate
+1574,Súp gà mọc nấm hương,30,25,gemini-3.1-flash-lite-preview_estimate
+1575,Cháo cá nấu bắp nếp,25,45,gemini-3.1-flash-lite-preview_estimate
+1576,Lẩu sườn khoai môn,20,40,gemini-3.1-flash-lite-preview_estimate
+1577,Cá hồi hạnh nhân xốt chanh dây,20,15,gemini-3.1-flash-lite-preview_estimate
+1578,Vịt nấu cơm rượu,35,45,gemini-3.1-flash-lite-preview_estimate
+1579,Cơm giòn tôm kho quẹt,25,20,gemini-3.1-flash-lite-preview_estimate
+1580,Canh cá rau cần,20,40,gemini-3.1-flash-lite-preview_estimate
+1581,Bò cuộn rong biển,25,15,gemini-3.1-flash-lite-preview_estimate
+1582,Bò áp chảo,30,25,gemini-3.1-flash-lite-preview_estimate
+829,Cơm tấm sườn chay,,,gemma-4-31b-it_error
+830,Cá chạch chiên lá quế,,,gemma-4-31b-it_error
+831,Canh cải cầu vồng nấu cua,,,gemma-4-31b-it_error
+1583,Ốc xào khế,20,10,gemini-3.1-flash-lite-preview_estimate
+1584,Rau củ luộc và cơm chiên giòn chấm kho quẹt,25,15,gemini-3.1-flash-lite-preview_estimate
+1585,Pizza khoai tây,20,20,gemini-3.1-flash-lite-preview_estimate
+832,Nấm chiên giòn xốt chanh dây,,,gemma-4-31b-it_error
+833,Canh gà lá quế,,,gemma-4-31b-it_error
+834,Lẩu nghêu sò ốc hến,,,gemma-4-31b-it_error
+1586,Ba rọi nướng mè rau củ,20,35,gemini-3.1-flash-lite-preview_estimate
+1587,Sụn gà rang lá cà ri cay,15,15,gemini-3.1-flash-lite-preview_estimate
+1588,Cà tím nhồi thịt áp chảo,25,20,gemini-3.1-flash-lite-preview_estimate
+1589,Lẩu cua đồng,30,25,gemini-3.1-flash-lite-preview_estimate
+1590,Cá lóc nướng ớt xiêm xanh,35,45,gemini-3.1-flash-lite-preview_estimate
+1591,Bò nướng lá cách,25,15,gemini-3.1-flash-lite-preview_estimate
+1592,Cá chiên xốt cam,20,15,gemini-3.1-flash-lite-preview_estimate
+1593,Cua lột chiên giòn,25,15,gemini-3.1-flash-lite-preview_estimate
+1594,Cá sapa nhồi ngọc kê nướng,30,30,gemini-3.1-flash-lite-preview_estimate
+1595,Cá bớp kho thịt ba rọi,20,35,gemini-3.1-flash-lite-preview_estimate
+1596,Đậu hủ non xốt cay,25,20,gemini-3.1-flash-lite-preview_estimate
+1597,Lẩu xí quách kim chi,15,60,gemini-3.1-flash-lite-preview_estimate
+835,Củ sen kẹp chả cá basa,,,gemma-4-31b-it_error
+836,Lẩu bạch tuộc,,,gemma-4-31b-it_error
+837,Thịt nướng xí muội,,,gemma-4-31b-it_error
+1598,Thịt bò nướng mè kiểu Hàn Quốc,30,15,gemini-3.1-flash-lite-preview_estimate
+1599,Bánh rán cam mật ong,20,15,gemini-3.1-flash-lite-preview_estimate
+1600,Sò lông nướng bơ tỏi,25,10,gemini-3.1-flash-lite-preview_estimate
+1601,Cá hồi áp chảo xốt tiêu,20,15,gemini-3.1-flash-lite-preview_estimate
+1602,Càng cua chiên mè xốt Mayo,30,20,gemini-3.1-flash-lite-preview_estimate
+1603,Lẩu nấm tiềm củ quả,25,45,gemini-3.1-flash-lite-preview_estimate
+838,Bầu xào giò thủ,,,gemma-4-31b-it_error
+839,Súp gạo lứt tóc tiên,,,gemma-4-31b-it_error
+840,Tôm bao mọc chiên giòn,,,gemma-4-31b-it_error
+1604,Gà nướng lửa trại,25,15,gemini-3.1-flash-lite-preview_estimate
+1605,Bánh canh vịt,30,35,gemini-3.1-flash-lite-preview_estimate
+1606,Chả bò chiên,40,15,gemini-3.1-flash-lite-preview_estimate
+841,Trăm trứng tiến vua,,,gemma-4-31b-it_error
+842,Thăn heo chiên giòn,,,gemma-4-31b-it_error
+843,Gà hon đậu phộng,,,gemma-4-31b-it_error
+1607,Cá hồi chiên xốt xoài,20,15,gemini-3.1-flash-lite-preview_estimate
+1608,Cháo hạt sen bạch quả,30,40,gemini-3.1-flash-lite-preview_estimate
+1609,Hàu nướng lá hương thảo,25,10,gemini-3.1-flash-lite-preview_estimate
+1610,Gà nấu nấm,30,40,gemini-3.1-flash-lite-preview_estimate
+1611,Lẩu gà nấu giấm,20,30,gemini-3.1-flash-lite-preview_estimate
+1612,Mì Ý xào thịt bò băm,25,20,gemini-3.1-flash-lite-preview_estimate
+844,Bún thịt heo xiên sả nướng,,,gemma-4-31b-it_error
+845,Sườn non rim củ nén,,,gemma-4-31b-it_error
+846,Cuốn lá lốt thịt ếch,,,gemma-4-31b-it_error
+1613,Cá cuốn tôm chiên,30,20,gemini-3.1-flash-lite-preview_estimate
+1614,Chả giò cua,25,15,gemini-3.1-flash-lite-preview_estimate
+1615,Tam hữu,40,20,gemini-3.1-flash-lite-preview_estimate
+1616,Gà om bia,40,30,gemini-3.1-flash-lite-preview_estimate
+1617,Cá nướng muối ớt,25,30,gemini-3.1-flash-lite-preview_estimate
+1618,Nghêu xào mayonnaise hung quế,20,15,gemini-3.1-flash-lite-preview_estimate
+1619,Nem cua rán,45,20,gemini-3.1-flash-lite-preview_estimate
+1620,Cà tím nướng mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+1621,Càng cua bách hoa,30,15,gemini-3.1-flash-lite-preview_estimate
+847,Gan kho tộ,,,gemma-4-31b-it_error
+848,Ba chỉ chiên giòn – mắm thơm,,,gemma-4-31b-it_error
+849,Tôm rang củ nén húng chanh,,,gemma-4-31b-it_error
+1622,Miến xào cua,20,15,gemini-3.1-flash-lite-preview_estimate
+1623,Nem thịt bò chiên xù,25,15,gemini-3.1-flash-lite-preview_estimate
+1624,Súp cua nấm tuyết,30,60,gemini-3.1-flash-lite-preview_estimate
+850,Canh măng sườn lá giang,,,gemma-4-31b-it_error
+851,Đậu hũ nhồi tôm chiên,,,gemma-4-31b-it_error
+852,Xíu mại chay,,,gemma-4-31b-it_error
+1625,Bò nhúng giấm,30,15,gemini-3.1-flash-lite-preview_estimate
+1626,Lẩu cá kèo lá giang,25,20,gemini-3.1-flash-lite-preview_estimate
+1627,Cuốn diếp chay,45,20,gemini-3.1-flash-lite-preview_estimate
+1628,Ếch chiên bột,20,15,gemini-3.1-flash-lite-preview_estimate
+1629,Gà hấp cải bẹ xanh,40,20,gemini-3.1-flash-lite-preview_estimate
+1630,Vịt nấu thơm,30,45,gemini-3.1-flash-lite-preview_estimate
+853,Sườn xóc tỏi,,,gemma-4-31b-it_error
+854,Bacon xào bông cải măng tây,,,gemma-4-31b-it_error
+855,Mì tàu hũ cá hồi,,,gemma-4-31b-it_error
+1631,Lẩu uyên ương,30,45,gemini-3.1-flash-lite-preview_estimate
+1632,Trứng hấp rau củ,20,15,gemini-3.1-flash-lite-preview_estimate
+1633,Bò xốt vang,40,30,gemini-3.1-flash-lite-preview_estimate
+1634,Lẩu cá lăng măng chua,25,20,gemini-3.1-flash-lite-preview_estimate
+1635,Gà chiên lá dứa,30,15,gemini-3.1-flash-lite-preview_estimate
+1636,Phở xào chua ngọt,20,10,gemini-3.1-flash-lite-preview_estimate
+1637,Cá lóc hấp bầu,25,25,gemini-3.1-flash-lite-preview_estimate
+1638,Cơm chiên trái cây,20,15,gemini-3.1-flash-lite-preview_estimate
+1639,Chả tôm chiên lá trà xanh,30,15,gemini-3.1-flash-lite-preview_estimate
+1640,Táo tàu tiềm chôm chôm,25,20,gemini-3.1-flash-lite-preview_estimate
+1641,Sườn nướng ngũ vị,20,40,gemini-3.1-flash-lite-preview_estimate
+1642,Vây cá hồi xốt kem Mayo,15,15,gemini-3.1-flash-lite-preview_estimate
+856,Ngưu bàng xào hải sản,,,gemma-4-31b-it_error
+857,Lẩu nhúng chay,,,gemma-4-31b-it_error
+858,Gyoza cá hồi – Há cảo Nhật Bản,,,gemma-4-31b-it_error
+1643,Bạch tuộc xào rau muống,25,10,gemini-3.1-flash-lite-preview_estimate
+1644,Lươn chiên mắm sả,30,15,gemini-3.1-flash-lite-preview_estimate
+1645,Chả giò trái cây xốt sầu riêng,35,15,gemini-3.1-flash-lite-preview_estimate
+1646,Bún chả cá,30,45,gemini-3.1-flash-lite-preview_estimate
+1647,Cá chiên giòn xốt chanh ớt,25,20,gemini-3.1-flash-lite-preview_estimate
+1648,Vịt kho chuối xanh,25,40,gemini-3.1-flash-lite-preview_estimate
+1649,Nhộng xào bông hẹ,15,10,gemini-3.1-flash-lite-preview_estimate
+1650,Cháo cá hồi,20,25,gemini-3.1-flash-lite-preview_estimate
+1651,Cháo nấm tràm,25,30,gemini-3.1-flash-lite-preview_estimate
+859,Ốc mỡ xào me,,,gemma-4-31b-it_error
+860,Gà xào xốt táo,,,gemma-4-31b-it_error
+861,TẾT 3 MIỀN – Miền Nam: Cải bẹ xanh cuốn củ hủ dừa,,,gemma-4-31b-it_error
+1652,Gà hấp đậu hũ non,20,15,gemini-3.1-flash-lite-preview_estimate
+1653,Đông cô hấp tôm,30,15,gemini-3.1-flash-lite-preview_estimate
+1654,Mực nhúng giấm,25,10,gemini-3.1-flash-lite-preview_estimate
+1655,Bánh ướt xào hải sản,20,15,gemini-3.1-flash-lite-preview_estimate
+1656,Gà nướng táo,25,20,gemini-3.1-flash-lite-preview_estimate
+1657,Gà chiên lạp xưởng,40,25,gemini-3.1-flash-lite-preview_estimate
+862,TẾT 3 MIỀN – Miền Trung: Cuốn nem chua mì căn,,,gemma-4-31b-it_error
+863,TẾT 3 MIỀN – Miền Bắc: Cuốn đậu mơ su hào,,,gemma-4-31b-it_error
+864,Cá trứng chiên xốt trứng muối,,,gemma-4-31b-it_error
+1658,Gà chiên bơ,20,25,gemini-3.1-flash-lite-preview_estimate
+1659,Mì gói xào bò,25,15,gemini-3.1-flash-lite-preview_estimate
+1660,Miến măng gà,40,60,gemini-3.1-flash-lite-preview_estimate
+1661,Chân giò ninh măng lưỡi lợn,45,90,gemini-3.1-flash-lite-preview_estimate
+1662,Bò nướng sa tế,40,25,gemini-3.1-flash-lite-preview_estimate
+1663,Cá tai tượng hấp,30,30,gemini-3.1-flash-lite-preview_estimate
+1664,Gỏi cá hấp kiểu Nhật,20,15,gemini-3.1-flash-lite-preview_estimate
+1665,Đà điểu lúc lắc,15,10,gemini-3.1-flash-lite-preview_estimate
+1666,Cánh gà xốt nước tương,20,25,gemini-3.1-flash-lite-preview_estimate
+1667,Heo nướng bắp cải chua,30,60,gemini-3.1-flash-lite-preview_estimate
+1668,Cơm trân châu,20,25,gemini-3.1-flash-lite-preview_estimate
+1669,Đậu đũa xào tôm thịt,15,15,gemini-3.1-flash-lite-preview_estimate
+865,Chân gà sả tắc,,,gemma-4-31b-it_error
+866,Hoành thánh chay áp chảo,,,gemma-4-31b-it_error
+867,Mực lụi sả nướng,,,gemma-4-31b-it_error
+1670,Cá hồi xốt trái cây,20,15,gemini-3.1-flash-lite-preview_estimate
+1671,Gan gà xào chua ngọt,25,10,gemini-3.1-flash-lite-preview_estimate
+1672,Cháo lươn khoai môn đậu xanh,30,45,gemini-3.1-flash-lite-preview_estimate
+1673,Mực xào ớt khô Caramen,20,15,gemini-3.1-flash-lite-preview_estimate
+1674,Súp vịt quay,25,20,gemini-3.1-flash-lite-preview_estimate
+1675,Cần nước xào bao tử cá basa,20,10,gemini-3.1-flash-lite-preview_estimate
+1676,Bánh ruốc chiên giòn,15,10,gemini-3.1-flash-lite-preview_estimate
+1677,Lươn cuốn thịt om riềng,30,25,gemini-3.1-flash-lite-preview_estimate
+1678,Cơm chiên cá mặn chay,15,10,gemini-3.1-flash-lite-preview_estimate
+868,Canh tôm mọc hạt sen,,,gemma-4-31b-it_error
+869,Cuốn tàu hũ ky xốt rô ti,,,gemma-4-31b-it_error
+870,Cá lá lốt chiên mè,,,gemma-4-31b-it_error
+1679,Lẩu sườn non,20,40,gemini-3.1-flash-lite-preview_estimate
+1680,Thịt heo kho thơm,25,30,gemini-3.1-flash-lite-preview_estimate
+1681,Bánh Rôti cuốn thịt bò,20,15,gemini-3.1-flash-lite-preview_estimate
+1682,Cồi sò điệp xốt cay,15,10,gemini-3.1-flash-lite-preview_estimate
+1683,Cá cơm chiên giòn xốt tiêu,10,15,gemini-3.1-flash-lite-preview_estimate
+1684,Đậu hũ nhồi hạt sen,25,20,gemini-3.1-flash-lite-preview_estimate
+1685,Tôm nướng lá chuối,25,15,gemini-3.1-flash-lite-preview_estimate
+1686,Vịt quay xào thơm,15,10,gemini-3.1-flash-lite-preview_estimate
+1687,Cá trứng ngâm giấm,20,15,gemini-3.1-flash-lite-preview_estimate
+871,Lẩu tôm càng,,,gemma-4-31b-it_error
+872,Canh gà măng chua lá giang,,,gemma-4-31b-it_error
+873,Ram hến,,,gemma-4-31b-it_error
+1688,Trứng hấp tôm nấm,20,15,gemini-3.1-flash-lite-preview_estimate
+1689,Miến xào lươn chay,30,20,gemini-3.1-flash-lite-preview_estimate
+1690,Gà chiên xốt táo,25,25,gemini-3.1-flash-lite-preview_estimate
+874,Sườn sụn om hành phi,,,gemma-4-31b-it_error
+875,Canh chùm ngây sườn non,,,gemma-4-31b-it_error
+876,Nấm xào bí ngòi,,,gemma-4-31b-it_error
+1691,Canh chua nấu cá hồi,40,25,gemini-3.1-flash-lite-preview_estimate
+1692,Cá chép nấu bung,35,30,gemini-3.1-flash-lite-preview_estimate
+1693,Lẩu cua lá me,30,20,gemini-3.1-flash-lite-preview_estimate
+1694,Xúc xích khìa nước dừa,25,20,gemini-3.1-flash-lite-preview_estimate
+1695,Bún gạo xào thập cẩm,30,15,gemini-3.1-flash-lite-preview_estimate
+1696,Nải chuối mực,35,15,gemini-3.1-flash-lite-preview_estimate
+877,Nấm xốt tiêu xanh,,,gemma-4-31b-it_error
+878,Viên chả mực chiên giòn,,,gemma-4-31b-it_error
+879,Vịt om dưa cải khoai sọ,,,gemma-4-31b-it_error
+1697,Ốc giác xào bông hành,20,10,gemini-3.1-flash-lite-preview_estimate
+1698,Tôm hấp rau củ,30,15,gemini-3.1-flash-lite-preview_estimate
+1699,Canh râu mực nấu ngót,20,15,gemini-3.1-flash-lite-preview_estimate
+1700,Trứng cá kho nghệ,20,25,gemini-3.1-flash-lite-preview_estimate
+1701,Cơm gạo lức chiên nghêu,30,20,gemini-3.1-flash-lite-preview_estimate
+1702,Gà nướng bưởi xốt giấm,25,15,gemini-3.1-flash-lite-preview_estimate
+1703,Gà chiên sa tế xốt mayonnaise,20,15,gemini-3.1-flash-lite-preview_estimate
+1704,Bắp bò kho chua ngọt,30,40,gemini-3.1-flash-lite-preview_estimate
+1705,Dê nướng sa tế,25,20,gemini-3.1-flash-lite-preview_estimate
+880,Cá chiên bông điên điển,,,gemma-4-31b-it_error
+881,Đùi ếch nướng lá cách,,,gemma-4-31b-it_error
+882,Chả cua nấm hương,,,gemma-4-31b-it_error
+1706,Lẩu xí quách chua cay,30,60,gemini-3.1-flash-lite-preview_estimate
+1707,Cua lột xốt cam,25,20,gemini-3.1-flash-lite-preview_estimate
+1708,Cá hồi nướng xốt Mayo,25,30,gemini-3.1-flash-lite-preview_estimate
+883,Cá lóc chiên mắm sả,,,gemma-4-31b-it_error
+884,Lẩu mực nấm,,,gemma-4-31b-it_error
+885,Lẩu bầu cua,,,gemma-4-31b-it_error
+1709,Bê thui xào sa tế,20,10,gemini-3.1-flash-lite-preview_estimate
+1710,Canh sườn hạt sen,25,30,gemini-3.1-flash-lite-preview_estimate
+1711,Miến xào nghêu tay cầm,30,15,gemini-3.1-flash-lite-preview_estimate
+1712,Thịt bò nướng mù tạt,25,15,gemini-3.1-flash-lite-preview_estimate
+1713,Gà cuộn xôi xoài,40,30,gemini-3.1-flash-lite-preview_estimate
+1714,Lẩu chua thịt bò,20,20,gemini-3.1-flash-lite-preview_estimate
+1715,Su hào xào hải sản,20,15,gemini-3.1-flash-lite-preview_estimate
+1716,Salad cá hồi nướng xốt mayo,25,10,gemini-3.1-flash-lite-preview_estimate
+1717,Ốc mỡ xốt mayo,30,15,gemini-3.1-flash-lite-preview_estimate
+886,Cải thìa xào nấm đông cô thịt cua,,,gemma-4-31b-it_error
+887,Cánh gà nhồi củ năng,,,gemma-4-31b-it_error
+888,Lẩu ngưu bàng rong biển,,,gemma-4-31b-it_error
+1718,Trứng hấp,15,15,gemini-3.1-flash-lite-preview_estimate
+1719,Chả cá ngũ sắc,20,10,gemini-3.1-flash-lite-preview_estimate
+1720,Sò điệp nướng ba màu,45,15,gemini-3.1-flash-lite-preview_estimate
+1721,Bánh flan hạt chia matcha,20,45,gemini-3.1-flash-lite-preview_estimate
+1722,Bánh rán socola mứt xoài,15,15,gemini-3.1-flash-lite-preview_estimate
+1723,Salad mực chiên,30,20,gemini-3.1-flash-lite-preview_estimate
+1724,Pancake vị trà sữa,10,15,gemini-3.1-flash-lite-preview_estimate
+1725,Salad cá hồi sốt tôm khô,20,15,gemini-3.1-flash-lite-preview_estimate
+1726,Bắp hạt chiên giòn,15,10,gemini-3.1-flash-lite-preview_estimate
+889,Cá gáy chiên xốt chanh sả,,,gemma-4-31b-it_error
+890,Bún mè đen xào nghêu,,,gemma-4-31b-it_error
+891,Cơm tấm sườn cây,,,gemma-4-31b-it_error
+1727,Panna Cotta Kem Muối,20,15,gemini-3.1-flash-lite-preview_estimate
+1728,Pancake chocolate trái cây nhiệt đới,15,20,gemini-3.1-flash-lite-preview_estimate
+1729,Ngưu bàng chiên tôm,30,20,gemini-3.1-flash-lite-preview_estimate
+1730,Súp đậu non trứng rong biển,15,15,gemini-3.1-flash-lite-preview_estimate
+1731,Canh chua cá dứa 1 nắng,20,20,gemini-3.1-flash-lite-preview_estimate
+1732,Gà xào măng tây,20,15,gemini-3.1-flash-lite-preview_estimate
+1733,Cá kèo chiên mè,20,15,gemini-3.1-flash-lite-preview_estimate
+1734,Gà chiên sốt taru taru,30,20,gemini-3.1-flash-lite-preview_estimate
+1735,Măng tây chiên bia xốt cá ngừ,25,15,gemini-3.1-flash-lite-preview_estimate
+1736,Salad cá hồi xốt thanh long,25,10,gemini-3.1-flash-lite-preview_estimate
+1737,Tim heo xào măng tây,20,15,gemini-3.1-flash-lite-preview_estimate
+1738,Sandwich trái cây chiên giòn,20,10,gemini-3.1-flash-lite-preview_estimate
+1739,Canh chua Thái,25,20,gemini-3.1-flash-lite-preview_estimate
+1740,Khai vị cá hồi,20,10,gemini-3.1-flash-lite-preview_estimate
+1741,Cá cơm chiên bông hẹ mắm me,20,25,gemini-3.1-flash-lite-preview_estimate
+892,Bánh bột báng ngũ sắc,,,gemma-4-31b-it_error
+893,Gà viên phô mai chiên giòn,,,gemma-4-31b-it_error
+894,Mướp khía xào mực,,,gemma-4-31b-it_error
+1742,Bacon cuộn hành tây phô mai,25,15,gemini-3.1-flash-lite-preview_estimate
+1743,Canh cá hồng,30,30,gemini-3.1-flash-lite-preview_estimate
+1744,Bắp cải hấp nấm tôm,35,25,gemini-3.1-flash-lite-preview_estimate
+895,Canh ếch lá giang,,,gemma-4-31b-it_error
+896,Tôm xốt nụ bạch hoa,,,gemma-4-31b-it_error
+897,Cá đổng kho dưa cà,,,gemma-4-31b-it_error
+1745,Canh sụn bò củ cải,20,45,gemini-3.1-flash-lite-preview_estimate
+1746,Lòng gà xào tiêu xanh,25,15,gemini-3.1-flash-lite-preview_estimate
+1747,Tôm chiên dừa,30,15,gemini-3.1-flash-lite-preview_estimate
+898,Cải xoong xào tôm,,,gemma-4-31b-it_error
+899,Súp hành tây kiểu Pháp,,,gemma-4-31b-it_error
+900,Gỏi cuốn cá hồi,,,gemma-4-31b-it_error
+1748,Hồ lô cá,30,15,gemini-3.1-flash-lite-preview_estimate
+1749,Đậu mơ kẹp phô mai chiên,25,10,gemini-3.1-flash-lite-preview_estimate
+1750,Bánh nếp nhân sò điệp,45,25,gemini-3.1-flash-lite-preview_estimate
+901,Cá hồi chiên sốt chanh,,,gemma-4-31b-it_error
+902,Cá hồi nướng mía,,,gemma-4-31b-it_error
+903,Canape cá hồi xông khói,,,gemma-4-31b-it_error
+1751,Canh gà lá me non,20,25,gemini-3.1-flash-lite-preview_estimate
+1752,Hoành thánh bắp chiên,30,15,gemini-3.1-flash-lite-preview_estimate
+1753,Tôm thịt bọc trứng cút,35,20,gemini-3.1-flash-lite-preview_estimate
+1754,Hoành thánh hoa hồng,30,15,gemini-3.1-flash-lite-preview_estimate
+1755,Chả khoanh hành tây,25,15,gemini-3.1-flash-lite-preview_estimate
+1756,Canh đầu cá bớp,20,25,gemini-3.1-flash-lite-preview_estimate
+1757,Canh gà nấm mỡ,25,20,gemini-3.1-flash-lite-preview_estimate
+1758,Chả giò cá chẽm,30,15,gemini-3.1-flash-lite-preview_estimate
+1759,Dê xào tía tô cà bát,20,15,gemini-3.1-flash-lite-preview_estimate
+1760,Chả cốm tạo hình,45,25,gemini-3.1-flash-lite-preview_estimate
+1761,Canh cá hanh vị Thái,30,20,gemini-3.1-flash-lite-preview_estimate
+1762,Canh củ sen rong biển,25,35,gemini-3.1-flash-lite-preview_estimate
+904,Canh mực nấu chua,,,gemma-4-31b-it_error
+905,Cá hố kho hành gừng,,,gemma-4-31b-it_error
+906,Bê hấp bia,,,gemma-4-31b-it_error
+1763,Bánh tôm hẹ chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+1764,Dưa chuột ngâm giấm,40,15,gemini-3.1-flash-lite-preview_estimate
+1765,Cá điêu hồng cuộn dưa kiệu,30,20,gemini-3.1-flash-lite-preview_estimate
+1766,Bánh cá khoai tây,45,30,gemini-3.1-flash-lite-preview_estimate
+1767,Pancake lá dứa,30,20,gemini-3.1-flash-lite-preview_estimate
+1768,Jambon cuộn thanh cua,25,15,gemini-3.1-flash-lite-preview_estimate
+1769,Súp óc heo tóc tiên,25,20,gemini-3.1-flash-lite-preview_estimate
+1770,Sườn cuộn bacon chiên mè,30,45,gemini-3.1-flash-lite-preview_estimate
+1771,Chả lụa chay,20,30,gemini-3.1-flash-lite-preview_estimate
+1772,Canape cá hồi trái bơ,30,5,gemini-3.1-flash-lite-preview_estimate
+1773,Chả cua áp chảo,25,15,gemini-3.1-flash-lite-preview_estimate
+1774,Chả giò cua thanh,20,10,gemini-3.1-flash-lite-preview_estimate
+907,Chả giò khoai tây trứng muối,,,gemma-4-31b-it_error
+908,Nấm bào ngư hấp sả,,,gemma-4-31b-it_error
+909,Sụn heo xáo nghệ,,,gemma-4-31b-it_error
+1775,Bắp xào ngũ sắc,20,10,gemini-3.1-flash-lite-preview_estimate
+1776,Snack cốm,30,15,gemini-3.1-flash-lite-preview_estimate
+1777,Ốc lác xào cay,25,10,gemini-3.1-flash-lite-preview_estimate
+1778,Lạc xá chay,25,20,gemini-3.1-flash-lite-preview_estimate
+1779,Cánh gà xốt kem thơm,20,15,gemini-3.1-flash-lite-preview_estimate
+1780,Bánh mì nướng hải sản,30,15,gemini-3.1-flash-lite-preview_estimate
+1781,Bánh đúc chiên hải sản,20,15,gemini-3.1-flash-lite-preview_estimate
+1782,Đầu cá hồi xốc muối sả,25,20,gemini-3.1-flash-lite-preview_estimate
+1783,Cua xốt me,30,20,gemini-3.1-flash-lite-preview_estimate
+1784,Súp trái cây,20,15,gemini-3.1-flash-lite-preview_estimate
+1785,Tôm chiên mè,25,15,gemini-3.1-flash-lite-preview_estimate
+1786,Cá basa chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+910,Lươn kho củ nén,,,gemma-4-31b-it_error
+911,Mì nưa xào kim chi thịt bò,,,gemma-4-31b-it_error
+912,Bánh khọt chay,,,gemma-4-31b-it_error
+1787,Đùi gà bọc xôi,25,20,gemini-3.1-flash-lite-preview_estimate
+1788,Sò điệp nướng ba màu,20,15,gemini-3.1-flash-lite-preview_estimate
+1789,Sườn chiên giấm đỏ,30,25,gemini-3.1-flash-lite-preview_estimate
+1790,Vịt chiên xốt chua ngọt,25,25,gemini-3.1-flash-lite-preview_estimate
+1791,Thịt bò xào lá lốt,15,10,gemini-3.1-flash-lite-preview_estimate
+1792,Đậu hũ nướng giấy bạc,20,20,gemini-3.1-flash-lite-preview_estimate
+1793,Tôm mực chiên giòn,20,15,gemini-3.1-flash-lite-preview_estimate
+1794,Bánh đa xúc thịt bằm,25,10,gemini-3.1-flash-lite-preview_estimate
+1795,Cuốn gà khai vị,30,20,gemini-3.1-flash-lite-preview_estimate
+913,Chả chay rim ngũ vị,,,gemma-4-31b-it_error
+914,Đậu hũ nhồi nấm bào ngư,,,gemma-4-31b-it_error
+915,Canh củ quả nấu tôm,,,gemma-4-31b-it_error
+1796,Bò cuộn xốt lá quế,20,15,gemini-3.1-flash-lite-preview_estimate
+1797,Viên tôm chiên tỏi thì là,30,15,gemini-3.1-flash-lite-preview_estimate
+1798,Bánh đúc tôm thịt,25,30,gemini-3.1-flash-lite-preview_estimate
+1799,Tôm sú san hô,20,15,gemini-3.1-flash-lite-preview_estimate
+1800,Thăn heo cuộn dừa,40,20,gemini-3.1-flash-lite-preview_estimate
+1801,Bò cuộn ba rọi xông khói,30,20,gemini-3.1-flash-lite-preview_estimate
+1802,Chả giò cá,30,15,gemini-3.1-flash-lite-preview_estimate
+1803,Tàu hủ ky cuộn mực chiên,25,10,gemini-3.1-flash-lite-preview_estimate
+1804,Bánh rán nhân cua,45,20,gemini-3.1-flash-lite-preview_estimate
+1805,Gân bò ngâm chua ngọt,30,150,gemini-3.1-flash-lite-preview_estimate
+1806,Cá chiên hoa cúc,25,20,gemini-3.1-flash-lite-preview_estimate
+1807,Cá basa chiên giòn vị chanh,20,15,gemini-3.1-flash-lite-preview_estimate
+916,Tôm nướng lá chúc,,,gemma-4-31b-it_error
+917,Bún xí quách nước tương,,,gemma-4-31b-it_error
+918,Cánh gà chiên tiêu lốp,,,gemma-4-31b-it_error
+1808,Thịt heo ngâm nước mắm,45,60,gemini-3.1-flash-lite-preview_estimate
+1809,Chân gà chiên chấm mắm mè,30,20,gemini-3.1-flash-lite-preview_estimate
+1810,Dưa món,60,20,gemini-3.1-flash-lite-preview_estimate
+1811,Chả tôm nhân phô mai,20,15,gemini-3.1-flash-lite-preview_estimate
+1812,Gà cuộn khoai chiên giòn,25,20,gemini-3.1-flash-lite-preview_estimate
+1813,Rau tiến vua ngâm chua,240,15,gemini-3.1-flash-lite-preview_estimate
+1814,Rau muống ngâm chua,30,15,gemini-3.1-flash-lite-preview_estimate
+1815,Tai heo ngâm giấm,40,30,gemini-3.1-flash-lite-preview_estimate
+1816,Nem chay vỏ bưởi,60,45,gemini-3.1-flash-lite-preview_estimate
+1817,Mực nướng sa tế,20,15,gemini-3.1-flash-lite-preview_estimate
+1818,Ngọc mực rang tổ chim,25,20,gemini-3.1-flash-lite-preview_estimate
+1819,Hải sản chiên xù,30,20,gemini-3.1-flash-lite-preview_estimate
+919,Thịt ba chỉ kho cam,,,gemma-4-31b-it_error
+920,Canh cá chép rau cần,,,gemma-4-31b-it_error
+921,Pancake chocolate nhân kem dâu,,,gemma-4-31b-it_error
+1820,Bánh bông lan xốt dâu mayonnaise,25,25,gemini-3.1-flash-lite-preview_estimate
+1821,Mực né,20,10,gemini-3.1-flash-lite-preview_estimate
+1822,Viên mè chiên giòn,30,15,gemini-3.1-flash-lite-preview_estimate
+1823,Bánh xèo cuốn áp chảo,40,30,gemini-3.1-flash-lite-preview_estimate
+1824,Sò huyết Tứ Xuyên,25,10,gemini-3.1-flash-lite-preview_estimate
+1825,Vịt xiêm giả cầy,30,45,gemini-3.1-flash-lite-preview_estimate
+1826,Mực nướng tương hột,30,25,gemini-3.1-flash-lite-preview_estimate
+1827,Phở cuốn,25,15,gemini-3.1-flash-lite-preview_estimate
+922,Sườn và đậu hũ kho thơm,,,gemma-4-31b-it_error
+923,Gà xào ngũ sắc,,,gemma-4-31b-it_error
+924,Cá trê chiên giòn,,,gemma-4-31b-it_error
+925,Bún chùm ngây xào hải sản,,,gemma-4-31b-it_error
+926,Mướp hương xào tim,,,gemma-4-31b-it_error
+927,Bột chiên,,,gemma-4-31b-it_error
+928,Lẩu thái cua đồng,,,gemma-4-31b-it_error
+929,Canh cá cơm lá me đất,,,gemma-4-31b-it_error
+930,Vịt nướng me cay,,,gemma-4-31b-it_error
+931,Đậu đũa xào tôm,,,gemma-4-31b-it_error
+932,Lẩu cá dìa,,,gemma-4-31b-it_error
+933,Bạch tuộc xào rượu gừng,,,gemma-4-31b-it_error
+934,Cá hồi cuộn cơm chiên,,,gemma-4-31b-it_error
+935,Ba rọi kho măng,,,gemma-4-31b-it_error
+936,Chạo chay sả cây,,,gemma-4-31b-it_error
+937,Ốc cà na hấp sả,,,gemma-4-31b-it_error
+938,Bánh xếp,,,gemma-4-31b-it_error
+939,Canh chua bông thiên lý,,,gemma-4-31b-it_error
+940,Vịt kho chanh muối,,,gemma-4-31b-it_error
+941,Chả cá vị cà ri,,,gemma-4-31b-it_error
+942,Đu đủ xào thịt gà,,,gemma-4-31b-it_error
+943,Cá đục chiên giòn,,,gemma-4-31b-it_error
+944,Thăn heo cuốn cải hấp,,,gemma-4-31b-it_error
+945,Vịt kho dưa gừng non,,,gemma-4-31b-it_error
+946,Cá thu chiên giòn xốt chanh dây,,,gemma-4-31b-it_error
+947,Thịt heo xông khói hương sả,,,gemma-4-31b-it_error
+948,Lẩu gà hầm sả,,,gemma-4-31b-it_error
+949,Cải thảo xào tôm khô,,,gemma-4-31b-it_error
+950,Ngồng tỏi xào hải sản,,,gemma-4-31b-it_error
+951,Đọt su xào trứng bắc thảo,,,gemma-4-31b-it_error
+952,Chả tôm ốc hương,,,gemma-4-31b-it_error
+953,Cá cuộn Bacon hương thảo,,,gemma-4-31b-it_error
+954,Canh gà cuộn cải thảo,,,gemma-4-31b-it_error
+955,Nem chay rán,,,gemma-4-31b-it_error
+956,Cá nục kho rục,,,gemma-4-31b-it_error
+957,Cuốn gà xào xốt mè,,,gemma-4-31b-it_error
+958,Bánh khoai môn đút lò,,,gemma-4-31b-it_error
+959,Canh gà lá é,,,gemma-4-31b-it_error
+960,Tôm chiên xốt chanh,,,gemma-4-31b-it_error
+961,Lẩu khổ qua hải sản,,,gemma-4-31b-it_error
+962,Mực trứng xào rau răm,,,gemma-4-31b-it_error
+963,Ba rọi nướng riềng,,,gemma-4-31b-it_error
+964,Canh gà nấm mỡ,,,gemma-4-31b-it_error
+965,Khổ qua hấp tam cô,,,gemma-4-31b-it_error
+966,Bò kho dưa kiệu,,,gemma-4-31b-it_error
+967,Bó củi bào ngư,,,gemma-4-31b-it_error
+968,Pasta tình yêu,,,gemma-4-31b-it_error
+969,Cà tím kẹp thịt gà chiên,,,gemma-4-31b-it_error
+970,Cá điêu hồng chiên xốt tắc,,,gemma-4-31b-it_error
+971,Cá chẽm xiên que xốt thì là,,,gemma-4-31b-it_error
+972,Canh cua rau cần,,,gemma-4-31b-it_error
+973,Sườn nướng quả lê,25,30,gemma-4-31b-it_estimate
+974,Tôm chiên lá cà ri,20,15,gemma-4-31b-it_estimate
+975,Cá viên chiên,25,10,gemma-4-31b-it_estimate
+976,Kèo nèo xào tép,,,gemma-4-31b-it_error
+977,Bò kho nước dừa,,,gemma-4-31b-it_error
+978,Củ sen xào ngũ vị,,,gemma-4-31b-it_error
+979,Chả lui,,,gemma-4-31b-it_error
+980,Ếch xào sả lá chanh,,,gemma-4-31b-it_error
+981,Canh nghêu bó xôi,,,gemma-4-31b-it_error
+982,Gà cuộn rong biển,,,gemma-4-31b-it_error
+983,Cuốn rau đậu hũ,,,gemma-4-31b-it_error
+984,Sườn non ram mè,,,gemma-4-31b-it_error
+985,Đậu kho gừng,,,gemma-4-31b-it_error
+986,Canh cá hồi nấu nấm,,,gemma-4-31b-it_error
+987,Gân bò xào sả ớt,,,gemma-4-31b-it_error
+988,Sườn chiên cay,,,gemma-4-31b-it_error
+989,Cua đồng xúc bánh tráng,,,gemma-4-31b-it_error
+990,Nghêu hấp vang trắng,,,gemma-4-31b-it_error
+991,Canh cải xoăn,,,gemma-4-31b-it_error
+992,Sườn kho quế mật ong,,,gemma-4-31b-it_error
+993,Cá chim chiên giòn,,,gemma-4-31b-it_error
+994,Salad bí ngòi nướng,,,gemma-4-31b-it_error
+995,Trứng ốp la ớt chuông,,,gemma-4-31b-it_error
+996,Canh bó xôi bò viên,,,gemma-4-31b-it_error
+997,Sườn tiềm hoa thanh long,,,gemma-4-31b-it_error
+998,Bánh xèo Nhật Bản,,,gemma-4-31b-it_error
+999,Khoai lang kho rong biển,,,gemma-4-31b-it_error
+1000,Cá hồi chiên mắm dừa,,,gemma-4-31b-it_error
+1001,Canh cá nấu mẻ,,,gemma-4-31b-it_error
+1002,Bò xào khổ qua bắp cải tím,,,gemma-4-31b-it_error
+1003,Rau củ kho mía,,,gemma-4-31b-it_error
+1004,Miến đậu xanh xào thập cẩm,,,gemma-4-31b-it_error
+1005,Gà viên xốt cà ri,,,gemma-4-31b-it_error
+1006,Đậu cove xào ba rọi xông khói,,,gemma-4-31b-it_error
+1007,Canh nấm càng cua,,,gemma-4-31b-it_error
+1008,Thịt rang gừng lá chanh,,,gemma-4-31b-it_error
+1009,Gà chiên lá é,,,gemma-4-31b-it_error
+1010,Cá rô phi chiên xốt cà,,,gemma-4-31b-it_error
+1011,Vịt rang tỏi,,,gemma-4-31b-it_error
+1012,Canh hào thanh mát,,,gemma-4-31b-it_error
+1013,Đậu hũ xào nấm,,,gemma-4-31b-it_error
+1014,Váng đậu cuộn rau củ chiên,,,gemma-4-31b-it_error
+1015,Thịt quay kho cà pháo,,,gemma-4-31b-it_error
+1016,Spagetty xốt vẹm,,,gemma-4-31b-it_error
+1017,Rau củ luộc xốt nấm,,,gemma-4-31b-it_error
+1018,Phèo nướng lá hẹ,,,gemma-4-31b-it_error
+1019,Thịt kho đậu phộng,,,gemma-4-31b-it_error
+1020,Viên đậu hũ xốt nước tương,,,gemma-4-31b-it_error
+1021,Tôm chiên ủ rơm,,,gemma-4-31b-it_error
+1022,Cá chạch kho sả,,,gemma-4-31b-it_error
+1023,Salad Cá Mòi,,,gemma-4-31b-it_error
+1024,Cá điêu hồng chiên xốt chanh dây,,,gemma-4-31b-it_error
+1025,Cá hồi xốt cà ri me,,,gemma-4-31b-it_error
+1026,Pizza mì sợi,,,gemma-4-31b-it_error
+1027,Sườn BBQ,60,40,gemma-4-31b-it_estimate
+1028,Gà xào cay,25,20,gemma-4-31b-it_estimate
+1029,Canh tương đậu,20,20,gemma-4-31b-it_estimate
+1030,Bí đỏ kho rong biển,,,gemma-4-31b-it_error
+1031,Mực xào hoa trứng,,,gemma-4-31b-it_error
+1032,Cá lưỡi trâu chiên giòn,,,gemma-4-31b-it_error
+1033,Sườn kho củ năng,,,gemma-4-31b-it_error
+1034,Canh cua đồng rong biển,,,gemma-4-31b-it_error
+1035,Đọt su xào tép,,,gemma-4-31b-it_error
+1036,Bánh tráng cuốn xốt Mayo,,,gemma-4-31b-it_error
+1037,Gà nổ muối,,,gemma-4-31b-it_error
+1038,Nụ bí bọc giò sống,,,gemma-4-31b-it_error
+1039,Cua xào cay,,,gemma-4-31b-it_error
+1040,Gnocchi khoai tây xào bò,,,gemma-4-31b-it_error
+1041,Canh rau củ ba rọi xông khói,,,gemma-4-31b-it_error
+1042,Canh chua hải sản,,,gemma-4-31b-it_error
+1043,Cá lóc đồng kho nghệ,,,gemma-4-31b-it_error
+1044,Dồi trường xào bắp cải tím,,,gemma-4-31b-it_error
+1045,Canh cà chua thịt bò,,,gemma-4-31b-it_error
+1046,Mít non om nước cốt dừa,,,gemma-4-31b-it_error
+1047,Cơm chiên nấm mặn,,,gemma-4-31b-it_error
+1048,Bao tử kho xốt cay,,,gemma-4-31b-it_error
+1049,Tôm thịt xào mắm ruốc,,,gemma-4-31b-it_error
+1050,Gà kho rau củ,,,gemma-4-31b-it_error
+1051,Lẩu nhúng cay,,,gemma-4-31b-it_error
+1052,Cá rô kho cà na,,,gemma-4-31b-it_error
+1053,Gà xào cà ri,,,gemma-4-31b-it_error
+1054,Lẩu khoai mỡ,,,gemma-4-31b-it_error
+1055,Cá nướng mù tạt,,,gemma-4-31b-it_error
+1056,Gỏi xoài cá cơm chiên,,,gemma-4-31b-it_error
+1057,Cá chuồn kho mít non,,,gemma-4-31b-it_error
+1058,Thịt ba rọi nướng lá chanh,,,gemma-4-31b-it_error
+1059,Chả giò ngũ vị,,,gemma-4-31b-it_error
+1060,Bò cuộn rau củ,,,gemma-4-31b-it_error
+1061,Cá kèo chiên chấm tương bần,,,gemma-4-31b-it_error
+1062,Cá cuốn tôm chiên xốt quả bơ,,,gemma-4-31b-it_error
+1063,Bắp bò kho thơm,,,gemma-4-31b-it_error
+1064,Chân giò kho tương sả,,,gemma-4-31b-it_error
+1065,Khổ qua chiên me cay,,,gemma-4-31b-it_error
+1066,Miến xào hến xốt me,,,gemma-4-31b-it_error
+1067,Cá rô phi kho lá lốt,,,gemma-4-31b-it_error
+1068,Canh chua cá củ thì là,,,gemma-4-31b-it_error
+1069,Canh chua gà bông so đũa,,,gemma-4-31b-it_error
+1070,Mì Soba Xào Kiểu Nhật,,,gemma-4-31b-it_error
+1071,Mì căn nhồi rô ti,,,gemma-4-31b-it_error
+1072,Bò kho khoai sọ,,,gemma-4-31b-it_error
+1073,Thăn bò nướng,,,gemma-4-31b-it_error
+1074,Bò xào nấm mỡ,,,gemma-4-31b-it_error
+1075,Bánh tráng cuộn rau rừng,,,gemma-4-31b-it_error
+1076,Bánh qui chay tam sắc,,,gemma-4-31b-it_error
+1077,Gà hầm tứ quý,,,gemma-4-31b-it_error
+1078,Lẩu bò chua cay,,,gemma-4-31b-it_error
+1079,Cá nục chiên xốt mè Wasabi,,,gemma-4-31b-it_error
+1080,Rau củ xào thịt cua,,,gemma-4-31b-it_error
+1081,Cá bớp chiên giòn xốt chanh,,,gemma-4-31b-it_error
+1082,Cá lăng kho chuối và tai chua,,,gemma-4-31b-it_error
+1083,Nấm đùi gà kho măng tây,,,gemma-4-31b-it_error
+1084,Mực nhồi gạo lức rim,,,gemma-4-31b-it_error
+1085,Salad cá hồi,,,gemma-4-31b-it_error
+1086,Mì Linguine xào tôm bắp,,,gemma-4-31b-it_error
+1087,Cá nướng xốt Mayo khoai tây,,,gemma-4-31b-it_error
+1088,Gà quay xốt hành tăm,,,gemma-4-31b-it_error
+1089,Lẩu gà hành cần,,,gemma-4-31b-it_error
+1090,Tai heo kho cải chua,,,gemma-4-31b-it_error
+1091,Sườn non om chuối,,,gemma-4-31b-it_error
+1092,Cuốn vịt mắm sả,,,gemma-4-31b-it_error
+1093,Thịt lăn mè,,,gemma-4-31b-it_error
+1094,Tôm mực xào tiêu xanh,,,gemma-4-31b-it_error
+1095,Chả tôm thịt mắc khén,,,gemma-4-31b-it_error
+1096,Đuôi heo nướng chao,,,gemma-4-31b-it_error
+1097,Canh thính đu đủ,,,gemma-4-31b-it_error
+1098,Mì Soba xào bạch tuộc,,,gemma-4-31b-it_error
+1099,Canh gà hạt lựu,,,gemma-4-31b-it_error
+1100,Ếch xào chua ngọt,,,gemma-4-31b-it_error
+1101,Canh bông bí nấm kim châm,,,gemma-4-31b-it_error
+1102,Cà tím áp chảo xốt cay,,,gemma-4-31b-it_error
+1103,Măng trúc kho ruốc Huế,,,gemma-4-31b-it_error
+1104,Bí đỏ xào thịt xông khói,,,gemma-4-31b-it_error
+1105,Sườn nướng lá hương thảo,,,gemma-4-31b-it_error
+1106,Gà xào nước tương,,,gemma-4-31b-it_error
+1107,Sườn nấu cá mòi,,,gemma-4-31b-it_error
+1108,Mì cay chay,,,gemma-4-31b-it_error
+1109,Cá điêu hồng kho tương hột,,,gemma-4-31b-it_error
+1110,Canh chua tôm cà ri,,,gemma-4-31b-it_error
+1111,Dimsum hải sản,30,20,gemma-4-31b-it_estimate
+1112,Cá hồi kho nước tương,15,15,gemma-4-31b-it_estimate
+1113,Thịt ba chỉ kho mơ,20,22,gemma-4-31b-it_estimate
+1114,Gà nướng xí muội,,,gemma-4-31b-it_error
+1115,Thịt bê xào cải rổ,,,gemma-4-31b-it_error
+1116,Cá kèo kho kim chi củ cải,,,gemma-4-31b-it_error
+1117,Chả cá chiên bánh tráng,,,gemma-4-31b-it_error
+1118,Đu đủ hường xào tôm đất,,,gemma-4-31b-it_error
+1119,Bò áp chảo chanh dây,,,gemma-4-31b-it_error
+1120,Nghêu kho gừng,,,gemma-4-31b-it_error
+1121,Canh đu đủ viên cua,,,gemma-4-31b-it_error
+1122,Giò heo um nước cốt dừa,,,gemma-4-31b-it_error
+1123,Canh cà chua nấu đậu,,,gemma-4-31b-it_error
+1124,Thanh gà chiên xốt cay,,,gemma-4-31b-it_error
+1125,Ếch chiên ngũ vị,,,gemma-4-31b-it_error
+1126,Bánh hành tóp mỡ,,,gemma-4-31b-it_error
+1127,Lẩu cháo chùm ngây,,,gemma-4-31b-it_error
+1128,Cà ri hải sản,,,gemma-4-31b-it_error
+1129,Dồi trường xào chua cay,,,gemma-4-31b-it_error
+1130,Gà nướng chảo,,,gemma-4-31b-it_error
+1131,Lẩu cá hồng nhúng giấm,,,gemma-4-31b-it_error
+1132,Đà điểu xốt trái cây,,,gemma-4-31b-it_error
+1133,Trứng đúc nấm rơm,,,gemma-4-31b-it_error
+1134,Canh dưa hường tôm viên,,,gemma-4-31b-it_error
+1135,Lẩu gà tứ xuyên,,,gemma-4-31b-it_error
+1136,Mì áp chảo thịt heo,,,gemma-4-31b-it_error
+1137,Gà quay xốt kem nấm,,,gemma-4-31b-it_error
+1138,Ngọc mực xóc tỏi,,,gemma-4-31b-it_error
+1139,Bồn bồn xào tôm,,,gemma-4-31b-it_error
+1140,Bao tử cá kho tiêu,,,gemma-4-31b-it_error
+1141,Đậu hủ bách hoa xốt thịt cua,,,gemma-4-31b-it_error
+1142,Sườn kinh đô,,,gemma-4-31b-it_error
+1143,Gà nướng xiên xốt đậu phộng,,,gemma-4-31b-it_error
+1144,Cá trắm kho khế,,,gemma-4-31b-it_error
+1145,Vịt nướng nước cốt dừa,,,gemma-4-31b-it_error
+1146,Lẩu cá chẽm đậu hũ non,,,gemma-4-31b-it_error
+1147,Mề gà kho thơm,,,gemma-4-31b-it_error
+1148,Canh thơm cá ngừ,,,gemma-4-31b-it_error
+1149,Mì xào xá xíu,,,gemma-4-31b-it_error
+1150,Cánh gà chiên ngũ cốc,,,gemma-4-31b-it_error
+1151,Cơm hến trộn,,,gemma-4-31b-it_error
+1152,Cá lăng kho nghệ,,,gemma-4-31b-it_error
+1153,Bắp bò xào xốt tiêu xanh,,,gemma-4-31b-it_error
+1154,Teriyaki cá hồi,,,gemma-4-31b-it_error
+1155,Bò tiềm trái dừa,,,gemma-4-31b-it_error
+1156,Canh gà măng chua,,,gemma-4-31b-it_error
+1157,Bí nhồi thịt kho,,,gemma-4-31b-it_error
+1158,Gà lên mâm,,,gemma-4-31b-it_error
+1159,Giò heo da giòn,,,gemma-4-31b-it_error
+1160,Hủ tiếu mực,,,gemma-4-31b-it_error
+1161,Gà kho nghệ chua cay,,,gemma-4-31b-it_error
+1162,Cá lăng nướng thì là,,,gemma-4-31b-it_error
+1163,Kho quẹt chay,,,gemma-4-31b-it_error
+1164,Bò nấu trái cây,,,gemma-4-31b-it_error
+1165,Chả mực bắp áp chảo,,,gemma-4-31b-it_error
+1166,Mì căn xào sả ớt,,,gemma-4-31b-it_error
+1167,Đà điểu xào lá cách,,,gemma-4-31b-it_error
+1168,Phá lấu thịt bê,,,gemma-4-31b-it_error
+1169,Lẩu ốc thả,,,gemma-4-31b-it_error
+1170,Lươn nướng lá dứa,,,gemma-4-31b-it_error
+1171,Măng tây xào tôm,,,gemma-4-31b-it_error
+1172,Bắp bò xào sả ớt cơm cháy,,,gemma-4-31b-it_error
+1173,Cá lăng kho cà bi,,,gemma-4-31b-it_error
+1174,Gà rang muối,,,gemma-4-31b-it_error
+1175,Canh cá lóc lá giang,,,gemma-4-31b-it_error
+1176,Lẩu bò,,,gemma-4-31b-it_error
+1177,Canh mực nấu nước dừa,,,gemma-4-31b-it_error
+1178,Salad cá hồi húng quế,,,gemma-4-31b-it_error
+1179,Vịt kho củ hũ dừa,,,gemma-4-31b-it_error
+1180,Mực xáo nước cốt dừa,,,gemma-4-31b-it_error
+1181,Tôm xốt cocktail,,,gemma-4-31b-it_error
+1182,Gà nấu nước tương,,,gemma-4-31b-it_error
+1183,Tôm chiên rong biển,,,gemma-4-31b-it_error
+1184,Cơm gà xối mỡ,,,gemma-4-31b-it_error
+1185,Lẩu đầu cá bớp rau kèo nèo,,,gemma-4-31b-it_error
+1186,Nghêu xào lá khổ qua,,,gemma-4-31b-it_error
+1187,Giò hoa rong biển,,,gemma-4-31b-it_error
+1188,Lẩu cá cờ,,,gemma-4-31b-it_error
+1189,Cuốn rau rừng thịt khìa chay,,,gemma-4-31b-it_error
+1190,Giò heo hầm tứ quý,,,gemma-4-31b-it_error
+1191,Hoành thánh nhân đậu chiên,,,gemma-4-31b-it_error
+1192,Cá chim kho gừng ớt,,,gemma-4-31b-it_error
+1193,Cá nướng cà ri,,,gemma-4-31b-it_error
+1194,Lẩu kim chi,,,gemma-4-31b-it_error
+1195,Sò lông xào chua ngọt,,,gemma-4-31b-it_error
+1196,Mực xào nấm hương,,,gemma-4-31b-it_error
+1197,Thịt kho hạt dẻ,,,gemma-4-31b-it_error
+1198,Gà nướng lá húng lủi,,,gemma-4-31b-it_error
+1199,Đuôi bò hầm hoa atiso,,,gemma-4-31b-it_error
+1200,Canh ba rọi cuộn nấm,,,gemma-4-31b-it_error
+1201,Cánh gà nhồi sả chiên xốt me,,,gemma-4-31b-it_error
+1202,Trứng chiên ngải cứu,,,gemma-4-31b-it_error
+1203,Cá viên chiên mè,,,gemma-4-31b-it_error
+1204,Bánh đa xào hải sản,,,gemma-4-31b-it_error
+1205,Gà hấp lá sen,,,gemma-4-31b-it_error
+1206,Cơm chiên thịt bò và phô mai,,,gemma-4-31b-it_error
+1207,Chả cá Lã Vọng,,,gemma-4-31b-it_error
+1208,Lẩu bắp bò tôm chua,,,gemma-4-31b-it_error
+1209,Gà tiềm chôm chôm,,,gemma-4-31b-it_error
+1210,Chân giò nấu nước tương,,,gemma-4-31b-it_error
+1211,Lẩu gà ớt hiểm,,,gemma-4-31b-it_error
+1212,Gan heo xào chua ngọt,,,gemma-4-31b-it_error
+1213,Sò huyết xào tỏi,,,gemma-4-31b-it_error
+1214,Lẩu cá bớp,,,gemma-4-31b-it_error
+1215,Xáo lòng,,,gemma-4-31b-it_error
+1216,Heo quay hon,,,gemma-4-31b-it_error
+1217,Gà cuộn cải bó xôi đút lò,,,gemma-4-31b-it_error
+1218,Cá hấp củ sen,,,gemma-4-31b-it_error
+1219,Thịt bò chiên mắm bò hóc,,,gemma-4-31b-it_error
+1220,Canh lươn hầm cải chua,,,gemma-4-31b-it_error
+1221,Tôm xào tàu xì,,,gemma-4-31b-it_error
+1222,Cá nục hấp cuốn cải xanh,,,gemma-4-31b-it_error
+1223,Tôm xào bông so đũa,,,gemma-4-31b-it_error
+1224,Chả lụa kho trứng cút,,,gemma-4-31b-it_error
+1225,Lẩu nấm đầu cá hồi,,,gemma-4-31b-it_error
+1226,Canh măng cua đồng,,,gemma-4-31b-it_error
+1227,Canh cá rau muống,,,gemma-4-31b-it_error
+1228,Cá rim giấm mè,,,gemma-4-31b-it_error
+1229,Mọc đông trứng cút,,,gemma-4-31b-it_error
+1230,Bò cuộn nấm xốt tiêu,,,gemma-4-31b-it_error
+1231,Cuốn chả tôm,,,gemma-4-31b-it_error
+1232,Gà nấu đậu ngự,,,gemma-4-31b-it_error
+1233,Sườn nướng xốt cay,,,gemma-4-31b-it_error
+1234,Tôm ram thịt ba chỉ,20,15,gemma-4-31b-it_estimate
+1235,Mít kho tương,30,25,gemma-4-31b-it_estimate
+1236,Tôm sú xốt gấc,25,10,gemma-4-31b-it_estimate
+1237,Đậu hũ xốt mè mayonnaise,,,gemma-4-31b-it_error
+1238,Canh cá kèo rau đắng,,,gemma-4-31b-it_error
+1239,Chả cá chiên cốm,,,gemma-4-31b-it_error
+1240,Gà xào thơm bông cải,,,gemma-4-31b-it_error
+1241,Canh ba màu,,,gemma-4-31b-it_error
+1242,Cuốn thịt ram mắm tép,,,gemma-4-31b-it_error
+1243,Cá thu kho nước tương,,,gemma-4-31b-it_error
+1244,Mực nhồi thịt xốt cà,,,gemma-4-31b-it_error
+1245,Gà viên chiên,,,gemma-4-31b-it_error
+1246,Cá chiên xốt me,,,gemma-4-31b-it_error
+1247,Mực xào chua cay,,,gemma-4-31b-it_error
+1248,Ngồng cải hấp tôm,,,gemma-4-31b-it_error
+1249,Tôm càng rim tỏi,,,gemma-4-31b-it_error
+1250,Rau xào thập cẩm,,,gemma-4-31b-it_error
+1251,Canh khoai tím hột lựu,,,gemma-4-31b-it_error
+1252,Canh bí đao dồn thịt,,,gemma-4-31b-it_error
+1253,Gà xào tương hột,,,gemma-4-31b-it_error
+1254,Canh sườn củ cải muối,,,gemma-4-31b-it_error
+1255,Mực muối rim thịt,,,gemma-4-31b-it_error
+1256,Ếch xào lá lốt,,,gemma-4-31b-it_error
+1257,Giò heo kho quế,,,gemma-4-31b-it_error
+1258,Bông bí chiên giòn chay,,,gemma-4-31b-it_error
+1259,Chả mực chiên,,,gemma-4-31b-it_error
+1260,Súp tóc tiên bí đao,,,gemma-4-31b-it_error
+1261,Đuôi heo hầm măng,,,gemma-4-31b-it_error
+1262,Thịt quay chay,,,gemma-4-31b-it_error
+1263,Thịt bò kho tàu,,,gemma-4-31b-it_error
+1264,Sườn chay nấu đậu,,,gemma-4-31b-it_error
+1265,Cơm tôm bí đỏ,,,gemma-4-31b-it_error
+1266,Xúc xích chiên xù,,,gemma-4-31b-it_error
+1267,Cật heo xào bí ngòi,,,gemma-4-31b-it_error
+1268,Sườn cốt lết xốt dầu hào,,,gemma-4-31b-it_error
+1269,Tim heo hầm hạt sen,,,gemma-4-31b-it_error
+1270,Cá hồi xốt cay,,,gemma-4-31b-it_error
+1271,Thịt gà nấu long nhãn,,,gemma-4-31b-it_error
+1272,Cá cuộn cải chiên xù,,,gemma-4-31b-it_error
+1273,Mực kho củ cải,25,15,gemma-4-31b-it_estimate
+1274,Nấm chiên xốt tôm,20,25,gemma-4-31b-it_estimate
+1275,Heo quay xào kim chi cà bát,20,15,gemma-4-31b-it_estimate
+1276,Đậu rồng xào tép,,,gemma-4-31b-it_error
+1277,Canh gà nấu khoai môn,,,gemma-4-31b-it_error
+1278,Canh hến nấu bầu,,,gemma-4-31b-it_error
+1279,Nghêu xào lá lốt,,,gemma-4-31b-it_error
+1280,Tôm thịt kho măng,,,gemma-4-31b-it_error
+1281,Cá hồi cuộn măng tây,,,gemma-4-31b-it_error
+1282,Mực xốt cay,,,gemma-4-31b-it_error
+1283,Canh sườn khoai sọ,,,gemma-4-31b-it_error
+1284,Thịt ba rọi xào nấm,,,gemma-4-31b-it_error
+1285,Xúc xích xào khoai tây,,,gemma-4-31b-it_error
+1286,Khổ qua xào trứng thịt bằm,,,gemma-4-31b-it_error
+1287,Khoai tây xào kim chi,,,gemma-4-31b-it_error
+1288,Cơm sen cốm,,,gemma-4-31b-it_error
+1289,Gà cuộn xôi chiên,,,gemma-4-31b-it_error
+1290,Tàu hủ ky chiên xả ớt,,,gemma-4-31b-it_error
+1291,Giá hẹ xào lòng gà,,,gemma-4-31b-it_error
+1292,Canh bông súng nấu tôm,,,gemma-4-31b-it_error
+1293,Rau muống xào mắm ruốc,,,gemma-4-31b-it_error
+1294,Gà nấu trái lê,,,gemma-4-31b-it_error
+1295,Giò heo hầm bông atiso,,,gemma-4-31b-it_error
+1296,Canh cá rau đay,,,gemma-4-31b-it_error
+1297,Canh đuôi heo củ sen,,,gemma-4-31b-it_error
+1298,Canh ốc nấu tía tô,,,gemma-4-31b-it_error
+1299,Bò cuộn nấm kim châm,,,gemma-4-31b-it_error
+1300,Mực chiên ngũ sắc,,,gemma-4-31b-it_error
+1301,Chả giò mực,,,gemma-4-31b-it_error
+1302,Súp hột lựu chay,,,gemma-4-31b-it_error
+1303,Gỏi cuốn 3 loại,,,gemma-4-31b-it_error
+1304,Tôm chiên hoành thánh,,,gemma-4-31b-it_error
+1305,Cá kèo kho rau răm,,,gemma-4-31b-it_error
+1306,Cà tím hấp nước tương tỏi,,,gemma-4-31b-it_error
+1307,Súp nghêu chua cay,,,gemma-4-31b-it_error
+1308,Canh gà nấu bông cải,,,gemma-4-31b-it_error
+1309,Đậu hũ khìa,,,gemma-4-31b-it_error
+1310,Rau củ chiên tẩm nước tương,,,gemma-4-31b-it_error
+1311,Súp nghêu rau củ,,,gemma-4-31b-it_error
+1312,Chả nghêu húng quế,,,gemma-4-31b-it_error
+1313,Canh bí đỏ đậu xanh,,,gemma-4-31b-it_error
+1314,Chả nấm chiên giòn,,,gemma-4-31b-it_error
+1315,Lạp xưởng xào ngũ sắc,,,gemma-4-31b-it_error
+1316,Sườn kho nấm,,,gemma-4-31b-it_error
+1317,Bí ngòi xào hải sản,,,gemma-4-31b-it_error
+1318,Ếch xào bồn bồn,,,gemma-4-31b-it_error
+1319,Salad dồi quẩy,,,gemma-4-31b-it_error
+1320,Ếch xào cải chua,,,gemma-4-31b-it_error
+1321,Cá điêu hồng xốt hạt lựu,,,gemma-4-31b-it_error
+1322,Trái cây và rau củ chiên giòn,,,gemma-4-31b-it_error
+1323,Cá tai tượng hấp xì dầu,,,gemma-4-31b-it_error
+1324,Tôm xào hạnh nhân chay,,,gemma-4-31b-it_error
+1325,Cá thác lác bách hoa,,,gemma-4-31b-it_error
+1326,Cá rô kho cà bát,,,gemma-4-31b-it_error
+1327,Canh măng khô đuôi bò,,,gemma-4-31b-it_error
+1328,Canh rau dền khoai sọ,,,gemma-4-31b-it_error
+1329,Cá lóc xào lưu ly,,,gemma-4-31b-it_error
+1330,Củ sắn xào thịt,,,gemma-4-31b-it_error
+1331,Sườn kho đậu hũ non,,,gemma-4-31b-it_error
+1332,Rau củ xào hỷ lạc,,,gemma-4-31b-it_error
+1333,Lươn om chuối đậu,,,gemma-4-31b-it_error
+1334,Củ sen chiên tôm,,,gemma-4-31b-it_error
+1335,Cải thảo xào tim heo,,,gemma-4-31b-it_error
+1336,Canh gà nấu khoai tây,,,gemma-4-31b-it_error
+1337,Chả bắp,,,gemma-4-31b-it_error
+1338,Kiểm,,,gemma-4-31b-it_error
+1339,Bạch tuộc xào chua cay,,,gemma-4-31b-it_error
+1340,Tôm xào sả cay,,,gemma-4-31b-it_error
+1341,Gà kho hành phi,,,gemma-4-31b-it_error
+1342,Đậu hũ xốt nấm,,,gemma-4-31b-it_error
+1343,Dừa kho ngũ vị,,,gemma-4-31b-it_error
+1344,Cua nấm xào măng tây,,,gemma-4-31b-it_error
+1345,Mắm lóc chưng,,,gemma-4-31b-it_error
+1346,Cá đối kho cải chua,,,gemma-4-31b-it_error
+1347,Canh cá rô rau nhút,,,gemma-4-31b-it_error
+1348,Cồi sò điệp chiên khoai,,,gemma-4-31b-it_error
+1349,Gà kho củ cải muối,,,gemma-4-31b-it_error
+1350,Nấm hấp sả,,,gemma-4-31b-it_error
+1351,Lươn om khoai sọ,,,gemma-4-31b-it_error
+1352,Tôm thịt kho quẹt,,,gemma-4-31b-it_error
+1353,Thịt bò xào cần nước,,,gemma-4-31b-it_error
+1354,Gà xào hạnh nhân,,,gemma-4-31b-it_error
+1355,Canh mít non củ năng,,,gemma-4-31b-it_error
+1356,Canh cá chim nấu ngót,,,gemma-4-31b-it_error
+1357,Canh long thả,,,gemma-4-31b-it_error
+1358,Canh ếch lá me non,,,gemma-4-31b-it_error
+1359,Vịt kho sấu,,,gemma-4-31b-it_error
+1360,Rau củ chiên giòn,,,gemma-4-31b-it_error
+1361,Ốc móng tay xào tiêu xanh,,,gemma-4-31b-it_error
+1362,Lươn kho sả ớt,,,gemma-4-31b-it_error
+1363,Bánh hến chiên,,,gemma-4-31b-it_error
+1364,Thịt ram xốt mayonnaise,,,gemma-4-31b-it_error
+1365,Lưỡi heo xào riềng sả,,,gemma-4-31b-it_error
+1366,Thịt kho nước tương giấm,,,gemma-4-31b-it_error
+1367,Heo viên chiên xù,,,gemma-4-31b-it_error
+1368,Cá long tong kho lạt,,,gemma-4-31b-it_error
+1369,Cá đối kho cà chua,,,gemma-4-31b-it_error
+1370,Canh nghêu mồng tơi,,,gemma-4-31b-it_error
+1371,Canh rau tập tàng,,,gemma-4-31b-it_error
+1372,Trứng chiên rau củ xốt mayonnaise,,,gemma-4-31b-it_error
+1373,Canh chua chem chép,,,gemma-4-31b-it_error
+1374,Cá bông lau kho tộ,,,gemma-4-31b-it_error
+1375,Nghêu hấp nước tương,,,gemma-4-31b-it_error
+1376,Củ sen hấp thập cẩm,,,gemma-4-31b-it_error
+1377,Đậu bắp xào tôm,,,gemma-4-31b-it_error
+1378,Cá lóc kho củ cải,,,gemma-4-31b-it_error
+1379,Cá ba sa om xốt mayonnaise,,,gemma-4-31b-it_error
+1380,Cơm chiên trái thơm,,,gemma-4-31b-it_error
+1381,Canh bí ngòi nấu nấm,,,gemma-4-31b-it_error
+1382,Thịt heo chiên xù,,,gemma-4-31b-it_error
+1383,Cá xào cần tỏi,,,gemma-4-31b-it_error
+1384,Cà chua nhồi đậu hũ,,,gemma-4-31b-it_error
+1385,Canh măng giò heo,,,gemma-4-31b-it_error
+1386,Canh cá lóc rau cần,,,gemma-4-31b-it_error
+1387,Cá rô kho tộ,,,gemma-4-31b-it_error
+1388,Ếch xào lăn,,,gemma-4-31b-it_error
+1389,Thịt vịt xào bầu,,,gemma-4-31b-it_error
+1390,Cải rổ xào trứng muối,,,gemma-4-31b-it_error
+1391,Gà ram gừng,,,gemma-4-31b-it_error
+1392,Sườn ram mặn,,,gemma-4-31b-it_error
+1393,Tôm rim thịt ba chỉ,,,gemma-4-31b-it_error
+1394,Canh cá rô nấu cải bẹ xanh,,,gemma-4-31b-it_error
+1395,Canh chua cá lóc,,,gemma-4-31b-it_error
+1396,Canh cá rau cần,,,gemma-4-31b-it_error
+1397,Cá chép kho quả sấu,,,gemma-4-31b-it_error
+1398,Canh cá trân châu,,,gemma-4-31b-it_error
+1399,Canh chua trái tắc,,,gemma-4-31b-it_error
+1400,Cá trê kho rau răm,,,gemma-4-31b-it_error
+1401,Cá xào lá quế,,,gemma-4-31b-it_error
+1402,Hủ tiếu xào chay vị me,,,gemma-4-31b-it_error
+1403,Ếch xào tía tô,,,gemma-4-31b-it_error
+1404,Cá kho tàu,,,gemma-4-31b-it_error
+1405,Chả nấm xốt chua ngọt,,,gemma-4-31b-it_error
+1406,Ốc bươu kho gừng,,,gemma-4-31b-it_error
+1407,Cá thu Nhật kho nước dừa,,,gemma-4-31b-it_error
+1408,Bắp hạt xào gà giòn Mayonnaise,,,gemma-4-31b-it_error
+1409,Sò điệp xào cần tây,,,gemma-4-31b-it_error
+1410,Khô cá cơm kho khế,,,gemma-4-31b-it_error
+1411,Cháo thập cẩm,20,45,gemma-4-31b-it_estimate
+1412,Đậu que xào thịt,25,10,gemma-4-31b-it_estimate
+1413,Khoai tây xào thịt bò,20,20,gemma-4-31b-it_estimate
+1414,Canh song thủy,,,gemma-4-31b-it_error
+1415,Ngồng cải xào bao tử cá basa,,,gemma-4-31b-it_error
+1416,Vịt kho ngũ vị,,,gemma-4-31b-it_error
+1417,Đậu bắp kho nước tương,,,gemma-4-31b-it_error
+1418,Cá ngừ kho nước mía,,,gemma-4-31b-it_error
+1419,Canh bí ngòi quấn tôm,,,gemma-4-31b-it_error
+1420,Bao tử cá basa xào bạc hà,,,gemma-4-31b-it_error
+1421,Trứng đúc hẹ,,,gemma-4-31b-it_error
+1422,Bò xào ớt khô,,,gemma-4-31b-it_error
+1423,Bò né hoa thiên lý,,,gemma-4-31b-it_error
+1424,Canh gà thuốc bắc,,,gemma-4-31b-it_error
+1425,Canh đuôi bò củ cải,,,gemma-4-31b-it_error
+1426,Thịt kho củ sen tương hột,,,gemma-4-31b-it_error
+1427,Bao tử kho dưa cải trứng cút,,,gemma-4-31b-it_error
+1428,Cá đối kho cần tàu,,,gemma-4-31b-it_error
+1429,Canh giò heo đu đủ hườm,,,gemma-4-31b-it_error
+1430,Thịt om chuối xanh,,,gemma-4-31b-it_error
+1431,Ếch kho tiêu xanh,,,gemma-4-31b-it_error
+1432,Sườn xào chua ngọt,,,gemma-4-31b-it_error
+1433,Bông thiên lý xào hải sản,,,gemma-4-31b-it_error
+1434,Cá thu xốt xòai tượng,,,gemma-4-31b-it_error
+1435,Bún xào chay,,,gemma-4-31b-it_error
+1436,Lẩu đuôi bò cay,,,gemma-4-31b-it_error
+1437,Cá điêu hồng kho tương bần,,,gemma-4-31b-it_error
+1438,Măng le xào gan,,,gemma-4-31b-it_error
+1439,Sò lông kho tiêu xanh,,,gemma-4-31b-it_error
+1440,Bắp cải cuộn thịt kho bơ,,,gemma-4-31b-it_error
+1441,Canh mồng tơi bắp nụ,,,gemma-4-31b-it_error
+1442,Gà xào giấm gừng,,,gemma-4-31b-it_error
+1443,Bò xào lăn,,,gemma-4-31b-it_error
+1444,Thịt bò xào kiểu Hàn Quốc,,,gemma-4-31b-it_error
+1445,Canh riêu cá chép,,,gemma-4-31b-it_error
+1446,Cánh gà kho khoai môn,,,gemma-4-31b-it_error
+1447,Sườn chiên xốt chanh dây,,,gemma-4-31b-it_error
+1448,Canh hến nấu khế,,,gemma-4-31b-it_error
+1449,Canh chua măng,,,gemma-4-31b-it_error
+1450,Bao tử khìa tiêu xanh,,,gemma-4-31b-it_error
+1451,Gà kho me,,,gemma-4-31b-it_error
+1452,Sườn xào bắp non,,,gemma-4-31b-it_error
+1453,Lưỡi heo kho quế,,,gemma-4-31b-it_error
+1454,Miến xào đậu ngự,,,gemma-4-31b-it_error
+1455,Cà bung thịt heo,,,gemma-4-31b-it_error
+1456,Nấm đùi gà kho gừng,,,gemma-4-31b-it_error
+1457,Canh đu đủ lá lốt,,,gemma-4-31b-it_error
+1458,Thịt bò xào ngồng cải,,,gemma-4-31b-it_error
+1459,Đậu bắp thịt gà xào chao,,,gemma-4-31b-it_error
+1460,Tôm chiên xóc lá quế,,,gemma-4-31b-it_error
+1461,Hải sâm xào rau củ,,,gemma-4-31b-it_error
+1462,Cá thu kho riềng,,,gemma-4-31b-it_error
+1463,Canh gà cải bó xôi,,,gemma-4-31b-it_error
+1464,Cà tím nhồi thịt kho,,,gemma-4-31b-it_error
+1465,Canh vịt khoai sọ,,,gemma-4-31b-it_error
+1466,Rau củ kho mayonnaise,,,gemma-4-31b-it_error
+1467,Bánh rôti cuộn thịt gà,,,gemma-4-31b-it_error
+1468,Tôm càng xốt nước tương,,,gemma-4-31b-it_error
+1469,Thịt kho khổ qua tây,,,gemma-4-31b-it_error
+1470,Gà xào hạt điều,,,gemma-4-31b-it_error
+1471,Canh mướp hương thịt viên,,,gemma-4-31b-it_error
+1472,Canh kim chi thịt bò,,,gemma-4-31b-it_error
+1473,Tôm hấp su hào,,,gemma-4-31b-it_error
+1474,Canh dưa leo nhồi thịt,,,gemma-4-31b-it_error
+1475,Canh chua bông so đũa chay,,,gemma-4-31b-it_error
+1476,Lòng non xào nghệ,,,gemma-4-31b-it_error
+1477,Sườn chiên mayonnaise sa tế,,,gemma-4-31b-it_error
+1478,Dồi trường xào cải chua,,,gemma-4-31b-it_error
+1479,Canh bầu nấu riêu tép,,,gemma-4-31b-it_error
+1480,Cá thu nhật kho me,,,gemma-4-31b-it_error
+1481,Củ hũ dừa kho nấm,,,gemma-4-31b-it_error
+1482,Canh cá thác lác nấu hoa,,,gemma-4-31b-it_error
+1483,Thịt heo quay kho củ hũ dừa,,,gemma-4-31b-it_error
+1484,Bao tử xào đông cô,,,gemma-4-31b-it_error
+1485,Canh khế cá cơm,,,gemma-4-31b-it_error
+1486,Lòng heo xào thơm,,,gemma-4-31b-it_error
+1487,Đậu hũ hấp tôm,,,gemma-4-31b-it_error
+1488,Canh riêu cua,,,gemma-4-31b-it_error
+1489,Thịt gà kho kim chi,,,gemma-4-31b-it_error
+1490,Canh bắp cải gói thịt,,,gemma-4-31b-it_error
+1491,Tôm xào bông cải,,,gemma-4-31b-it_error
+1492,Canh ốc thì là,25,20,gemma-4-31b-it_estimate
+1493,Canh cải chua nấu cá cơm,15,15,gemma-4-31b-it_estimate
+1494,Canh boaro nấu đậu hũ non,20,15,gemma-4-31b-it_estimate
+1495,Cà chua nhồi thịt ghẹ,,,gemma-4-31b-it_error
+1496,Ba rọi kho gừng,,,gemma-4-31b-it_error
+1497,Đọt su xào tôm,,,gemma-4-31b-it_error
+1498,Thịt chiên xốt nước tương,,,gemma-4-31b-it_error
+1499,Thịt quay kho dưa cải,,,gemma-4-31b-it_error
+1500,Cá chiên ngâm nước tương,,,gemma-4-31b-it_error
+1501,Canh chua cá lăng rau nhút,,,gemma-4-31b-it_error
+1502,Nấm bào ngư xào xốt mè,,,gemma-4-31b-it_error
+1503,Củ năng xào tôm thịt,,,gemma-4-31b-it_error
+1504,Sườn non kho khế,,,gemma-4-31b-it_error
+1505,Chả cá kho vân trứng,,,gemma-4-31b-it_error
+1506,Canh chả mực thì là,,,gemma-4-31b-it_error
+1507,Mực rối,,,gemma-4-31b-it_error
+1508,Cá lóc phi lê xốt gừng,,,gemma-4-31b-it_error
+1509,Ốc xào chuối xanh,,,gemma-4-31b-it_error
+1510,Cá kèo kho khế,,,gemma-4-31b-it_error
+1511,Lưỡi heo xào lăn,,,gemma-4-31b-it_error
+1512,Canh dền cơm nấu nghêu,,,gemma-4-31b-it_error
+1513,Thịt bò xào đậu cove,,,gemma-4-31b-it_error
+1514,Cà ri chay,,,gemma-4-31b-it_error
+1515,Nấm tuyết xào hải sâm,,,gemma-4-31b-it_error
+1516,Canh thanh long,,,gemma-4-31b-it_error
+1517,Cá đối kho thơm,,,gemma-4-31b-it_error
+1518,Canh măng gà viên,,,gemma-4-31b-it_error
+1519,Vịt quay kho trứng cút,,,gemma-4-31b-it_error
+1520,Canh cá khoai lá giang,,,gemma-4-31b-it_error
+1521,Bắp non xào mực cay,,,gemma-4-31b-it_error
+1522,Cơm chiên chay,,,gemma-4-31b-it_error
+1523,Thịt xay kho bắp đậu,,,gemma-4-31b-it_error
+1524,Canh sườn non táo đỏ,,,gemma-4-31b-it_error
+1525,Cá nục kho kiểu Nhật,,,gemma-4-31b-it_error
+1526,Khổ qua tây xào thịt bò,,,gemma-4-31b-it_error
+1527,Hủ tiếu chay,,,gemma-4-31b-it_error
+1528,Lươn chiên giòn xốt tiêu xanh,,,gemma-4-31b-it_error
+1529,Canh khoai rau đắng,,,gemma-4-31b-it_error
+1530,Vịt xào măng,,,gemma-4-31b-it_error
+1531,Canh bí đao nấu sườn non,,,gemma-4-31b-it_error
+1532,Sushi,,,gemma-4-31b-it_error
+1533,Bún thịt xào sả ớt,,,gemma-4-31b-it_error
+1534,Cà bát om thịt ba chỉ,,,gemma-4-31b-it_error
+1535,Gà rim nước tương cà,,,gemma-4-31b-it_error
+1536,Sườn chay rim mật ong,,,gemma-4-31b-it_error
+1537,Heo quay kho măng,,,gemma-4-31b-it_error
+1538,Nấm bào ngư xào sả ớt,,,gemma-4-31b-it_error
+1539,Canh hến dưa cải,,,gemma-4-31b-it_error
+1540,Canh lươn nấu bắp chuối hột,,,gemma-4-31b-it_error
+1541,Vịt kho rau củ,,,gemma-4-31b-it_error
+1542,Súp gà chua cay,,,gemma-4-31b-it_error
+1543,Đậu hũ nhồi xốt me,,,gemma-4-31b-it_error
+1544,Bò viên chay xào thập cẩm,,,gemma-4-31b-it_error
+1545,Suông tôm giò heo,,,gemma-4-31b-it_error
+1546,Cháo cá giò heo,,,gemma-4-31b-it_error
+1547,Cháo bồ câu,,,gemma-4-31b-it_error
+1548,Thịt kho xốt tương,,,gemma-4-31b-it_error
+1549,Sườn hầm tỏi,,,gemma-4-31b-it_error
+1550,Bí xanh tiềm tứ hải,,,gemma-4-31b-it_error
+1551,Đậu hũ kho nấm rơm,,,gemma-4-31b-it_error
+1552,Canh thịt bò cải xoong,,,gemma-4-31b-it_error
+1553,Chả hấp chay,,,gemma-4-31b-it_error
+1554,Gà tiềm hạt sen,,,gemma-4-31b-it_error
+1555,Sườn nấu đậu,,,gemma-4-31b-it_error
+1556,Bồ câu quay nước dừa,,,gemma-4-31b-it_error
+1557,Bắp cải tím xào hải sản,,,gemma-4-31b-it_error
+1558,Cá thu rim nước trà xanh,,,gemma-4-31b-it_error
+1559,Cá hú kho xốt tương,,,gemma-4-31b-it_error
+1560,Chè dưỡng nhan Blendy®,,,gemma-4-31b-it_error
+1561,Chả cá lóc xốt mayo mật ong,,,gemma-4-31b-it_error
+1562,Lươn cuộn mía nướng,,,gemma-4-31b-it_error
+1563,Mì ý xốt cua,,,gemma-4-31b-it_error
+1564,Mực nhúng giấm,,,gemma-4-31b-it_error
+1565,Salad gà nướng thơm,,,gemma-4-31b-it_error
+1566,Phở chay,,,gemma-4-31b-it_error
+1567,Đùi ếch chiên,,,gemma-4-31b-it_error
+1568,Súp mộc nhĩ thịt cua,,,gemma-4-31b-it_error
+1569,Ức gà nhồi phô mai,,,gemma-4-31b-it_error
+1570,Lẩu kim chi phô mai,,,gemma-4-31b-it_error
+1571,Cá chép chiên giòn cuốn bánh tráng,,,gemma-4-31b-it_error
+1572,Mì Ý bò băm,,,gemma-4-31b-it_error
+1573,Bò cuộn xúc xích chiên giòn,,,gemma-4-31b-it_error
+1574,Súp gà mọc nấm hương,,,gemma-4-31b-it_error
+1575,Cháo cá nấu bắp nếp,,,gemma-4-31b-it_error
+1576,Lẩu sườn khoai môn,,,gemma-4-31b-it_error
+1577,Cá hồi hạnh nhân xốt chanh dây,,,gemma-4-31b-it_error
+1578,Vịt nấu cơm rượu,,,gemma-4-31b-it_error
+1579,Cơm giòn tôm kho quẹt,,,gemma-4-31b-it_error
+1580,Canh cá rau cần,,,gemma-4-31b-it_error
+1581,Bò cuộn rong biển,,,gemma-4-31b-it_error
+1582,Bò áp chảo,,,gemma-4-31b-it_error
+1583,Ốc xào khế,,,gemma-4-31b-it_error
+1584,Rau củ luộc và cơm chiên giòn chấm kho quẹt,,,gemma-4-31b-it_error
+1585,Pizza khoai tây,,,gemma-4-31b-it_error
+1586,Ba rọi nướng mè rau củ,,,gemma-4-31b-it_error
+1587,Sụn gà rang lá cà ri cay,,,gemma-4-31b-it_error
+1588,Cà tím nhồi thịt áp chảo,,,gemma-4-31b-it_error
+1589,Lẩu cua đồng,,,gemma-4-31b-it_error
+1590,Cá lóc nướng ớt xiêm xanh,,,gemma-4-31b-it_error
+1591,Bò nướng lá cách,,,gemma-4-31b-it_error
+1592,Cá chiên xốt cam,,,gemma-4-31b-it_error
+1593,Cua lột chiên giòn,,,gemma-4-31b-it_error
+1594,Cá sapa nhồi ngọc kê nướng,,,gemma-4-31b-it_error
+1595,Cá bớp kho thịt ba rọi,,,gemma-4-31b-it_error
+1596,Đậu hủ non xốt cay,,,gemma-4-31b-it_error
+1597,Lẩu xí quách kim chi,,,gemma-4-31b-it_error
+1598,Thịt bò nướng mè kiểu Hàn Quốc,,,gemma-4-31b-it_error
+1599,Bánh rán cam mật ong,,,gemma-4-31b-it_error
+1600,Sò lông nướng bơ tỏi,,,gemma-4-31b-it_error
+1601,Cá hồi áp chảo xốt tiêu,,,gemma-4-31b-it_error
+1602,Càng cua chiên mè xốt Mayo,,,gemma-4-31b-it_error
+1603,Lẩu nấm tiềm củ quả,,,gemma-4-31b-it_error
+1604,Gà nướng lửa trại,,,gemma-4-31b-it_error
+1605,Bánh canh vịt,,,gemma-4-31b-it_error
+1606,Chả bò chiên,,,gemma-4-31b-it_error
+1607,Cá hồi chiên xốt xoài,,,gemma-4-31b-it_error
+1608,Cháo hạt sen bạch quả,,,gemma-4-31b-it_error
+1609,Hàu nướng lá hương thảo,,,gemma-4-31b-it_error
+1610,Gà nấu nấm,,,gemma-4-31b-it_error
+1611,Lẩu gà nấu giấm,,,gemma-4-31b-it_error
+1612,Mì Ý xào thịt bò băm,,,gemma-4-31b-it_error
+1613,Cá cuốn tôm chiên,,,gemma-4-31b-it_error
+1614,Chả giò cua,,,gemma-4-31b-it_error
+1615,Tam hữu,,,gemma-4-31b-it_error
+1616,Gà om bia,,,gemma-4-31b-it_error
+1617,Cá nướng muối ớt,,,gemma-4-31b-it_error
+1618,Nghêu xào mayonnaise hung quế,,,gemma-4-31b-it_error
+1619,Nem cua rán,,,gemma-4-31b-it_error
+1620,Cà tím nướng mayonnaise,,,gemma-4-31b-it_error
+1621,Càng cua bách hoa,,,gemma-4-31b-it_error
+1622,Miến xào cua,,,gemma-4-31b-it_error
+1623,Nem thịt bò chiên xù,,,gemma-4-31b-it_error
+1624,Súp cua nấm tuyết,,,gemma-4-31b-it_error
+1625,Bò nhúng giấm,,,gemma-4-31b-it_error
+1626,Lẩu cá kèo lá giang,,,gemma-4-31b-it_error
+1627,Cuốn diếp chay,,,gemma-4-31b-it_error
+1628,Ếch chiên bột,,,gemma-4-31b-it_error
+1629,Gà hấp cải bẹ xanh,,,gemma-4-31b-it_error
+1630,Vịt nấu thơm,,,gemma-4-31b-it_error
+1631,Lẩu uyên ương,,,gemma-4-31b-it_error
+1632,Trứng hấp rau củ,,,gemma-4-31b-it_error
+1633,Bò xốt vang,,,gemma-4-31b-it_error
+1634,Lẩu cá lăng măng chua,,,gemma-4-31b-it_error
+1635,Gà chiên lá dứa,,,gemma-4-31b-it_error
+1636,Phở xào chua ngọt,,,gemma-4-31b-it_error
+1637,Cá lóc hấp bầu,,,gemma-4-31b-it_error
+1638,Cơm chiên trái cây,,,gemma-4-31b-it_error
+1639,Chả tôm chiên lá trà xanh,,,gemma-4-31b-it_error
+1640,Táo tàu tiềm chôm chôm,,,gemma-4-31b-it_error
+1641,Sườn nướng ngũ vị,,,gemma-4-31b-it_error
+1642,Vây cá hồi xốt kem Mayo,,,gemma-4-31b-it_error
+1643,Bạch tuộc xào rau muống,,,gemma-4-31b-it_error
+1644,Lươn chiên mắm sả,,,gemma-4-31b-it_error
+1645,Chả giò trái cây xốt sầu riêng,,,gemma-4-31b-it_error
+1646,Bún chả cá,,,gemma-4-31b-it_error
+1647,Cá chiên giòn xốt chanh ớt,,,gemma-4-31b-it_error
+1648,Vịt kho chuối xanh,,,gemma-4-31b-it_error
+1649,Nhộng xào bông hẹ,,,gemma-4-31b-it_error
+1650,Cháo cá hồi,,,gemma-4-31b-it_error
+1651,Cháo nấm tràm,,,gemma-4-31b-it_error
+1652,Gà hấp đậu hũ non,,,gemma-4-31b-it_error
+1653,Đông cô hấp tôm,,,gemma-4-31b-it_error
+1654,Mực nhúng giấm,,,gemma-4-31b-it_error
+1655,Bánh ướt xào hải sản,,,gemma-4-31b-it_error
+1656,Gà nướng táo,,,gemma-4-31b-it_error
+1657,Gà chiên lạp xưởng,,,gemma-4-31b-it_error
+1658,Gà chiên bơ,,,gemma-4-31b-it_error
+1659,Mì gói xào bò,,,gemma-4-31b-it_error
+1660,Miến măng gà,,,gemma-4-31b-it_error
+1661,Chân giò ninh măng lưỡi lợn,,,gemma-4-31b-it_error
+1662,Bò nướng sa tế,,,gemma-4-31b-it_error
+1663,Cá tai tượng hấp,,,gemma-4-31b-it_error
+1664,Gỏi cá hấp kiểu Nhật,,,gemma-4-31b-it_error
+1665,Đà điểu lúc lắc,,,gemma-4-31b-it_error
+1666,Cánh gà xốt nước tương,,,gemma-4-31b-it_error
+1667,Heo nướng bắp cải chua,,,gemma-4-31b-it_error
+1668,Cơm trân châu,,,gemma-4-31b-it_error
+1669,Đậu đũa xào tôm thịt,,,gemma-4-31b-it_error
+1670,Cá hồi xốt trái cây,,,gemma-4-31b-it_error
+1671,Gan gà xào chua ngọt,,,gemma-4-31b-it_error
+1672,Cháo lươn khoai môn đậu xanh,,,gemma-4-31b-it_error
+1673,Mực xào ớt khô Caramen,,,gemma-4-31b-it_error
+1674,Súp vịt quay,,,gemma-4-31b-it_error
+1675,Cần nước xào bao tử cá basa,,,gemma-4-31b-it_error
+1676,Bánh ruốc chiên giòn,,,gemma-4-31b-it_error
+1677,Lươn cuốn thịt om riềng,,,gemma-4-31b-it_error
+1678,Cơm chiên cá mặn chay,,,gemma-4-31b-it_error
+1679,Lẩu sườn non,,,gemma-4-31b-it_error
+1680,Thịt heo kho thơm,,,gemma-4-31b-it_error
+1681,Bánh Rôti cuốn thịt bò,,,gemma-4-31b-it_error
+1682,Cồi sò điệp xốt cay,,,gemma-4-31b-it_error
+1683,Cá cơm chiên giòn xốt tiêu,,,gemma-4-31b-it_error
+1684,Đậu hũ nhồi hạt sen,,,gemma-4-31b-it_error
+1685,Tôm nướng lá chuối,,,gemma-4-31b-it_error
+1686,Vịt quay xào thơm,,,gemma-4-31b-it_error
+1687,Cá trứng ngâm giấm,,,gemma-4-31b-it_error
+1688,Trứng hấp tôm nấm,,,gemma-4-31b-it_error
+1689,Miến xào lươn chay,,,gemma-4-31b-it_error
+1690,Gà chiên xốt táo,,,gemma-4-31b-it_error
+1691,Canh chua nấu cá hồi,,,gemma-4-31b-it_error
+1692,Cá chép nấu bung,,,gemma-4-31b-it_error
+1693,Lẩu cua lá me,,,gemma-4-31b-it_error
+1694,Xúc xích khìa nước dừa,,,gemma-4-31b-it_error
+1695,Bún gạo xào thập cẩm,,,gemma-4-31b-it_error
+1696,Nải chuối mực,,,gemma-4-31b-it_error
+1697,Ốc giác xào bông hành,,,gemma-4-31b-it_error
+1698,Tôm hấp rau củ,,,gemma-4-31b-it_error
+1699,Canh râu mực nấu ngót,20,15,gemma-4-31b-it_estimate
+1700,Trứng cá kho nghệ,25,25,gemma-4-31b-it_estimate
+1701,Cơm gạo lức chiên nghêu,35,20,gemma-4-31b-it_estimate
+1702,Gà nướng bưởi xốt giấm,,,gemma-4-31b-it_error
+1703,Gà chiên sa tế xốt mayonnaise,,,gemma-4-31b-it_error
+1704,Bắp bò kho chua ngọt,,,gemma-4-31b-it_error
+1705,Dê nướng sa tế,,,gemma-4-31b-it_error
+1706,Lẩu xí quách chua cay,,,gemma-4-31b-it_error
+1707,Cua lột xốt cam,,,gemma-4-31b-it_error
+1708,Cá hồi nướng xốt Mayo,,,gemma-4-31b-it_error
+1709,Bê thui xào sa tế,,,gemma-4-31b-it_error
+1710,Canh sườn hạt sen,,,gemma-4-31b-it_error
+1711,Miến xào nghêu tay cầm,,,gemma-4-31b-it_error
+1712,Thịt bò nướng mù tạt,,,gemma-4-31b-it_error
+1713,Gà cuộn xôi xoài,,,gemma-4-31b-it_error
+1714,Lẩu chua thịt bò,,,gemma-4-31b-it_error
+1715,Su hào xào hải sản,,,gemma-4-31b-it_error
+1716,Salad cá hồi nướng xốt mayo,,,gemma-4-31b-it_error
+1717,Ốc mỡ xốt mayo,,,gemma-4-31b-it_error
+1718,Trứng hấp,,,gemma-4-31b-it_error
+1719,Chả cá ngũ sắc,,,gemma-4-31b-it_error
+1720,Sò điệp nướng ba màu,,,gemma-4-31b-it_error
+1721,Bánh flan hạt chia matcha,,,gemma-4-31b-it_error
+1722,Bánh rán socola mứt xoài,,,gemma-4-31b-it_error
+1723,Salad mực chiên,,,gemma-4-31b-it_error
+1724,Pancake vị trà sữa,,,gemma-4-31b-it_error
+1725,Salad cá hồi sốt tôm khô,,,gemma-4-31b-it_error
+1726,Bắp hạt chiên giòn,,,gemma-4-31b-it_error
+1727,Panna Cotta Kem Muối,,,gemma-4-31b-it_error
+1728,Pancake chocolate trái cây nhiệt đới,,,gemma-4-31b-it_error
+1729,Ngưu bàng chiên tôm,,,gemma-4-31b-it_error
+1730,Súp đậu non trứng rong biển,,,gemma-4-31b-it_error
+1731,Canh chua cá dứa 1 nắng,,,gemma-4-31b-it_error
+1732,Gà xào măng tây,,,gemma-4-31b-it_error
+1733,Cá kèo chiên mè,,,gemma-4-31b-it_error
+1734,Gà chiên sốt taru taru,,,gemma-4-31b-it_error
+1735,Măng tây chiên bia xốt cá ngừ,,,gemma-4-31b-it_error
+1736,Salad cá hồi xốt thanh long,,,gemma-4-31b-it_error
+1737,Tim heo xào măng tây,,,gemma-4-31b-it_error
+1738,Sandwich trái cây chiên giòn,,,gemma-4-31b-it_error
+1739,Canh chua Thái,,,gemma-4-31b-it_error
+1740,Khai vị cá hồi,,,gemma-4-31b-it_error
+1741,Cá cơm chiên bông hẹ mắm me,,,gemma-4-31b-it_error
+1742,Bacon cuộn hành tây phô mai,,,gemma-4-31b-it_error
+1743,Canh cá hồng,,,gemma-4-31b-it_error
+1744,Bắp cải hấp nấm tôm,,,gemma-4-31b-it_error
+1745,Canh sụn bò củ cải,,,gemma-4-31b-it_error
+1746,Lòng gà xào tiêu xanh,,,gemma-4-31b-it_error
+1747,Tôm chiên dừa,,,gemma-4-31b-it_error
+1748,Hồ lô cá,,,gemma-4-31b-it_error
+1749,Đậu mơ kẹp phô mai chiên,,,gemma-4-31b-it_error
+1750,Bánh nếp nhân sò điệp,,,gemma-4-31b-it_error
+1751,Canh gà lá me non,,,gemma-4-31b-it_error
+1752,Hoành thánh bắp chiên,,,gemma-4-31b-it_error
+1753,Tôm thịt bọc trứng cút,,,gemma-4-31b-it_error
+1754,Hoành thánh hoa hồng,,,gemma-4-31b-it_error
+1755,Chả khoanh hành tây,,,gemma-4-31b-it_error
+1756,Canh đầu cá bớp,,,gemma-4-31b-it_error
+1757,Canh gà nấm mỡ,,,gemma-4-31b-it_error
+1758,Chả giò cá chẽm,,,gemma-4-31b-it_error
+1759,Dê xào tía tô cà bát,,,gemma-4-31b-it_error
+1760,Chả cốm tạo hình,,,gemma-4-31b-it_error
+1761,Canh cá hanh vị Thái,,,gemma-4-31b-it_error
+1762,Canh củ sen rong biển,,,gemma-4-31b-it_error
+1763,Bánh tôm hẹ chiên giòn,,,gemma-4-31b-it_error
+1764,Dưa chuột ngâm giấm,,,gemma-4-31b-it_error
+1765,Cá điêu hồng cuộn dưa kiệu,,,gemma-4-31b-it_error
+1766,Bánh cá khoai tây,,,gemma-4-31b-it_error
+1767,Pancake lá dứa,,,gemma-4-31b-it_error
+1768,Jambon cuộn thanh cua,,,gemma-4-31b-it_error
+1769,Súp óc heo tóc tiên,,,gemma-4-31b-it_error
+1770,Sườn cuộn bacon chiên mè,,,gemma-4-31b-it_error
+1771,Chả lụa chay,,,gemma-4-31b-it_error
+1772,Canape cá hồi trái bơ,,,gemma-4-31b-it_error
+1773,Chả cua áp chảo,,,gemma-4-31b-it_error
+1774,Chả giò cua thanh,,,gemma-4-31b-it_error
+1775,Bắp xào ngũ sắc,,,gemma-4-31b-it_error
+1776,Snack cốm,,,gemma-4-31b-it_error
+1777,Ốc lác xào cay,,,gemma-4-31b-it_error
+1778,Lạc xá chay,,,gemma-4-31b-it_error
+1779,Cánh gà xốt kem thơm,,,gemma-4-31b-it_error
+1780,Bánh mì nướng hải sản,,,gemma-4-31b-it_error
+1781,Bánh đúc chiên hải sản,,,gemma-4-31b-it_error
+1782,Đầu cá hồi xốc muối sả,,,gemma-4-31b-it_error
+1783,Cua xốt me,,,gemma-4-31b-it_error
+1784,Súp trái cây,,,gemma-4-31b-it_error
+1785,Tôm chiên mè,,,gemma-4-31b-it_error
+1786,Cá basa chiên giòn,,,gemma-4-31b-it_error
+1787,Đùi gà bọc xôi,,,gemma-4-31b-it_error
+1788,Sò điệp nướng ba màu,,,gemma-4-31b-it_error
+1789,Sườn chiên giấm đỏ,,,gemma-4-31b-it_error
+1790,Vịt chiên xốt chua ngọt,,,gemma-4-31b-it_error
+1791,Thịt bò xào lá lốt,,,gemma-4-31b-it_error
+1792,Đậu hũ nướng giấy bạc,25,20,gemma-4-31b-it_estimate
+1793,Tôm mực chiên giòn,20,10,gemma-4-31b-it_estimate
+1794,Bánh đa xúc thịt bằm,15,12,gemma-4-31b-it_estimate
+1795,Cuốn gà khai vị,,,gemma-4-31b-it_error
+1796,Bò cuộn xốt lá quế,,,gemma-4-31b-it_error
+1797,Viên tôm chiên tỏi thì là,,,gemma-4-31b-it_error
+1798,Bánh đúc tôm thịt,,,gemma-4-31b-it_error
+1799,Tôm sú san hô,,,gemma-4-31b-it_error
+1800,Thăn heo cuộn dừa,,,gemma-4-31b-it_error
+1801,Bò cuộn ba rọi xông khói,,,gemma-4-31b-it_error
+1802,Chả giò cá,,,gemma-4-31b-it_error
+1803,Tàu hủ ky cuộn mực chiên,,,gemma-4-31b-it_error
+1804,Bánh rán nhân cua,,,gemma-4-31b-it_error
+1805,Gân bò ngâm chua ngọt,,,gemma-4-31b-it_error
+1806,Cá chiên hoa cúc,,,gemma-4-31b-it_error
+1807,Cá basa chiên giòn vị chanh,,,gemma-4-31b-it_error
+1808,Thịt heo ngâm nước mắm,,,gemma-4-31b-it_error
+1809,Chân gà chiên chấm mắm mè,,,gemma-4-31b-it_error
+1810,Dưa món,,,gemma-4-31b-it_error
+1811,Chả tôm nhân phô mai,,,gemma-4-31b-it_error
+1812,Gà cuộn khoai chiên giòn,,,gemma-4-31b-it_error
+1813,Rau tiến vua ngâm chua,,,gemma-4-31b-it_error
+1814,Rau muống ngâm chua,,,gemma-4-31b-it_error
+1815,Tai heo ngâm giấm,,,gemma-4-31b-it_error
+1816,Nem chay vỏ bưởi,,,gemma-4-31b-it_error
+1817,Mực nướng sa tế,,,gemma-4-31b-it_error
+1818,Ngọc mực rang tổ chim,,,gemma-4-31b-it_error
+1819,Hải sản chiên xù,,,gemma-4-31b-it_error
+1820,Bánh bông lan xốt dâu mayonnaise,,,gemma-4-31b-it_error
+1821,Mực né,,,gemma-4-31b-it_error
+1822,Viên mè chiên giòn,,,gemma-4-31b-it_error
+1823,Bánh xèo cuốn áp chảo,,,gemma-4-31b-it_error
+1824,Sò huyết Tứ Xuyên,,,gemma-4-31b-it_error
+1825,Vịt xiêm giả cầy,,,gemma-4-31b-it_error
+1826,Mực nướng tương hột,,,gemma-4-31b-it_error
+1827,Phở cuốn,,,gemma-4-31b-it_error

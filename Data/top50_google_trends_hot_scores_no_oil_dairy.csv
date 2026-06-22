@@ -1,0 +1,51 @@
+﻿rank,overall_hot_rank,db_rank,ingredient,group,recipe_count,keyword,hot_score,relative_to_anchor,status
+1,1,23,Cơm,Ngũ cốc,124,cơm,100.0,10.0,ok
+2,2,84,Tôm,Hải sản,27,tôm,53.12,5.3125,ok
+3,3,33,Bún,Ngũ cốc,96,bún,51.88,5.1875,ok
+4,4,38,Dừa,Trái cây,71,dừa,47.65,4.764706,ok
+5,5,71,Táo,Trái cây,33,táo,46.67,4.666667,ok
+6,6,30,Mực,Hải sản,104,mực,42.5,4.25,ok
+7,7,46,Chanh,Rau củ quả,58,chanh,38.1,3.809524,ok
+8,8,36,Chuối,Trái cây,82,chuối,37.83,3.782609,ok
+9,9,96,Xoài,Trái cây,23,xoài,20.65,2.064516,ok
+10,10,60,Nước Dùng,Thực phẩm chế biến sẵn,42,nước dùng,19.12,1.911765,ok
+11,11,3,Thịt bò,Thịt,947,thịt bò,16.73,1.673469,ok
+12,12,25,Nước Dừa,Trái cây,119,nước dừa,16.67,1.666667,ok
+13,13,27,Dứa,Trái cây,111,dứa,15.0,1.5,ok
+14,14,47,Bánh tráng,Ngũ cốc,58,bánh tráng,14.76,1.47619,ok
+15,15,10,Cà chua,Rau củ quả,276,cà chua,13.27,1.326531,ok
+16,17,94,Khoai lang,Rau củ quả,24,khoai lang,12.26,1.225806,ok
+17,18,5,Nước mắm,Nước chấm,541,nước mắm,11.63,1.163265,ok
+18,19,56,Cá Hồi,Hải sản,44,cá hồi,10.64,1.064103,ok
+19,20,4,Thịt gà,Thịt,703,thịt gà,10.0,1.0,ok
+20,21,52,Mì,Ngũ cốc,50,mì ăn,9.74,0.974359,ok
+21,22,21,Thịt heo,Thịt,131,thịt heo,9.47,0.946667,ok
+22,24,99,Miến,Ngũ cốc,23,miến,8.33,0.833333,ok
+23,25,88,Cá lóc,Hải sản,25,cá lóc,7.97,0.797297,ok
+24,26,37,Nước tương,Nước chấm,82,nước tương,7.83,0.782609,ok
+25,27,100,Xúc Xích,Thịt,22,xúc xích,7.18,0.717949,ok
+26,28,7,Cà rốt,Rau củ quả,440,cà rốt,6.92,0.692308,ok
+27,29,8,Hành tây,Rau củ quả,429,hành tây,6.92,0.692308,ok
+28,30,16,Cần tây (Cần tàu),Rau củ quả,151,cần tây,6.79,0.679487,ok
+29,31,73,Bí đỏ,Rau củ quả,32,bí đỏ,6.67,0.666667,ok
+30,32,55,Củ Cải,Rau củ quả,44,củ cải,6.28,0.628205,ok
+31,33,81,Lá lốt,Rau củ quả,28,lá lốt,5.77,0.576923,ok
+32,34,78,Hạt Sen,Rau củ quả,31,hạt sen,5.51,0.551282,ok
+33,35,63,Hẹ,Rau củ quả,38,hẹ,5.45,0.545455,ok
+34,36,45,Bắp cải,Rau củ quả,59,bắp cải,5.38,0.538462,ok
+35,37,57,Rau muống,Rau củ quả,44,rau muống,5.26,0.525641,ok
+36,38,32,Đậu phộng,Ngũ cốc,98,đậu phộng,4.38,0.4375,ok
+37,40,19,Đậu Hũ,Đậu & sản phẩm từ đậu,140,đậu hũ,3.47,0.346667,ok
+38,41,93,Khoai môn,Rau củ quả,24,khoai môn,3.29,0.329114,ok
+39,42,13,Dưa chuột,Rau củ quả,205,dưa chuột,3.27,0.326531,ok
+40,43,92,Cà tím,Rau củ quả,24,cà tím,3.16,0.316456,ok
+41,44,2,Hành lá,Rau củ quả,1041,hành lá,3.06,0.306122,ok
+42,45,11,Tương Ớt,Nước chấm,256,tương ớt,3.06,0.306122,ok
+43,46,64,Trứng cút,Trứng,37,trứng cút,3.03,0.30303,ok
+44,47,39,Giá đỗ,Rau củ quả,67,giá đỗ,2.94,0.294118,ok
+45,49,12,Rau Xà Lách,Rau củ quả,254,xà lách,2.45,0.244898,ok
+46,50,62,Sa Tế,Nước chấm,39,sa tế,2.42,0.242424,ok
+47,51,95,Thịt Xay,Thịt,24,thịt xay,2.26,0.225806,ok
+48,52,35,Nấm rơm,Nấm,90,nấm rơm,2.17,0.217391,ok
+49,53,28,Thịt ba chỉ,Thịt,108,thịt ba chỉ,2.11,0.210526,ok
+50,54,91,Lá Dứa,Rau củ quả,24,lá dứa,2.03,0.202532,ok

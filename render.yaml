@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: cooksmart-backend
+    env: node
+    plan: free
+    region: singapore
+    buildCommand: cd src/backend && npm install --include=dev && npm run build
+    startCommand: cd src/backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    # Thêm các environment variables khác trong Render Dashboard

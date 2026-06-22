@@ -1,0 +1,14 @@
+# YOLO Inference Service for Food Detection
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+Pillow>=10.0.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+sentence-transformers>=2.2.0
+wandb>=0.25.0
+prometheus-client>=0.22.0,<1.0

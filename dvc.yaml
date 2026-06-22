@@ -1,0 +1,56 @@
+stages:
+  prepare:
+    cmd: >-
+      python -m mlops.ingredient_detection.prepare
+      --dataset-dir mlops/data/yolo_dataset/V59-2
+      --source-yaml mlops/data/yolo_dataset/V59-2/data.yaml
+      --output-yaml mlops/artifacts/prepared/data.yaml
+      --report mlops/artifacts/reports/dataset.json
+    deps:
+      - mlops/ingredient_detection/prepare.py
+      - mlops/ingredient_detection/common.py
+      - mlops/data/yolo_dataset/V59-2
+    outs:
+      - mlops/artifacts/prepared/data.yaml
+      - mlops/artifacts/reports/dataset.json
+
+  train:
+    cmd: >-
+      python -m mlops.ingredient_detection.train
+      --params params.yaml
+      --data-yaml mlops/artifacts/prepared/data.yaml
+      --model mlops/artifacts/model/best.pt
+      --metrics mlops/artifacts/reports/train_metrics.json
+      --manifest mlops/artifacts/model/manifest.json
+    deps:
+      - mlops/ingredient_detection/train.py
+      - mlops/ingredient_detection/common.py
+      - mlops/artifacts/prepared/data.yaml
+    params:
+      - train
+    outs:
+      - mlops/artifacts/model/best.pt
+      - mlops/artifacts/model/manifest.json
+    metrics:
+      - mlops/artifacts/reports/train_metrics.json:
+          cache: false
+
+  evaluate:
+    cmd: >-
+      python -m mlops.ingredient_detection.evaluate
+      --params params.yaml
+      --data-yaml mlops/artifacts/prepared/data.yaml
+      --model mlops/artifacts/model/best.pt
+      --output mlops/artifacts/reports/eval_metrics.json
+    deps:
+      - mlops/ingredient_detection/evaluate.py
+      - mlops/ingredient_detection/common.py
+      - mlops/artifacts/prepared/data.yaml
+      - mlops/artifacts/model/best.pt
+    params:
+      - train.imgsz
+      - train.device
+      - evaluate
+    metrics:
+      - mlops/artifacts/reports/eval_metrics.json:
+          cache: false

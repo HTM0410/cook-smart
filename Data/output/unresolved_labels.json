@@ -1,0 +1,34 @@
+{
+  "unresolved": [
+    {
+      "label_yolo": "xa_lach",
+      "predicted": "Rau Xà Lách",
+      "confidence": 0.6363636363636364,
+      "method": "contains"
+    },
+    {
+      "label_yolo": "ngao",
+      "predicted": "Ngao",
+      "confidence": 0.75,
+      "method": "contains"
+    },
+    {
+      "label_yolo": "sup_lo",
+      "predicted": "Súp Lơ",
+      "confidence": 0.7142857142857143,
+      "method": "similarity"
+    },
+    {
+      "label_yolo": "thanh_long",
+      "predicted": "Thanh Long",
+      "confidence": 0.7058823529411765,
+      "method": "similarity"
+    },
+    {
+      "label_yolo": "rau_mong_toi",
+      "predicted": "Mồng tơi",
+      "confidence": 0.6666666666666666,
+      "method": "contains"
+    }
+  ]
+}

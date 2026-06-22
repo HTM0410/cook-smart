@@ -1,0 +1,10 @@
+{
+  "name": "netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for CookSmart API",
+  "type": "module",
+  "dependencies": {
+    "@netlify/functions": "^2.4.0",
+    "serverless-http": "^3.2.0"
+  }
+}
