@@ -6,7 +6,16 @@ import socketService from '../../services/socketService';
 import ChatMessageBubble from '../molecules/ChatMessageBubble';
 import ChatInput from '../molecules/ChatInput';
 import ChatSessionList from '../molecules/ChatSessionList';
-import { MessageSquare, X, ChevronLeft, Loader2, Bot, Sparkles } from 'lucide-react';
+import {
+  MessageSquare,
+  X,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Loader2,
+  Sparkles,
+  LogIn,
+  Plus,
+} from 'lucide-react';
 
 interface ChatBotProps {
   isOpen?: boolean;
@@ -24,7 +33,7 @@ const WELCOME_MESSAGE: ChatMessage = {
 const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessionId }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -33,16 +42,15 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
   const [isTyping, setIsTyping] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isCreatingSession, setIsCreatingSession] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const reconnectAttempts = useRef(0);
 
-  // Load sessions and suggestions when user logs in
   useEffect(() => {
     if (user) {
       loadSessions();
       loadSuggestions();
     } else {
-      // Reset state when logged out
       setSessions([]);
       setCurrentSession(null);
       setMessages([]);
@@ -52,16 +60,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
 
   const cleanupSocket = useRef<(() => void) | null>(null);
 
-  // Load messages when session changes, but NOT on mount
   useEffect(() => {
     if (user && currentSession) {
       loadMessages(currentSession.id);
-      // Connect socket after session is set
       const cleanup = setupSocket(currentSession.id);
       cleanupSocket.current = cleanup;
       reconnectAttempts.current = 0;
     } else {
-      // Cleanup when no session
       if (cleanupSocket.current) {
         cleanupSocket.current();
         cleanupSocket.current = null;
@@ -76,10 +81,9 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
     };
   }, [user, currentSession?.id]);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const setupSocket = useCallback((sessionId: number): (() => void) => {
     socketService.connect(localStorage.getItem('token') || undefined);
@@ -123,7 +127,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
 
     socketService.joinChat(sessionId);
 
-    // Return cleanup function
     return () => {
       socketService.off('chat:joined', handleJoined);
       socketService.off('chat:message', handleMessage);
@@ -163,7 +166,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
       }
     } catch (err) {
       console.error('Failed to load messages:', err);
-      // Show welcome message on error
       setMessages([{ ...WELCOME_MESSAGE, createdAt: new Date().toISOString() }]);
     } finally {
       setIsLoading(false);
@@ -185,6 +187,11 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
   };
 
   const handleNewChat = async () => {
+    if (!user) {
+      handleLoginPrompt();
+      return;
+    }
+
     if (currentSession) {
       if (cleanupSocket.current) {
         cleanupSocket.current();
@@ -254,11 +261,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
 
+    if (isCreatingSession) return;
+
     let sessionId = currentSession?.id;
 
-    // If no current session, create one first
     if (!sessionId) {
-      setIsLoading(true);
+      setIsCreatingSession(true);
       setError(null);
       try {
         const session = await chatService.createSession();
@@ -269,10 +277,10 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
       } catch (err) {
         console.error('Failed to create session:', err);
         setError('Không thể tạo cuộc trò chuyện. Vui lòng thử lại.');
-        setIsLoading(false);
+        setIsCreatingSession(false);
         return;
       } finally {
-        setIsLoading(false);
+        setIsCreatingSession(false);
       }
     }
 
@@ -287,14 +295,21 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
     setMessages((prev) => [...prev, tempUserMessage]);
     setIsTyping(true);
 
-    // Send via socket for real-time (if connected)
-    socketService.sendMessage(sessionId, content);
-
-    // Also send via REST as fallback
     try {
-      await chatService.sendMessage(sessionId, content);
+      const result = await chatService.sendMessage(sessionId, content);
+      const aiMessage: ChatMessage = {
+        id: result.aiMessage.id || Date.now() + 1,
+        role: 'assistant',
+        content: result.aiMessage.content,
+        createdAt: result.aiMessage.createdAt,
+        sources: result.aiMessage.sources,
+      };
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (err) {
-      console.error('Failed to save message via REST:', err);
+      console.error('Failed to send message:', err);
+      setError('Không thể gửi tin nhắn. Vui lòng thử lại.');
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -307,34 +322,54 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
     navigate(`/recipes/${recipeId}`);
   };
 
+  const handleLoginPrompt = () => {
+    onClose?.();
+    navigate('/login');
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 w-96 h-[600px] max-h-[calc(100vh-120px)] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden border dark:border-gray-700 animate-scale-in">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-primary-500 to-amber-500 text-white flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-            <Bot className="w-6 h-6" />
+    <div className="fixed bottom-24 right-6 z-50 w-[420px] max-w-[calc(100vw-3rem)] h-[640px] max-h-[calc(100vh-140px)] bg-white dark:bg-[#1a1a1a] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl flex flex-col overflow-hidden animate-scale-in origin-bottom-right">
+      {/* Header - slim & balanced */}
+      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 text-white flex-shrink-0 shadow-sm">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center flex-shrink-0 ring-1 ring-white/20">
+            <Sparkles className="w-4.5 h-4.5" />
           </div>
-          <div>
-            <h2 className="font-semibold">CookSmart Assistant</h2>
-            <p className="text-xs text-white/80">Powered by AI</p>
+          <div className="min-w-0">
+            <h2 className="font-semibold text-sm leading-tight truncate">CookSmart Assistant</h2>
+            <div className="flex items-center gap-1.5 text-[11px] text-white/80 mt-0.5">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-200"></span>
+              </span>
+              <span>Trực tuyến • Powered by AI</span>
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="p-2 rounded-lg hover:bg-white/20 transition-colors"
-            title={isExpanded ? 'Thu nhỏ' : 'Phóng to'}
-          >
-            {isExpanded ? <ChevronLeft className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
-          </button>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {user && (
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-2 rounded-lg hover:bg-white/15 active:bg-white/25 transition-colors"
+              title={isSidebarOpen ? 'Ẩn danh sách' : 'Hiện danh sách'}
+              aria-label="Toggle sidebar"
+            >
+              {isSidebarOpen ? (
+                <PanelLeftClose className="w-4 h-4" />
+              ) : (
+                <PanelLeftOpen className="w-4 h-4" />
+              )}
+            </button>
+          )}
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-white/20 transition-colors"
+            className="p-2 rounded-lg hover:bg-white/15 active:bg-white/25 transition-colors"
+            title="Đóng"
+            aria-label="Đóng"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -342,8 +377,8 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
       {/* Content */}
       <div className="flex-1 flex overflow-hidden min-h-0">
         {/* Session sidebar */}
-        {(isExpanded || currentSession) && (
-          <div className={`${isExpanded ? 'w-64 flex-shrink-0' : 'hidden'} border-r dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-y-auto`}>
+        {user && isSidebarOpen && (
+          <div className="w-60 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 overflow-y-auto">
             <ChatSessionList
               sessions={sessions}
               currentSessionId={currentSession?.id}
@@ -355,92 +390,125 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
         )}
 
         {/* Chat area */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {/* Loading sessions — show full screen loader */}
+        <div className="flex-1 flex flex-col min-w-0 bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-900/30 dark:to-gray-900">
           {isLoadingSessions && !currentSession ? (
             <div className="flex-1 flex flex-col items-center justify-center p-6">
-              <Loader2 className="w-10 h-10 animate-spin text-primary-500 mb-4" />
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mb-3" />
               <p className="text-gray-500 dark:text-gray-400 text-sm">Đang tải cuộc trò chuyện...</p>
             </div>
           ) : !currentSession && !isLoading ? (
-            /* Welcome screen — always show start options */
-            <div className="flex-1 flex flex-col items-center justify-center p-4 overflow-y-auto">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-400 to-amber-500 flex items-center justify-center mb-3 shadow-lg flex-shrink-0">
-                <Bot className="w-8 h-8 text-white" />
+            /* Welcome screen */
+            <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/25 flex-shrink-0">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 text-center">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1.5 text-center">
                 Xin chào! Tôi có thể giúp gì?
               </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
-                Tôi có thể gợi ý công thức nấu ăn, trả lời câu hỏi về nguyên liệu, và nhiều hơn nữa.
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-6 max-w-xs">
+                Gợi ý công thức, hướng dẫn nấu ăn, hoặc tìm món phù hợp với nguyên liệu bạn có.
               </p>
-              <div className="w-full space-y-2 max-h-40 overflow-y-auto pr-1">
-                {suggestions.slice(0, 3).map((suggestion, index) => (
+
+              {!user ? (
+                <>
+                  <div className="w-full max-w-xs p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-800/40 mb-4 flex items-start gap-2">
+                    <LogIn className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-amber-800 dark:text-amber-200 leading-relaxed">
+                      Đăng nhập để lưu lịch sử trò chuyện và đồng bộ giữa các thiết bị.
+                    </p>
+                  </div>
+                  <div className="w-full max-w-xs space-y-2 mb-4">
+                    {suggestions.slice(0, 3).map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className="w-full px-3 py-2.5 text-left rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 opacity-70"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <MessageSquare className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                          <span className="text-xs text-gray-700 dark:text-gray-300 truncate">{suggestion}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                   <button
-                    key={index}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="w-full px-3 py-2.5 text-left rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 transition-colors"
+                    onClick={handleLoginPrompt}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium hover:shadow-lg hover:shadow-emerald-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                   >
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-primary-500 flex-shrink-0" />
-                      <span className="text-xs text-gray-700 dark:text-gray-300 truncate">{suggestion}</span>
-                    </div>
+                    <LogIn className="w-4 h-4" />
+                    Đăng nhập để bắt đầu
                   </button>
-                ))}
-              </div>
-              <button
-                onClick={handleNewChat}
-                disabled={isLoading}
-                className="mt-4 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-amber-500 text-white font-medium hover:shadow-lg transition-all active:scale-95 text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Dang tao...
-                  </>
-                ) : (
-                  'Bat dau cuoc tro chuyen moi'
-                )}
-              </button>
+                </>
+              ) : isCreatingSession ? (
+                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
+                  <Loader2 className="w-5 h-5 animate-spin text-emerald-600" />
+                  <span className="text-sm font-medium">Đang tạo cuộc trò chuyện...</span>
+                </div>
+              ) : (
+                <>
+                  <div className="w-full max-w-xs space-y-2 mb-5">
+                    {suggestions.slice(0, 3).map((suggestion, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        disabled={isCreatingSession}
+                        className="group w-full px-3 py-2.5 text-left rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-emerald-400 dark:hover:border-emerald-600 hover:shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <MessageSquare className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-500 flex-shrink-0 transition-colors" />
+                          <span className="text-xs text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 truncate transition-colors">
+                            {suggestion}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={handleNewChat}
+                    disabled={isLoading || isCreatingSession}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium hover:shadow-lg hover:shadow-emerald-500/25 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {(isLoading || isCreatingSession) ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Plus className="w-4 h-4" />
+                    )}
+                    Bắt đầu cuộc trò chuyện mới
+                  </button>
+                </>
+              )}
             </div>
           ) : isLoading && currentSession ? (
-            /* Loading messages for a session */
             <div className="flex-1 flex flex-col items-center justify-center">
-              <Loader2 className="w-10 h-10 animate-spin text-primary-500 mb-4" />
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mb-3" />
               <p className="text-gray-500 dark:text-gray-400 text-sm">Đang tải tin nhắn...</p>
             </div>
           ) : (
             /* Normal chat view */
             <>
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div className="flex-1 overflow-y-auto px-3 py-3 custom-scrollbar">
                 {messages.map((message, index) => (
-                  <div
+                  <ChatMessageBubble
                     key={message.id || index}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div className="w-full max-w-[85%]">
-                      <ChatMessageBubble
-                        id={message.id || index}
-                        role={message.role}
-                        content={message.content}
-                        createdAt={message.createdAt}
-                        sources={message.sources}
-                        onRecipeClick={handleRecipeClick}
-                      />
-                    </div>
-                  </div>
+                    id={message.id || index}
+                    role={message.role}
+                    content={message.content}
+                    createdAt={message.createdAt}
+                    sources={message.sources}
+                    onRecipeClick={handleRecipeClick}
+                  />
                 ))}
+
                 {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="flex gap-2">
-                      <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 flex items-center justify-center flex-shrink-0">
-                        <Bot className="w-4 h-4" />
+                  <div className="flex justify-start mb-3 animate-fade-in">
+                    <div className="flex gap-2.5 items-end">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <Sparkles className="w-4 h-4 text-white" />
                       </div>
-                      <div className="px-3 py-2.5 rounded-2xl bg-gray-100 dark:bg-gray-800">
-                        <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="px-4 py-3 rounded-2xl rounded-tl-md bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700 shadow-sm">
+                        <div className="flex gap-1.5 items-center">
+                          <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                         </div>
                       </div>
                     </div>
@@ -450,16 +518,16 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
               </div>
 
               {error && (
-                <div className="px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm flex-shrink-0">
+                <div className="mx-3 mb-2 px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-xs rounded-lg border border-red-200 dark:border-red-800/50 flex-shrink-0 animate-fade-in">
                   {error}
                 </div>
               )}
 
-              <div className="flex-shrink-0 border-t dark:border-gray-700 p-3">
+              <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
                 <ChatInput
                   onSendMessage={handleSendMessage}
-                  disabled={isTyping}
-                  placeholder="Hoi toi ve cong thuc nau an..."
+                  disabled={isTyping || isCreatingSession}
+                  placeholder="Hỏi tôi về công thức nấu ăn..."
                 />
               </div>
             </>
