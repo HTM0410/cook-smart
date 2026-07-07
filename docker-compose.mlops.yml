@@ -1,0 +1,133 @@
+# ============================================================
+# Docker Compose - Full MLOps local development stack
+# Build 3 services (backend, yolo, drift) + Prometheus/Grafana/Pushgateway
+# ============================================================
+# Su dung:
+#   docker compose -f docker-compose.mlops.yml up --build
+#   docker compose -f docker-compose.mlops.yml down
+# ============================================================
+
+services:
+  # ---- Inference: YOLO detection ----
+  yolo:
+    build:
+      context: .
+      dockerfile: docker/yolo.Dockerfile
+    image: cooksmart-yolo:local
+    container_name: cooksmart-yolo
+    environment:
+      - MLOPS_ENABLED=true
+      - CONF_INFERENCE_FLOOR=0.25
+      - YOLO_MODEL_PATH=/app/models/best.pt
+      - METRICS_TOKEN=${METRICS_TOKEN:-}
+    volumes:
+      # Bind-mount model file neu co trong repo.
+      # Dat file best (3).pt hoac best.pt vao ./models/
+      - ./models:/app/models:ro
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ---- Node.js Backend API ----
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: cooksmart-backend:local
+    container_name: cooksmart-backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - YOLO_SERVICE_URL=http://yolo:8000
+      - DB_DIALECT=${DB_DIALECT:-mysql}
+      - DB_HOST=${DB_HOST:-host.docker.internal}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_NAME=${DB_NAME:-cooksmart}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASS=${DB_PASS:-changeme}
+      - JWT_SECRET=${JWT_SECRET:-please-change-me}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+    ports:
+      - "3000:3000"
+    depends_on:
+      yolo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---- Drift detection ----
+  drift:
+    build:
+      context: .
+      dockerfile: docker/drift.Dockerfile
+    image: cooksmart-drift:local
+    container_name: cooksmart-drift
+    environment:
+      - YOLO_METRICS_URL=http://yolo:8000/metrics
+      - METRICS_TOKEN=${METRICS_TOKEN:-}
+      - PUSHGATEWAY_URL=http://pushgateway:9091
+      - BASELINE_DATA_PATH=/app/baselines/data_baseline.npz
+      - BASELINE_PRED_PATH=/app/baselines/pred_baseline.json
+      - BASELINE_CONCEPT_PATH=/app/baselines/concept_baseline.npz
+    volumes:
+      - ./mlops/drift/baselines:/app/baselines:ro
+    ports:
+      - "8100:8100"
+    depends_on:
+      - yolo
+      - pushgateway
+    restart: unless-stopped
+
+  # ---- Prometheus Pushgateway (drift metrics) ----
+  pushgateway:
+    image: prom/pushgateway:v1.10.0
+    container_name: cooksmart-pushgateway
+    ports:
+      - "9091:9091"
+    restart: unless-stopped
+
+  # ---- Prometheus ----
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: cooksmart-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+      - --web.enable-lifecycle
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  # ---- Grafana ----
+  grafana:
+    image: grafana/grafana:12.1.0
+    container_name: cooksmart-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: change-me-now
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:

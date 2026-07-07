@@ -1,0 +1,20 @@
+# Terraform state files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Variables files (co the chua thong tin nhay cam)
+*.tfvars
+!*.tfvars.example
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files (su dung de override local moi truong dev)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

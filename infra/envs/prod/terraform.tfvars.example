@@ -1,0 +1,61 @@
+# =============================================================================
+# Terraform variables cho production environment
+# Sao chep file nay thanh `terraform.tfvars` va dien thong tin cua ban:
+#     cp terraform.tfvars.example terraform.tfvars
+# KHONG commit terraform.tfvars (co secret).
+# =============================================================================
+
+aws_region = "ap-southeast-1"
+
+# Prefix cho toan bo resource (default: cooksmart-prod)
+name = "cooksmart-prod"
+
+# VPC hien co - lay tu AWS Console hoac:
+#   aws ec2 describe-vpcs --query "Vpcs[].[VpcId]" --output text
+vpc_id = "vpc-0abc123def456789"
+
+# Subnets - it nhat 2 public (cho ALB) va 2 private (cho ECS).
+# Lay tu AWS Console > VPC > Subnets hoac:
+#   aws ec2 describe-subnets --filters "Name=vpc-id,Values=<VPC_ID>" --query "Subnets[].[SubnetId,AvailabilityZone,MapPublicIpOnLaunch]" --output table
+public_subnets = [
+  "subnet-0aaa111bbb222ccc",
+  "subnet-0ddd333eee444fff"
+]
+
+private_subnets = [
+  "subnet-0ggg555hhh666iii",
+  "subnet-0jjj777kkk888lll"
+]
+
+# ACM Certificate (HTTPS cho ALB production listener).
+# Neu chua co, de null va ALB se chi dung HTTP port 80 + redirect 80->443 (neu co HTTPS).
+# Tao qua AWS Console > Certificate Manager hoac:
+#   aws acm list-certificates --query "CertificateSummaryList[].[CertificateArn,DomainName]" --output table
+acm_arn = "arn:aws:acm:ap-southeast-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# GitHub repo cho CodePipeline source stage.
+github_repo  = "HTM0410/cook-smart"
+github_branch = "main"
+
+# CodeStar connection toi GitHub - tao qua Console:
+#   Developer Tools > Settings > Connections > Create connection
+# Sau khi tao, lay ARN:
+#   aws codestar-connections list-connections --query "Connections[].[ConnectionArn,ConnectionName,ConnectionStatus]"
+codestar_connection_arn = "arn:aws:codestar-connections:ap-southeast-1:123456789012:connection/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# SNS topic cho approval notification (optional, nhung KHUYEN NGHI cho prod).
+# Tao bang:
+#   aws sns create-topic --name cooksmart-deploy-approval
+# Sau do subscribe email de nhan approve notification.
+approval_sns_topic_arn = "arn:aws:sns:ap-southeast-1:123456789012:cooksmart-deploy-approval"
+
+# Initial image tag (sau do CodePipeline se override khi deploy).
+yolo_image_tag = "latest"
+
+# Tags chung.
+tags = {
+  Project     = "cooksmart"
+  Environment = "prod"
+  ManagedBy   = "terraform"
+  Owner       = "data-team"
+}
