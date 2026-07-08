@@ -50,6 +50,12 @@ exports/
 # Scripts (development only)
 scripts/
 
+# Infrastructure scripts (deploy-lambda.sh, deploy-lambda.ps1) can be tracked
+!infra/scripts/
+!infra/scripts/*.sh
+!infra/scripts/*.ps1
+!infra/scripts/.gitkeep
+
 # Test files
 test-*.js
 *.test.js
