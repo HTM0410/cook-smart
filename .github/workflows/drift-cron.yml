@@ -1,0 +1,54 @@
+name: Drift Cron (6h)
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # moi 6 gio
+  workflow_dispatch:
+
+jobs:
+  run-drift:
+    name: Run drift detection against live inference
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install drift deps
+        run: |
+          pip install httpx==0.27.2 fastapi==0.115.5 \
+            uvicorn==0.32.1 pydantic==2.10.3 numpy==1.26.4 \
+            scipy==1.13.1 scikit-learn==1.5.2 prometheus-client==0.21.1
+
+      - name: Trigger drift service
+        env:
+          DRIFT_URL: ${{ secrets.DRIFT_URL || vars.DRIFT_URL || 'http://localhost:8100' }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN || '' }}
+          CHANNELS: "data concept prediction"
+        run: |
+          python -m mlops.scripts.run_drift_job \
+            --drift-url "$DRIFT_URL" \
+            --metrics-token "$METRICS_TOKEN" \
+            --channels data concept prediction
+        continue-on-error: true
+
+      - name: Report drift status
+        if: always()
+        env:
+          DRIFT_URL: ${{ secrets.DRIFT_URL || vars.DRIFT_URL || 'http://localhost:8100' }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN || '' }}
+        run: |
+          python - <<'PY' || echo "Step non-blocking"
+          import os, json, httpx
+          url = os.environ.get("DRIFT_URL", "http://localhost:8100")
+          with httpx.Client(timeout=5.0) as c:
+              res = c.get(f"{url.rstrip('/')}/drift/reports?limit=1")
+              res.raise_for_status()
+              print(json.dumps(res.json(), indent=2))
+          PY

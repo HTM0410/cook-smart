@@ -1,106 +1,117 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Button from '../atoms/Button'
-import { Sparkles, Calendar, ShoppingCart, ChefHat, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Calendar, ShoppingCart, Sparkles, ArrowUpRight, MessageCircle } from 'lucide-react'
+import { EyebrowTag } from '../atoms/EyebrowTag'
+import { ButtonEditorial } from '../atoms/ButtonEditorial'
+import { splitRevealLeft, splitRevealRight, cardReveal, staggerGrid, viewportOnce } from '../../lib/motion'
 
 const MealPlanCTA: React.FC = () => {
   const features = [
-    { icon: Sparkles, label: 'AI gợi ý thông minh', desc: 'Công thghệ AI giúp bạn chọn món ăn phù hợp' },
+    { icon: Sparkles, label: 'AI gợi ý thông minh', desc: 'Công nghệ AI giúp bạn chọn món ăn phù hợp' },
     { icon: Calendar, label: 'Lên thực đơn dễ dàng', desc: 'Kéo thả công thức vào lịch tuần của bạn' },
     { icon: ShoppingCart, label: 'Danh sách đi chợ tự động', desc: 'Tạo danh sách mua sắm từ thực đơn đã chọn' },
-    { icon: ChefHat, label: 'Theo dõi dinh dưỡng', desc: 'Giám sát lượng calories và chất dinh dưỡng' },
   ]
 
   return (
-    <section className="py-16 lg:py-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-500 to-amber-500" />
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-40 h-40 bg-white rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-60 h-60 bg-white rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white rounded-full blur-3xl opacity-50" />
+    <section className="section-lg bg-ink-700 text-paper-light relative overflow-hidden">
+      {/* Decorative mesh background */}
+      <div className="absolute inset-0 pointer-events-none opacity-50">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(255,79,0,0.15)_0%,transparent_60%)]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(122,139,111,0.10)_0%,transparent_60%)]" />
       </div>
 
-      {/* Pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Text */}
-          <div className="space-y-8 text-white">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-sm font-semibold">
-                <Sparkles className="w-4 h-4" />
-                Tính năng mới
-              </div>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white">
-                Lên kế hoạch
-                <br />
-                <span className="text-amber-200">bữa ăn thông minh</span>
-              </h2>
-              <p className="text-white/80 text-lg max-w-lg leading-relaxed">
-                Kết hợp AI gợi ý, lịch tuần trực quan và danh sách đi chợ tự động. Tất cả giúp bạn tiết kiệm thời gian và ăn uống lành mạnh hơn.
-              </p>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left - Editorial Text */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={splitRevealLeft}
+            className="lg:col-span-7"
+          >
+            <EyebrowTag dotColor="bg-[#ff6f33]">Tính năng mới</EyebrowTag>
+            <h2 className="mt-6 text-display text-5xl md:text-6xl lg:text-7xl text-paper-light text-balance">
+              Lên thực đơn.
+              <br />
+              <span className="text-ink-300 italic">Đi chợ tự động.</span>
+            </h2>
+            <p className="text-ink-200 text-lg leading-relaxed max-w-[52ch] mt-8 text-pretty">
+              Kết hợp AI gợi ý, lịch tuần trực quan và danh sách đi chợ tự động.
+              Tất cả giúp bạn tiết kiệm thời gian và ăn uống lành mạnh hơn.
+            </p>
 
-            {/* Action */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Link to="/meal-plans">
-                <Button
-                  size="lg"
-                  className="w-full sm:w-auto bg-white text-primary-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl hover:shadow-black/10 transition-all group"
-                >
-                  <Calendar className="w-5 h-5" />
-                  Lập thực đơn ngay
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <ButtonEditorial variant="inverse" size="lg">
+                  <Calendar className="w-4 h-4" strokeWidth={1.5} />
+                  Lập thực đơn
+                </ButtonEditorial>
               </Link>
               <Link to="/chat">
-                <Button
-                  variant="glass"
-                  size="lg"
-                  className="w-full sm:w-auto text-white border-white/30 hover:bg-white/20"
-                >
-                  <Sparkles className="w-5 h-5" />
+                <ButtonEditorial variant="ghost" size="lg" className="ring-paper-light/20 text-paper-light">
+                  <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                   Trò chuyện với AI
-                </Button>
+                </ButtonEditorial>
               </Link>
+            </div>
+          </motion.div>
+
+          {/* Right - Floating glass feature cards */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={staggerGrid}
+            className="lg:col-span-5"
+          >
+            <div className="space-y-4">
+              {features.map((feature, i) => (
+                <motion.div key={i} custom={i} variants={cardReveal}>
+                  <div className="rounded-squircle bg-paper-light/[0.04] backdrop-blur-md ring-1 ring-paper-light/10 p-1.5">
+                    <div className="rounded-[calc(2rem-0.375rem)] bg-ink-700/40 p-6 flex items-start gap-4 transition-colors duration-700 ease-[var(--ease-fluid)] hover:bg-ink-700/60">
+                      <span className="w-12 h-12 rounded-full bg-paper-light/10 ring-1 ring-paper-light/10 flex items-center justify-center flex-shrink-0">
+                        <feature.icon className="w-5 h-5 text-paper-light" strokeWidth={1.5} />
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="text-base font-semibold text-paper-light mb-1">{feature.label}</h3>
+                        <p className="text-sm text-ink-200 leading-relaxed">{feature.desc}</p>
+                      </div>
+                      <span className="w-9 h-9 rounded-full bg-paper-light/10 flex items-center justify-center text-paper-light">
+                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.5} />
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Social proof */}
-            <div className="flex items-center gap-4">
-              <div className="flex -space-x-3">
-                {['#ff4f00', '#14b8a6', '#f59e0b', '#8b5cf6'].map((color, i) => (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewportOnce}
+              transition={{ duration: 0.9, ease: [0.32, 0.72, 0, 1], delay: 0.5 }}
+              className="mt-8 flex items-center gap-4"
+            >
+              <div className="flex -space-x-2">
+                {['#ff4f00', '#7a8b6f', '#f59e0b', '#a8bb95'].map((color, i) => (
                   <div
                     key={i}
-                    className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-md"
+                    className="w-9 h-9 rounded-full border-2 border-ink-700 flex items-center justify-center text-white text-[10px] font-bold tracking-wide"
                     style={{ backgroundColor: color }}
                   >
                     {String.fromCharCode(65 + i)}
                   </div>
                 ))}
               </div>
-              <div className="text-sm text-white/80">
-                <span className="font-bold text-white">2,000+</span> người đang sử dụng
+              <div>
+                <p className="text-display text-2xl text-paper-light">2,000+</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-ink-200">Người dùng</p>
               </div>
-            </div>
-          </div>
-
-          {/* Right: Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {features.map((feature, i) => (
-              <div
-                key={i}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-1 group/feature"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-4 group-hover/feature:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-base font-bold text-white mb-1">{feature.label}</h3>
-                <p className="text-sm text-white/60">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -16,7 +16,8 @@ export const createMealPlan = async (req: Request, res: Response) => {
     return res.status(201).json(success(mealPlan));
   } catch (err: any) {
     console.error('Error creating meal plan:', err);
-    return res.status(500).json(error(err.message || 'Failed to create meal plan'));
+    const status = err?.statusCode || 500;
+    return res.status(status).json(error(err.message || 'Failed to create meal plan'));
   }
 };
 

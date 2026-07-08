@@ -2,30 +2,30 @@ schema: '2.0'
 stages:
   prepare:
     cmd: python -m mlops.ingredient_detection.prepare --dataset-dir 
-      mlops/data/yolo_dataset/V59-2 --source-yaml 
-      mlops/data/yolo_dataset/V59-2/data.yaml --output-yaml 
+      mlops/data/yolo_dataset/V59_fullset --source-yaml 
+      mlops/data/yolo_dataset/V59_fullset/data.yaml --output-yaml 
       mlops/artifacts/prepared/data.yaml --report 
-      mlops/artifacts/reports/dataset.json
+      mlops/artifacts/reports/dataset.json --require-test
     deps:
-    - path: mlops/data/yolo_dataset/V59-2
+    - path: mlops/data/yolo_dataset/V59_fullset
       hash: md5
-      md5: 72617fea0fdd7d28a10a03d500cf27e6.dir
-      size: 4252501463
-      nfiles: 24935
+      md5: 103b4ada7646a9ff39f3d9ff758d44d9.dir
+      size: 4537374339
+      nfiles: 26366
     - path: mlops/ingredient_detection/common.py
       hash: md5
       md5: ebc4caf18ad91a771081941c4e76b231
       size: 1736
     - path: mlops/ingredient_detection/prepare.py
       hash: md5
-      md5: 618f0532de10142a620775e87d0576cd
-      size: 5311
+      md5: a0c67baa62e1ba0fe7670730f53e2d5f
+      size: 6011
     outs:
     - path: mlops/artifacts/prepared/data.yaml
       hash: md5
-      md5: d1c07394cab0df2d5e6202c0890d3942
-      size: 730
+      md5: 323204a5a7e681cfba1fdb430b475bb8
+      size: 755
     - path: mlops/artifacts/reports/dataset.json
       hash: md5
-      md5: 58ee3d5bbc9d2b0a7527992bf9010dbc
-      size: 3671
+      md5: 3c5e0dcd3a944ed9835d8c7142e27e70
+      size: 4994

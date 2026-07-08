@@ -88,18 +88,20 @@ const STOP_WORDS = new Set([
  */
 function extractDishKeywords(query: string): string[] {
   const normalized = normalizeVietnamese(query.toLowerCase());
-  const tokens = normalized.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length >= 2 && !STOP_WORDS.has(w));
+  const tokens = normalized
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((w) => w.length >= 2 && !STOP_WORDS.has(w));
 
-  // Nếu query ngắn (≤ 4 từ), dùng full token list thử exact match
-  // Nếu dài (> 4), chỉ lấy cặp từ cuối + cuối-1 (thường là tên món)
-  if (tokens.length <= 4) {
-    return tokens;
+  if (tokens.length === 0) return [];
+
+  // Trả về nhiều candidate: full + các prefix liền kề để bắt tên món đầy đủ.
+  //   "cách nấu phở bò bắp hoa" → ["phở bò bắp hoa", "phở bò bắp", "phở bò", "phở", "bò", "bắp", "hoa"]
+  const candidates = new Set<string>();
+  for (let i = tokens.length; i >= 1; i--) {
+    candidates.add(tokens.slice(0, i).join(' '));
   }
 
-  // Lấy 2 cụm: toàn bộ tokens + cặp token cuối cùng (skip stopwords)
-  const filtered = tokens.filter((t) => !STOP_WORDS.has(t));
-  const last2 = filtered.slice(-2).join(' ');
-  return [filtered.join(' '), last2];
+  return Array.from(candidates);
 }
 
 /**
@@ -115,39 +117,86 @@ function extractDishKeywords(query: string): string[] {
  */
 async function tryExactRecipeMatch(query: string): Promise<RAGResponse | null> {
   try {
-    const keywords = extractDishKeywords(query);
-    if (keywords.length === 0) {
+    const candidates = extractDishKeywords(query);
+    if (candidates.length === 0) {
       return null;
     }
 
+    // Sắp xếp candidates: dài nhất trước (ưu tiên cụm cụ thể)
+    const sortedCandidates = [...candidates].sort((a, b) => b.length - a.length);
+
+    // Loại candidate quá ngắn (1-3 ký tự) để tránh match trùng lặp
+    const usableCandidates = sortedCandidates.filter((c) => c.replace(/\s/g, '').length >= 4);
+    if (usableCandidates.length === 0) return null;
+
     // CRITICAL: use unaccent() so ILIKE works regardless of diacritics.
-    // PostgreSQL ILIKE doesn't auto-remove diacritics, so "pho" wouldn't
-    // match "Phở" without unaccent().
     const replacements: Record<string, string> = {};
-    const clauses = keywords.map((kw, idx) => {
-      replacements[`kw${idx}`] = `%${kw}%`;
+    const clauses = usableCandidates.map((cand, idx) => {
+      replacements[`kw${idx}`] = `%${cand}%`;
       return `unaccent(r.recipe_name) ILIKE unaccent(:kw${idx})`;
     });
 
-    // Query: tìm recipes có TẤT CẢ keywords xuất hiện trong recipe_name (accent-insensitive)
-    const whereClause = clauses.join(' AND ');
+    // OR các candidates - lấy union recipes match bất kỳ candidate nào
+    const whereClause = clauses.join(' OR ');
     const [rows] = await sequelize.query(
       `SELECT r.id, r.recipe_name, r.description, r.prep_time, r.cook_time, r.difficulty, r.status
        FROM recipes r
-       WHERE r.status = 'visible' AND ${whereClause}
+       WHERE r.status = 'visible' AND (${whereClause})
        ORDER BY LENGTH(r.recipe_name) ASC, r.id ASC
-       LIMIT 10`,
+       LIMIT 20`,
       { replacements }
     );
 
     const recipes = rows as any[];
-    console.log(`[tryExactRecipeMatch] keywords=${JSON.stringify(keywords)}, rows=${recipes.length}, names=${JSON.stringify(recipes.slice(0,5).map(r => r.recipe_name))}`);
     if (recipes.length === 0) {
+      console.log(`[tryExactRecipeMatch] no ILIKE match for candidates=${JSON.stringify(usableCandidates.slice(0,3))}`);
       return null;
     }
 
-    // Ưu tiên recipe có tên NGẮN nhất (đã ORDER BY ở trên)
-    const best = recipes[0];
+    // Match winner: candidate DÀI NHẤT có tokens đứng LIỀN KỀ (đúng thứ tự) trong recipe_name.
+    //
+    // Ví dụ query "cách nấu phở bò bắp hoa":
+    //   candidates (length desc): ["phở bò bắp hoa", "phở bò bắp", "phở bò", "phở", "bò", "bắp", "hoa"]
+    //   recipes (name length asc): ["Phở bò", "Phở bò bắp hoa", "Bò nướng lá cách", ...]
+    //   → "phở bò bắp hoa" test trên "Phở bò bắp hoa" → match nguyên vẹn WINNER
+    //   → "phở bò" test trên "Phở bò" → match ngắn hơn, không phải winner
+    //   → "hoa" test trên "Bò nướng lá cách" → fail vì không có "hoa" đứng 1 mình
+    let bestMatch: { recipe: any; candidateLength: number; matchedCandidate: string } | null = null;
+
+    for (const candidate of usableCandidates) {
+      const candidateNormalized = candidate;
+      const candidateLength = candidateNormalized.replace(/\s/g, '').length;
+
+      // Tối ưu: candidate này ngắn hơn bestMatch hiện tại thì không thể thắng → break
+      if (bestMatch && candidateLength <= bestMatch.candidateLength) break;
+
+      const tokens = candidateNormalized.split(/\s+/).filter(Boolean);
+      if (tokens.length === 0) continue;
+
+      // Build regex yêu cầu tokens đứng liền kề theo đúng thứ tự,
+      // với word boundary ở đầu/cuối để tránh match 1 phần của từ khác.
+      // VD: candidate "bánh" KHÔNG được match "bánh mì", "bánh hẹ" với \b boundaries.
+      // Multi-token (>=2): cũng cần \b ở 2 đầu để match nguyên cụm.
+      const escapedTokens = tokens.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      const regexPattern = `\\b${escapedTokens.join('\\s+')}\\b`;
+      const regex = new RegExp(regexPattern, 'i');
+
+      for (const recipe of recipes) {
+        const recipeNameNormalized = normalizeVietnamese(recipe.recipe_name);
+        if (regex.test(recipeNameNormalized)) {
+          if (!bestMatch || candidateLength > bestMatch.candidateLength) {
+            bestMatch = { recipe, candidateLength, matchedCandidate: candidate };
+          }
+        }
+      }
+    }
+
+    if (!bestMatch) {
+      console.log(`[tryExactRecipeMatch] no exact phrase match for candidates=${JSON.stringify(usableCandidates.slice(0,3))}, recipes=${recipes.map(r => r.recipe_name).join(', ')}`);
+      return null;
+    }
+
+    const best = bestMatch.recipe;
 
     // Build response (NO LLM)
     const prepTime = (best.prep_time || 0) + (best.cook_time || 0);
@@ -164,6 +213,7 @@ async function tryExactRecipeMatch(query: string): Promise<RAGResponse | null> {
 
     const text = lines.join('\n');
 
+    console.log(`[tryExactRecipeMatch] matched ${best.recipe_name} (id=${best.id}) for query=${query.substring(0, 50)} via candidate=${bestMatch.matchedCandidate}`);
     return {
       text,
       sources: [

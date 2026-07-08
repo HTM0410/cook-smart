@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Activity,
   AlertTriangle,
@@ -10,6 +11,7 @@ import {
   ExternalLink,
   GitCommitHorizontal,
   Layers3,
+  Link as LinkIcon,
   Loader2,
   RefreshCw,
   Server,
@@ -18,8 +20,11 @@ import {
   UserRoundCheck,
   XCircle,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService, { MlopsOverview } from '../services/adminService';
+import { EyebrowTag } from '../components/atoms/EyebrowTag';
+import { splitRevealLeft, splitRevealRight, cardReveal, staggerGrid, easeFluid } from '../lib/motion';
 
 type ViewMode = 'overview' | 'feedback' | 'classes';
 
@@ -49,6 +54,7 @@ const AdminMlops: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<ViewMode>('overview');
+  const [classSearch, setClassSearch] = useState('');
 
   const loadData = useCallback(async (refresh = false) => {
     try {
@@ -78,13 +84,25 @@ const AdminMlops: React.FC = () => {
       }));
   }, [data]);
 
+  const filteredClassMappings = useMemo(() => {
+    if (!data) return [];
+    const query = classSearch.trim().toLowerCase();
+    if (!query) return data.schema.classMappings;
+    return data.schema.classMappings.filter(mapping => {
+      const haystack = [mapping.yoloLabel, mapping.vietnameseName ?? '', mapping.category ?? '']
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [data, classSearch]);
+
   if (loading) {
     return (
       <AdminLayout>
         <div className="flex min-h-[420px] items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="mx-auto mb-3 h-9 w-9 animate-spin text-blue-600" />
-            <p className="text-sm text-gray-500 dark:text-gray-400">Đang đọc trạng thái model...</p>
+          <div className="text-center space-y-3">
+            <Loader2 className="mx-auto h-9 w-9 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
+            <p className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang đọc trạng thái model...</p>
           </div>
         </div>
       </AdminLayout>
@@ -93,49 +111,76 @@ const AdminMlops: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="mx-auto max-w-[1500px] space-y-5">
-        <div className="flex flex-col gap-4 border-b border-gray-200 pb-5 dark:border-gray-800 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              <Bot className="h-4 w-4" />
-              Ingredient Detection
+      <div className="mx-auto max-w-[1500px] space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <motion.div initial="hidden" animate="visible" variants={splitRevealLeft} className="lg:col-span-7">
+            <div className="flex items-center gap-2 mb-3">
+              <Bot className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#ff4f00]">
+                Ingredient Detection
+              </span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-950 dark:text-white">Vận hành MLOps</h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <EyebrowTag>Vận hành MLOps</EyebrowTag>
+            <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
+              MLOps.
+            </h1>
+            <p className="mt-4 text-ink-secondary text-pretty">
               Theo dõi model production, schema lớp và phản hồi nhận diện.
             </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => loadData(true)}
-            disabled={refreshing}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
-          >
-            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
-            Làm mới trạng thái
-          </button>
-          {data?.monitoring?.grafanaUrl && (
-            <a
-              href={data.monitoring.grafanaUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+          </motion.div>
+
+          <motion.div initial="hidden" animate="visible" variants={splitRevealRight} className="lg:col-span-5 lg:pb-2 flex items-center gap-3 flex-wrap lg:justify-end">
+            <Link
+              to="/admin/mlops/feedback"
+              className="btn-editorial-ghost"
             >
-              Mở Grafana <ExternalLink className="h-4 w-4" />
-            </a>
-          )}
+              <LinkIcon className="h-4 w-4" strokeWidth={1.5} />
+              Mở feedback queue
+            </Link>
+            <button
+              type="button"
+              onClick={() => loadData(true)}
+              disabled={refreshing}
+              className="btn-editorial-primary"
+            >
+              <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} strokeWidth={1.5} />
+              Làm mới trạng thái
+            </button>
+            {data?.monitoring?.grafanaUrl && (
+              <a
+                href={data.monitoring.grafanaUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-editorial-ghost"
+              >
+                Mở Grafana <ExternalLink className="h-4 w-4" strokeWidth={1.5} />
+              </a>
+            )}
+          </motion.div>
         </div>
 
         {error && (
-          <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-300">
-            <XCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
-            <span>{error}</span>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: easeFluid }}
+            className="card-bezel"
+          >
+            <div className="card-bezel-inner p-4 bg-[#FDEBEC] dark:bg-[#9F2F2D]/15 flex items-center gap-3">
+              <XCircle className="h-5 w-5 text-[#9F2F2D] flex-shrink-0" strokeWidth={1.5} />
+              <span className="text-sm text-[#9F2F2D]">{error}</span>
+            </div>
+          </motion.div>
         )}
 
         {data && (
           <>
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerGrid}
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+            >
               <StatusCard
                 label="Dịch vụ inference"
                 value={data.service.available ? 'Sẵn sàng' : 'Gián đoạn'}
@@ -161,145 +206,241 @@ const AdminMlops: React.FC = () => {
                 icon={UserRoundCheck}
                 tone={data.feedback.modificationRate > 0.2 ? 'amber' : 'blue'}
               />
-            </div>
+            </motion.div>
 
             {data.warnings.length > 0 && (
-              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/60 dark:bg-amber-950/25">
-                <div className="flex items-center gap-2 font-semibold text-amber-800 dark:text-amber-300">
-                  <AlertTriangle className="h-5 w-5" />
-                  Cần chú ý
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: easeFluid }}
+                className="card-bezel"
+              >
+                <div className="card-bezel-inner p-4 bg-[#FBF3DB] dark:bg-[#956400]/15">
+                  <div className="flex items-center gap-2 font-semibold text-[#956400] mb-2">
+                    <AlertTriangle className="h-4 w-4" strokeWidth={1.5} />
+                    Cần chú ý
+                  </div>
+                  <ul className="space-y-1 text-sm text-[#956400]">
+                    {data.warnings.map(warning => <li key={warning}>• {warning}</li>)}
+                  </ul>
                 </div>
-                <ul className="mt-2 space-y-1 text-sm text-amber-700 dark:text-amber-400">
-                  {data.warnings.map(warning => <li key={warning}>• {warning}</li>)}
-                </ul>
-              </div>
+              </motion.div>
             )}
 
-            <div className="flex w-full overflow-x-auto border-b border-gray-200 dark:border-gray-800">
-              {([
-                ['overview', 'Tổng quan', Activity],
-                ['feedback', 'Phản hồi', UserRoundCheck],
-                ['classes', 'Lớp nhận diện', Layers3],
-              ] as const).map(([value, label, Icon]) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setView(value)}
-                  className={`flex h-11 min-w-max items-center gap-2 border-b-2 px-4 text-sm font-semibold ${
-                    view === value
-                      ? 'border-blue-600 text-blue-700 dark:text-blue-400'
-                      : 'border-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </button>
-              ))}
+            <div className="card-bezel">
+              <div className="card-bezel-inner p-0">
+                <div className="flex w-full overflow-x-auto">
+                  {([
+                    ['overview', 'Tổng quan', Activity],
+                    ['feedback', 'Phản hồi', UserRoundCheck],
+                    ['classes', 'Lớp nhận diện', Layers3],
+                  ] as const).map(([value, label, Icon]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setView(value)}
+                      className={`relative flex h-12 min-w-max items-center gap-2 px-5 text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-500 ease-[var(--ease-fluid)] ${
+                        view === value
+                          ? 'text-[#ff4f00]'
+                          : 'text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={1.5} />
+                      {label}
+                      {view === value && (
+                        <motion.span
+                          layoutId="mlops-active"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff4f00]"
+                          transition={{ duration: 0.4, ease: easeFluid }}
+                        />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {view === 'overview' && (
               <div className="grid gap-5 xl:grid-cols-[1.35fr_1fr]">
-                <section className="rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-                  <SectionHeader icon={Server} title="Model đang phục vụ" />
-                  <div className="grid gap-px bg-gray-200 dark:bg-gray-800 sm:grid-cols-2">
-                    <InfoCell label="Artifact" value={data.model.artifact || 'Không dùng registry'} />
-                    <InfoCell label="Phiên bản" value={data.model.artifactVersion || 'N/A'} />
-                    <InfoCell label="Base model" value={data.model.baseModel || 'Chưa ghi nhận'} />
-                    <InfoCell label="Số lớp" value={`${data.model.classCount}/${data.schema.mappedClassCount}`} />
-                    <InfoCell label="Ngưỡng confidence" value={data.service.confidenceThreshold !== null ? data.service.confidenceThreshold.toFixed(2) : 'Chưa có'} />
-                    <InfoCell label="Cập nhật service" value={formatDate(data.service.timestamp)} />
-                    <InfoCell label="Git revision" value={shortValue(data.model.gitRevision)} mono />
-                    <InfoCell label="SHA-256" value={shortValue(data.model.sha256)} mono />
-                  </div>
-                  <div className="flex flex-wrap gap-2 border-t border-gray-200 p-4 dark:border-gray-800">
-                    {data.model.runUrl && (
-                      <a
-                        href={data.model.runUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex h-9 items-center gap-2 rounded-lg border border-gray-300 px-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
-                      >
-                        Mở W&B run <ExternalLink className="h-4 w-4" />
-                      </a>
-                    )}
-                    <span className="inline-flex h-9 items-center gap-2 rounded-lg bg-gray-100 px-3 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-                      <GitCommitHorizontal className="h-4 w-4" />
-                      Tạo model: {formatDate(data.model.createdAt)}
-                    </span>
-                  </div>
-                </section>
-
-                <section className="rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-                  <SectionHeader icon={SlidersHorizontal} title="Chỉ số đánh giá" />
-                  {metrics.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-px bg-gray-200 dark:bg-gray-800">
-                      {metrics.map(metric => (
-                        <div key={metric.key} className="bg-white p-5 dark:bg-gray-900">
-                          <p className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">{metric.label}</p>
-                          <p className="mt-2 text-2xl font-bold text-gray-950 dark:text-white">
-                            {(metric.value * 100).toFixed(1)}%
-                          </p>
-                        </div>
-                      ))}
+                <div className="card-bezel">
+                  <div className="card-bezel-inner p-0 overflow-hidden">
+                    <EditorialSectionHeader icon={Server} title="Model đang phục vụ" />
+                    <div className="grid sm:grid-cols-2 gap-px bg-ink-200/40 dark:bg-ink-700/40">
+                      <InfoCell label="Artifact" value={data.model.artifact || 'Không dùng registry'} />
+                      <InfoCell label="Phiên bản" value={data.model.artifactVersion || 'N/A'} />
+                      <InfoCell label="Base model" value={data.model.baseModel || 'Chưa ghi nhận'} />
+                      <InfoCell label="Số lớp" value={`${data.model.classCount}/${data.schema.mappedClassCount}`} />
+                      <InfoCell label="Ngưỡng confidence" value={data.service.confidenceThreshold !== null ? data.service.confidenceThreshold.toFixed(2) : 'Chưa có'} />
+                      <InfoCell label="Cập nhật service" value={formatDate(data.service.timestamp)} />
+                      <InfoCell label="Git revision" value={shortValue(data.model.gitRevision)} mono />
+                      <InfoCell label="SHA-256" value={shortValue(data.model.sha256)} mono />
                     </div>
-                  ) : (
-                    <EmptyBlock text="Checkpoint hiện tại chưa có metrics trong manifest." />
-                  )}
-                  <div className="grid grid-cols-2 gap-px border-t border-gray-200 bg-gray-200 dark:border-gray-800 dark:bg-gray-800">
-                    <InfoCell label="Phản hồi 24 giờ" value={String(data.feedback.last24Hours)} />
-                    <InfoCell label="MLOps registry" value={data.service.mlopsEnabled ? 'Đang bật' : 'Đang tắt'} />
+                    <div className="flex flex-wrap gap-2 border-t border-ink-200/40 dark:border-ink-700/40 p-4">
+                      {data.model.runUrl && (
+                        <a
+                          href={data.model.runUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-editorial-ghost"
+                        >
+                          Mở W&B run <ExternalLink className="h-4 w-4" strokeWidth={1.5} />
+                        </a>
+                      )}
+                      <span className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-xs font-medium bg-paper-light dark:bg-ink-700 text-ink-secondary">
+                        <GitCommitHorizontal className="h-4 w-4" strokeWidth={1.5} />
+                        Tạo model: {formatDate(data.model.createdAt)}
+                      </span>
+                    </div>
                   </div>
-                </section>
+                </div>
+
+                <div className="card-bezel">
+                  <div className="card-bezel-inner p-0 overflow-hidden">
+                    <EditorialSectionHeader icon={SlidersHorizontal} title="Chỉ số đánh giá" />
+                    {metrics.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-px bg-ink-200/40 dark:bg-ink-700/40">
+                        {metrics.map(metric => (
+                          <div key={metric.key} className="bg-paper-light dark:bg-ink-700/30 p-5">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">
+                              {metric.label}
+                            </p>
+                            <p className="mt-2 text-display text-3xl text-ink-primary dark:text-paper-light">
+                              {(metric.value * 100).toFixed(1)}%
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <EmptyBlock text="Checkpoint hiện tại chưa có metrics trong manifest." />
+                    )}
+                    <div className="grid grid-cols-2 gap-px border-t border-ink-200/40 dark:border-ink-700/40 bg-ink-200/40 dark:bg-ink-700/40">
+                      <InfoCell label="Phản hồi 24 giờ" value={String(data.feedback.last24Hours)} />
+                      <InfoCell label="MLOps registry" value={data.service.mlopsEnabled ? 'Đang bật' : 'Đang tắt'} />
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
             {view === 'feedback' && (
-              <section className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-                <SectionHeader icon={UserRoundCheck} title={`Phản hồi cần học lại (${data.feedback.recent.length})`} />
-                {data.feedback.recent.length === 0 ? (
-                  <EmptyBlock text="Chưa có lượt nhận diện nào được người dùng chỉnh sửa." />
-                ) : (
-                  <div className="divide-y divide-gray-200 dark:divide-gray-800">
-                    {data.feedback.recent.map(item => (
-                      <div key={item.id} className="grid gap-4 p-4 lg:grid-cols-[180px_1fr_1fr]">
-                        <div>
-                          <p className="font-mono text-xs text-gray-500 dark:text-gray-400">#{item.id} · {shortValue(item.imageHash, 16)}</p>
-                          <p className="mt-2 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                            <Clock3 className="h-3.5 w-3.5" />
-                            {formatDate(item.createdAt)}
-                          </p>
-                          <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">
-                            {item.submitter?.fullName || 'Người dùng ẩn danh'}
-                          </p>
+              <div className="card-bezel">
+                <div className="card-bezel-inner p-0 overflow-hidden">
+                  <EditorialSectionHeader icon={UserRoundCheck} title={`Phản hồi cần học lại (${data.feedback.recent.length})`} />
+                  {data.feedback.recent.length === 0 ? (
+                    <EmptyBlock text="Chưa có lượt nhận diện nào được người dùng chỉnh sửa." />
+                  ) : (
+                    <div className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
+                      {data.feedback.recent.map(item => (
+                        <div key={item.id} className="grid gap-4 p-4 lg:grid-cols-[180px_1fr_1fr]">
+                          <div>
+                            <p className="font-mono text-xs text-ink-muted">#{item.id} · {shortValue(item.imageHash, 16)}</p>
+                            <p className="mt-2 flex items-center gap-1.5 text-xs uppercase tracking-[0.15em] text-ink-secondary">
+                              <Clock3 className="h-3.5 w-3.5" strokeWidth={1.5} />
+                              {formatDate(item.createdAt)}
+                            </p>
+                            <p className="mt-1 text-xs text-ink-primary dark:text-paper-light">
+                              {item.submitter?.fullName || 'Người dùng ẩn danh'}
+                            </p>
+                          </div>
+                          <IngredientDiff label="Model dự đoán" items={item.originalIngredients} tone="neutral" />
+                          <IngredientDiff
+                            label="Người dùng xác nhận"
+                            items={item.finalIngredients}
+                            added={item.addedIngredients}
+                            removed={item.removedIngredients}
+                            tone="final"
+                          />
                         </div>
-                        <IngredientDiff label="Model dự đoán" items={item.originalIngredients} tone="neutral" />
-                        <IngredientDiff
-                          label="Người dùng xác nhận"
-                          items={item.finalIngredients}
-                          added={item.addedIngredients}
-                          removed={item.removedIngredients}
-                          tone="final"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
 
             {view === 'classes' && (
               <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
-                <section className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-                    {data.model.classNames.map((name, index) => (
-                      <div key={name} className="min-w-0 rounded-md border border-gray-200 px-3 py-2 dark:border-gray-800">
-                        <span className="mr-2 font-mono text-xs text-gray-400">{index}</span>
-                        <span className="break-all text-sm font-medium text-gray-800 dark:text-gray-200">{name}</span>
+                <div className="card-bezel">
+                  <div className="card-bezel-inner p-0 overflow-hidden">
+                    <div className="flex h-14 items-center justify-between border-b border-ink-200/40 dark:border-ink-700/40 px-4">
+                      <div className="flex items-center gap-2">
+                        <Layers3 className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
+                        <h2 className="text-sm font-bold text-ink-primary dark:text-paper-light uppercase tracking-[0.15em]">
+                          Bảng mapping lớp YOLO → nguyên liệu
+                        </h2>
                       </div>
-                    ))}
+                      <input
+                        type="search"
+                        placeholder="Tìm theo YOLO label hoặc tên VN..."
+                        value={classSearch}
+                        onChange={event => setClassSearch(event.target.value)}
+                        className="input-bezel-inner h-9 w-56 text-xs"
+                      />
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm">
+                        <thead className="bg-paper-light dark:bg-ink-700/40 text-[10px] uppercase tracking-[0.2em] text-ink-secondary">
+                          <tr>
+                            <th className="px-4 py-3 font-bold">#</th>
+                            <th className="px-4 py-3 font-bold">YOLO label</th>
+                            <th className="px-4 py-3 font-bold">Tên nguyên liệu (database)</th>
+                            <th className="px-4 py-3 font-bold">Danh mục</th>
+                            <th className="px-4 py-3 font-bold">Trạng thái</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
+                          {filteredClassMappings.map((mapping, index) => (
+                            <tr key={mapping.yoloLabel} className="hover:bg-paper-light dark:hover:bg-ink-700/30 transition-colors duration-500 ease-[var(--ease-fluid)]">
+                              <td className="px-4 py-2 font-mono text-xs text-ink-muted">{index}</td>
+                              <td className="px-4 py-2">
+                                <span className="font-mono text-xs font-semibold text-ink-primary dark:text-paper-light">
+                                  {mapping.yoloLabel}
+                                </span>
+                              </td>
+                              <td className="px-4 py-2 text-sm font-semibold text-ink-primary dark:text-paper-light">
+                                {mapping.vietnameseName ?? <span className="italic text-ink-muted font-normal">— chưa ánh xạ —</span>}
+                              </td>
+                              <td className="px-4 py-2 text-xs text-ink-secondary">
+                                {mapping.category ?? <span className="italic text-ink-muted">—</span>}
+                              </td>
+                              <td className="px-4 py-2">
+                                {mapping.isMapped ? (
+                                  <span className="eyebrow-tag text-[10px] bg-[#EDF3EC] text-[#346538]">
+                                    <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
+                                    Đã map
+                                  </span>
+                                ) : (
+                                  <span className="eyebrow-tag text-[10px] bg-[#FDEBEC] text-[#9F2F2D]">
+                                    <XCircle className="h-3 w-3" strokeWidth={2} />
+                                    Thiếu map
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {filteredClassMappings.length === 0 && (
+                      <EmptyBlock
+                        text={
+                          classSearch
+                            ? `Không tìm thấy lớp nào khớp với "${classSearch}".`
+                            : 'Không đọc được danh sách lớp từ model.'
+                        }
+                      />
+                    )}
+                    <div className="flex items-center justify-between border-t border-ink-200/40 dark:border-ink-700/40 px-4 py-3 text-xs uppercase tracking-[0.15em] text-ink-muted">
+                      <span>
+                        Hiển thị {filteredClassMappings.length}/{data.schema.classMappings.length} lớp
+                      </span>
+                      <span>
+                        Đã map: {data.schema.classMappings.filter(m => m.isMapped).length} · Thiếu:{' '}
+                        {data.schema.classMappings.filter(m => !m.isMapped).length}
+                      </span>
+                    </div>
                   </div>
-                  {data.model.classNames.length === 0 && <EmptyBlock text="Không đọc được danh sách lớp từ model." />}
-                </section>
+                </div>
                 <aside className="space-y-4">
                   <SchemaList title="Thiếu mapping" items={data.schema.missingMappings} tone="red" />
                   <SchemaList title="Mapping không dùng" items={data.schema.unusedMappings} tone="amber" />
@@ -321,45 +462,49 @@ const StatusCard = ({ label, value, detail, icon: Icon, tone }: {
   tone: 'green' | 'red' | 'blue' | 'amber';
 }) => {
   const tones = {
-    green: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/35 dark:text-emerald-300',
-    red: 'bg-red-50 text-red-700 dark:bg-red-950/35 dark:text-red-300',
-    blue: 'bg-blue-50 text-blue-700 dark:bg-blue-950/35 dark:text-blue-300',
-    amber: 'bg-amber-50 text-amber-700 dark:bg-amber-950/35 dark:text-amber-300',
+    green: 'bg-[#EDF3EC] text-[#346538]',
+    red: 'bg-[#FDEBEC] text-[#9F2F2D]',
+    blue: 'bg-[#E5EDF6] text-[#3D5A80]',
+    amber: 'bg-[#FBF3DB] text-[#956400]',
   };
   return (
-    <div className="min-h-[104px] rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="min-h-8 text-[10px] font-semibold uppercase leading-4 text-gray-500 dark:text-gray-400 sm:text-xs">{label}</p>
-          <p className="mt-1 break-words text-base font-bold leading-5 text-gray-950 dark:text-white sm:text-lg">{value}</p>
-          {detail && <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{detail}</p>}
-        </div>
-        <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md ${tones[tone]}`}>
-          <Icon className="h-5 w-5" />
+    <div className="card-bezel h-full">
+      <div className="card-bezel-inner p-5 min-h-[104px]">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">{label}</p>
+            <p className="mt-1 break-words text-base font-bold leading-5 text-ink-primary dark:text-paper-light text-display sm:text-lg">
+              {value}
+            </p>
+            {detail && <p className="mt-1 text-xs text-ink-muted">{detail}</p>}
+          </div>
+          <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full ${tones[tone]}`}>
+            <Icon className="h-4 w-4" strokeWidth={1.5} />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
-  <div className="flex h-12 items-center gap-2 border-b border-gray-200 px-4 dark:border-gray-800">
-    <Icon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-    <h2 className="text-sm font-bold text-gray-900 dark:text-white">{title}</h2>
+const EditorialSectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
+  <div className="flex h-12 items-center gap-2 border-b border-ink-200/40 dark:border-ink-700/40 px-4">
+    <Icon className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
+    <h2 className="text-sm font-bold text-ink-primary dark:text-paper-light">{title}</h2>
   </div>
 );
 
 const InfoCell = ({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) => (
-  <div className="min-w-0 bg-white p-4 dark:bg-gray-900">
-    <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</p>
-    <p className={`mt-1 truncate text-sm font-semibold text-gray-900 dark:text-gray-100 ${mono ? 'font-mono' : ''}`} title={value}>
+  <div className="min-w-0 bg-paper-light dark:bg-ink-700/30 p-4">
+    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-ink-secondary">{label}</p>
+    <p className={`mt-1 truncate text-sm font-semibold text-ink-primary dark:text-paper-light ${mono ? 'font-mono' : ''}`} title={value}>
       {value}
     </p>
   </div>
 );
 
 const EmptyBlock = ({ text }: { text: string }) => (
-  <div className="flex min-h-32 items-center justify-center p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+  <div className="flex min-h-32 items-center justify-center p-6 text-center text-sm text-ink-secondary">
     {text}
   </div>
 );
@@ -372,36 +517,38 @@ const IngredientDiff = ({ label, items, added = [], removed = [], tone }: {
   tone: 'neutral' | 'final';
 }) => (
   <div>
-    <p className="mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">{label}</p>
+    <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-ink-secondary">{label}</p>
     <div className="flex flex-wrap gap-1.5">
       {items.map(item => {
         const isAdded = added.includes(item);
         const isRemoved = removed.includes(item);
         const style = isAdded
-          ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/35 dark:text-emerald-300'
+          ? 'ring-[#346538]/30 bg-[#EDF3EC] text-[#346538]'
           : isRemoved
-          ? 'border-red-200 bg-red-50 text-red-700 line-through dark:border-red-900 dark:bg-red-950/35 dark:text-red-300'
+          ? 'ring-[#9F2F2D]/30 bg-[#FDEBEC] text-[#9F2F2D] line-through'
           : tone === 'final'
-          ? 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950/35 dark:text-blue-300'
-          : 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300';
-        return <span key={item} className={`rounded-md border px-2 py-1 text-xs font-medium ${style}`}>{item}</span>;
+          ? 'ring-[#3D5A80]/30 bg-[#E5EDF6] text-[#3D5A80]'
+          : 'ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700/30 text-ink-secondary';
+        return <span key={item} className={`rounded-full ring-1 px-2.5 py-1 text-xs font-medium ${style}`}>{item}</span>;
       })}
-      {items.length === 0 && <span className="text-xs text-gray-400">Không có nguyên liệu</span>}
+      {items.length === 0 && <span className="text-xs text-ink-muted">Không có nguyên liệu</span>}
     </div>
   </div>
 );
 
 const SchemaList = ({ title, items, tone }: { title: string; items: string[]; tone: 'red' | 'amber' }) => (
-  <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
-    <div className="flex items-center justify-between">
-      <h3 className="text-sm font-bold text-gray-900 dark:text-white">{title}</h3>
-      <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-        tone === 'red' ? 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300'
-      }`}>{items.length}</span>
-    </div>
-    <div className="mt-3 space-y-1">
-      {items.map(item => <p key={item} className="break-all font-mono text-xs text-gray-600 dark:text-gray-300">{item}</p>)}
-      {items.length === 0 && <p className="text-xs text-gray-400">Không có sai lệch.</p>}
+  <div className="card-bezel">
+    <div className="card-bezel-inner p-4">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-bold text-ink-primary dark:text-paper-light">{title}</h3>
+        <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide ${
+          tone === 'red' ? 'bg-[#FDEBEC] text-[#9F2F2D]' : 'bg-[#FBF3DB] text-[#956400]'
+        }`}>{items.length}</span>
+      </div>
+      <div className="space-y-1">
+        {items.map(item => <p key={item} className="break-all font-mono text-xs text-ink-secondary">{item}</p>)}
+        {items.length === 0 && <p className="text-xs text-ink-muted italic">Không có sai lệch.</p>}
+      </div>
     </div>
   </div>
 );

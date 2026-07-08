@@ -120,7 +120,33 @@ aws sns subscribe --topic-arn <TopicArn> --protocol email --notification-endpoin
 
 → Check email để confirm subscription.
 
-## Bước 8: Gửi các giá trị cho tôi
+## Bước 9: Tạo Netlify Personal Access Token
+
+Frontend sẽ được deploy tự động lên Netlify thông qua GitHub Actions.
+
+1. Truy cập [Netlify User Settings > Applications > Personal access tokens](https://app.netlify.com/user/applications#personal-access-tokens)
+2. Click **New access token**
+3. Đặt tên: `github-actions-deploy`
+4. Copy token và lưu lại
+5. Bạn sẽ cần:
+   - `NETLIFY_AUTH_TOKEN`: token vừa tạo
+   - `NETLIFY_SITE_ID`: ID của site Netlify (nếu chưa có site, tạo mới từ Netlify dashboard)
+
+## Bước 10: Tạo Netlify Site
+
+1. Truy cập [Netlify Dashboard](https://app.netlify.com/)
+2. Click **New site from Git**
+3. Chọn **GitHub** và authorize
+4. Chọn repo `cook-smart`
+5. Cấu hình:
+   - **Branch**: `main`
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+   - **Base directory**: `src/frontend`
+6. Click **Deploy site**
+7. Lấy **Site ID** từ Site settings > General > Site information
+
+## Bước 11: Gửi các giá trị cho tôi
 
 Bạn paste các giá trị sau vào chat, tôi sẽ tạo `terraform.tfvars`:
 

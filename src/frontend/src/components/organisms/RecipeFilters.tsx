@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import recipeService from '../../services/recipeService';
 import categoryService, { RecipeCategory } from '../../services/categoryService';
-import { Check, Search } from 'lucide-react';
+import { Check, Search, X } from 'lucide-react';
+import { EyebrowTag } from '../atoms/EyebrowTag';
+import { easeFluid } from '../../lib/motion';
 
 export interface FilterState {
   categories?: string[];
@@ -156,9 +159,9 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
 
   // Difficulty options
   const difficultyOptions = [
-    { value: 'easy', label: 'Dễ', color: 'bg-green-100 text-green-800' },
-    { value: 'medium', label: 'Trung bình', color: 'bg-yellow-100 text-yellow-800' },
-    { value: 'hard', label: 'Khó', color: 'bg-red-100 text-red-800' }
+    { value: 'easy', label: 'Dễ', color: 'bg-[#EDF3EC] text-[#346538]' },
+    { value: 'medium', label: 'Trung bình', color: 'bg-[#FBF3DB] text-[#956400]' },
+    { value: 'hard', label: 'Khó', color: 'bg-[#FDEBEC] text-[#9F2F2D]' }
   ];
 
 
@@ -261,27 +264,28 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
   };
 
   return (
-    <div className={`card p-4 mb-6 ${className}`}>
+    <div className={`card-bezel ${className}`}>
+      <div className="card-bezel-inner p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-5">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 text-lg font-semibold text-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-3 text-base font-semibold text-ink-primary dark:text-paper-light hover:text-[#ff4f00] transition-colors duration-700 ease-[var(--ease-fluid)] group"
         >
-          <span>🔍 Bộ lọc nâng cao</span>
-          <svg
-            className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <span>Bộ lọc nâng cao</span>
+          <motion.svg
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.5, ease: easeFluid }}
+            className="w-4 h-4"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </motion.svg>
         </button>
         {hasActiveFilters && (
           <button
             onClick={resetFilters}
-            className="text-sm text-red-600 hover:text-red-700 font-medium"
+            className="text-xs uppercase tracking-[0.2em] text-[#9F2F2D] hover:text-[#9F2F2D]/70 link-underline"
           >
             Xóa bộ lọc
           </button>
@@ -289,113 +293,118 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
       </div>
 
       {/* Filters */}
+      <AnimatePresence initial={false}>
       {isExpanded && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.6, ease: easeFluid }}
+          className="overflow-hidden"
+        >
         <div className="space-y-6">
           <div className="space-y-4">
             {/* Input thêm nguyên liệu + hiển thị danh sách */}
             <div className="relative">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Hiển thị các món với nguyên liệu:
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Hiển thị các món với nguyên liệu
               </label>
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={includeIngredient}
-                  onChange={event => setIncludeIngredient(event.target.value)}
-                  onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault();
-                      addIngredientToken('include');
-                    }
-                  }}
-                  placeholder="VD: hành, tỏi, tiêu..."
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-                />
+                <div className="input-bezel flex-1">
+                  <input
+                    type="text"
+                    value={includeIngredient}
+                    onChange={event => setIncludeIngredient(event.target.value)}
+                    onKeyDown={event => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        addIngredientToken('include');
+                      }
+                    }}
+                    placeholder="VD: hành, tỏi, tiêu..."
+                    className="input-bezel-inner h-11 text-sm"
+                  />
+                </div>
                 <button
                   type="button"
                   onClick={() => addIngredientToken('include')}
-                  className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  className="btn-editorial-ghost"
                 >
                   Thêm
                 </button>
               </div>
-              
+
               {/* Autocomplete dropdown cho include */}
               {includeSuggestions.length > 0 && (
-                <div className="absolute left-0 right-0 z-[9999] mt-1 bg-white dark:bg-gray-800 border-2 border-primary/20 dark:border-primary/40 rounded-lg shadow-2xl max-h-48 overflow-y-auto">
-                  {includeSuggestions.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      type="button"
-                      onClick={() => addIngredientToken('include', suggestion)}
-                      className="w-full px-4 py-2.5 text-left hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors text-sm flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-                    >
-                      <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <span className="font-medium text-gray-700 dark:text-gray-200">{suggestion}</span>
-                    </button>
-                  ))}
+                <div className="absolute left-0 right-0 z-50 mt-1 card-bezel">
+                  <div className="card-bezel-inner py-1 max-h-48 overflow-y-auto bg-white dark:bg-ink-800">
+                    {includeSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() => addIngredientToken('include', suggestion)}
+                        className="w-full px-4 py-2 text-left hover:bg-paper-light dark:hover:bg-ink-700 transition-colors duration-300 text-sm flex items-center gap-2 border-b border-ink-200/40 dark:border-ink-700/40 last:border-b-0 text-ink-primary dark:text-paper-light"
+                      >
+                        <Search className="w-3.5 h-3.5 text-ink-secondary" strokeWidth={1.5} />
+                        <span className="font-medium">{suggestion}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
-              
+
               {/* Nút Tìm kiếm - luôn hiển thị nếu có callback */}
               {onSearch && (
                 <button
                   type="button"
                   onClick={() => {
-                    // Nếu có text trong input, tự động add vào filter trước khi search
                     const pendingValue = includeIngredient.trim();
                     if (pendingValue) {
                       addIngredientToken('include', pendingValue);
                     }
-                    // Gọi onSearch với pending ingredient để xử lý ngay
                     onSearch(pendingValue || undefined);
                   }}
                   disabled={
-                    !hasQuery && 
-                    primaryIngredients.length === 0 && 
+                    !hasQuery &&
+                    primaryIngredients.length === 0 &&
                     (!filters.ingredients || filters.ingredients.length === 0) &&
-                    !includeIngredient.trim() // Cho phép search nếu có text trong input
+                    !includeIngredient.trim()
                   }
-                  className="w-full mt-3 px-4 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full mt-3 btn-editorial-primary justify-between disabled:opacity-30"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
                   Tìm kiếm món ăn
                 </button>
               )}
-              {/* Hiển thị TẤT CẢ nguyên liệu (từ search bar + từ bộ lọc) */}
+              {/* Hiển thị TẤT CẢ nguyên liệu */}
               {(primaryIngredients.length > 0 || (filters.ingredients && filters.ingredients.length > 0)) && (
                 <div className="flex flex-wrap gap-2 mt-3">
                   {/* Nguyên liệu từ search bar chính */}
                   {primaryIngredients.map((item) => (
-                    <span key={`primary-${item}`} className="inline-flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                    <span key={`primary-${item}`} className="chip chip-active">
                       {item}
                       {onPrimaryIngredientRemove && (
                         <button
                           type="button"
-                          className="ml-2 hover:text-primary/70"
+                          className="ml-1"
                           onClick={() => onPrimaryIngredientRemove(item)}
                           aria-label={`Xóa ${item}`}
                         >
-                          ×
+                          <X className="w-3 h-3" strokeWidth={1.5} />
                         </button>
                       )}
                     </span>
                   ))}
                   {/* Nguyên liệu thêm từ bộ lọc nâng cao */}
                   {filters.ingredients?.map((item) => (
-                    <span key={`filter-${item}`} className="inline-flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
+                    <span key={`filter-${item}`} className="chip">
                       {item}
                       <button
                         type="button"
-                        className="ml-2 hover:text-primary/70"
+                        className="ml-1"
                         onClick={() => removeIngredientToken('include', item)}
                       >
-                        ×
+                        <X className="w-3 h-3" strokeWidth={1.5} />
                       </button>
                     </span>
                   ))}
@@ -404,62 +413,64 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
             </div>
 
             <div className="relative">
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Ẩn các món có nguyên liệu:
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Ẩn các món có nguyên liệu
               </label>
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={excludeIngredient}
-                  onChange={event => setExcludeIngredient(event.target.value)}
-                  onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault();
-                      addIngredientToken('exclude');
-                    }
-                  }}
-                  placeholder="VD: đậu phộng, gluten..."
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-                />
+                <div className="input-bezel flex-1">
+                  <input
+                    type="text"
+                    value={excludeIngredient}
+                    onChange={event => setExcludeIngredient(event.target.value)}
+                    onKeyDown={event => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        addIngredientToken('exclude');
+                      }
+                    }}
+                    placeholder="VD: đậu phộng, gluten..."
+                    className="input-bezel-inner h-11 text-sm"
+                  />
+                </div>
                 <button
                   type="button"
                   onClick={() => addIngredientToken('exclude')}
-                  className="px-4 py-2 bg-muted text-foreground rounded-lg font-medium hover:bg-muted/80 transition-colors"
+                  className="btn-editorial-ghost"
                 >
                   Thêm
                 </button>
               </div>
-              
+
               {/* Autocomplete dropdown cho exclude */}
               {excludeSuggestions.length > 0 && (
-                <div className="absolute left-0 right-0 z-[9999] mt-1 bg-white dark:bg-gray-800 border-2 border-red-200 dark:border-red-800/40 rounded-lg shadow-2xl max-h-48 overflow-y-auto">
-                  {excludeSuggestions.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      type="button"
-                      onClick={() => addIngredientToken('exclude', suggestion)}
-                      className="w-full px-4 py-2.5 text-left hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-                    >
-                      <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <span className="font-medium text-gray-700 dark:text-gray-200">{suggestion}</span>
-                    </button>
-                  ))}
+                <div className="absolute left-0 right-0 z-50 mt-1 card-bezel">
+                  <div className="card-bezel-inner py-1 max-h-48 overflow-y-auto bg-white dark:bg-ink-800">
+                    {excludeSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() => addIngredientToken('exclude', suggestion)}
+                        className="w-full px-4 py-2 text-left hover:bg-paper-light dark:hover:bg-ink-700 transition-colors duration-300 text-sm flex items-center gap-2 border-b border-ink-200/40 dark:border-ink-700/40 last:border-b-0 text-ink-primary dark:text-paper-light"
+                      >
+                        <Search className="w-3.5 h-3.5 text-ink-secondary" strokeWidth={1.5} />
+                        <span className="font-medium">{suggestion}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
-              
+
               {filters.excludeIngredients && filters.excludeIngredients.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
                   {filters.excludeIngredients.map((item) => (
-                    <span key={item} className="inline-flex items-center bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                    <span key={item} className="chip">
                       {item}
                       <button
                         type="button"
-                        className="ml-2 hover:text-gray-500"
+                        className="ml-1"
                         onClick={() => removeIngredientToken('exclude', item)}
                       >
-                        ×
+                        <X className="w-3 h-3" strokeWidth={1.5} />
                       </button>
                     </span>
                   ))}
@@ -472,78 +483,88 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
             {/* Cuisine */}
             {categories.cuisines.length > 0 && (
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
                   Ẩm thực
                 </label>
-                <select
-                  value={filters.cuisine || ''}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setFilters(prev => ({
-                      ...prev,
-                      cuisine: value || undefined
-                    }));
-                  }}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-                >
-                  <option value="">Tất cả ẩm thực</option>
-                  {categories.cuisines.map(category => (
-                    <option key={category.id} value={category.categoryName}>
-                      {category.categoryName}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={filters.cuisine || ''}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFilters(prev => ({
+                        ...prev,
+                        cuisine: value || undefined
+                      }));
+                    }}
+                    className="w-full h-11 pl-4 pr-10 text-sm rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-700 ease-[var(--ease-fluid)] font-medium"
+                  >
+                    <option value="">Tất cả ẩm thực</option>
+                    {categories.cuisines.map(category => (
+                      <option key={category.id} value={category.categoryName}>
+                        {category.categoryName}
+                      </option>
+                    ))}
+                  </select>
+                  <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               </div>
             )}
 
             {/* Course */}
             {categories.courses.length > 0 && (
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
                   Loại món
                 </label>
-                <select
-                  value={filters.course || ''}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setFilters(prev => ({
-                      ...prev,
-                      course: value || undefined
-                    }));
-                  }}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-                >
-                  <option value="">Tất cả loại món</option>
-                  {categories.courses.map(category => (
-                    <option key={category.id} value={category.categoryName}>
-                      {category.categoryName}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={filters.course || ''}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFilters(prev => ({
+                        ...prev,
+                        course: value || undefined
+                      }));
+                    }}
+                    className="w-full h-11 pl-4 pr-10 text-sm rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-700 ease-[var(--ease-fluid)] font-medium"
+                  >
+                    <option value="">Tất cả loại món</option>
+                    {categories.courses.map(category => (
+                      <option key={category.id} value={category.categoryName}>
+                        {category.categoryName}
+                      </option>
+                    ))}
+                  </select>
+                  <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               </div>
             )}
 
             {/* Tags */}
             {categories.tags.length > 0 && (
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
                   Tags
                 </label>
-                
+
                 {/* Search box for tags */}
                 <div className="relative mb-3">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary" strokeWidth={1.5} />
                   <input
                     type="text"
                     value={tagSearchQuery}
                     onChange={(e) => setTagSearchQuery(e.target.value)}
                     placeholder="Tìm kiếm tags..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 text-sm"
+                    className="w-full h-11 pl-11 pr-4 text-sm rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-700 ease-[var(--ease-fluid)]"
                   />
                 </div>
 
                 {/* Tags checkbox list */}
-                <div className="max-h-[200px] overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg p-3 bg-gray-50 dark:bg-gray-800/50">
+                <div className="max-h-[200px] overflow-y-auto rounded-2xl p-3 bg-paper-light dark:bg-ink-700/40 ring-1 ring-ink-200/40 dark:ring-ink-700/40">
                   {filteredTags.length > 0 ? (
                     <div className="grid grid-cols-2 gap-2">
                       {filteredTags.map(category => {
@@ -551,15 +572,8 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
                         return (
                           <label
                             key={category.id}
-                            className={`
-                              flex items-center gap-2 p-2.5 rounded-lg border-2 cursor-pointer transition-all duration-200
-                              ${isSelected
-                                ? 'bg-orange-50 border-orange-300 dark:bg-orange-900/20 dark:border-orange-600'
-                                : 'bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 hover:border-orange-300 dark:hover:border-orange-600'
-                              }
-                            `}
+                            className={`flex items-center gap-2 p-2.5 rounded-xl cursor-pointer transition-all duration-300 ease-[var(--ease-fluid)] ring-1 ${isSelected ? 'bg-[#fff4ed] dark:bg-primary-900/30 ring-[#ff4f00] text-[#ff4f00]' : 'ring-transparent hover:ring-ink-200 dark:hover:ring-ink-700 text-ink-primary dark:text-paper-light'}`}
                           >
-                            {/* Custom Checkbox */}
                             <div className="relative flex-shrink-0">
                               <input
                                 type="checkbox"
@@ -567,29 +581,11 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
                                 onChange={() => toggleCategory('tag', category.categoryName)}
                                 className="sr-only"
                               />
-                              <div
-                                className={`
-                                  w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200
-                                  ${isSelected
-                                    ? 'bg-orange-500 border-orange-500'
-                                    : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-500'
-                                  }
-                                `}
-                              >
-                                {isSelected && (
-                                  <Check className="w-3 h-3 text-white" strokeWidth={3} />
-                                )}
+                              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-300 ${isSelected ? 'bg-[#ff4f00] border-[#ff4f00]' : 'bg-white dark:bg-ink-800 border-ink-200 dark:border-ink-600'}`}>
+                                {isSelected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                               </div>
                             </div>
-
-                            {/* Tag Name */}
-                            <span className={`
-                              text-sm font-medium flex-1
-                              ${isSelected
-                                ? 'text-orange-700 dark:text-orange-300'
-                                : 'text-gray-700 dark:text-gray-300'
-                              }
-                            `}>
+                            <span className={`text-sm font-medium flex-1 truncate ${isSelected ? 'text-[#ff4f00]' : ''}`}>
                               {category.categoryName}
                             </span>
                           </label>
@@ -597,15 +593,14 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
                       })}
                     </div>
                   ) : (
-                    <div className="text-center py-4 text-gray-500 dark:text-gray-400 text-sm">
+                    <div className="text-center py-4 text-ink-secondary text-sm">
                       Không tìm thấy tag nào
                     </div>
                   )}
                 </div>
 
-                {/* Selected tags count */}
                 {filters.tags && filters.tags.length > 0 && (
-                  <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                  <p className="mt-2 text-xs text-ink-secondary">
                     Đã chọn: {filters.tags.length} tag{filters.tags.length > 1 ? 's' : ''}
                   </p>
                 )}
@@ -615,7 +610,7 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
 
           {/* Difficulty */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-3 font-medium">
               Độ khó
             </label>
             <div className="flex flex-wrap gap-2">
@@ -623,10 +618,10 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
                 <button
                   key={option.value}
                   onClick={() => toggleDifficulty(option.value)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-500 ease-[var(--ease-fluid)] ${
                     filters.difficulty?.includes(option.value)
-                      ? option.color + ' ring-2 ring-offset-2 ring-primary'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? `${option.color} ring-2 ring-[#ff4f00]`
+                      : 'ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-secondary hover:ring-ink-primary/30 hover:text-ink-primary dark:hover:text-paper-light'
                   }`}
                 >
                   {option.label}
@@ -638,81 +633,89 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
           {/* Time Range */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Thời gian chuẩn bị tối đa (phút)
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Chuẩn bị tối đa (phút)
               </label>
-              <input
-                type="number"
-                value={filters.prepTimeMax || ''}
-                onChange={(e) => setFilters(prev => ({
-                  ...prev,
-                  prepTimeMax: e.target.value ? parseInt(e.target.value) : undefined
-                }))}
-                placeholder="VD: 30"
-                min="0"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-              />
+              <div className="input-bezel">
+                <input
+                  type="number"
+                  value={filters.prepTimeMax || ''}
+                  onChange={(e) => setFilters(prev => ({
+                    ...prev,
+                    prepTimeMax: e.target.value ? parseInt(e.target.value) : undefined
+                  }))}
+                  placeholder="VD: 30"
+                  min="0"
+                  className="input-bezel-inner h-11 text-sm"
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Thời gian nấu tối đa (phút)
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Nấu tối đa (phút)
               </label>
-              <input
-                type="number"
-                value={filters.cookTimeMax || ''}
-                onChange={(e) => setFilters(prev => ({
-                  ...prev,
-                  cookTimeMax: e.target.value ? parseInt(e.target.value) : undefined
-                }))}
-                placeholder="VD: 60"
-                min="0"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-              />
+              <div className="input-bezel">
+                <input
+                  type="number"
+                  value={filters.cookTimeMax || ''}
+                  onChange={(e) => setFilters(prev => ({
+                    ...prev,
+                    cookTimeMax: e.target.value ? parseInt(e.target.value) : undefined
+                  }))}
+                  placeholder="VD: 60"
+                  min="0"
+                  className="input-bezel-inner h-11 text-sm"
+                />
+              </div>
             </div>
           </div>
 
           {/* Servings Range */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Số khẩu phần tối thiểu
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Khẩu phần tối thiểu
               </label>
-              <input
-                type="number"
-                value={filters.servingsMin || ''}
-                onChange={(e) => setFilters(prev => ({
-                  ...prev,
-                  servingsMin: e.target.value ? parseInt(e.target.value) : undefined
-                }))}
-                placeholder="VD: 2"
-                min="1"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-              />
+              <div className="input-bezel">
+                <input
+                  type="number"
+                  value={filters.servingsMin || ''}
+                  onChange={(e) => setFilters(prev => ({
+                    ...prev,
+                    servingsMin: e.target.value ? parseInt(e.target.value) : undefined
+                  }))}
+                  placeholder="VD: 2"
+                  min="1"
+                  className="input-bezel-inner h-11 text-sm"
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Số khẩu phần tối đa
+              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-medium">
+                Khẩu phần tối đa
               </label>
-              <input
-                type="number"
-                value={filters.servingsMax || ''}
-                onChange={(e) => setFilters(prev => ({
-                  ...prev,
-                  servingsMax: e.target.value ? parseInt(e.target.value) : undefined
-                }))}
-                placeholder="VD: 6"
-                min="1"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
-              />
+              <div className="input-bezel">
+                <input
+                  type="number"
+                  value={filters.servingsMax || ''}
+                  onChange={(e) => setFilters(prev => ({
+                    ...prev,
+                    servingsMax: e.target.value ? parseInt(e.target.value) : undefined
+                  }))}
+                  placeholder="VD: 6"
+                  min="1"
+                  className="input-bezel-inner h-11 text-sm"
+                />
+              </div>
             </div>
           </div>
 
           {/* Rating */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-3 font-medium">
               Đánh giá tối thiểu
             </label>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <input
                 type="range"
                 min="0"
@@ -723,9 +726,9 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
                   ...prev,
                   ratingMin: parseFloat(e.target.value) || undefined
                 }))}
-                className="flex-1"
+                className="flex-1 accent-[#ff4f00]"
               />
-              <span className="text-sm font-medium text-foreground min-w-[60px] text-center">
+              <span className="text-sm font-medium text-ink-primary dark:text-paper-light min-w-[60px] text-center">
                 {filters.ratingMin ? `⭐ ${filters.ratingMin}+` : 'Tất cả'}
               </span>
             </div>
@@ -733,61 +736,46 @@ const RecipeFilters: React.FC<RecipeFiltersProps> = ({
 
           {/* Active Filters Summary */}
           {hasActiveFilters && (
-            <div className="pt-4 border-t border-border">
-              <p className="text-sm font-medium text-foreground mb-2">
-                Bộ lọc đang áp dụng:
+            <div className="pt-4 border-t border-ink-200/40 dark:border-ink-700/40">
+              <p className="text-xs uppercase tracking-[0.2em] text-ink-secondary mb-3 font-medium">
+                Bộ lọc đang áp dụng
               </p>
               <div className="flex flex-wrap gap-2">
                 {filters.difficulty && filters.difficulty.length > 0 && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                    Độ khó: {filters.difficulty.join(', ')}
-                  </span>
+                  <span className="chip">Độ khó: {filters.difficulty.join(', ')}</span>
                 )}
                 {filters.prepTimeMax && (
-                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
-                    Chuẩn bị ≤ {filters.prepTimeMax} phút
-                  </span>
+                  <span className="chip">Chuẩn bị ≤ {filters.prepTimeMax}p</span>
                 )}
                 {filters.cookTimeMax && (
-                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
-                    Nấu ≤ {filters.cookTimeMax} phút
-                  </span>
+                  <span className="chip">Nấu ≤ {filters.cookTimeMax}p</span>
                 )}
                 {filters.servingsMin && (
-                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                    Khẩu phần ≥ {filters.servingsMin}
-                  </span>
+                  <span className="chip">Khẩu phần ≥ {filters.servingsMin}</span>
                 )}
                 {filters.servingsMax && (
-                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                    Khẩu phần ≤ {filters.servingsMax}
-                  </span>
+                  <span className="chip">Khẩu phần ≤ {filters.servingsMax}</span>
                 )}
                 {filters.ratingMin && (
-                  <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                    ⭐ {filters.ratingMin}+
-                  </span>
+                  <span className="chip">⭐ {filters.ratingMin}+</span>
                 )}
                 {filters.cuisine && (
-                  <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    Ẩm thực: {filters.cuisine}
-                  </span>
+                  <span className="chip">Ẩm thực: {filters.cuisine}</span>
                 )}
                 {filters.course && (
-                  <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    Loại món: {filters.course}
-                  </span>
+                  <span className="chip">Loại: {filters.course}</span>
                 )}
                 {filters.tags && filters.tags.length > 0 && (
-                  <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    Tags: {filters.tags.join(', ')}
-                  </span>
+                  <span className="chip">Tags: {filters.tags.join(', ')}</span>
                 )}
               </div>
             </div>
           )}
         </div>
+        </motion.div>
       )}
+      </AnimatePresence>
+      </div>
     </div>
   );
 };

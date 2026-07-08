@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import recipeService from '../../services/recipeService'
 import FavoriteButton from '../atoms/FavoriteButton'
 import { useAuth } from '../../contexts/AuthContext'
 import { Recipe } from '../../types/recipe'
 import { SkeletonCard } from '../molecules/SkeletonCard'
-import { Clock, Star, ChefHat, ArrowRight } from 'lucide-react'
+import { Clock, Star, ChefHat, ArrowUpRight } from 'lucide-react'
+import { EyebrowTag } from '../atoms/EyebrowTag'
+import { ButtonEditorial } from '../atoms/ButtonEditorial'
+import {
+  easeFluid,
+  splitRevealLeft,
+  splitRevealRight,
+  staggerGrid,
+  cardReveal,
+  viewportOnce,
+} from '../../lib/motion'
 
 const FeaturedRecipes: React.FC = () => {
   const { user } = useAuth()
@@ -30,7 +41,7 @@ const FeaturedRecipes: React.FC = () => {
           return bCount - aCount
         })
 
-        setRecipes(recipes.slice(0, 6))
+        setRecipes(recipes.slice(0, 5))
       } catch (err) {
         console.error('Error fetching featured recipes:', err)
         setRecipes([])
@@ -48,22 +59,46 @@ const FeaturedRecipes: React.FC = () => {
 
   const getDifficultyConfig = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return { label: 'Dễ', bg: 'bg-green-100/90 dark:bg-green-900/50', text: 'text-green-700 dark:text-green-400', ring: 'ring-green-200 dark:ring-green-800' }
-      case 'medium': return { label: 'Vừa', bg: 'bg-amber-100/90 dark:bg-amber-900/50', text: 'text-amber-700 dark:text-amber-400', ring: 'ring-amber-200 dark:ring-amber-800' }
-      case 'hard': return { label: 'Khó', bg: 'bg-red-100/90 dark:bg-red-900/50', text: 'text-red-700 dark:text-red-400', ring: 'ring-red-200 dark:ring-red-800' }
-      default: return { label: difficulty, bg: 'bg-gray-100/90 dark:bg-gray-800/50', text: 'text-gray-700 dark:text-gray-400', ring: 'ring-gray-200 dark:ring-gray-700' }
+      case 'easy':
+        return {
+          label: 'Dễ',
+          // Solid pill — high contrast, readable on any backdrop
+          bg: 'bg-emerald-500 text-white border border-emerald-300/40 shadow-[0_2px_8px_rgba(16,185,129,0.35)]',
+          dot: 'bg-white/90',
+        }
+      case 'medium':
+        return {
+          label: 'Vừa',
+          bg: 'bg-amber-500 text-white border border-amber-300/40 shadow-[0_2px_8px_rgba(245,158,11,0.35)]',
+          dot: 'bg-white/90',
+        }
+      case 'hard':
+        return {
+          label: 'Khó',
+          bg: 'bg-rose-500 text-white border border-rose-300/40 shadow-[0_2px_8px_rgba(244,63,94,0.35)]',
+          dot: 'bg-white/90',
+        }
+      default:
+        return {
+          label: difficulty,
+          bg: 'bg-white text-[#1A1814] border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.12)]',
+          dot: 'bg-[#ff4f00]',
+        }
     }
   }
 
   if (loading) {
     return (
-      <section className="py-16 lg:py-20 bg-gray-50/50 dark:bg-gray-900/50">
+      <section className="section-lg bg-paper-light dark:bg-ink-800">
         <div className="container">
-          <div className="mb-12 text-center">
-            <div className="skeleton-title w-64 mx-auto mb-3" />
-            <div className="skeleton-text w-96 mx-auto" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
+            <div className="lg:col-span-5 space-y-3">
+              <div className="skeleton h-6 w-32 rounded-full" />
+              <div className="skeleton-title w-80" />
+              <div className="skeleton-text w-96" />
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <SkeletonCard variant="recipe" className="lg:row-span-2" />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <SkeletonCard variant="recipe" />
@@ -83,223 +118,210 @@ const FeaturedRecipes: React.FC = () => {
   const heroDifficulty = getDifficultyConfig(heroRecipe.difficulty)
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-50/50 dark:bg-gray-900/50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary-500/5 rounded-full blur-3xl" />
-
+    <section className="section-lg bg-paper-light dark:bg-ink-800 relative overflow-hidden">
       <div className="container relative z-10">
-        {/* Section Header */}
-        <div className="flex items-end justify-between mb-12">
-          <div className="animate-slide-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider mb-4">
-              <Star className="w-3.5 h-3.5" />
-              Nổi bật
-            </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3 tracking-tight">
-              Công thức được{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-amber-500">
-                yêu thích nhất
-              </span>
-            </h2>
-            <p className="text-muted-foreground text-base max-w-xl">
-              Những công thức được đánh giá cao và yêu thích nhất từ cộng đồng CookSmart
-            </p>
-          </div>
-          <Link
-            to="/recipes"
-            className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors group"
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end mb-16">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={splitRevealLeft}
+            className="lg:col-span-7"
           >
-            Xem tất cả
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+            <EyebrowTag>Tuyển chọn tuần này</EyebrowTag>
+            <h2 className="mt-6 text-display text-5xl md:text-6xl lg:text-7xl text-ink-primary dark:text-paper-light text-balance">
+              Công thức
+              <br />
+              <span className="text-ink-muted">nổi bật.</span>
+            </h2>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={splitRevealRight}
+            className="lg:col-span-5 lg:pb-3"
+          >
+            <p className="text-ink-secondary text-lg leading-relaxed max-w-md text-pretty mb-6">
+              Những công thức được đánh giá cao nhất, được yêu thích bởi cộng đồng CookSmart.
+            </p>
+            <ButtonEditorial variant="ghost" size="sm" trailingIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
+              <Link to="/recipes">Xem tất cả</Link>
+            </ButtonEditorial>
+          </motion.div>
         </div>
 
-        {/* Magazine Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Hero Card - Large Featured */}
-          <Link to={`/recipes/${heroRecipe.id}`} className="group lg:row-span-2 block h-full">
-            <div className="card overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-500 relative">
-              {/* Image */}
-              <div className="relative aspect-[4/3] lg:aspect-auto lg:flex-1 overflow-hidden">
-                {heroRecipe.imageUrl && !imageErrors.has(heroRecipe.id) ? (
-                  <img
-                    src={heroRecipe.imageUrl}
-                    alt={heroRecipe.recipeName}
-                    loading="lazy"
-                    className="h-full w-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                    onError={() => handleImageError(heroRecipe.id)}
-                  />
-                ) : (
-                  <div className="h-full w-full bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 flex items-center justify-center">
-                    <ChefHat className="w-20 h-20 text-gray-300 dark:text-gray-600" />
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={staggerGrid}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+        >
+          {/* Hero Card with Double-Bezel */}
+          <motion.div variants={cardReveal} className="lg:row-span-2">
+            <Link to={`/recipes/${heroRecipe.id}`} className="group block h-full">
+              <article className="card-bezel h-full">
+                <div className="card-bezel-inner overflow-hidden p-0 h-full flex flex-col">
+                  <div className="relative aspect-[4/3] lg:aspect-auto lg:flex-1 overflow-hidden">
+                    {heroRecipe.imageUrl && !imageErrors.has(heroRecipe.id) ? (
+                      <img
+                        src={heroRecipe.imageUrl}
+                        alt={heroRecipe.recipeName}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-[1100ms] ease-[var(--ease-fluid)] group-hover:scale-105"
+                        onError={() => handleImageError(heroRecipe.id)}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-paper-light to-ink-200 dark:from-ink-700 dark:to-ink-800 flex items-center justify-center">
+                        <ChefHat className="w-20 h-20 text-ink-200" strokeWidth={1} />
+                      </div>
+                    )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-700/60 via-ink-700/10 to-transparent" />
+
+                    <div className="absolute top-5 left-5 flex flex-wrap gap-2 z-10">
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider ${heroDifficulty.bg}`}
+                      >
+                        <span className={`w-1.5 h-1.5 rounded-full ${heroDifficulty.dot}`} aria-hidden />
+                        {heroDifficulty.label}
+                      </span>
+                      {heroRecipe.categories?.slice(0, 1).map((cat) => (
+                        <span
+                          key={cat.id}
+                          className="inline-flex items-center rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider bg-white/95 text-[#1A1814] border border-white/40 backdrop-blur-md shadow-[0_2px_8px_rgba(0,0,0,0.18)]"
+                        >
+                          {cat.categoryName}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div
+                      className="absolute top-5 right-5 z-10"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <FavoriteButton
+                        recipeId={heroRecipe.id}
+                        initialFavoriteCount={0}
+                        initialIsFavorited={false}
+                        userId={user?.id}
+                        size="md"
+                        showCount={false}
+                        showTooltip={true}
+                      />
+                    </div>
+
+                    <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+                      <h3 className="text-display text-3xl md:text-4xl text-white text-balance max-w-md">
+                        {heroRecipe.recipeName}
+                      </h3>
+                    </div>
                   </div>
-                )}
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="p-6 md:p-7 flex flex-col flex-1">
+                    <p className="text-ink-secondary leading-relaxed mb-6 flex-1 line-clamp-2">
+                      {heroRecipe.description || 'Một công thức tuyệt vời dành cho bạn và gia đình.'}
+                    </p>
 
-                {/* Badges */}
-                <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${heroDifficulty.bg} ${heroDifficulty.text}`}>
-                    <ChefHat className="w-3 h-3" />
-                    {heroDifficulty.label}
-                  </span>
-                  {heroRecipe.categories?.slice(0, 1).map((cat) => (
-                    <span key={cat.id} className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-white/90 text-gray-800 backdrop-blur-sm">
-                      {cat.categoryName}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Favorite */}
-                <div
-                  className="absolute top-4 right-4 z-10"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <FavoriteButton
-                    recipeId={heroRecipe.id}
-                    initialFavoriteCount={0}
-                    initialIsFavorited={false}
-                    userId={user?.id}
-                    size="md"
-                    showCount={false}
-                    showTooltip={true}
-                  />
-                </div>
-
-                {/* Rating Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm rounded-xl px-3 py-1.5">
-                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    <span className="text-white font-bold text-sm">
-                      {((heroRecipe as any).averageRating ?? 0).toFixed(1)}
-                    </span>
-                    <span className="text-white/60 text-xs">
-                      ({(heroRecipe as any).reviewCount ?? 0})
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm rounded-xl px-3 py-1.5">
-                    <Clock className="w-4 h-4 text-white/80" />
-                    <span className="text-white font-semibold text-sm">
-                      {heroRecipe.prepTime + heroRecipe.cookTime}p
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
-                  {heroRecipe.recipeName}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-6 line-clamp-3 flex-1">
-                  {heroRecipe.description || 'Một công thức tuyệt vời dành cho bạn và gia đình.'}
-                </p>
-
-                {/* Meta */}
-                <div className="flex items-center gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    <Clock className="w-4 h-4" />
-                    Chuẩn bị {heroRecipe.prepTime}p
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" />
-                    </svg>
-                    {heroRecipe.servings} người
+                    <div className="flex items-center justify-between pt-5 border-t border-ink-200/40 dark:border-ink-700/40">
+                      <div className="flex items-center gap-5 text-sm text-ink-secondary">
+                        <div className="flex items-center gap-1.5">
+                          <Star className="w-4 h-4 text-[#ff4f00] fill-[#ff4f00]" />
+                          <span className="font-semibold text-ink-primary dark:text-paper-light">
+                            {((heroRecipe as any).averageRating ?? 0).toFixed(1)}
+                          </span>
+                          <span>({((heroRecipe as any).reviewCount ?? 0)})</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="w-4 h-4" strokeWidth={1.5} />
+                          <span>{heroRecipe.prepTime + heroRecipe.cookTime}p</span>
+                        </div>
+                      </div>
+                      <span className="w-9 h-9 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center text-paper-light dark:text-ink-700 transition-transform duration-700 ease-[var(--ease-fluid)] group-hover:scale-110">
+                        <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </Link>
+              </article>
+            </Link>
+          </motion.div>
 
-          {/* Side Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {sideRecipes.slice(0, 4).map((recipe, index) => {
+          {/* Side Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {sideRecipes.slice(0, 4).map((recipe) => {
               const diff = getDifficultyConfig(recipe.difficulty)
               return (
-                <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
-                  <div className="card overflow-hidden h-full hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-500">
-                    {/* Image */}
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      {recipe.imageUrl && !imageErrors.has(recipe.id) ? (
-                        <img
-                          src={recipe.imageUrl}
-                          alt={recipe.recipeName}
-                          loading="lazy"
-                          className="h-full w-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                          onError={() => handleImageError(recipe.id)}
-                        />
-                      ) : (
-                        <div className="h-full w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center">
-                          <ChefHat className="w-10 h-10 text-gray-300 dark:text-gray-600" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <motion.div key={recipe.id} variants={cardReveal}>
+                  <Link to={`/recipes/${recipe.id}`} className="group block h-full">
+                    <article className="card-bezel h-full">
+                      <div className="card-bezel-inner p-0 overflow-hidden h-full flex flex-col">
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                          {recipe.imageUrl && !imageErrors.has(recipe.id) ? (
+                            <img
+                              src={recipe.imageUrl}
+                              alt={recipe.recipeName}
+                              loading="lazy"
+                              className="w-full h-full object-cover transition-transform duration-[1100ms] ease-[var(--ease-fluid)] group-hover:scale-105"
+                              onError={() => handleImageError(recipe.id)}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-paper-light to-ink-200 dark:from-ink-700 dark:to-ink-800 flex items-center justify-center">
+                              <ChefHat className="w-10 h-10 text-ink-200" strokeWidth={1} />
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-ink-700/30 to-transparent" />
 
-                      {/* Difficulty Badge */}
-                      <div className="absolute top-3 right-3">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${diff.bg} ${diff.text}`}>
-                          {diff.label}
-                        </span>
-                      </div>
+                          <div className="absolute top-3 right-3 z-10">
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${diff.bg}`}
+                            >
+                              {diff.label}
+                            </span>
+                          </div>
 
-                      {/* Favorite */}
-                      <div
-                        className="absolute top-3 left-3 z-10"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <FavoriteButton
-                          recipeId={recipe.id}
-                          initialFavoriteCount={0}
-                          initialIsFavorited={false}
-                          userId={user?.id}
-                          size="sm"
-                          showCount={false}
-                          showTooltip={false}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-4">
-                      <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-1">
-                        {recipe.recipeName}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
-                        {recipe.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                          <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
-                            {((recipe as any).averageRating ?? 0).toFixed(1)}
-                          </span>
+                          <div
+                            className="absolute top-3 left-3 z-10"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            <FavoriteButton
+                              recipeId={recipe.id}
+                              initialFavoriteCount={0}
+                              initialIsFavorited={false}
+                              userId={user?.id}
+                              size="sm"
+                              showCount={false}
+                              showTooltip={false}
+                            />
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="w-3.5 h-3.5" />
-                          {recipe.prepTime + recipe.cookTime}p
+
+                        <div className="p-4 flex-1 flex flex-col">
+                          <h3 className="text-base font-semibold text-ink-primary dark:text-paper-light mb-2 line-clamp-2 group-hover:text-[#ff4f00] transition-colors">
+                            {recipe.recipeName}
+                          </h3>
+                          <div className="flex items-center justify-between mt-auto pt-3">
+                            <div className="flex items-center gap-1 text-sm">
+                              <Star className="w-3.5 h-3.5 text-[#ff4f00] fill-[#ff4f00]" />
+                              <span className="font-semibold text-ink-primary dark:text-paper-light">
+                                {((recipe as any).averageRating ?? 0).toFixed(1)}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-ink-secondary">
+                              <Clock className="w-3.5 h-3.5" strokeWidth={1.5} />
+                              {recipe.prepTime + recipe.cookTime}p
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </Link>
+                    </article>
+                  </Link>
+                </motion.div>
               )
             })}
           </div>
-        </div>
-
-        {/* Mobile: View all */}
-        <div className="mt-8 text-center md:hidden">
-          <Link
-            to="/recipes"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-          >
-            Xem tất cả công thức
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

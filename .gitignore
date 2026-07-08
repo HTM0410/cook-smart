@@ -74,3 +74,12 @@ mlops/data/yolo_dataset/labels/
 
 # DVC local configuration contains machine-specific settings/secrets
 .dvc/config.local
+
+# Terraform secrets & state
+*.tfvars
+!*.tfvars.example
+*.tfstate
+*.tfstate.*
+.terraform/
+secrets-local.env
+infra/scripts/.tmp_*

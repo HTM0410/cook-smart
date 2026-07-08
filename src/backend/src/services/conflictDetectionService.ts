@@ -75,13 +75,7 @@ export class ConflictDetectionService {
 
     const items = await MealPlanItem.findAll({
       where: { mealPlanId },
-      include: [
-        {
-          model: RecipeIngredient,
-          as: 'recipeIngredients',
-          attributes: ['ingredientId'],
-        },
-      ],
+      attributes: ['id', 'recipeId'],
     });
 
     const allIngredientIds: number[] = [];

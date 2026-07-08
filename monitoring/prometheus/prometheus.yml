@@ -24,6 +24,19 @@ scrape_configs:
     static_configs:
       - targets: ["host.docker.internal:8000"]
 
+  - job_name: cooksmart-drift
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["host.docker.internal:8100"]
+
+  - job_name: pushgateway
+    honor_labels: true
+    static_configs:
+      - targets: ["host.docker.internal:9091"]
+
   - job_name: prometheus
     static_configs:
       - targets: ["localhost:9090"]
+
+
+remote_write: []  # Add remote_write destination once we choose backend

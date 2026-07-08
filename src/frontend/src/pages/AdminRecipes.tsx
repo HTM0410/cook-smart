@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService from '../services/adminService';
 import recipeService from '../services/recipeService';
-import { Loader2, Edit, Trash2, Eye, EyeOff, CheckCircle, Plus, ArrowUp, ArrowDown, X } from 'lucide-react';
+import { EyebrowTag } from '../components/atoms/EyebrowTag';
+import { splitRevealLeft, cardReveal, easeFluid } from '../lib/motion';
+import { Loader2, Edit, Trash2, Eye, EyeOff, Plus, ChevronLeft, ChevronRight, X, ArrowUp, ArrowDown, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Recipe {
@@ -266,13 +269,13 @@ const AdminRecipes: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'visible':
-        return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+        return 'bg-[#EDF3EC] text-[#346538]';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+        return 'bg-[#FBF3DB] text-[#956400]';
       case 'hidden':
-        return 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+        return 'bg-paper-light text-ink-secondary';
       default:
-        return 'bg-gray-100 text-gray-700';
+        return 'bg-paper-light text-ink-secondary';
     }
   };
 
@@ -296,224 +299,252 @@ const AdminRecipes: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Quản lý công thức</h1>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              Tổng số: {total} công thức
-            </p>
-          </div>
-        </div>
+      <div className="space-y-6 max-w-7xl">
+        <motion.div initial="hidden" animate="visible" variants={splitRevealLeft}>
+          <EyebrowTag>Quản trị</EyebrowTag>
+          <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
+            Công thức.
+          </h1>
+          <p className="mt-4 text-ink-secondary text-pretty">
+            Tổng số: <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> công thức
+          </p>
+        </motion.div>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <input
-              type="text"
-              placeholder="Tìm kiếm công thức..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Tất cả trạng thái</option>
-              <option value="visible">Hiển thị</option>
-              <option value="pending">Chờ duyệt</option>
-              <option value="hidden">Ẩn</option>
-            </select>
-            <select
-              value={difficultyFilter}
-              onChange={(e) => setDifficultyFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Tất cả độ khó</option>
-              <option value="easy">Dễ</option>
-              <option value="medium">Trung bình</option>
-              <option value="hard">Khó</option>
-            </select>
-            <button
-              onClick={handleSearch}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              🔍 Tìm kiếm
-            </button>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: easeFluid }}
+          className="card-bezel"
+        >
+          <div className="card-bezel-inner p-5">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <input
+                type="text"
+                placeholder="Tìm kiếm công thức..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                className="input-bezel-inner h-11 px-4 text-sm w-full"
+              />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
+              >
+                <option value="">Tất cả trạng thái</option>
+                <option value="visible">Hiển thị</option>
+                <option value="pending">Chờ duyệt</option>
+                <option value="hidden">Ẩn</option>
+              </select>
+              <select
+                value={difficultyFilter}
+                onChange={(e) => setDifficultyFilter(e.target.value)}
+                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
+              >
+                <option value="">Tất cả độ khó</option>
+                <option value="easy">Dễ</option>
+                <option value="medium">Trung bình</option>
+                <option value="hard">Khó</option>
+              </select>
+              <button onClick={handleSearch} className="btn-editorial-primary justify-center">
+                Tìm kiếm
+              </button>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Recipes Table */}
         {loading ? (
-          <div className="flex items-center justify-center h-64 bg-white dark:bg-gray-800 rounded-xl">
-            <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
-            <span className="ml-3 text-gray-600 dark:text-gray-400">Đang tải...</span>
+          <div className="card-bezel">
+            <div className="card-bezel-inner p-12 flex items-center justify-center gap-3">
+              <Loader2 className="w-6 h-6 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
+              <span className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang tải...</span>
+            </div>
           </div>
         ) : recipes.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-12 text-center">
-            <p className="text-gray-500">Không tìm thấy công thức nào</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: easeFluid }}
+            className="card-bezel"
+          >
+            <div className="card-bezel-inner p-12 text-center">
+              <p className="text-ink-secondary">Không tìm thấy công thức nào</p>
+            </div>
+          </motion.div>
         ) : (
           <>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Công thức
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Độ khó
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Thời gian
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Trạng thái
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Đánh giá
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Thao tác
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {recipes.map((recipe) => (
-                      <tr key={recipe.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                              <span className="text-orange-600 dark:text-orange-400 text-lg">🍳</span>
-                            </div>
-                            <div className="ml-3">
-                              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{recipe.recipeName}</p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{recipe.description}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                          {getDifficultyText(recipe.difficulty)}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                          {recipe.prepTime + recipe.cookTime}p
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(recipe.status)}`}>
-                            {getStatusText(recipe.status)}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                          {recipe.averageRating > 0 ? `${recipe.averageRating.toFixed(1)} ⭐ (${recipe.reviewCount})` : '-'}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex gap-2">
-                            <Link
-                              to={`/recipes/${recipe.id}`}
-                              className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded"
-                              title="Xem chi tiết"
-                            >
-                              <Eye className="w-4 h-4" />
-                            </Link>
-                            <button
-                              onClick={() => handleEdit(recipe)}
-                              className="p-1.5 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30 rounded"
-                              title="Chỉnh sửa"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            {recipe.status === 'pending' && (
-                              <button
-                                onClick={() => handleStatusChange(recipe.id, 'visible')}
-                                className="p-1.5 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 rounded"
-                                title="Duyệt công thức"
-                              >
-                                <CheckCircle className="w-4 h-4" />
-                              </button>
-                            )}
-                            {recipe.status === 'visible' ? (
-                              <button
-                                onClick={() => handleStatusChange(recipe.id, 'hidden')}
-                                className="p-1.5 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded"
-                                title="Ẩn công thức"
-                              >
-                                <EyeOff className="w-4 h-4" />
-                              </button>
-                            ) : recipe.status === 'hidden' && (
-                              <button
-                                onClick={() => handleStatusChange(recipe.id, 'visible')}
-                                className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded"
-                                title="Hiển thị công thức"
-                              >
-                                <Eye className="w-4 h-4" />
-                              </button>
-                            )}
-                            <button
-                              onClick={() => handleDelete(recipe.id, recipe.recipeName)}
-                              className="p-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
-                              title="Xóa công thức"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easeFluid }}
+              className="card-bezel"
+            >
+              <div className="card-bezel-inner p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-paper-light dark:bg-ink-700/40 border-b border-ink-200/40 dark:border-ink-700/40">
+                      <tr>
+                        {['Công thức', 'Độ khó', 'Thời gian', 'Trạng thái', 'Đánh giá', 'Thao tác'].map(h => (
+                          <th key={h} className="px-6 py-3.5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">
+                            {h}
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
+                      {recipes.map((recipe, idx) => (
+                        <motion.tr
+                          key={recipe.id}
+                          initial={{ opacity: 0, x: -6 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.03 }}
+                          className="hover:bg-paper-light dark:hover:bg-ink-700/30 transition-colors duration-500 ease-[var(--ease-fluid)]"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-[#fff4ed] dark:bg-[#ff4f00]/15 ring-1 ring-[#ff4f00]/30 flex items-center justify-center flex-shrink-0 text-base">
+                                🍳
+                              </div>
+                              <div className="min-w-0 max-w-xs">
+                                <p className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate">
+                                  {recipe.recipeName}
+                                </p>
+                                <p className="text-xs text-ink-muted truncate mt-0.5">
+                                  {recipe.description}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-ink-secondary">
+                            {getDifficultyText(recipe.difficulty)}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-ink-secondary tabular-nums">
+                            {recipe.prepTime + recipe.cookTime}p
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`eyebrow-tag text-[10px] ${getStatusColor(recipe.status)}`}>
+                              {getStatusText(recipe.status)}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-ink-secondary">
+                            {recipe.averageRating > 0 ? `${recipe.averageRating.toFixed(1)} ★ (${recipe.reviewCount})` : '—'}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex gap-1">
+                              <Link
+                                to={`/recipes/${recipe.id}`}
+                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700/40 hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                title="Xem chi tiết"
+                              >
+                                <Eye className="w-4 h-4" strokeWidth={1.5} />
+                              </Link>
+                              <button
+                                onClick={() => handleEdit(recipe)}
+                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#ff4f00] hover:bg-[#fff4ed] dark:hover:bg-[#ff4f00]/15 hover:ring-[#ff4f00]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                title="Chỉnh sửa"
+                              >
+                                <Edit className="w-4 h-4" strokeWidth={1.5} />
+                              </button>
+                              {recipe.status === 'visible' ? (
+                                <button
+                                  onClick={() => handleStatusChange(recipe.id, 'hidden')}
+                                  className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700/40 hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                  title="Ẩn công thức"
+                                >
+                                  <EyeOff className="w-4 h-4" strokeWidth={1.5} />
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => handleStatusChange(recipe.id, 'visible')}
+                                  className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#346538] hover:bg-[#EDF3EC] dark:hover:bg-[#346538]/15 hover:ring-[#346538]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                  title="Hiển thị công thức"
+                                >
+                                  <Eye className="w-4 h-4" strokeWidth={1.5} />
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleDelete(recipe.id, recipe.recipeName)}
+                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#9F2F2D] hover:bg-[#FDEBEC] dark:hover:bg-[#9F2F2D]/15 hover:ring-[#9F2F2D]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                title="Xóa công thức"
+                              >
+                                <Trash2 className="w-4 h-4" strokeWidth={1.5} />
+                              </button>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between bg-white dark:bg-gray-800 px-6 py-4 rounded-xl shadow-sm">
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                Hiển thị <span className="font-medium">{(page - 1) * limit + 1}</span> đến{' '}
-                <span className="font-medium">{Math.min(page * limit, total)}</span> trong tổng số{' '}
-                <span className="font-medium">{total}</span> kết quả
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Trước
-                </button>
-                <span className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
-                  Trang {page}
-                </span>
-                <button
-                  onClick={() => setPage(p => p + 1)}
-                  disabled={page * limit >= total}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Sau
-                </button>
+            <motion.div
+              variants={cardReveal}
+              initial="hidden"
+              animate="visible"
+              className="card-bezel"
+            >
+              <div className="card-bezel-inner p-4 flex items-center justify-between flex-wrap gap-3">
+                <p className="text-sm text-ink-secondary">
+                  Hiển thị <span className="font-semibold text-ink-primary dark:text-paper-light">{(page - 1) * limit + 1}</span> đến{' '}
+                  <span className="font-semibold text-ink-primary dark:text-paper-light">{Math.min(page * limit, total)}</span> trong tổng số{' '}
+                  <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> kết quả
+                </p>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
+                  >
+                    <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
+                    Trước
+                  </button>
+                  <span className="px-4 text-xs uppercase tracking-[0.2em] text-ink-secondary">
+                    Trang {page}
+                  </span>
+                  <button
+                    onClick={() => setPage(p => p + 1)}
+                    disabled={page * limit >= total}
+                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
+                  >
+                    Sau <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
-            </div>
+            </motion.div>
           </>
         )}
 
         {/* Edit Modal - Full screen với tabs */}
+        <AnimatePresence>
         {showEditModal && editingRecipe && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-5xl w-full max-h-[95vh] flex flex-col">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-ink-700/40 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 30, scale: 0.97 }}
+              transition={{ duration: 0.5, ease: easeFluid }}
+              className="card-bezel max-w-5xl w-full max-h-[95vh] flex flex-col"
+            >
               <form onSubmit={handleSaveEdit} className="flex flex-col h-full">
                 {/* Modal Header */}
-                <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-6 py-4 flex items-center justify-between flex-shrink-0">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                <div className="border-b border-ink-200/40 dark:border-ink-700/40 px-6 py-4 flex items-center justify-between flex-shrink-0">
+                  <h2 className="text-xl font-bold text-ink-primary dark:text-paper-light text-display">
                     Chỉnh sửa công thức: {editingRecipe.recipeName}
                   </h2>
                   <button
                     type="button"
                     onClick={() => setShowEditModal(false)}
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                    className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700/40 hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
                   >
                     ✕
                   </button>
@@ -801,26 +832,27 @@ const AdminRecipes: React.FC = () => {
                 </div>
 
                 {/* Modal Footer */}
-                <div className="bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3 flex-shrink-0">
+                <div className="border-t border-ink-200/40 dark:border-ink-700/40 px-6 py-4 flex items-center justify-end gap-3 flex-shrink-0 bg-paper-light dark:bg-ink-700/40">
                   <button
                     type="button"
                     onClick={() => setShowEditModal(false)}
-                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="h-11 px-5 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 font-medium"
+                    className="btn-editorial-primary"
                   >
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-4 h-4" strokeWidth={1.5} />
                     Lưu toàn bộ thay đổi
                   </button>
                 </div>
               </form>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </div>
     </AdminLayout>
   );

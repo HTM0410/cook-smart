@@ -67,6 +67,50 @@ class PrepareDatasetTest(unittest.TestCase):
             self.assertEqual(config["train"], "train/images")
             self.assertEqual(config["val"], "valid/images")
 
+    def test_prepares_full_train_valid_test_layout(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for split in ("train", "valid", "test"):
+                (root / split / "images").mkdir(parents=True)
+                (root / split / "labels").mkdir(parents=True)
+                (root / split / "images" / "sample.jpg").write_bytes(b"image-placeholder")
+                (root / split / "labels" / "sample.txt").write_text(
+                    "0 0.5 0.5 0.25 0.25\n", encoding="utf-8"
+                )
+
+            source = root / "data.yaml"
+            source.write_text(
+                "train: train/images\nval: valid/images\ntest: test/images\nnc: 1\nnames: [tom]\n",
+                encoding="utf-8",
+            )
+            output = root / "prepared" / "data.yaml"
+            report = root / "reports" / "dataset.json"
+            prepare(root, source, output, report, require_test=True)
+
+            config = yaml.safe_load(output.read_text(encoding="utf-8"))
+            self.assertEqual(config["test"], "test/images")
+            self.assertIn('"test"', report.read_text(encoding="utf-8"))
+
+    def test_requires_test_split_when_enabled(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for split in ("train", "valid"):
+                (root / split / "images").mkdir(parents=True)
+                (root / split / "labels").mkdir(parents=True)
+                (root / split / "images" / "sample.jpg").write_bytes(b"image-placeholder")
+                (root / split / "labels" / "sample.txt").write_text(
+                    "0 0.5 0.5 0.25 0.25\n", encoding="utf-8"
+                )
+
+            source = root / "data.yaml"
+            source.write_text(
+                "train: train/images\nval: valid/images\nnc: 1\nnames: [tom]\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(ValueError):
+                prepare(root, source, root / "out.yaml", root / "report.json", require_test=True)
+
 
 if __name__ == "__main__":
     unittest.main()

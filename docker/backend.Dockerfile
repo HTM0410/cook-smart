@@ -1,0 +1,50 @@
+# syntax=docker/dockerfile:1.6
+# =============================================================================
+# CookSmart Backend - Production Dockerfile
+# Multi-stage build: TypeScript compile -> lean runtime image
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Stage 1: build - compile TypeScript
+# -----------------------------------------------------------------------------
+FROM node:20-alpine AS build
+WORKDIR /app
+
+# Copy lockfile trước để cache tốt
+COPY package.json package-lock.json* ./
+RUN npm ci --no-audit --no-fund
+
+# Copy source + build
+COPY tsconfig.json ./
+COPY src ./src
+RUN npm run build
+
+# -----------------------------------------------------------------------------
+# Stage 2: runtime - chỉ giữ dist + production deps
+# -----------------------------------------------------------------------------
+FROM node:20-alpine AS runtime
+WORKDIR /app
+ENV NODE_ENV=production \
+    PORT=3000
+
+# Cài đặt curl cho healthcheck (wget có sẵn trên busybox alpine)
+RUN apk add --no-cache curl
+
+# Cài production dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev --no-audit --no-fund \
+    && npm cache clean --force
+
+# Copy compiled output
+COPY --from=build /app/dist ./dist
+
+# Tạo user không root
+USER node
+
+EXPOSE 3000
+
+# Healthcheck gọi /health để ALB kiểm tra
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD curl -fsS http://localhost:3000/health || exit 1
+
+CMD ["node", "dist/server.js"]

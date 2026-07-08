@@ -88,6 +88,26 @@
       "targets": [{"expr": "sum by (endpoint) (rate(yolo_empty_results_total[10m]))", "legendFormat": "{{endpoint}}", "refId": "A"}],
       "title": "Empty Detection Rate",
       "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {"mappings": [{"options": {"0": {"color": "red", "text": "MISMATCH"}, "1": {"color": "green", "text": "OK"}}, "type": "value"}], "thresholds": {"mode": "absolute", "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]}}, "overrides": []},
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 19},
+      "id": 9,
+      "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "center", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"},
+      "targets": [{"expr": "yolo_model_schema_compatible", "refId": "A"}],
+      "title": "Model Schema",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 4, "w": 18, "x": 6, "y": 19},
+      "id": 10,
+      "options": {"showHeader": true},
+      "targets": [{"expr": "yolo_model_info", "format": "table", "instant": true, "refId": "A"}],
+      "title": "Loaded Model Version",
+      "type": "table"
     }
   ],
   "refresh": "30s",

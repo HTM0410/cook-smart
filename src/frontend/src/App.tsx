@@ -20,6 +20,7 @@ const AdminIngredients = lazy(() => import('./pages/AdminIngredients'))
 const AdminIngredientCategories = lazy(() => import('./pages/AdminIngredientCategories'))
 const AdminComments = lazy(() => import('./pages/AdminComments'))
 const AdminMlops = lazy(() => import('./pages/AdminMlops'))
+const AdminFeedbackQueue = lazy(() => import('./pages/AdminFeedbackQueue'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/RegisterPage'))
@@ -77,6 +78,7 @@ function App() {
               <Route path="/admin/ingredients/categories" element={<AdminIngredientCategories />} />
               <Route path="/admin/comments" element={<AdminComments />} />
               <Route path="/admin/mlops" element={<AdminMlops />} />
+              <Route path="/admin/mlops/feedback" element={<AdminFeedbackQueue />} />
             </Routes>
           </Suspense>
         </div>

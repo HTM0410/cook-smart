@@ -69,14 +69,30 @@ export class MealPlanService {
   }
 
   async createMealPlan(userId: number, data: CreateMealPlanDTO): Promise<MealPlan> {
-    const mealPlan = await MealPlan.create({
-      userId,
-      planName: data.planName,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      status: 'active',
-    });
-    return mealPlan;
+    let mealPlan;
+    try {
+      mealPlan = await MealPlan.create({
+        userId,
+        planName: data.planName,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        status: 'active',
+      });
+    } catch (err: any) {
+      // Translate PostgreSQL unique violation into a 409 Conflict
+      if (err?.name === 'SequelizeUniqueConstraintError' || err?.parent?.code === '23505') {
+        const conflictErr: any = new Error('A meal plan already exists for this week');
+        conflictErr.statusCode = 409;
+        conflictErr.code = 'MEAL_PLAN_EXISTS';
+        throw conflictErr;
+      }
+      throw err;
+    }
+    // Ensure response includes `items: []` and `conflicts: []` so the client shape matches MealPlan type
+    const obj: any = mealPlan.toJSON ? mealPlan.toJSON() : mealPlan;
+    obj.items = [];
+    obj.conflicts = [];
+    return obj as MealPlan;
   }
 
   async getMealPlans(userId: number): Promise<MealPlan[]> {
@@ -174,7 +190,7 @@ export class MealPlanService {
     mealPlanId: number,
     userId: number,
     data: AddRecipeToMealPlanDTO
-  ): Promise<{ item: MealPlanItem; conflicts: any[] }> {
+  ): Promise<{ item: MealPlanItemWithRecipe; conflicts: any[] }> {
     const mealPlan = await MealPlan.findOne({ where: { id: mealPlanId, userId } });
     if (!mealPlan) {
       throw new Error('Meal plan not found');
@@ -189,9 +205,31 @@ export class MealPlanService {
       notes: data.notes,
     });
 
+    // Re-fetch the new item with full Recipe details so the client can render immediately
+    const itemWithRecipe = await MealPlanItem.findOne({
+      where: { id: item.id },
+      include: [
+        {
+          model: Recipe,
+          as: 'recipe',
+          attributes: ['id', 'recipeName', 'imageUrl', 'prepTime', 'cookTime', 'servings', 'difficulty'],
+          include: [
+            {
+              model: Ingredient,
+              as: 'ingredients',
+              through: { attributes: ['quantity', 'unit'] },
+              attributes: ['id', 'ingredientName'],
+            },
+          ],
+        },
+      ],
+    });
+
     const conflicts = await this.conflictDetectionService.getConflictsForMealPlan(mealPlanId);
 
-    return { item, conflicts };
+    const serialized = this.serializeItem(itemWithRecipe);
+
+    return { item: serialized, conflicts };
   }
 
   async removeRecipeFromMealPlan(itemId: number, userId: number): Promise<boolean> {
@@ -218,7 +256,7 @@ export class MealPlanService {
     itemId: number,
     userId: number,
     data: UpdateMealPlanItemDTO
-  ): Promise<{ item: MealPlanItem; conflicts: any[] }> {
+  ): Promise<{ item: MealPlanItemWithRecipe; conflicts: any[] }> {
     const item = await MealPlanItem.findOne({
       where: { id: itemId },
       include: [
@@ -236,9 +274,62 @@ export class MealPlanService {
 
     await item.update(data);
 
+    const refreshed = await MealPlanItem.findOne({
+      where: { id: itemId },
+      include: [
+        {
+          model: Recipe,
+          as: 'recipe',
+          attributes: ['id', 'recipeName', 'imageUrl', 'prepTime', 'cookTime', 'servings', 'difficulty'],
+          include: [
+            {
+              model: Ingredient,
+              as: 'ingredients',
+              through: { attributes: ['quantity', 'unit'] },
+              attributes: ['id', 'ingredientName'],
+            },
+          ],
+        },
+      ],
+    });
+
     const conflicts = await this.conflictDetectionService.getConflictsForMealPlan(item.mealPlanId);
 
-    return { item, conflicts };
+    return { item: this.serializeItem(refreshed), conflicts };
+  }
+
+  private serializeItem(item: any): MealPlanItemWithRecipe {
+    if (!item) {
+      throw new Error('Item not found');
+    }
+    const r = (item as any).recipe;
+    return {
+      id: (item as any).id,
+      mealPlanId: (item as any).mealPlanId,
+      recipeId: (item as any).recipeId,
+      plannedDate: (item as any).plannedDate,
+      mealType: (item as any).mealType,
+      servings: (item as any).servings,
+      notes: (item as any).notes,
+      recipe: r
+        ? {
+            id: r.id,
+            recipeName: r.recipeName,
+            imageUrl: r.imageUrl,
+            prepTime: r.prepTime,
+            cookTime: r.cookTime,
+            servings: r.servings,
+            difficulty: r.difficulty,
+            ingredients:
+              r.ingredients?.map((ing: any) => ({
+                id: ing.id,
+                ingredientName: ing.ingredientName,
+                quantity: ing.RecipeIngredient?.quantity,
+                unit: ing.RecipeIngredient?.unit,
+              })) || [],
+          }
+        : null as any,
+    };
   }
 
   async deleteMealPlan(id: number, userId: number): Promise<boolean> {

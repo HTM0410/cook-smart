@@ -1,5 +1,15 @@
 console.log('📦 server.ts: Starting imports...');
 
+// Global handlers - log instead of crashing so the API can still start
+process.on('unhandledRejection', (reason: any) => {
+  console.error('⚠️  Unhandled Promise Rejection:', reason?.message || reason);
+  if (reason?.stack) console.error('   Stack:', reason.stack);
+});
+process.on('uncaughtException', (err: any) => {
+  console.error('⚠️  Uncaught Exception:', err?.message || err);
+  if (err?.stack) console.error('   Stack:', err.stack);
+});
+
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -47,6 +57,8 @@ import categoryRoutes from './routes/categoryRoutes';
 import yoloRoutes from './routes/yoloRoutes';
 import chatRoutes from './routes/chatRoutes';
 import recommendationRoutes from './routes/recommendationRoutes';
+import mealPlanRoutes from './routes/mealPlanRoutes';
+import conflictRoutes from './routes/conflictRoutes';
 // import searchKeywordRoutes from './routes/searchKeywordRoutes'; // Tạm thời comment để debug
 
 console.log('📦 Routes import OK');
@@ -84,8 +96,16 @@ app.use(helmet({
 // Allow all origins in development
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const defaultOrigins = isDevelopment
-  ? '*' // Allow all in dev
-  : 'http://localhost:5173';
+  ? '*'
+  : [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:5175',
+      'http://localhost:3000',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:5174',
+      'http://127.0.0.1:5175',
+    ].join(',');
 
 const allowedOrigins = (process.env.CORS_ORIGIN || process.env.CLIENT_URL || defaultOrigins)
   .split(',')
@@ -98,6 +118,11 @@ app.use(cors({
     
     // In development, allow any origin
     if (isDevelopment || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Allow localhost on common dev ports even when NODE_ENV is not development
+    if (/^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
       return callback(null, true);
     }
     
@@ -197,6 +222,8 @@ app.use('/api/yolo', yoloRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/interactions', recommendationRoutes);
+app.use('/api/meal-plans', mealPlanRoutes);
+app.use('/api/conflicts', conflictRoutes);
 // app.use('/api/search-keywords', searchKeywordRoutes); // Tạm thời comment để debug
 
 // Error Handlers (MUST be after all routes)

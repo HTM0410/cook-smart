@@ -7,6 +7,8 @@ import { Request, Response, NextFunction } from 'express';
 import ChatSession from '../models/ChatSession';
 import ChatMessage from '../models/ChatMessage';
 import { processRAGQuery, generateSuggestedQuestions } from '../services/ragService';
+import { processMessage as processMessageWithIntent } from '../services/intent/pipeline';
+import { getSessionContext } from '../services/intent/sessionStore';
 
 export interface AuthenticatedRequest extends Request {
   userId?: number;
@@ -73,8 +75,8 @@ export async function getSessions(req: AuthenticatedRequest, res: Response, next
         {
           model: ChatMessage,
           as: 'messages',
-          attributes: ['id', 'role', 'content', 'createdAt'],
-          order: [['createdAt', 'ASC']],
+          attributes: ['id', 'role', 'content'],
+          order: [['id', 'ASC']],
           limit: 1,
         },
       ],
@@ -121,8 +123,8 @@ export async function getSession(req: AuthenticatedRequest, res: Response, next:
         {
           model: ChatMessage,
           as: 'messages',
-          order: [['createdAt', 'ASC']],
-          attributes: ['id', 'role', 'content', 'metadata', 'createdAt'],
+          order: [['id', 'ASC']],
+          attributes: ['id', 'role', 'content', 'metadata'],
         },
       ],
     });
@@ -276,10 +278,10 @@ export async function sendMessage(req: AuthenticatedRequest, res: Response, next
       { where: { id: session.id } }
     );
 
-    // Get conversation history for context
+    // Get conversation history for context (DB)
     const history = await ChatMessage.findAll({
       where: { sessionId: session.id },
-      order: [['createdAt', 'ASC']],
+      order: [['id', 'ASC']],
       limit: 20,
     });
 
@@ -291,15 +293,46 @@ export async function sendMessage(req: AuthenticatedRequest, res: Response, next
         content: m.content,
       }));
 
-    // Process RAG query
-    const ragResponse = await processRAGQuery(content.trim(), conversationHistory);
+    // Hydrate in-memory session context từ DB history (nếu session mới/restart)
+    // - Chỉ hydrate nếu in-memory chưa có message
+    const sessionCtx = getSessionContext(session.id.toString());
+    if (sessionCtx.messages.length === 0 && history.length > 0) {
+      const { addMessageToSession } = await import('../services/intent/sessionStore');
+      for (const m of history) {
+        if (m.id === userMessage.id) continue;
+        addMessageToSession(session.id.toString(), {
+          role: m.role as 'user' | 'assistant',
+          content: m.content,
+          timestamp: Date.now(),
+          metadata: m.metadata as any,
+        });
+      }
+    }
+
+    // Use Intent Pipeline: classify → route → action (RAG fallback)
+    const pipelineResponse = await processMessageWithIntent(
+      session.id.toString(),
+      content.trim(),
+      async (resolvedQuery, historyForRag, intentContext) => {
+        const ragResp = await processRAGQuery(
+          resolvedQuery,
+          historyForRag,
+          intentContext
+        );
+        return { text: ragResp.text, sources: ragResp.sources };
+      }
+    );
 
     // Save AI response
     const aiMessage = await ChatMessage.create({
       sessionId: session.id,
       role: 'assistant',
-      content: ragResponse.text,
-      metadata: { sources: ragResponse.sources },
+      content: pipelineResponse.text,
+      metadata: {
+        sources: pipelineResponse.sources,
+        intent: pipelineResponse.intent.primaryIntent,
+        route: pipelineResponse.route,
+      },
     });
 
     // Update session title if it's a new chat
@@ -316,15 +349,15 @@ export async function sendMessage(req: AuthenticatedRequest, res: Response, next
           id: userMessage.id,
           role: 'user',
           content: userMessage.content,
-          createdAt: userMessage.createdAt,
         },
         aiMessage: {
           id: aiMessage.id,
           role: 'assistant',
           content: aiMessage.content,
-          createdAt: aiMessage.createdAt,
-          sources: ragResponse.sources,
+          sources: pipelineResponse.sources,
         },
+        intent: pipelineResponse.intent.primaryIntent,
+        route: pipelineResponse.route,
       },
     });
   } catch (error) {
@@ -378,7 +411,7 @@ export async function getMessages(req: AuthenticatedRequest, res: Response, next
 
     const messages = await ChatMessage.findAll({
       where: { sessionId },
-      order: [['createdAt', 'ASC']],
+      order: [['id', 'ASC']],
       offset,
       limit,
     });

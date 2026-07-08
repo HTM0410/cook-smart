@@ -25,14 +25,25 @@ class ElasticsearchService {
   private isHealthy: boolean = false;
 
   constructor() {
-    this.initHealth();
+    // Fire-and-forget health check, but swallow rejections so they don't
+    // become unhandled rejections and crash the process on newer Node versions.
+    this.initHealth().catch((err) => {
+      console.warn('⚠️  Elasticsearch health check rejected:', err?.message || err);
+      this.isHealthy = false;
+    });
   }
 
   /**
    * Initialize health check
    */
   private async initHealth(): Promise<void> {
-    this.isHealthy = await checkElasticsearchHealth();
+    try {
+      this.isHealthy = await checkElasticsearchHealth();
+    } catch (err: any) {
+      this.isHealthy = false;
+      console.warn('⚠️  Elasticsearch health check error:', err?.message || err);
+      return;
+    }
     console.log(`🔍 Elasticsearch health: ${this.isHealthy ? '✅ Healthy' : '❌ Unhealthy (using fallback)'}`);
   }
 

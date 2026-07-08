@@ -13,7 +13,17 @@ train:
   project: ingredient-detection
   wandb: true
 
+data_quality:
+  min_images_per_split:
+    train: 1
+    val: 1
+    test: 1
+  require_all_classes_in_train: true
+  max_duplicate_image_ratio: 0.20
+  max_train_imbalance_ratio: 50.0
+
 evaluate:
+  split: test
   batch: 16
   min_map50: 0.50
   min_map50_95: 0.30

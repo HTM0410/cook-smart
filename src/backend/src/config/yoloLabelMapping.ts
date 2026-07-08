@@ -76,6 +76,9 @@ export const YOLO_LABEL_MAPPING: Record<string, LabelMapping> = {
   'dau_hu': { yoloLabel: 'dau_hu', ingredientName: 'Đậu Hũ', category: 'Đậu & sản phẩm từ đậu' },
 
   // Trái cây (Fruits) - 6 classes
+  // Note: `dua-` (with trailing hyphen) la nhan goc trong dataset annotation
+  // trung khop voi model da train va data.yaml. KHONG sua thanh `dua` vi se
+  // gay vo schema (model class names set() !== mapping keys()).
   'cam': { yoloLabel: 'cam', ingredientName: 'Cam', category: 'Trái cây' },
   'chuoi': { yoloLabel: 'chuoi', ingredientName: 'Chuối', category: 'Trái cây' },
   'dua-': { yoloLabel: 'dua-', ingredientName: 'Dứa', category: 'Trái cây' },

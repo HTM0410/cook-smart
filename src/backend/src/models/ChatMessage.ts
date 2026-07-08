@@ -7,10 +7,9 @@ interface ChatMessageAttributes {
   role: 'user' | 'assistant' | 'system';
   content: string;
   metadata?: Record<string, any>;
-  createdAt?: Date;
 }
 
-interface ChatMessageCreationAttributes extends Optional<ChatMessageAttributes, 'id' | 'metadata' | 'createdAt'> {}
+interface ChatMessageCreationAttributes extends Optional<ChatMessageAttributes, 'id' | 'metadata'> {}
 
 class ChatMessage extends Model<ChatMessageAttributes, ChatMessageCreationAttributes> implements ChatMessageAttributes {
   public id!: number;
@@ -18,7 +17,6 @@ class ChatMessage extends Model<ChatMessageAttributes, ChatMessageCreationAttrib
   public role!: 'user' | 'assistant' | 'system';
   public content!: string;
   public metadata?: Record<string, any>;
-  public readonly createdAt!: Date;
 }
 
 ChatMessage.init(

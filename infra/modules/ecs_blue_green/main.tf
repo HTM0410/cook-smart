@@ -343,9 +343,37 @@ resource "aws_iam_role" "codedeploy" {
   tags               = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "codedeploy" {
-  role       = aws_iam_role.codedeploy.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRoleForECS"
+# Inline policy thay vi managed policy (tranh subscription issue)
+resource "aws_iam_role_policy" "codedeploy" {
+  name = "${var.name}-codedeploy-policy"
+  role = aws_iam_role.codedeploy.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeServices",
+          "ecs:DescribeTaskDefinition",
+          "ecs:DescribeTasks",
+          "ecs:UpdateService",
+          "ecs:DeregisterTaskDefinition",
+          "ecs:RegisterTaskDefinition",
+          "iam:PassRole"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:*",
+          "sns:Publish"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
 }
 
 # Deployment Group

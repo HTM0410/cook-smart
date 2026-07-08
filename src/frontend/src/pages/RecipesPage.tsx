@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import recipeService from '../services/recipeService'
 import FavoriteButton from '../components/atoms/FavoriteButton'
 import { SkeletonCard } from '../components/molecules/SkeletonCard'
 import { useAuth } from '../contexts/AuthContext'
 import { Recipe } from '../types/recipe'
-import { Search, Grid3X3, LayoutList, SlidersHorizontal, X, Star, Clock, Users, ChevronDown } from 'lucide-react'
+import { Grid3X3, LayoutList, SlidersHorizontal, X, Star, Clock, Users, ChevronDown, ChefHat, ArrowUpRight } from 'lucide-react'
+import { EyebrowTag } from '../components/atoms/EyebrowTag'
+import { ButtonEditorial } from '../components/atoms/ButtonEditorial'
+import { fadeUp, splitRevealLeft, splitRevealRight, cardReveal, staggerGrid, viewportOnce } from '../lib/motion'
 
 const RECIPES_PER_PAGE = 18
 
@@ -50,7 +54,7 @@ const RecipesPage: React.FC = () => {
       case 'time-low':
         return sorted.sort((a, b) => (a.prepTime + a.cookTime) - (b.prepTime + b.cookTime))
       case 'time-high':
-        return sorted.sort((a, b) => (b.prepTime + b.cookTime) - (a.prepTime + a.cookTime))
+        return sorted.sort((a, b) => (b.prepTime + b.cookTime) - (a.prepTime + b.cookTime))
       case 'popular':
       default:
         return sorted.sort((a, b) => ((b as any).reviewCount || 0) - ((a as any).reviewCount || 0))
@@ -73,13 +77,13 @@ const RecipesPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="container py-10">
-          <div className="mb-8">
-            <div className="skeleton-title w-48 mb-2" />
-            <div className="skeleton-text w-64" />
+      <div className="min-h-screen bg-paper-light dark:bg-ink-800 section pt-32">
+        <div className="container">
+          <div className="space-y-3 mb-12">
+            <div className="skeleton h-6 w-32 rounded-full" />
+            <div className="skeleton-title w-80" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <SkeletonCard count={9} variant="recipe" />
           </div>
         </div>
@@ -89,12 +93,11 @@ const RecipesPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-20 h-20 rounded-3xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center mx-auto mb-4 text-4xl">⚠️</div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Đã xảy ra lỗi</h2>
-          <p className="text-gray-500 mb-4">{error}</p>
-          <button onClick={() => window.location.reload()} className="btn btn-primary">
+      <div className="min-h-screen bg-paper-light dark:bg-ink-800 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="text-display text-6xl text-ink-primary dark:text-paper-light">⚠️</div>
+          <p className="text-ink-secondary">{error}</p>
+          <button onClick={() => window.location.reload()} className="btn-editorial-primary">
             Thử lại
           </button>
         </div>
@@ -103,72 +106,95 @@ const RecipesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container py-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div className="animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
-              Tất cả <span className="text-gradient">công thức</span>
-            </h1>
-            <p className="text-muted-foreground">
-              {recipes.length > 0 ? `${recipes.length} công thức có sẵn` : 'Chưa có công thức nào'}
-            </p>
-          </div>
-
-          {/* Controls */}
-          <div className="flex items-center gap-3 animate-fade-in-up">
-            {/* Sort */}
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1) }}
-                className="h-10 pl-4 pr-10 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-              >
-                <option value="popular">Phổ biến nhất</option>
-                <option value="rating">Đánh giá cao</option>
-                <option value="newest">Mới nhất</option>
-                <option value="time-low">Thời gian ngắn</option>
-                <option value="time-high">Thời gian dài</option>
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-            </div>
-
-            {/* Filter Toggle */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`h-10 px-4 rounded-xl border text-sm font-semibold flex items-center gap-2 transition-all ${
-                showFilters
-                  ? 'bg-primary-50 border-primary-500 text-primary-600 dark:bg-primary-900/20 dark:border-primary-400 dark:text-primary-400'
-                  : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
-              }`}
+    <div className="min-h-screen bg-paper-light dark:bg-ink-800">
+      {/* Editorial Header */}
+      <section className="pt-32 md:pt-40 pb-12 md:pb-16">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={splitRevealLeft}
+              className="lg:col-span-7"
             >
-              <SlidersHorizontal className="w-4 h-4" />
-              <span className="hidden sm:inline">Bộ lọc</span>
-            </button>
+              <EyebrowTag>Tất cả công thức</EyebrowTag>
+              <h1 className="mt-6 text-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-ink-primary dark:text-paper-light text-balance">
+                Mọi công thức.
+                <br />
+                <span className="text-ink-muted">Một nơi.</span>
+              </h1>
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={splitRevealRight}
+              className="lg:col-span-5 lg:pb-3"
+            >
+              <p className="text-ink-secondary text-lg leading-relaxed max-w-md text-pretty mb-6">
+                {recipes.length > 0 ? `${recipes.length} công thức có sẵn,` : 'Chưa có công thức nào,'} được tuyển chọn và cập nhật mỗi ngày.
+              </p>
 
-            {/* View Toggle */}
-            <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-800">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2.5 transition-all ${viewMode === 'grid' ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2.5 transition-all ${viewMode === 'list' ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-              >
-                <LayoutList className="w-4 h-4" />
-              </button>
-            </div>
+              {/* Controls */}
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1) }}
+                    className="h-11 pl-5 pr-10 text-sm rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-700 ease-[var(--ease-fluid)] font-medium"
+                  >
+                    <option value="popular">Phổ biến nhất</option>
+                    <option value="rating">Đánh giá cao</option>
+                    <option value="newest">Mới nhất</option>
+                    <option value="time-low">Thời gian ngắn</option>
+                    <option value="time-high">Thời gian dài</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" strokeWidth={1.5} />
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`h-11 px-5 rounded-full text-sm font-medium inline-flex items-center gap-2 transition-colors duration-700 ease-[var(--ease-fluid)] ${
+                    showFilters
+                      ? 'bg-ink-700 dark:bg-paper-light text-paper-light dark:text-ink-700'
+                      : 'ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light hover:ring-ink-primary/30'
+                  }`}
+                >
+                  <SlidersHorizontal className="w-4 h-4" strokeWidth={1.5} />
+                  Bộ lọc
+                </motion.button>
+
+                <div className="inline-flex p-1 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700">
+                  {[
+                    { id: 'grid', icon: Grid3X3 },
+                    { id: 'list', icon: LayoutList },
+                  ].map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => setViewMode(v.id as any)}
+                      className={`relative p-2.5 rounded-full transition-colors duration-700 ease-[var(--ease-fluid)] ${
+                        viewMode === v.id
+                          ? 'bg-white dark:bg-ink-800 text-ink-primary dark:text-paper-light shadow-sm'
+                          : 'text-ink-secondary hover:text-ink-primary'
+                      }`}
+                      aria-label={v.id}
+                    >
+                      <v.icon className="w-4 h-4" strokeWidth={1.5} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
+      </section>
 
-        {/* Active Filters */}
-        {searchParams.toString() && (
-          <div className="mb-6 flex items-center gap-2 flex-wrap">
-            <span className="text-sm text-gray-500">Kết quả cho:</span>
+      {/* Active Filters */}
+      {searchParams.toString() && (
+        <div className="container mb-8">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs uppercase tracking-[0.2em] text-ink-secondary">Kết quả cho:</span>
             {Array.from(searchParams.entries()).map(([key, value]) => (
               <button
                 key={key}
@@ -184,273 +210,208 @@ const RecipesPage: React.FC = () => {
               </button>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {recipes.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-24 h-24 rounded-3xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-4 text-5xl animate-float">📖</div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Chưa có công thức nào</h2>
-            <p className="text-gray-500 mb-6">Hãy quay lại sau để khám phá thêm.</p>
-            <Link to="/recipes" className="btn btn-primary">
-              Khám phá công thức
-            </Link>
-          </div>
-        ) : (
-          <>
-            {/* Recipe Grid/List */}
-            {viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Recipes Grid/List */}
+      <section className="pb-24">
+        <div className="container">
+          {recipes.length === 0 ? (
+            <div className="empty-state">
+              <p className="text-display text-3xl md:text-4xl text-ink-primary dark:text-paper-light mb-4">
+                Chưa có công thức nào.
+              </p>
+              <p className="text-ink-secondary mb-8">Hãy quay lại sau để khám phá thêm.</p>
+              <Link to="/recipes">
+                <ButtonEditorial variant="primary" size="md">Khám phá</ButtonEditorial>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerGrid}
+                className={
+                  viewMode === 'grid'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'
+                    : 'space-y-4'
+                }
+              >
                 {currentRecipes.map((recipe, index) => {
                   const totalTime = recipe.prepTime + recipe.cookTime
                   return (
-                    <Link
-                      key={recipe.id}
-                      to={`/recipes/${recipe.id}`}
-                      className="group block animate-fade-in-up"
-                      style={{ animationDelay: `${Math.min(index, 8) * 0.05}s` }}
-                    >
-                      <div className="card overflow-hidden hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-500 hover:-translate-y-1">
-                        {/* Image */}
-                        <div className="relative aspect-[4/3] overflow-hidden">
-                          {recipe.imageUrl && !imageErrors.has(recipe.id) ? (
-                            <img
-                              src={recipe.imageUrl}
-                              alt={recipe.recipeName}
-                              loading="lazy"
-                              className="h-full w-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                              onError={() => handleImageError(recipe.id)}
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 flex items-center justify-center text-5xl">
-                              🍳
+                    <motion.div key={recipe.id} custom={index} variants={cardReveal}>
+                      <Link to={`/recipes/${recipe.id}`} className="group block h-full">
+                        <article className="card-bezel h-full">
+                          <div className={`card-bezel-inner p-0 overflow-hidden h-full ${viewMode === 'list' ? 'flex' : 'flex flex-col'}`}>
+                            <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-48 sm:w-56 flex-shrink-0' : 'aspect-[4/3]'}`}>
+                              {recipe.imageUrl && !imageErrors.has(recipe.id) ? (
+                                <img
+                                  src={recipe.imageUrl}
+                                  alt={recipe.recipeName}
+                                  loading="lazy"
+                                  className="h-full w-full object-cover transition-transform duration-[1100ms] ease-[var(--ease-fluid)] group-hover:scale-105"
+                                  onError={() => handleImageError(recipe.id)}
+                                />
+                              ) : (
+                                <div className="h-full w-full bg-gradient-to-br from-paper-light to-ink-200 dark:from-ink-700 dark:to-ink-800 flex items-center justify-center">
+                                  <ChefHat className="w-12 h-12 text-ink-200" strokeWidth={1} />
+                                </div>
+                              )}
+
+                              <div className="absolute inset-0 bg-gradient-to-t from-ink-700/30 to-transparent" />
+
+                              <div className="absolute top-3 right-3 z-10" onClick={(e) => e.preventDefault()}>
+                                <FavoriteButton
+                                  recipeId={recipe.id}
+                                  initialFavoriteCount={0}
+                                  initialIsFavorited={false}
+                                  userId={user?.id}
+                                  size="sm"
+                                  showCount={false}
+                                  showTooltip={false}
+                                />
+                              </div>
+
+                              <div className="absolute top-3 left-3 z-10">
+                                {(() => {
+                                  const diffMap = {
+                                    easy:   { l: 'Dễ',  c: 'bg-emerald-500 text-white border border-emerald-300/50 shadow-[0_2px_8px_rgba(16,185,129,0.4)]' },
+                                    medium: { l: 'Vừa', c: 'bg-amber-500 text-white border border-amber-300/50 shadow-[0_2px_8px_rgba(245,158,11,0.4)]' },
+                                    hard:   { l: 'Khó', c: 'bg-rose-500 text-white border border-rose-300/50 shadow-[0_2px_8px_rgba(244,63,94,0.4)]' },
+                                  } as const
+                                  const d = diffMap[recipe.difficulty as keyof typeof diffMap] || { l: recipe.difficulty, c: 'bg-white text-[#1A1814] border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.18)]' }
+                                  return (
+                                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${d.c}`}>
+                                      {d.l}
+                                    </span>
+                                  )
+                                })()}
+                              </div>
                             </div>
-                          )}
 
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <div className="p-5 flex-1 flex flex-col">
+                              <h3 className="text-base font-semibold text-ink-primary dark:text-paper-light mb-2 line-clamp-2 group-hover:text-[#ff4f00] transition-colors">
+                                {recipe.recipeName}
+                              </h3>
+                              {viewMode === 'list' ? (
+                                <p className="text-sm text-ink-secondary mb-3 line-clamp-2 flex-1">
+                                  {recipe.description || 'Một công thức tuyệt vời dành cho bạn.'}
+                                </p>
+                              ) : (
+                                <p className="text-sm text-ink-secondary mb-4 line-clamp-2 flex-1">
+                                  {recipe.description || 'Một công thức tuyệt vời dành cho bạn.'}
+                                </p>
+                              )}
 
-                          {/* Favorite */}
-                          <div className="absolute top-3 right-3 z-10" onClick={(e) => e.preventDefault()}>
-                            <FavoriteButton
-                              recipeId={recipe.id}
-                              initialFavoriteCount={0}
-                              initialIsFavorited={false}
-                              userId={user?.id}
-                              size="md"
-                              showCount={false}
-                              showTooltip={true}
-                            />
+                              {recipe.categories && recipe.categories.length > 0 && (
+                                <div className="flex flex-wrap gap-1.5 mb-4">
+                                  {recipe.categories.slice(0, 2).map((cat) => (
+                                    <span
+                                      key={cat.id}
+                                      className="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-[#F5F1EA] dark:bg-[#1F1B16] text-[#5C4A38] dark:text-[#C9B89C] border border-[#E8DFD0] dark:border-[#2A2520]"
+                                    >
+                                      {cat.categoryName}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+
+                              <div className="flex items-center justify-between pt-4 border-t border-ink-200/40 dark:border-ink-700/40 mt-auto">
+                                <div className="flex items-center gap-1.5 text-sm">
+                                  <Star className="w-3.5 h-3.5 text-[#ff4f00] fill-[#ff4f00]" />
+                                  <span className="font-semibold text-ink-primary dark:text-paper-light">
+                                    {((recipe as any).averageRating ?? 0).toFixed(1)}
+                                  </span>
+                                  <span className="text-xs text-ink-secondary">
+                                    ({((recipe as any).reviewCount ?? 0)})
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-3 text-xs text-ink-secondary">
+                                  <span className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" strokeWidth={1.5} />
+                                    {totalTime}p
+                                  </span>
+                                  <span className="flex items-center gap-1">
+                                    <Users className="w-3 h-3" strokeWidth={1.5} />
+                                    {recipe.servings}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-
-                          {/* Difficulty badge */}
-                          <div className="absolute top-3 left-3 z-10">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${
-                              recipe.difficulty === 'easy' ? 'bg-green-500/80 text-white' :
-                              recipe.difficulty === 'medium' ? 'bg-amber-500/80 text-white' :
-                              'bg-red-500/80 text-white'
-                            }`}>
-                              {recipe.difficulty === 'easy' ? 'Dễ' : recipe.difficulty === 'medium' ? 'Vừa' : 'Khó'}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-5">
-                          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
-                            {recipe.recipeName}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                            {recipe.description || 'Một công thức tuyệt vời dành cho bạn.'}
-                          </p>
-
-                          {/* Categories */}
-                          {recipe.categories && recipe.categories.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mb-4">
-                              {recipe.categories.slice(0, 2).map((cat) => (
-                                <span key={cat.id} className="badge badge-subtle text-[10px]">
-                                  {cat.categoryName}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* Meta */}
-                          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-                            <div className="flex items-center gap-1.5">
-                              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                              <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                {((recipe as any).averageRating ?? 0).toFixed(1)}
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                ({(recipe as any).reviewCount ?? 0})
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-3.5 h-3.5" />
-                                {totalTime}p
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Users className="w-3.5 h-3.5" />
-                                {recipe.servings}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
+                        </article>
+                      </Link>
+                    </motion.div>
                   )
                 })}
-              </div>
-            ) : (
-              /* List View */
-              <div className="space-y-4">
-                {currentRecipes.map((recipe, index) => (
-                  <Link
-                    key={recipe.id}
-                    to={`/recipes/${recipe.id}`}
-                    className="group block animate-fade-in-up"
-                    style={{ animationDelay: `${Math.min(index, 8) * 0.05}s` }}
-                  >
-                    <div className="card overflow-hidden flex hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-500 hover:-translate-y-1">
-                      {/* Image */}
-                      <div className="relative w-48 flex-shrink-0">
-                        {recipe.imageUrl && !imageErrors.has(recipe.id) ? (
-                          <img
-                            src={recipe.imageUrl}
-                            alt={recipe.recipeName}
-                            loading="lazy"
-                            className="h-full w-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                            onError={() => handleImageError(recipe.id)}
-                          />
-                        ) : (
-                          <div className="h-full w-full bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 flex items-center justify-center text-4xl">
-                            🍳
-                          </div>
-                        )}
-                      </div>
+              </motion.div>
 
-                      {/* Content */}
-                      <div className="flex-1 p-5 flex flex-col">
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4 mb-2">
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-1">
-                              {recipe.recipeName}
-                            </h3>
-                            <div onClick={(e) => e.preventDefault()}>
-                              <FavoriteButton
-                                recipeId={recipe.id}
-                                initialFavoriteCount={0}
-                                initialIsFavorited={false}
-                                userId={user?.id}
-                                size="sm"
-                                showCount={false}
-                                showTooltip={false}
-                              />
-                            </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                            {recipe.description || 'Một công thức tuyệt vời dành cho bạn.'}
-                          </p>
-
-                          {recipe.categories && recipe.categories.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5">
-                              {recipe.categories.slice(0, 3).map((cat) => (
-                                <span key={cat.id} className="badge badge-subtle text-[10px]">
-                                  {cat.categoryName}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="flex items-center gap-6 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
-                              {((recipe as any).averageRating ?? 0).toFixed(1)}
-                            </span>
-                            <span className="text-xs text-gray-400">
-                              ({(recipe as any).reviewCount ?? 0})
-                            </span>
-                          </div>
-                          <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Clock className="w-4 h-4" />
-                            {recipe.prepTime + recipe.cookTime}p
-                          </span>
-                          <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Users className="w-4 h-4" />
-                            {recipe.servings} người
-                          </span>
-                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
-                            recipe.difficulty === 'easy' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400' :
-                            recipe.difficulty === 'medium' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400' :
-                            'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400'
-                          }`}>
-                            {recipe.difficulty === 'easy' ? 'Dễ' : recipe.difficulty === 'medium' ? 'Vừa' : 'Khó'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-12 space-y-4">
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>Hiển thị {startIndex + 1} - {Math.min(endIndex, sortedRecipes.length)} trong {sortedRecipes.length} công thức</span>
-                  <span>Trang {currentPage} / {totalPages}</span>
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-16 space-y-4">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-ink-secondary">
+                    <span>Trang {currentPage} / {totalPages}</span>
+                    <span>{startIndex + 1}–{Math.min(endIndex, sortedRecipes.length)} trong {sortedRecipes.length}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 flex-wrap">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="h-11 px-5 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-700 ease-[var(--ease-fluid)]"
+                    >
+                      Trước
+                    </motion.button>
+                    {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                      const page = i + 1
+                      return (
+                        <motion.button
+                          key={page}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => goToPage(page)}
+                          className={`h-11 w-11 rounded-full text-sm font-medium transition-colors duration-700 ease-[var(--ease-fluid)] ${
+                            currentPage === page
+                              ? 'bg-ink-700 dark:bg-paper-light text-paper-light dark:text-ink-700'
+                              : 'ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light hover:ring-ink-primary/30'
+                          }`}
+                        >
+                          {page}
+                        </motion.button>
+                      )
+                    })}
+                    {totalPages > 7 && (
+                      <>
+                        <span className="px-2 text-ink-muted">…</span>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => goToPage(totalPages)}
+                          className="h-11 w-11 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light"
+                        >
+                          {totalPages}
+                        </motion.button>
+                      </>
+                    )}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="h-11 px-5 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-700 ease-[var(--ease-fluid)]"
+                    >
+                      Sau
+                    </motion.button>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center gap-2 flex-wrap">
-                  <button
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="h-10 px-4 rounded-xl font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    ← Trước
-                  </button>
-                  {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-                    const page = i + 1
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => goToPage(page)}
-                        className={`h-10 w-10 rounded-xl font-semibold transition-all ${
-                          currentPage === page
-                            ? 'bg-primary-500 text-white shadow-md'
-                            : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    )
-                  })}
-                  {totalPages > 7 && (
-                    <>
-                      <span className="px-2 text-gray-400">...</span>
-                      <button
-                        onClick={() => goToPage(totalPages)}
-                        className="h-10 w-10 rounded-xl font-semibold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      >
-                        {totalPages}
-                      </button>
-                    </>
-                  )}
-                  <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="h-10 px-4 rounded-xl font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    Sau →
-                  </button>
-                </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
     </div>
   )
 }

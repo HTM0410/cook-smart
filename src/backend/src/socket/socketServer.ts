@@ -10,6 +10,9 @@ import Recipe from '../models/Recipe';
 import ChatSession from '../models/ChatSession';
 import ChatMessage from '../models/ChatMessage';
 import { processRAGQuery } from '../services/ragService';
+import { processMessage as processMessageWithIntent } from '../services/intent/pipeline';
+import { clearSessionContext } from '../services/intent/sessionStore';
+import { getOrCreateAdminChatUser } from '../middleware/auth';
 
 interface AuthenticatedSocket extends Socket {
   userId?: number;
@@ -74,9 +77,7 @@ class SocketServer {
   }
 
   private initializeDemoData() {
-    // Initialize demo recipe favorite counts
-    this.recipeFavoriteCounts.set(1, 47); // Demo recipe ID 1 starts with 47 favorites
-    console.log('🎯 Initialized demo favorite data');
+    console.log('Favorite cache initialized');
   }
 
   private setupMiddleware() {
@@ -115,8 +116,13 @@ class SocketServer {
         } else if (decoded.adminId) {
           const admin = await Admin.findByPk(decoded.adminId);
           if (admin) {
+            const chatUser = await getOrCreateAdminChatUser(admin);
+
+            socket.userId = chatUser.id;
+            socket.user = chatUser;
             socket.adminId = admin.id;
             socket.admin = admin;
+            this.connectedUsers.set(chatUser.id, socket.id);
           }
         }
         
@@ -608,7 +614,7 @@ class SocketServer {
           // Get messages
           const messages = await ChatMessage.findAll({
             where: { sessionId: session.id },
-            order: [['createdAt', 'ASC']],
+            order: [['id', 'ASC']],
           });
 
           socket.emit('chat:joined', {
@@ -618,7 +624,6 @@ class SocketServer {
               id: m.id,
               role: m.role,
               content: m.content,
-              createdAt: m.createdAt,
             })),
           });
 
@@ -670,7 +675,6 @@ class SocketServer {
             sessionId,
             role: 'user',
             content: userMessage.content,
-            createdAt: userMessage.createdAt,
           });
 
           // Emit typing indicator
@@ -679,7 +683,7 @@ class SocketServer {
           // Get conversation history for context
           const history = await ChatMessage.findAll({
             where: { sessionId },
-            order: [['createdAt', 'ASC']],
+            order: [['id', 'ASC']],
             limit: 20,
           });
 
@@ -691,15 +695,30 @@ class SocketServer {
               content: m.content,
             }));
 
-          // Process RAG query
-          const ragResponse = await processRAGQuery(content.trim(), conversationHistory);
+          // Process via Intent Pipeline (classify → route → action)
+          const pipelineResponse = await processMessageWithIntent(
+            sessionId.toString(),
+            content.trim(),
+            async (resolvedQuery, historyForRag, intentContext) => {
+              const ragResp = await processRAGQuery(
+                resolvedQuery,
+                historyForRag,
+                intentContext
+              );
+              return { text: ragResp.text, sources: ragResp.sources };
+            }
+          );
 
           // Save AI response
           const aiMessage = await ChatMessage.create({
             sessionId,
             role: 'assistant',
-            content: ragResponse.text,
-            metadata: { sources: ragResponse.sources },
+            content: pipelineResponse.text,
+            metadata: {
+              sources: pipelineResponse.sources,
+              intent: pipelineResponse.intent.primaryIntent,
+              route: pipelineResponse.route,
+            },
           });
 
           // Update session title if new
@@ -714,8 +733,9 @@ class SocketServer {
             sessionId,
             role: 'assistant',
             content: aiMessage.content,
-            createdAt: aiMessage.createdAt,
-            sources: ragResponse.sources,
+            sources: pipelineResponse.sources,
+            intent: pipelineResponse.intent.primaryIntent,
+            route: pipelineResponse.route,
           });
 
           // Stop typing indicator
@@ -748,21 +768,30 @@ class SocketServer {
         console.log(`💬 User left chat session ${data.sessionId}`);
       });
 
+      // Handle clear chat context (in-memory only)
+      socket.on('chat:clear-context', (data: { sessionId: number }) => {
+        clearSessionContext(data.sessionId.toString());
+        console.log(`🧹 Cleared in-memory context for session ${data.sessionId}`);
+      });
+
     });
   }
 
   private async sendRecipeStats(recipeId: number, roomName: string) {
     try {
-      // Here you would fetch actual stats from database
-      // For now, we'll simulate it
+      const favoriteCount = await UserFavorite.count({
+        where: { recipeId },
+      });
+
       const stats = {
         recipeId,
-        favoriteCount: Math.floor(Math.random() * 100) + 10,
-        averageRating: 3.5 + Math.random() * 1.5,
-        ratingCount: Math.floor(Math.random() * 100) + 10,
-        commentCount: Math.floor(Math.random() * 50) + 5,
+        favoriteCount,
+        averageRating: 0,
+        ratingCount: 0,
+        commentCount: await Comment.count({ where: { recipeId } }),
       };
 
+      this.recipeFavoriteCounts.set(recipeId, favoriteCount);
       this.io.to(roomName).emit('recipe-stats', stats);
     } catch (error) {
       console.error('Error sending recipe stats:', error);

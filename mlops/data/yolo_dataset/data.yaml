@@ -26,6 +26,10 @@ names:
   - dua-
   - dua_hau
   - dua_leo
+  # NOTE: `dua-` (trailing hyphen) is the original label in the dataset annotation
+  # and is intentional. Model.names will include "dua-" exactly as below. DO NOT
+  # fix to "dua" without retraining because that breaks the schema match and
+  # flips yolo_model_schema_compatible to 0.
   - gao
   - gung
   - hanh_tay

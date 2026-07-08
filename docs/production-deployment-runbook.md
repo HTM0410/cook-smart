@@ -1,6 +1,6 @@
 # Production Deployment Runbook - MLOps CookSmart
 
-> **Mục tiêu**: Triển khai hệ thống MLOps nhận diện nguyên liệu lên AWS production với Blue/Green deployment, drift detection, monitoring đầy đủ.
+> **Mục tiêu**: Triển khai hệ thống MLOps nhận diện nguyên liệu lên AWS production với Blue/Green deployment, drift detection, monitoring đầy đủ. Frontend sẽ deploy lên Netlify thay vì S3 + CloudFront.
 
 ---
 
@@ -209,9 +209,46 @@ Tokens auto-gen duoc luu vao `infra/scripts/secrets-local.env`.
 
 ---
 
-## Phase 5: Initial Image Build & Deploy (20 phút)
+## Phase 5: Frontend Deploy to Netlify (5 phút)
 
-### 5.1 Trigger CodePipeline lan dau
+### 5.1 Tạo Netlify Personal Access Token
+
+1. Truy cập [Netlify User Settings > Applications > Personal access tokens](https://app.netlify.com/user/applications#personal-access-tokens)
+2. Click **New access token**
+3. Đặt tên: `github-actions-deploy`
+4. Copy token
+
+### 5.2 Thêm GitHub Secrets
+
+Vào repo GitHub > Settings > Secrets and variables > Actions > New repository secret:
+
+```
+NETLIFY_AUTH_TOKEN = <token vừa tạo>
+NETLIFY_SITE_ID = <site ID từ Netlify>
+```
+
+### 5.3 Tạo Netlify Site
+
+1. Truy cập [Netlify Dashboard](https://app.netlify.com/)
+2. Click **New site from Git** > chọn GitHub > repo `cook-smart`
+3. Cấu hình:
+   - Branch: `main`
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+   - Base directory: `src/frontend`
+4. Deploy và lấy Site ID
+
+### 5.4 Push code de trigger deploy
+
+```powershell
+git push origin main
+```
+
+Workflow `deploy-frontend.yml` sẽ tự động build và deploy frontend lên Netlify.
+
+## Phase 6: Initial Image Build & Deploy (20 phút)
+
+### 6.1 Trigger CodePipeline lan dau
 
 Co 2 cach:
 
@@ -266,9 +303,9 @@ curl -fsS https://$albDns/health/detailed
 
 ---
 
-## Phase 6: Drift Detection & Monitoring (10 phút)
+## Phase 7: Drift Detection & Monitoring (10 phút)
 
-### 6.1 Trigger drift detection lan dau
+### 7.1 Trigger drift detection lan dau
 
 ```powershell
 # Lay drift service URL (ALB + path-based hoac direct)
@@ -315,9 +352,9 @@ receivers:
 
 ---
 
-## Phase 7: Smoke Test toàn diện (15 phút)
+## Phase 8: Smoke Test toàn diện (15 phút)
 
-### 7.1 Detection flow
+### 8.1 Detection flow
 
 ```powershell
 # Tao test image (su dung 1 trong validation images co san)
@@ -331,7 +368,7 @@ curl -X POST https://$albDns/api/detect `
 # Expected: JSON voi list detections + confidence + class names
 ```
 
-### 7.2 Admin endpoints
+### 8.2 Admin endpoints
 
 ```powershell
 # Lay MLOps overview
@@ -341,7 +378,7 @@ curl https://$albDns/api/admin/mlops/overview -H "Authorization: Bearer <admin-j
 curl https://$albDns/api/admin/mlops/feedback/queue?status=pending -H "Authorization: Bearer <admin-jwt>"
 ```
 
-### 7.3 Verify pipelines
+### 8.3 Verify pipelines
 
 1. Truy cap CodePipeline console → Status = **Succeeded**.
 2. Truy cap ECS console → Service `cooksmart-prod-yolo-svc`:
@@ -352,7 +389,7 @@ curl https://$albDns/api/admin/mlops/feedback/queue?status=pending -H "Authoriza
    - Blue TG: 0 tasks (drain)
    - Green TG: 1 task healthy (active)
 
-### 7.4 Verify metrics
+### 8.4 Verify metrics
 
 - Prometheus: `https://<host>:9090` → query `up{job="cooksmart-yolo"}` → return 1.
 - Grafana: Dashboard hien thi:
@@ -363,9 +400,9 @@ curl https://$albDns/api/admin/mlops/feedback/queue?status=pending -H "Authoriza
 
 ---
 
-## Phase 8: Post-deploy Operations
+## Phase 9: Post-deploy Operations
 
-### 8.1 Xem logs
+### 9.1 Xem logs
 
 ```powershell
 # ECS service logs
@@ -378,7 +415,7 @@ aws logs tail /aws/codebuild/cooksmart-prod-build --follow --region ap-southeast
 aws deploy list-deployments --application-name cooksmart-prod-yolo-codedeploy --region ap-southeast-1
 ```
 
-### 8.2 Promote candidate model (manual)
+### 9.2 Promote candidate model (manual)
 
 ```powershell
 # Trigger promote + deploy workflow
@@ -392,7 +429,7 @@ python -m mlops.serving.promotion promote-and-deploy `
     --region "ap-southeast-1"
 ```
 
-### 8.3 Rollback (khi co van de)
+### 9.3 Rollback (khi co van de)
 
 ```powershell
 # Cach 1: Stop deployment dang chay
@@ -486,9 +523,11 @@ Tang task memory tu 2048 → 4096 MB trong `infra/modules/ecs_blue_green/main.tf
 
 ## Next Steps
 
-- [ ] Setup DNS cho ALB (Route53 alias record).
+- [ ] Setup custom domain cho Netlify (nếu có domain riêng).
+- [ ] Enable Netlify Form handling / Identity nếu cần.
+- [ ] Setup Webhook từ Netlify về backend nếu cần.
+- [ ] Setup DNS cho ALB (Route53 alias record) cho backend API.
 - [ ] Enable WAF cho ALB (chong SQLi/XSS).
-- [ ] Setup CloudFront truoc ALB (cache + HTTPS offload).
 - [ ] Multi-region failover (DR plan).
 - [ ] Auto-scaling cho ECS service (target tracking on CPU).
 - [ ] Setup Slack/PagerDuty alerts tu Alertmanager.

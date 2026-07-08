@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Bot, User, Sparkles } from 'lucide-react';
+import { easeFluid } from '../../lib/motion';
 
 interface ChatMessageProps {
   id: number;
@@ -15,16 +17,6 @@ interface ChatMessageProps {
   onRecipeClick?: (recipeId: number) => void;
 }
 
-/**
- * Mini markdown renderer — không cần thêm dependency.
- * Hỗ trợ:
- *   - **bold**        → <strong>
- *   - *italic*        → <em>
- *   - `code`          → <code>
- *   - Dòng bắt đầu bằng "- " hoặc "* " hoặc "1. " → <ul>/<ol>
- *   - Xuống dòng đôi → <p>
- *   - Xuống dòng đơn → <br>
- */
 function renderMarkdown(text: string): React.ReactNode[] {
   if (!text) return [];
 
@@ -33,7 +25,6 @@ function renderMarkdown(text: string): React.ReactNode[] {
     const lines = block.split('\n');
     const firstLine = lines[0].trim();
 
-    // Ordered list: "1. ", "2. ", ...
     if (/^\d+\.\s+/.test(firstLine)) {
       return (
         <ol key={blockIdx} className="list-decimal list-outside ml-5 space-y-1.5 my-2 marker:text-current marker:font-semibold">
@@ -45,7 +36,6 @@ function renderMarkdown(text: string): React.ReactNode[] {
       );
     }
 
-    // Unordered list: "- ", "* ", "• "
     if (/^[-*•]\s+/.test(firstLine)) {
       return (
         <ul key={blockIdx} className="list-disc list-outside ml-5 space-y-1.5 my-2 marker:text-current">
@@ -57,7 +47,6 @@ function renderMarkdown(text: string): React.ReactNode[] {
       );
     }
 
-    // Heading: "## ..." → bold larger
     if (/^#{1,3}\s+/.test(firstLine)) {
       const level = firstLine.match(/^(#{1,3})/)?.[1].length ?? 1;
       const content = firstLine.replace(/^#{1,3}\s+/, '');
@@ -68,7 +57,6 @@ function renderMarkdown(text: string): React.ReactNode[] {
       return <p key={blockIdx} className={sizeClass}>{renderInline(content)}</p>;
     }
 
-    // Plain paragraph: preserve single line breaks with <br/>
     return (
       <p key={blockIdx} className="my-1.5 leading-relaxed">
         {lines.map((line, i) => (
@@ -82,10 +70,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
   });
 }
 
-/** Render inline markdown: **bold**, *italic*, `code` */
 function renderInline(text: string): React.ReactNode {
-  // Split keeping delimiters using a single regex pass
-  // Pattern order matters: bold (**) before italic (*)
   const parts: React.ReactNode[] = [];
   const regex = /(\*\*[^*\n]+\*\*|\*[^*\n]+\*|`[^`\n]+`)/g;
   let lastIndex = 0;
@@ -113,7 +98,7 @@ function renderInline(text: string): React.ReactNode {
       parts.push(
         <code
           key={key++}
-          className="px-1.5 py-0.5 mx-0.5 rounded-md bg-black/10 dark:bg-white/15 text-[0.85em] font-mono"
+          className="px-1.5 py-0.5 mx-0.5 rounded-md bg-ink-700/15 dark:bg-white/15 text-[0.85em] font-mono"
         >
           {token.slice(1, -1)}
         </code>
@@ -143,32 +128,34 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     : null;
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3 animate-fade-in`}>
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: easeFluid }}
+      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-3`}
+    >
       <div
         className={`flex gap-2.5 max-w-[92%] sm:max-w-[88%] ${
           isUser ? 'flex-row-reverse' : 'flex-row'
         }`}
       >
-        {/* Avatar - compact, aligned to first line */}
         <div
-          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ring-1 ${
             isUser
-              ? 'bg-gradient-to-br from-orange-500 to-rose-500 text-white'
-              : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white'
+              ? 'bg-ink-700 dark:bg-paper-light text-paper-light dark:text-ink-700 ring-ink-700 dark:ring-paper-light'
+              : 'bg-[#ff4f00] text-white ring-[#ff4f00]'
           }`}
           aria-hidden="true"
         >
-          {isUser ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+          {isUser ? <User className="w-4 h-4" strokeWidth={1.5} /> : <Sparkles className="w-4 h-4" strokeWidth={1.5} />}
         </div>
 
-        {/* Message column */}
         <div className={`flex flex-col min-w-0 ${isUser ? 'items-end' : 'items-start'}`}>
-          {/* Bubble */}
           <div
             className={`relative px-4 py-2.5 text-sm leading-relaxed break-words ${
               isUser
-                ? 'bg-gradient-to-br from-orange-500 to-rose-500 text-white rounded-2xl rounded-tr-md shadow-sm'
-                : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-2xl rounded-tl-md border border-gray-200/80 dark:border-gray-700 shadow-sm'
+                ? 'bg-[#ff4f00] text-white rounded-2xl rounded-tr-md'
+                : 'bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light rounded-2xl rounded-tl-md ring-1 ring-ink-200/40 dark:ring-ink-700/40'
             }`}
           >
             <div className={isUser ? 'whitespace-pre-wrap' : ''}>
@@ -176,35 +163,33 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             </div>
           </div>
 
-          {/* Sources as inline chips below bubble */}
           {sources && sources.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5 max-w-full">
-              <span className="text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold self-center mr-1">
+              <span className="text-[10px] uppercase tracking-[0.15em] text-ink-muted font-semibold self-center mr-1">
                 Nguồn
               </span>
               {sources.slice(0, 5).map((source, index) => (
                 <button
                   key={`${source.recipeId}-${index}`}
                   onClick={() => onRecipeClick?.(source.recipeId)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-emerald-50 dark:bg-emerald-900/25 text-emerald-700 dark:text-emerald-300 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200/60 dark:border-emerald-800/40 transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-[#EDF3EC] dark:bg-[#346538]/15 text-[#346538] rounded-full ring-1 ring-[#346538]/30 hover:ring-[#346538] transition-all duration-500 ease-[var(--ease-fluid)]"
                   title={source.content}
                 >
-                  <Bot className="w-3 h-3 flex-shrink-0" />
+                  <Bot className="w-3 h-3 flex-shrink-0" strokeWidth={1.5} />
                   <span className="truncate max-w-[140px]">{source.recipeName}</span>
                 </button>
               ))}
             </div>
           )}
 
-          {/* Timestamp */}
           {time && (
-            <span className="text-[10px] text-gray-400 dark:text-gray-500 mt-1 px-1">
+            <span className="text-[10px] uppercase tracking-[0.15em] text-ink-muted mt-1 px-1">
               {time}
             </span>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

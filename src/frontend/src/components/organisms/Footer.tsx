@@ -1,68 +1,50 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Logo from '../atoms/Logo'
-import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from 'lucide-react'
+import { Mail, Phone, MapPin, ChefHat, ArrowUpRight } from 'lucide-react'
+import { EyebrowTag } from '../atoms/EyebrowTag'
+import { ButtonEditorial } from '../atoms/ButtonEditorial'
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 border-t border-gray-200 dark:border-gray-800 overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
-
-      <div className="container relative z-10 py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-
+    <footer className="bg-paper-light dark:bg-ink-800 border-t border-ink-200/40 dark:border-ink-700/40">
+      {/* Editorial top intro */}
+      <div className="container py-20 lg:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Brand Column */}
-          <div className="lg:col-span-1 space-y-5">
+          <div className="lg:col-span-5 space-y-6">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-amber-500 flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:shadow-primary-500/25 transition-all duration-300">
-                <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
+              <div className="w-10 h-10 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center transition-transform duration-700 ease-[var(--ease-fluid)] group-hover:scale-110">
+                <ChefHat className="w-5 h-5 text-paper-light dark:text-ink-700" strokeWidth={1.5} />
               </div>
-              <span className="text-2xl font-extrabold tracking-tight">
-                <span className="text-gray-900 dark:text-white">Cook</span>
-                <span className="text-gradient-sm">Smart</span>
+              <span className="text-2xl font-semibold tracking-tight">
+                <span className="text-ink-primary dark:text-paper-light">Cook</span>
+                <span className="text-ink-muted italic font-serif">Smart</span>
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Nền tảng gợi ý món ăn thông minh sử dụng AI. Khám phá, nấu nưởng và tận hưởng những món ăn tuyệt vời mỗi ngày.
+            <h2 className="text-display text-3xl md:text-4xl lg:text-5xl text-ink-primary dark:text-paper-light max-w-md text-balance">
+              Nấu ăn ngon.<br />Mỗi ngày.
+            </h2>
+            <p className="text-ink-secondary leading-relaxed max-w-md text-pretty">
+              Nền tảng gợi ý món ăn thông minh sử dụng AI. Khám phá công thức, lên thực đơn tuần và tận hưởng những bữa ăn tuyệt vời.
             </p>
-            <div className="flex items-center gap-3">
-              {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 hover:scale-110"
-                >
-                  <Icon className="w-4.5 h-4.5" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-              Khám phá
-            </h3>
+          <div className="lg:col-span-2 space-y-5">
+            <EyebrowTag>Khám phá</EyebrowTag>
             <ul className="space-y-3">
               {[
                 { label: 'Trang chủ', path: '/' },
-                { label: 'Tất cả công thức', path: '/recipes' },
+                { label: 'Công thức', path: '/recipes' },
                 { label: 'Danh mục', path: '/categories' },
                 { label: 'Tìm kiếm', path: '/search' },
-                { label: 'Thực đơn tuần', path: '/meal-plans' },
+                { label: 'Thực đơn', path: '/meal-plans' },
               ].map((item) => (
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="text-sm font-medium text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 inline-flex items-center gap-1 group"
+                    className="link-underline text-sm font-medium text-ink-primary dark:text-paper-light"
                   >
-                    <span className="w-0 group-hover:w-2 transition-all duration-200 overflow-hidden">
-                      <span className="inline-block w-2 h-0.5 bg-primary-500 rounded-full" />
-                    </span>
                     {item.label}
                   </Link>
                 </li>
@@ -71,10 +53,8 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Categories */}
-          <div className="space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-              Danh mục
-            </h3>
+          <div className="lg:col-span-2 space-y-5">
+            <EyebrowTag>Danh mục</EyebrowTag>
             <ul className="space-y-3">
               {[
                 { label: 'Món chính', path: '/categories/course/Món chính' },
@@ -86,11 +66,8 @@ const Footer: React.FC = () => {
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="text-sm font-medium text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 inline-flex items-center gap-1 group"
+                    className="link-underline text-sm font-medium text-ink-primary dark:text-paper-light"
                   >
-                    <span className="w-0 group-hover:w-2 transition-all duration-200 overflow-hidden">
-                      <span className="inline-block w-2 h-0.5 bg-primary-500 rounded-full" />
-                    </span>
                     {item.label}
                   </Link>
                 </li>
@@ -98,11 +75,9 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact */}
-          <div className="space-y-5">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-              Liên hệ
-            </h3>
+          {/* Contact + Newsletter */}
+          <div className="lg:col-span-3 space-y-5">
+            <EyebrowTag>Liên hệ</EyebrowTag>
             <div className="space-y-4">
               {[
                 { icon: Mail, text: 'hoangtruongminh22@gmail.com', href: 'mailto:hoangtruongminh22@gmail.com' },
@@ -112,53 +87,64 @@ const Footer: React.FC = () => {
                 <a
                   key={i}
                   href={item.href}
-                  className="flex items-start gap-3 text-sm font-medium text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 group"
+                  className="flex items-start gap-3 text-sm font-medium text-ink-primary dark:text-paper-light group"
                 >
-                  <item.icon className="w-4.5 h-4.5 mt-0.5 flex-shrink-0 text-gray-400 group-hover:text-primary-500 transition-colors" />
-                  <span>{item.text}</span>
+                  <span className="w-7 h-7 rounded-full bg-white dark:bg-ink-700 ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center flex-shrink-0 transition-transform duration-700 ease-[var(--ease-fluid)] group-hover:scale-110">
+                    <item.icon className="w-3.5 h-3.5 text-ink-secondary" strokeWidth={1.5} />
+                  </span>
+                  <span className="pt-1 link-underline">{item.text}</span>
                 </a>
               ))}
-            </div>
-
-            {/* Newsletter */}
-            <div className="pt-2">
-              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">
-                Nhận công thức mới
-              </p>
-              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Email của bạn"
-                  className="flex-1 h-10 px-4 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                />
-                <button
-                  type="submit"
-                  className="h-10 px-4 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-colors shadow-md hover:shadow-lg hover:shadow-primary-500/25 active:scale-95"
-                >
-                  Gửi
-                </button>
-              </form>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground">
-              © 2024 CookSmart. Tất cả quyền được bảo lưu.
-            </p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                Điều khoản sử dụng
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                Chính sách bảo mật
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                Hỗ trợ
-              </a>
+        {/* Newsletter - bezel pattern */}
+        <div className="mt-16">
+          <div className="card-bezel">
+            <div className="card-bezel-inner p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10">
+              <div className="flex-1 space-y-3">
+                <p className="eyebrow-tag">Bản tin</p>
+                <h3 className="text-display text-2xl md:text-3xl text-ink-primary dark:text-paper-light">
+                  Công thức mới mỗi tuần.
+                </h3>
+                <p className="text-ink-secondary text-sm md:text-base">
+                  Đăng ký để nhận những công thức được tuyển chọn và mẹo nấu ăn từ đội ngũ CookSmart.
+                </p>
+              </div>
+              <form className="w-full md:w-auto md:min-w-[380px] flex gap-2" onSubmit={(e) => e.preventDefault()}>
+                <div className="input-bezel flex-1">
+                  <input
+                    type="email"
+                    placeholder="email@example.com"
+                    className="input-bezel-inner text-sm"
+                  />
+                </div>
+                <ButtonEditorial type="submit" size="md" aria-label="Đăng ký">
+                  Gửi
+                </ButtonEditorial>
+              </form>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="container py-8 border-t border-ink-200/40 dark:border-ink-700/40">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs uppercase tracking-[0.2em] text-ink-secondary">
+            © 2026 CookSmart. Mọi quyền được bảo lưu.
+          </p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="link-underline text-xs uppercase tracking-[0.2em] text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light">
+              Điều khoản
+            </a>
+            <a href="#" className="link-underline text-xs uppercase tracking-[0.2em] text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light">
+              Bảo mật
+            </a>
+            <a href="#" className="link-underline text-xs uppercase tracking-[0.2em] text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light">
+              Hỗ trợ
+            </a>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Loader2 } from 'lucide-react';
 import socketService from '../../services/socketService';
+import favoriteService from '../../services/favoriteService';
 import showToast from '../../utils/toast';
 
 interface FavoriteButtonProps {
@@ -30,15 +31,8 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const [isOptimistic, setIsOptimistic] = useState(false);
   const [lastClickTime, setLastClickTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
   const [justToggled, setJustToggled] = useState(false);
-  
-  // Store previous state for rollback
-  const [previousState, setPreviousState] = useState<{
-    isFavorited: boolean;
-    count: number;
-  } | null>(null);
-
+  const isOptimisticRef = useRef(false);
   // Size configurations
   const sizeConfig = {
     sm: {
@@ -61,9 +55,37 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const config = sizeConfig[size];
 
   useEffect(() => {
+    isOptimisticRef.current = isOptimistic;
+  }, [isOptimistic]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadFavoriteState = async () => {
+      try {
+        const [statusResponse, countResponse] = await Promise.all([
+          userId ? favoriteService.checkFavoriteStatus(recipeId) : Promise.resolve(null),
+          favoriteService.getFavoriteCount(recipeId),
+        ]);
+
+        if (!isMounted || isOptimisticRef.current) return;
+
+        if (statusResponse) {
+          setIsFavorited(statusResponse.data.favorited);
+        }
+        setFavoriteCount(countResponse.data.count);
+      } catch (error) {
+        console.error('Error loading favorite state:', error);
+      }
+    };
+
+    loadFavoriteState();
+
     // ✅ JOIN RECIPE ROOM to receive real-time updates
-    socketService.joinRecipeRoom(recipeId);
-    console.log(`🔔 Joined recipe room for recipe ${recipeId}`);
+    if (socketService.isConnected()) {
+      socketService.joinRecipeRoom(recipeId);
+      console.log(`🔔 Joined recipe room for recipe ${recipeId}`);
+    }
     
     // Listen for favorite updates from WebSocket
     const handleFavoriteUpdate = (data: {
@@ -83,15 +105,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
           setIsFavorited(data.isFavorited);
           setIsOptimistic(false);
           setIsLoading(false);
-          setPreviousState(null); // Clear previous state after successful update
           onFavoriteChange?.(data.isFavorited, data.favoriteCount);
-          // Show success toast
-          showToast.success(data.isFavorited ? 'Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
-          
-          // Reload page để cập nhật danh sách favorites
-          setTimeout(() => {
-            window.location.reload();
-          }, 500); // Delay 500ms để toast hiển thị trước
         }
       }
     };
@@ -105,7 +119,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     }) => {
       if (data.recipeId === recipeId && data.userId === userId) {
         // Only update if not currently in optimistic state
-        if (!isOptimistic) {
+        if (!isOptimisticRef.current) {
           setIsFavorited(data.isFavorited);
           setFavoriteCount(data.favoriteCount);
           console.log(`📊 Favorite status: ${data.isFavorited} (count: ${data.favoriteCount})`);
@@ -120,13 +134,13 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       ratingCount: number;
       commentCount: number;
     }) => {
-      if (data.recipeId === recipeId && !isOptimistic) {
+      if (data.recipeId === recipeId && !isOptimisticRef.current) {
         setFavoriteCount(data.favoriteCount);
       }
     };
 
-    // Get initial favorite status only if userId exists
-    if (userId) {
+    // Get initial favorite status from socket when it is available.
+    if (userId && socketService.isConnected()) {
       socketService.getFavoriteStatus(recipeId);
     }
 
@@ -135,6 +149,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     socketService.on('recipe-stats', handleRecipeStats);
 
     return () => {
+      isMounted = false;
       // ✅ LEAVE ROOM when component unmounts
       socketService.leaveRecipeRoom(recipeId);
       socketService.off('favorite-updated', handleFavoriteUpdate);
@@ -144,19 +159,8 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     };
   }, [recipeId, userId]); // Removed favoriteCount and onFavoriteChange from dependencies
 
-  const rollbackOptimisticUpdate = () => {
-    if (previousState) {
-      setIsFavorited(previousState.isFavorited);
-      setFavoriteCount(previousState.count);
-      onFavoriteChange?.(previousState.isFavorited, previousState.count);
-      setPreviousState(null);
-    }
-    setIsOptimistic(false);
-    setIsLoading(false);
-  };
-
   const handleClick = async () => {
-    if (!userId) {
+    if (!userId || !localStorage.getItem('token')) {
       setError('Please login to favorite recipes');
       showToast.warning('Vui lòng đăng nhập để yêu thích công thức');
       setTimeout(() => setError(null), 3000);
@@ -177,10 +181,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     setError(null);
 
     // Save current state for potential rollback
-    setPreviousState({
+    const stateBeforeToggle = {
       isFavorited,
       count: favoriteCount,
-    });
+    };
 
     setIsLoading(true);
     setIsOptimistic(true);
@@ -198,37 +202,31 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     setTimeout(() => setJustToggled(false), 600);
 
     try {
-      // Send to WebSocket
-      socketService.toggleFavorite(recipeId);
-      console.log(`🔄 Toggling favorite for recipe: ${recipeId}, new state: ${newIsFavorited}`);
-      
-      // The optimistic update is already applied above
-      // We'll wait for WebSocket 'favorite-updated' event to confirm
-      // If no response in 5 seconds, we'll keep the optimistic state (don't rollback)
-      const timeoutId = setTimeout(() => {
-        // Just clear the loading state, keep the optimistic update
-        setIsOptimistic(false);
-        setIsLoading(false);
-        console.log('⏱️ Timeout - keeping optimistic update');
-      }, 5000);
+      const response = await favoriteService.toggleFavorite(recipeId, isFavorited);
+      const countResponse = await favoriteService.getFavoriteCount(recipeId);
 
-      // Store timeout ID to clear it when we get the response
-      return () => clearTimeout(timeoutId);
-    } catch (error) {
+      setIsFavorited(response.data.favorited);
+      setFavoriteCount(countResponse.data.count);
+      setIsOptimistic(false);
+      setIsLoading(false);
+      onFavoriteChange?.(response.data.favorited, countResponse.data.count);
+      showToast.success(response.data.favorited ? 'Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
+      console.log(`🔄 Toggling favorite for recipe: ${recipeId}, new state: ${newIsFavorited}`);
+    } catch (error: any) {
       console.error('Error toggling favorite:', error);
-      setError('Failed to update favorite');
-      showToast.error('Không thể cập nhật yêu thích. Vui lòng thử lại');
+      const isUnauthorized = error?.response?.status === 401;
+      setError(isUnauthorized ? 'Please login again' : 'Failed to update favorite');
+      showToast.error(isUnauthorized
+        ? 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại'
+        : 'Không thể cập nhật yêu thích. Vui lòng thử lại'
+      );
       
       // Rollback optimistic update
-      rollbackOptimisticUpdate();
-      
-      // Retry mechanism
-      if (retryCount < 2) {
-        setRetryCount(retryCount + 1);
-        setTimeout(() => handleClick(), 1000 * (retryCount + 1));
-      } else {
-        setRetryCount(0);
-      }
+      setIsFavorited(stateBeforeToggle.isFavorited);
+      setFavoriteCount(stateBeforeToggle.count);
+      onFavoriteChange?.(stateBeforeToggle.isFavorited, stateBeforeToggle.count);
+      setIsOptimistic(false);
+      setIsLoading(false);
     }
   };
 
@@ -285,7 +283,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       {error && (
         <div className="mt-1 text-xs text-red-500 animate-fade-in">
           {error}
-          {retryCount > 0 && ` (retry ${retryCount}/2)`}
         </div>
       )}
     </div>

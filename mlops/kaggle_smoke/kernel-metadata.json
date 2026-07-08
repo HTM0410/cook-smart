@@ -1,0 +1,10 @@
+{
+  "id": "htm0410/food-suggest-ingredient-mlops-smoke-test",
+  "title": "Food Suggest Ingredient MLOps Smoke Test",
+  "code_file": "kaggle_smoke.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true
+}

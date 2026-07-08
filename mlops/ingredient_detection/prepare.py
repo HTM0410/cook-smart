@@ -100,7 +100,13 @@ def validate_split(
     }
 
 
-def prepare(dataset_dir: Path, source_yaml: Path, output_yaml: Path, report_path: Path) -> None:
+def prepare(
+    dataset_dir: Path,
+    source_yaml: Path,
+    output_yaml: Path,
+    report_path: Path,
+    require_test: bool = False,
+) -> None:
     dataset_dir = dataset_dir.resolve()
     config = read_yaml(source_yaml)
     names = parse_names(config)
@@ -111,10 +117,17 @@ def prepare(dataset_dir: Path, source_yaml: Path, output_yaml: Path, report_path
 
     train_path = str(config.get("train", "images/train"))
     val_path = str(config.get("val", "images/val"))
+    test_path = config.get("test")
+    if require_test and not test_path:
+        raise ValueError("Dataset must define a held-out 'test' split")
+
     splits = {
         "train": validate_split(dataset_dir, "train", train_path, len(names)),
         "val": validate_split(dataset_dir, "val", val_path, len(names)),
     }
+    if test_path:
+        splits["test"] = validate_split(dataset_dir, "test", str(test_path), len(names))
+
     prepared = {
         "path": dataset_dir.as_posix(),
         "train": train_path,
@@ -122,6 +135,9 @@ def prepare(dataset_dir: Path, source_yaml: Path, output_yaml: Path, report_path
         "nc": len(names),
         "names": names,
     }
+    if test_path:
+        prepared["test"] = str(test_path)
+
     output_yaml.parent.mkdir(parents=True, exist_ok=True)
     with output_yaml.open("w", encoding="utf-8") as handle:
         yaml.safe_dump(prepared, handle, allow_unicode=True, sort_keys=False)
@@ -132,6 +148,8 @@ def prepare(dataset_dir: Path, source_yaml: Path, output_yaml: Path, report_path
             "dataset_root": dataset_dir.as_posix(),
             "class_count": len(names),
             "class_names": names,
+            "total_images": sum(split["images"] for split in splits.values()),
+            "total_boxes": sum(split["boxes"] for split in splits.values()),
             "splits": splits,
         },
     )
@@ -143,8 +161,13 @@ def main() -> None:
     parser.add_argument("--source-yaml", required=True, type=Path)
     parser.add_argument("--output-yaml", required=True, type=Path)
     parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument(
+        "--require-test",
+        action="store_true",
+        help="Require and validate a held-out test split in data.yaml",
+    )
     args = parser.parse_args()
-    prepare(args.dataset_dir, args.source_yaml, args.output_yaml, args.report)
+    prepare(args.dataset_dir, args.source_yaml, args.output_yaml, args.report, args.require_test)
 
 
 if __name__ == "__main__":

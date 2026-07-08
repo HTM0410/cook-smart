@@ -39,6 +39,7 @@ import categoryRoutes from './routes/categoryRoutes';
 import mealPlanRoutes from './routes/mealPlanRoutes';
 import conflictRoutes from './routes/conflictRoutes';
 import chatRoutes from './routes/chatRoutes';
+import yoloRoutes from './routes/yoloRoutes';
 
 import { generalLimiter } from './middleware/rateLimiter';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
@@ -180,6 +181,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/meal-plans', mealPlanRoutes);
 app.use('/api/conflicts', conflictRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/yolo', yoloRoutes);
 
 // Error Handlers (MUST be after all routes)
 app.use(errorLogger);

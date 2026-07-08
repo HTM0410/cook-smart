@@ -20,14 +20,9 @@ terraform {
   }
 
   backend "s3" {
-    # bucket, key, dynamodb_table filled in via CLI or backend config file
-    #   terraform init -backend-config="bucket=cooksmart-tfstate" \
-    #                  -backend-config="key=prod/terraform.tfstate" \
-    #                  -backend-config="dynamodb_table=cooksmart-tflock" \
-    #                  -backend-config="region=us-east-1"
     bucket         = "cooksmart-tfstate"
-    key            = "prod/terraform.tfstate"
-    region         = "us-east-1"
+    key            = "prod-v2/terraform.tfstate"
+    region         = "ap-southeast-1"
     dynamodb_table = "cooksmart-tflock"
     encrypt        = true
   }

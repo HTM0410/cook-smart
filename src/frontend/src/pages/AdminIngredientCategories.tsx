@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService from '../services/adminService';
-import { 
-  Loader2, 
-  Edit, 
-  Trash2, 
+import { EyebrowTag } from '../components/atoms/EyebrowTag';
+import { splitRevealLeft, cardReveal, staggerGrid, easeFluid } from '../lib/motion';
+import {
+  Loader2,
+  Edit,
+  Trash2,
   Plus,
   Tag,
   Package,
   Clock,
-  Search
+  Search,
+  X,
 } from 'lucide-react';
 
 interface IngredientCategory {
@@ -32,6 +36,7 @@ const AdminIngredientCategories: React.FC = () => {
 
   useEffect(() => {
     fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCategories = async () => {
@@ -39,25 +44,24 @@ const AdminIngredientCategories: React.FC = () => {
       setLoading(true);
       const response = await adminService.getIngredientCategories();
       const categoriesData = response.data || [];
-      
-      // Fetch ingredient count for each category
+
       const categoriesWithCount = await Promise.all(
         categoriesData.map(async (cat: IngredientCategory) => {
           try {
             const ingredientsResponse = await adminService.getIngredients({
               category: cat.id.toString(),
-              limit: 1
+              limit: 1,
             });
             return {
               ...cat,
-              ingredientCount: ingredientsResponse.data.pagination.total
+              ingredientCount: ingredientsResponse.data.pagination.total,
             };
           } catch {
             return { ...cat, ingredientCount: 0 };
           }
         })
       );
-      
+
       setCategories(categoriesWithCount);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -80,7 +84,6 @@ const AdminIngredientCategories: React.FC = () => {
 
   const handleDelete = async (id: number, categoryName: string) => {
     if (!confirm(`Bạn có chắc muốn xóa danh mục "${categoryName}"?`)) return;
-    
     try {
       await adminService.deleteIngredientCategory(id);
       alert('Xóa danh mục thành công!');
@@ -126,7 +129,6 @@ const AdminIngredientCategories: React.FC = () => {
     const now = new Date();
     const then = new Date(date);
     const seconds = Math.floor((now.getTime() - then.getTime()) / 1000);
-    
     if (seconds < 60) return 'vài giây trước';
     if (seconds < 3600) return `${Math.floor(seconds / 60)} phút trước`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)} giờ trước`;
@@ -141,223 +143,227 @@ const AdminIngredientCategories: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6 p-6">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            Quản lý danh mục nguyên liệu
+      <div className="space-y-6 max-w-7xl">
+        <motion.div initial="hidden" animate="visible" variants={splitRevealLeft}>
+          <EyebrowTag>Quản trị</EyebrowTag>
+          <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
+            Danh mục <span className="text-[#ff4f00]">nguyên liệu.</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Tổng số: <span className="font-semibold text-gray-900 dark:text-gray-100">{categories.length}</span> danh mục
+          <p className="mt-4 text-ink-secondary text-pretty">
+            Tổng số: <span className="font-semibold text-ink-primary dark:text-paper-light">{categories.length}</span> danh mục
           </p>
-        </div>
+        </motion.div>
 
-        {/* Search and Add Button */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Tìm kiếm danh mục..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: easeFluid }}
+          className="card-bezel"
+        >
+          <div className="card-bezel-inner p-5">
+            <div className="flex flex-col md:flex-row gap-3">
+              <div className="flex-1 relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" strokeWidth={1.5} />
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm danh mục..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="input-bezel-inner h-11 pl-11 pr-4 text-sm w-full"
+                />
+              </div>
+              <button onClick={handleAdd} className="btn-editorial-primary justify-center">
+                <Plus className="h-4 w-4" strokeWidth={1.5} />
+                Thêm danh mục
+              </button>
             </div>
-            <button
-              onClick={handleAdd}
-              className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center space-x-2 font-medium shadow-sm"
-            >
-              <Plus className="h-5 w-5" />
-              <span>Thêm danh mục</span>
-            </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Categories Table */}
         {loading ? (
-          <div className="flex items-center justify-center h-64 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            <span className="ml-3 text-gray-600 dark:text-gray-400">Đang tải...</span>
+          <div className="card-bezel">
+            <div className="card-bezel-inner p-12 flex items-center justify-center gap-3">
+              <Loader2 className="w-6 h-6 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
+              <span className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang tải...</span>
+            </div>
           </div>
         ) : filteredCategories.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-12 text-center">
-            <Tag className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
-              {searchTerm ? 'Không tìm thấy danh mục nào' : 'Chưa có danh mục nào'}
-            </p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: easeFluid }}
+            className="card-bezel max-w-2xl mx-auto"
+          >
+            <div className="card-bezel-inner p-12 md:p-16 text-center">
+              <Tag className="w-16 h-16 mx-auto text-ink-muted mb-4" strokeWidth={1} />
+              <p className="text-ink-secondary text-lg">
+                {searchTerm ? 'Không tìm thấy danh mục nào' : 'Chưa có danh mục nào'}
+              </p>
+            </div>
+          </motion.div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 border-b dark:border-gray-600">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                      Tên danh mục
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                      Số nguyên liệu
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                      Ngày tạo
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                      Thao tác
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {filteredCategories.map((category) => (
-                    <tr 
-                      key={category.id} 
-                      className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md">
-                            <Tag className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: easeFluid }}
+            className="card-bezel"
+          >
+            <div className="card-bezel-inner p-0 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-paper-light dark:bg-ink-700/40 border-b border-ink-200/40 dark:border-ink-700/40">
+                    <tr>
+                      {['Tên danh mục', 'Số nguyên liệu', 'Ngày tạo', 'Thao tác'].map((h, i) => (
+                        <th
+                          key={h}
+                          className={`px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary ${i === 3 ? 'text-right' : 'text-left'}`}
+                        >
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
+                    {filteredCategories.map((category, idx) => (
+                      <motion.tr
+                        key={category.id}
+                        initial={{ opacity: 0, x: -6 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.04 }}
+                        className="hover:bg-paper-light dark:hover:bg-ink-700/30 transition-colors duration-500 ease-[var(--ease-fluid)]"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[#E5EDF6] dark:bg-[#3D5A80]/15 ring-1 ring-[#3D5A80]/30 flex items-center justify-center flex-shrink-0">
+                              <Tag className="h-4 w-4 text-[#3D5A80]" strokeWidth={1.5} />
+                            </div>
+                            <p className="text-sm font-semibold text-ink-primary dark:text-paper-light">
                               {category.categoryName}
                             </p>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                          <Package className="h-3 w-3 mr-1" />
-                          {category.ingredientCount || 0} nguyên liệu
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                        <div className="flex items-center space-x-1">
-                          <Clock className="h-4 w-4" />
-                          <span>{getTimeAgo(category.createdAt)}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <button
-                            onClick={() => handleEdit(category)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
-                            title="Chỉnh sửa"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(category.id, category.categoryName)}
-                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                            title="Xóa"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="eyebrow-tag text-[10px] bg-[#EDF3EC] text-[#346538]">
+                            {category.ingredientCount || 0} nguyên liệu
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="flex items-center gap-1.5 text-xs uppercase tracking-[0.15em] text-ink-secondary">
+                            <Clock className="h-3.5 w-3.5" strokeWidth={1.5} />
+                            {getTimeAgo(category.createdAt)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => handleEdit(category)}
+                              className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700/40 hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                              title="Chỉnh sửa"
+                            >
+                              <Edit className="h-4 w-4" strokeWidth={1.5} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(category.id, category.categoryName)}
+                              className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#9F2F2D] hover:bg-[#FDEBEC] dark:hover:bg-[#9F2F2D]/15 hover:ring-[#9F2F2D]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                              title="Xóa"
+                            >
+                              <Trash2 className="h-4 w-4" strokeWidth={1.5} />
+                            </button>
+                          </div>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
-        {/* Add Modal */}
-        {showAddModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-md">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                Thêm danh mục mới
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Tên danh mục
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.categoryName}
-                    onChange={(e) => setFormData({ categoryName: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nhập tên danh mục..."
-                    required
-                  />
+        {/* Modals */}
+        <AnimatePresence>
+          {(showAddModal || showEditModal) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-ink-700/40 backdrop-blur-sm p-4"
+              onClick={() => {
+                setShowAddModal(false);
+                setShowEditModal(false);
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.96 }}
+                transition={{ duration: 0.5, ease: easeFluid }}
+                onClick={(e) => e.stopPropagation()}
+                className="card-bezel w-full max-w-md"
+              >
+                <div className="card-bezel-inner p-6">
+                  <div className="flex items-center justify-between mb-5">
+                    <h2 className="text-display text-2xl text-ink-primary dark:text-paper-light">
+                      {showEditModal ? 'Chỉnh sửa danh mục' : 'Thêm danh mục mới'}
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddModal(false);
+                        setShowEditModal(false);
+                        setEditingCategory(null);
+                        setFormData({ categoryName: '' });
+                      }}
+                      className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700/40 hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                    >
+                      <X className="h-4 w-4" strokeWidth={1.5} />
+                    </button>
+                  </div>
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-5">
+                      <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary mb-2 font-semibold">
+                        Tên danh mục
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.categoryName}
+                        onChange={(e) => setFormData({ categoryName: e.target.value })}
+                        className="input-bezel-inner h-11 px-4 text-sm w-full"
+                        placeholder="Nhập tên danh mục..."
+                        required
+                      />
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddModal(false);
+                          setShowEditModal(false);
+                          setEditingCategory(null);
+                          setFormData({ categoryName: '' });
+                        }}
+                        className="flex-1 h-11 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="flex-1 btn-editorial-primary justify-center disabled:opacity-50"
+                      >
+                        {submitting ? 'Đang lưu...' : showEditModal ? 'Cập nhật' : 'Thêm'}
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowAddModal(false);
-                      setFormData({ categoryName: '' });
-                    }}
-                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    Hủy
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50"
-                  >
-                    {submitting ? 'Đang lưu...' : 'Thêm'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* Edit Modal */}
-        {showEditModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-md">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                Chỉnh sửa danh mục
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Tên danh mục
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.categoryName}
-                    onChange={(e) => setFormData({ categoryName: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nhập tên danh mục..."
-                    required
-                  />
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowEditModal(false);
-                      setEditingCategory(null);
-                      setFormData({ categoryName: '' });
-                    }}
-                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    Hủy
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50"
-                  >
-                    {submitting ? 'Đang lưu...' : 'Cập nhật'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </AdminLayout>
   );
 };
 
 export default AdminIngredientCategories;
-

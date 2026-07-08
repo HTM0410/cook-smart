@@ -45,6 +45,11 @@ class RequestCache {
       })
       .catch((error) => {
         this.pendingRequests.delete(key);
+        // Don't cache error responses (4xx/5xx)
+        if (error?.response?.status >= 400) {
+          console.log(`⚠️  Not caching error response: ${key} (status ${error?.response?.status})`);
+          throw error;
+        }
         throw error;
       });
 

@@ -11,12 +11,13 @@ def evaluate(params_path: Path, data_yaml: Path, model_path: Path, output_path: 
 
     params = read_yaml(params_path)
     evaluation = params["evaluate"]
+    split = str(evaluation.get("split", "test"))
     result = YOLO(str(model_path)).val(
         data=str(data_yaml.resolve()),
         imgsz=int(params["train"]["imgsz"]),
         batch=int(evaluation["batch"]),
         device=str(params["train"]["device"]),
-        split="val",
+        split=split,
         plots=True,
         verbose=True,
     )
@@ -24,7 +25,7 @@ def evaluate(params_path: Path, data_yaml: Path, model_path: Path, output_path: 
     map50 = metrics.get("metrics/mAP50(B)", 0.0)
     map5095 = metrics.get("metrics/mAP50-95(B)", 0.0)
     passed = map50 >= float(evaluation["min_map50"]) and map5095 >= float(evaluation["min_map50_95"])
-    write_json(output_path, {**metrics, "quality_gate_passed": passed})
+    write_json(output_path, {**metrics, "evaluation_split": split, "quality_gate_passed": passed})
     if not passed:
         raise SystemExit(
             f"Quality gate failed: mAP50={map50:.4f}, mAP50-95={map5095:.4f}"

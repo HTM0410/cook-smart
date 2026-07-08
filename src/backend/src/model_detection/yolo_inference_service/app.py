@@ -64,7 +64,7 @@ else:
 SCRIPT_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.getenv("YOLO_MODEL_PATH", os.path.join(SCRIPT_DIR, "best59.pt"))
 
-CONF_INFERENCE_FLOOR = float(os.getenv("CONF_INFERENCE_FLOOR", "0.6"))
+CONF_INFERENCE_FLOOR = float(os.getenv("CONF_INFERENCE_FLOOR", "0.25"))
 METRICS_TOKEN = os.getenv("METRICS_TOKEN", "")
 
 HTTP_REQUESTS = Counter(
@@ -101,6 +101,10 @@ EMPTY_RESULTS = Counter(
     ["endpoint"],
 )
 MODEL_LOADED = Gauge("yolo_model_loaded", "Whether the YOLO model is loaded.")
+MODEL_SCHEMA_COMPATIBLE = Gauge(
+    "yolo_model_schema_compatible",
+    "Whether the loaded model class schema matches the application label mapping.",
+)
 MODEL_DETAILS = Info("yolo_model", "Currently loaded YOLO model metadata.")
 
 # Allow loading mapping from external file
@@ -172,6 +176,9 @@ DEFAULT_YOLO_TO_VIETNAMESE: Dict[str, str] = {
     "dau_hu": "Đậu Hũ",
 
     # Trái cây - 6 classes
+    # NOTE: `dua-` (co dau gach ngang cuoi) la nhan goc trong dataset annotation,
+    # trung khop voi model da train va data.yaml. KHONG sua thanh `dua` vi se vo
+    # schema (model class names != mapping keys -> yolo_model_schema_compatible=0).
     "cam": "Cam",
     "chuoi": "Chuối",
     "dua-": "Dứa",
@@ -275,6 +282,12 @@ def map_yolo_label_to_vietnamese(label: str) -> str:
     return label
 
 
+def model_schema_compatible() -> bool:
+    if model is None or not model_class_names:
+        return False
+    return set(model_class_names) == set(YOLO_TO_VIETNAMESE.keys())
+
+
 @app.on_event("startup")
 def load_model() -> None:
     global model, embed_model, embedding_load_error, model_metadata, model_class_names
@@ -317,11 +330,19 @@ def load_model() -> None:
     if model is not None and hasattr(model, "names") and model.names:
         model_class_names = [str(value) for _, value in sorted(model.names.items())]
 
+    schema_compatible = model_schema_compatible()
     MODEL_LOADED.set(1 if model is not None else 0)
+    MODEL_SCHEMA_COMPATIBLE.set(1 if schema_compatible else 0)
     MODEL_DETAILS.info({
         "source": str(model_metadata.get("source", "unknown")),
+        "artifact": str(model_metadata.get("artifact", "none")),
         "artifact_version": str(model_metadata.get("artifact_version", "none")),
+        "artifact_alias": str(os.getenv("WANDB_MODEL_ALIAS", "production") if MLOPS_ENABLED else "local"),
+        "git_revision": str(model_metadata.get("git_revision", "unknown")),
+        "model_sha256": str(model_metadata.get("model_sha256", "unknown")),
+        "wandb_run_id": str(model_metadata.get("wandb_run_id", "none")),
         "class_count": str(len(model_class_names)),
+        "schema_compatible": str(schema_compatible).lower(),
     })
 
     if EMBEDDING_ENABLED and SentenceTransformer is None:
@@ -373,6 +394,7 @@ def health_detailed() -> Dict[str, Any]:
         "model_metadata": model_metadata,
         "class_count": len(model_class_names) if model else 0,
         "class_names": model_class_names if model else [],
+        "schema_compatible": model_schema_compatible(),
         "confidence_threshold": CONF_INFERENCE_FLOOR,
         "embedding_model": EMBEDDING_MODEL,
         "embedding_load_error": embedding_load_error,

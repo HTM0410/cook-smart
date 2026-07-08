@@ -3,10 +3,10 @@ import rateLimit from 'express-rate-limit'
 // Rate limiter cho authentication endpoints
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 phút
-  max: 5, // Tối đa 5 requests per windowMs
+  max: process.env.NODE_ENV === 'development' ? 50 : 5, // Dev: 50, Prod: 5
   message: {
     success: false,
-    message: 'Too many authentication attempts, please try again later.',
+    message: 'Quá nhiều lần thử đăng nhập. Vui lòng đợi 15 phút rồi thử lại.',
     retryAfter: '15 minutes'
   },
   standardHeaders: true,

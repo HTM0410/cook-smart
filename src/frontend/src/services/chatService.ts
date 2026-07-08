@@ -34,7 +34,7 @@ const chatApi = {
    * Create a new chat session
    */
   createSession: async (title?: string): Promise<ChatSession> => {
-    const response = await api.post('/chat/sessions', { title });
+    const response = await api.post('/api/chat/sessions', { title });
     return response.data.data;
   },
 
@@ -42,7 +42,7 @@ const chatApi = {
    * Get all chat sessions
    */
   getSessions: async (): Promise<ChatSession[]> => {
-    const response = await api.get('/chat/sessions');
+    const response = await api.get('/api/chat/sessions');
     return response.data.data;
   },
 
@@ -50,7 +50,7 @@ const chatApi = {
    * Get a specific chat session with messages
    */
   getSession: async (sessionId: number): Promise<ChatSession> => {
-    const response = await api.get(`/chat/sessions/${sessionId}`);
+    const response = await api.get(`/api/chat/sessions/${sessionId}`);
     return response.data.data;
   },
 
@@ -58,14 +58,14 @@ const chatApi = {
    * Delete a chat session
    */
   deleteSession: async (sessionId: number): Promise<void> => {
-    await api.delete(`/chat/sessions/${sessionId}`);
+    await api.delete(`/api/chat/sessions/${sessionId}`);
   },
 
   /**
    * Update session title
    */
   updateSessionTitle: async (sessionId: number, title: string): Promise<void> => {
-    await api.patch(`/chat/sessions/${sessionId}`, { title });
+    await api.patch(`/api/chat/sessions/${sessionId}`, { title });
   },
 
   /**
@@ -76,7 +76,7 @@ const chatApi = {
     userMessage: ChatMessage;
     aiMessage: ChatMessage;
   }> => {
-    const response = await api.post('/chat/message', {
+    const response = await api.post('/api/chat/message', {
       sessionId,
       content,
     });
@@ -91,7 +91,7 @@ const chatApi = {
     if (limit) params.append('limit', limit.toString());
     if (offset) params.append('offset', offset.toString());
     
-    const response = await api.get(`/chat/sessions/${sessionId}/messages?${params}`);
+    const response = await api.get(`/api/chat/sessions/${sessionId}/messages?${params}`);
     return response.data.data;
   },
 
@@ -99,7 +99,7 @@ const chatApi = {
    * Get suggested questions
    */
   getSuggestions: async (): Promise<string[]> => {
-    const response = await api.get('/chat/suggestions');
+    const response = await api.get('/api/chat/suggestions');
     return response.data.data;
   },
 };

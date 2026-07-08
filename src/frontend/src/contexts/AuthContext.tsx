@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import authService from '../services/authService';
+import socketService from '../services/socketService';
 
 type User = {
   id: number;
@@ -8,6 +9,8 @@ type User = {
   fullName: string;
   avatar?: string;
   role: 'user' | 'admin';
+  adminRole?: 'superadmin' | 'moderator';
+  isAdmin?: boolean;
   status: 'active' | 'banned';
 };
 
@@ -22,10 +25,41 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const normalizeAdminUser = (admin: any): User => ({
+  id: admin.id,
+  email: admin.email || `${admin.username || 'admin'}@cooksmart.local`,
+  username: admin.username,
+  fullName: admin.fullName || admin.username || 'Admin',
+  role: 'admin',
+  adminRole: admin.adminRole || admin.role,
+  isAdmin: true,
+  status: 'active',
+  avatar: admin.avatar,
+});
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (token) {
+      socketService.connect(token);
+    } else {
+      socketService.disconnect();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setUser(null);
+      setToken(null);
+      socketService.disconnect();
+    };
+
+    window.addEventListener('auth:unauthorized', handleUnauthorized);
+    return () => window.removeEventListener('auth:unauthorized', handleUnauthorized);
+  }, []);
 
   useEffect(() => {
     const bootstrap = async () => {
@@ -38,10 +72,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
         if (isAdmin) {
           const me = await authService.adminMe();
-          setUser(me.data.admin);
+          setUser(normalizeAdminUser(me.data.admin));
         } else {
           const me = await authService.me();
-          setUser(me.data.user);
+          setUser({
+            ...me.data.user,
+            isAdmin: me.data.user.role === 'admin',
+          });
         }
       } catch (error: any) {
         // Nếu token không hợp lệ hoặc đã hết hạn, xóa token và không log error
@@ -72,7 +109,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setToken(t);
           localStorage.setItem('token', t);
           localStorage.setItem('isAdmin', 'true');
-          setUser(res.data.admin || res.data.user);
+          setUser(normalizeAdminUser(res.data.admin || res.data.user));
           return;
         } catch (adminError) {
           // If admin login fails, throw error
@@ -84,8 +121,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const t = res.data.token as string;
         setToken(t);
         localStorage.setItem('token', t);
-        localStorage.removeItem('isAdmin');
-        setUser(res.data.user);
+        if (res.data.user.role === 'admin') {
+          localStorage.setItem('isAdmin', 'true');
+        } else {
+          localStorage.removeItem('isAdmin');
+        }
+        setUser({
+          ...res.data.user,
+          isAdmin: res.data.user.role === 'admin',
+        });
       }
     } finally {
       setLoading(false);

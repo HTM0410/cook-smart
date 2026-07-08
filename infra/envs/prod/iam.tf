@@ -29,7 +29,8 @@ resource "aws_iam_policy" "task_secrets_access" {
   tags   = var.tags
 }
 
+# Attach policy vao task execution role
 resource "aws_iam_role_policy_attachment" "task_secrets_access" {
-  role       = module.ecs_blue_green.task_execution_role_arn
+  role       = basename(module.ecs.task_execution_role_arn)
   policy_arn = aws_iam_policy.task_secrets_access.arn
 }

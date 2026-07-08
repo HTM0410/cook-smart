@@ -19,6 +19,15 @@ groups:
           summary: Ingredient detection service is unavailable
           description: The YOLO service is unreachable or has no loaded model.
 
+      - alert: IngredientYoloSchemaMismatch
+        expr: yolo_model_schema_compatible == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: YOLO model schema does not match the application mapping
+          description: The loaded model class list differs from the application label mapping. Roll back the model alias or deploy the matching mapping.
+
       - alert: BackendHighErrorRate
         expr: |
           sum(rate(cooksmart_http_requests_total{status_code=~"5.."}[5m]))
@@ -54,3 +63,56 @@ groups:
         annotations:
           summary: More than 30% of inference requests return no ingredients
           description: Check image quality, confidence threshold, and possible data drift.
+
+      - alert: IngredientDriftData
+        expr: drift_data_p_value_min < 0.01
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Data drift detected (PCA KS-test min_p < 0.01)
+          description: |
+            Phan phoi embedding input da thay doi dang ke so voi baseline.
+            Xem xet retrain hoac kiem tra pipeline ingest.
+
+      - alert: IngredientDriftPrediction
+        expr: drift_prediction_jsd > 0.1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Prediction drift detected (JSD > 0.1)
+          description: |
+            Ty le class detect khac baseline (Jensen-Shannon > 0.1).
+            Can xem xet retrain hoac can chinh confidence threshold.
+
+      - alert: IngredientDriftConcept
+        expr: drift_concept_p_value < 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Concept drift detected (KS-test p < 0.05)
+          description: |
+            Confidence histogram cua live vs baseline khac dang ke.
+            Model co the dang over/under-fit voi data hien tai.
+
+      - alert: IngredientDriftAlertHigh
+        expr: drift_alert >= 2
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: Toi thieu 2 trong 3 kenh drift dang canh bao
+          description: |
+            Ket hop data + concept hoac prediction drift.
+            Khuyen nghi rollback W&B alias va retrain.
+
+      - alert: CooksmartDriftDown
+        expr: up{job="cooksmart-drift"} == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Drift service khong the scrape
+          description: Prometheus khong scrape duoc /metrics tu cooksmart-drift.

@@ -7,7 +7,7 @@ import {
   getFavoriteCount,
   validateRecipeId
 } from '../controllers/favoriteController';
-import { authenticateUser } from '../middleware/auth';
+import { authenticateFavoriteParticipant } from '../middleware/auth';
 import { generalLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
@@ -82,7 +82,7 @@ router.use(generalLimiter);
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', authenticateUser, getUserFavorites);
+router.get('/', authenticateFavoriteParticipant, getUserFavorites);
 
 /**
  * @swagger
@@ -196,7 +196,7 @@ router.get('/count/:recipeId', validateRecipeId, getFavoriteCount);
  *       404:
  *         $ref: '#/components/responses/NotFoundError'
  */
-router.post('/:recipeId', authenticateUser, validateRecipeId, addFavorite);
+router.post('/:recipeId', authenticateFavoriteParticipant, validateRecipeId, addFavorite);
 
 /**
  * @swagger
@@ -237,7 +237,7 @@ router.post('/:recipeId', authenticateUser, validateRecipeId, addFavorite);
  *       404:
  *         $ref: '#/components/responses/NotFoundError'
  */
-router.delete('/:recipeId', authenticateUser, validateRecipeId, removeFavorite);
+router.delete('/:recipeId', authenticateFavoriteParticipant, validateRecipeId, removeFavorite);
 
 export default router;
 

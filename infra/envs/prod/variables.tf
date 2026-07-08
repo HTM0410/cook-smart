@@ -6,13 +6,13 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-southeast-1"
 }
 
 variable "name" {
   description = "Ten prefix cho toan bo resource"
   type        = string
-  default     = "cooksmart-prod"
+  default     = "cooksmart-prod-v2"
 }
 
 variable "vpc_id" {

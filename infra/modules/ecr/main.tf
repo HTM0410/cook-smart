@@ -85,42 +85,43 @@ resource "aws_ecr_lifecycle_policy" "this" {
 
 # -----------------------------------------------------------------------------
 # Repository policy: cho phep CodeBuild push image
+# DISABLED - chua co CodeBuild account id
 # -----------------------------------------------------------------------------
 
-data "aws_caller_identity" "current" {}
+# data "aws_caller_identity" "current" {}
 
-data "aws_iam_policy_document" "codebuild_push" {
-  for_each = var.repositories
+# data "aws_iam_policy_document" "codebuild_push" {
+#   for_each = var.repositories
 
-  statement {
-    sid    = "AllowCodeBuildToPushImage"
-    effect = "Allow"
+#   statement {
+#     sid    = "AllowCodeBuildToPushImage"
+#     effect = "Allow"
 
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-    }
+#     principals {
+#       type        = "AWS"
+#       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+#     }
 
-    actions = [
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:PutImage",
-      "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart",
-      "ecr:CompleteLayerUpload",
-    ]
+#     actions = [
+#       "ecr:GetDownloadUrlForLayer",
+#       "ecr:BatchGetImage",
+#       "ecr:BatchCheckLayerAvailability",
+#       "ecr:PutImage",
+#       "ecr:InitiateLayerUpload",
+#       "ecr:UploadLayerPart",
+#       "ecr:CompleteLayerUpload",
+#     ]
 
-    resources = [aws_ecr_repository.this[each.key].arn]
-  }
-}
+#     resources = [aws_ecr_repository.this[each.key].arn]
+#   }
+# }
 
-resource "aws_ecr_repository_policy" "this" {
-  for_each = var.repositories
+# resource "aws_ecr_repository_policy" "this" {
+#   for_each = var.repositories
 
-  repository = aws_ecr_repository.this[each.key].name
-  policy     = data.aws_iam_policy_document.codebuild_push[each.key].json
-}
+#   repository = aws_ecr_repository.this[each.key].name
+#   policy     = data.aws_iam_policy_document.codebuild_push[each.key].json
+# }
 
 # -----------------------------------------------------------------------------
 # Outputs

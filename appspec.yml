@@ -1,0 +1,24 @@
+version: 0.2
+# =============================================================================
+# AppSpec cho CodeDeploy Blue/Green deploy ECS service
+# Chi deploy container "yolo"; backend nen deploy bang ECS service rieng
+# hoac build image backend len green task set cua rieng service backend.
+# =============================================================================
+
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          - ContainerName: yolo
+            ContainerPort: 8000
+            TargetGroupInfo:
+              - Name: <BLUE_TARGET_GROUP_NAME>
+              - Name: <GREEN_TARGET_GROUP_NAME>
+
+Hooks:
+  - BeforeInstall: "../infra/scripts/before_install.sh"
+  - AfterInstall: "../infra/scripts/after_install.sh"
+  - ApplicationStart: "../infra/scripts/application_start.sh"
+  - ValidateService: "../infra/scripts/validate_service.sh"

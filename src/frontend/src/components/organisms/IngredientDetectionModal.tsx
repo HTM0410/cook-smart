@@ -303,7 +303,7 @@ const IngredientDetectionModal: React.FC<IngredientDetectionModalProps> = ({
                 onDragLeave={handleDragLeave}
                 onClick={() => {
                   console.log('[Upload] Empty area clicked');
-                  if (fileInputRef.current && !previewUrl) {
+                  if (fileInputRef.current) {
                     fileInputRef.current.value = '';
                     fileInputRef.current.click();
                   }
@@ -329,13 +329,7 @@ const IngredientDetectionModal: React.FC<IngredientDetectionModalProps> = ({
                 />
                 
                 {previewUrl ? (
-                  <div className="space-y-4 cursor-pointer" onClick={() => {
-                    console.log('[Upload] Preview area clicked');
-                    if (fileInputRef.current) {
-                      fileInputRef.current.value = '';
-                      fileInputRef.current.click();
-                    }
-                  }}>
+                  <div className="space-y-4">
                     <img
                       src={previewUrl}
                       alt="Preview"

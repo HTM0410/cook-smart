@@ -9,12 +9,53 @@ declare global {
     interface Request {
       user?: any
       admin?: any
+      userId?: number
+      adminId?: number
     }
   }
 }
 
 // JWT Secret từ environment
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key'
+
+export const getOrCreateAdminChatUser = async (admin: Admin): Promise<User> => {
+  const email = `admin-${admin.id}@cooksmart.local.com`
+  const existingUser = await User.findOne({ where: { email } })
+
+  if (existingUser) {
+    return existingUser
+  }
+
+  const maxUserId = await User.max('id') as number | null
+
+  return User.create({
+    id: (maxUserId || 0) + 1,
+    email,
+    fullName: admin.username,
+    password: `AdminChat${admin.id}123`,
+    role: 'user',
+    status: 'active',
+  })
+}
+
+const attachAdminAsUser = async (req: Request, admin: Admin): Promise<void> => {
+  const adminUser = await getOrCreateAdminChatUser(admin)
+  req.admin = admin
+  req.adminId = admin.id
+  req.user = adminUser
+  req.userId = adminUser.id
+}
+
+const attachUserAdmin = (req: Request, user: User): void => {
+  req.admin = {
+    id: user.id,
+    username: user.email,
+    role: 'moderator',
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  }
+  req.adminId = user.id
+}
 
 // Middleware xác thực JWT cho User
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -34,14 +75,39 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       const demoUser = await User.findOne({ where: { email: 'demo@example.com' } })
       if (demoUser) {
         req.user = demoUser
+        req.userId = demoUser.id
         next()
         return
       }
     }
 
     const decoded = jwt.verify(token, JWT_SECRET) as any
+
+    if (decoded.adminId) {
+      const admin = await Admin.findByPk(decoded.adminId)
+      if (!admin) {
+        res.status(401).json({
+          success: false,
+          message: 'Invalid token. Admin not found.'
+        })
+        return
+      }
+
+      await attachAdminAsUser(req, admin)
+      next()
+      return
+    }
+
+    if (!decoded.userId) {
+      res.status(401).json({
+        success: false,
+        message: 'Invalid token.'
+      })
+      return
+    }
+
     const user = await User.findByPk(decoded.userId)
-    
+
     if (!user) {
       res.status(401).json({ 
         success: false, 
@@ -59,6 +125,10 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
     }
 
     req.user = user
+    req.userId = user.id
+    if (user.role === 'admin') {
+      attachUserAdmin(req, user)
+    }
     next()
   } catch (error) {
     res.status(401).json({ 
@@ -86,24 +156,58 @@ export const authenticateAdmin = async (req: Request, res: Response, next: NextF
       const demoUser = await User.findOne({ where: { email: 'demo@example.com' } })
       if (demoUser) {
         req.user = demoUser
+        req.userId = demoUser.id
         next()
         return
       }
     }
 
     const decoded = jwt.verify(token, JWT_SECRET) as any
-    const admin = await Admin.findByPk(decoded.adminId)
-    
-    if (!admin) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Invalid token. Admin not found.' 
-      })
+
+    if (decoded.adminId) {
+      const admin = await Admin.findByPk(decoded.adminId)
+      if (!admin) {
+        res.status(401).json({
+          success: false,
+          message: 'Invalid token. Admin not found.'
+        })
+        return
+      }
+
+      await attachAdminAsUser(req, admin)
+      next()
       return
     }
 
-    req.admin = admin
-    next()
+    if (decoded.userId) {
+      const user = await User.findByPk(decoded.userId)
+      if (!user || user.status === 'banned') {
+        res.status(401).json({
+          success: false,
+          message: 'Invalid token. User not found.'
+        })
+        return
+      }
+
+      if (user.role !== 'admin') {
+        res.status(403).json({
+          success: false,
+          message: 'Admin access required.'
+        })
+        return
+      }
+
+      req.user = user
+      req.userId = user.id
+      attachUserAdmin(req, user)
+      next()
+      return
+    }
+
+    res.status(401).json({
+      success: false,
+      message: 'Invalid token.'
+    })
   } catch (error) {
     res.status(401).json({ 
       success: false, 
@@ -111,6 +215,76 @@ export const authenticateAdmin = async (req: Request, res: Response, next: NextF
     })
   }
 }
+
+export const authenticateUserOrAdmin = authenticateUser
+
+export const authenticateAdminOrUserAdmin = authenticateAdmin
+
+// Middleware xác thực cho chatbot: user dùng trực tiếp, admin được map sang user nội bộ để lưu chat_sessions.user_id
+export const authenticateChatParticipant = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const token = req.header('Authorization')?.replace('Bearer ', '')
+    
+    if (!token) {
+      res.status(401).json({ 
+        success: false, 
+        message: 'Access denied. No token provided.' 
+      })
+      return
+    }
+
+    if (token === 'demo_user_token_123') {
+      const demoUser = await User.findOne({ where: { email: 'demo@example.com' } })
+      if (demoUser) {
+        req.user = demoUser
+        req.userId = demoUser.id
+        next()
+        return
+      }
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as any
+
+    if (decoded.userId) {
+      const user = await User.findByPk(decoded.userId)
+      if (!user || user.status === 'banned') {
+        res.status(401).json({ success: false, message: 'Invalid token. User not found.' })
+        return
+      }
+
+      req.user = user
+      req.userId = user.id
+      if (user.role === 'admin') {
+        attachUserAdmin(req, user)
+      }
+      next()
+      return
+    }
+
+    if (decoded.adminId) {
+      const admin = await Admin.findByPk(decoded.adminId)
+      if (!admin) {
+        res.status(401).json({ success: false, message: 'Invalid token. Admin not found.' })
+        return
+      }
+
+      await attachAdminAsUser(req, admin)
+      next()
+      return
+    }
+
+    res.status(401).json({ success: false, message: 'Invalid token.' })
+  } catch (error) {
+    res.status(401).json({ 
+      success: false, 
+      message: 'Invalid token.' 
+    })
+  }
+}
+
+// Middleware xác thực cho tính năng yêu thích.
+// User dùng trực tiếp, admin được map sang user nội bộ để vẫn lưu được user_favorites.user_id.
+export const authenticateFavoriteParticipant = authenticateChatParticipant
 
 // Middleware kiểm tra quyền admin
 export const requireAdmin = (req: Request, res: Response, next: NextFunction): void => {

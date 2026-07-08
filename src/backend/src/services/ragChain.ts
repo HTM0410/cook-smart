@@ -4,11 +4,14 @@
  */
 
 import { createRetriever } from './retriever';
-import { getChatModel } from './geminiService';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
-import { RunnableSequence, RunnableMap } from '@langchain/core/runnables';
+import { RunnableSequence } from '@langchain/core/runnables';
 import { Document } from '@langchain/core/documents';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
+
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEYS?.split(',')[0] || '';
 
 /**
  * System prompt for the recipe chatbot
@@ -29,6 +32,28 @@ Khi đề cập đến công thức, hãy bao gồm:
 - Thành phần chính
 - Thời gian nấu ước tính
 - Link đến công thức đầy đủ nếu có thể`;
+
+/**
+ * Get Chat Model instance for LangChain
+ */
+function getChatModel(): ChatGoogleGenerativeAI {
+  if (!GEMINI_API_KEY) {
+    throw new Error('GEMINI_API_KEY chưa được cấu hình');
+  }
+  
+  return new ChatGoogleGenerativeAI({
+    apiKey: GEMINI_API_KEY,
+    model: 'gemini-2.0-flash',
+    temperature: 0.7,
+    maxOutputTokens: 2048,
+    safetySettings: [
+      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    ],
+  });
+}
 
 /**
  * Format documents for context
@@ -55,7 +80,6 @@ Câu hỏi: {question}
 
 Hãy trả lời bằng tiếng Việt, và chỉ sử dụng thông tin từ ngữ cảnh được cung cấp.`);
   
-  // Create RAG chain using proper RunnableSequence
   const chain = RunnableSequence.from([
     {
       context: async (input: { question: string }) => {
@@ -93,7 +117,6 @@ Câu hỏi hiện tại: {question}
 
 Hãy trả lời dựa trên ngữ cảnh và lịch sử hội thoại.`);
   
-  // Create conversational RAG chain
   const chain = RunnableSequence.from([
     {
       context: async (input: { question: string; chat_history?: string }) => {
@@ -123,7 +146,6 @@ export async function executeRAGQuery(
   try {
     const answer = await chain.invoke({ question });
     
-    // Get documents for sources
     const retriever = createRetriever({ k: 5 });
     const docs = await retriever.getRelevantDocuments(question);
     

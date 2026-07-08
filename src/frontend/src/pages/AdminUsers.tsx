@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService from '../services/adminService';
-import { Loader2, Lock, Unlock, Trash2, User as UserIcon } from 'lucide-react';
+import { EyebrowTag } from '../components/atoms/EyebrowTag';
+import { splitRevealLeft, splitRevealRight, cardReveal, easeFluid } from '../lib/motion';
+import { Loader2, Lock, Unlock, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface User {
   id: number;
@@ -25,6 +28,7 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, statusFilter, roleFilter]);
 
   const fetchUsers = async () => {
@@ -54,7 +58,7 @@ const AdminUsers: React.FC = () => {
   const handleStatusChange = async (userId: number, newStatus: 'active' | 'banned', userName: string) => {
     const action = newStatus === 'banned' ? 'khóa' : 'mở khóa';
     if (!confirm(`Bạn có chắc muốn ${action} tài khoản "${userName}"?`)) return;
-    
+
     try {
       await adminService.updateUserStatus(userId, newStatus);
       fetchUsers();
@@ -64,19 +68,8 @@ const AdminUsers: React.FC = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    return status === 'active'
-      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-      : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
-  };
-
-  const getStatusText = (status: string) => {
-    return status === 'active' ? 'Hoạt động' : 'Bị khóa';
-  };
-
-  const getRoleText = (role: string) => {
-    return role === 'admin' ? 'Quản trị viên' : 'Người dùng';
-  };
+  const getStatusText = (status: string) => status === 'active' ? 'Hoạt động' : 'Bị khóa';
+  const getRoleText = (role: string) => role === 'admin' ? 'Quản trị viên' : 'Người dùng';
 
   const getTimeAgo = (date: string) => {
     const now = new Date();
@@ -90,184 +83,215 @@ const AdminUsers: React.FC = () => {
     return `${Math.floor(days / 365)} năm trước`;
   };
 
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Quản lý người dùng</h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Tổng số: {total} người dùng
-          </p>
+      <div className="space-y-6 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+          <motion.div initial="hidden" animate="visible" variants={splitRevealLeft} className="lg:col-span-7">
+            <EyebrowTag>Quản trị</EyebrowTag>
+            <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
+              Người dùng.
+            </h1>
+            <p className="mt-4 text-ink-secondary text-pretty">
+              Tổng số: <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> người dùng
+            </p>
+          </motion.div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <input
-              type="text"
-              placeholder="Tìm kiếm tên hoặc email..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Tất cả trạng thái</option>
-              <option value="active">Hoạt động</option>
-              <option value="banned">Bị khóa</option>
-            </select>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Tất cả vai trò</option>
-              <option value="user">Người dùng</option>
-              <option value="admin">Quản trị viên</option>
-            </select>
-            <button
-              onClick={handleSearch}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              🔍 Tìm kiếm
-            </button>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: easeFluid }}
+          className="card-bezel"
+        >
+          <div className="card-bezel-inner p-5">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="relative md:col-span-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" strokeWidth={1.5} />
+                <input
+                  type="text"
+                  placeholder="Tìm tên hoặc email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="input-bezel-inner h-11 pl-11 pr-4 text-sm w-full"
+                />
+              </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
+              >
+                <option value="">Tất cả trạng thái</option>
+                <option value="active">Hoạt động</option>
+                <option value="banned">Bị khóa</option>
+              </select>
+              <select
+                value={roleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
+                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
+              >
+                <option value="">Tất cả vai trò</option>
+                <option value="user">Người dùng</option>
+                <option value="admin">Quản trị viên</option>
+              </select>
+              <button onClick={handleSearch} className="btn-editorial-primary w-full justify-center">
+                <Search className="w-4 h-4" strokeWidth={1.5} />
+                Tìm kiếm
+              </button>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Users Table */}
         {loading ? (
-          <div className="flex items-center justify-center h-64 bg-white dark:bg-gray-800 rounded-xl">
-            <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
-            <span className="ml-3 text-gray-600 dark:text-gray-400">Đang tải...</span>
+          <div className="card-bezel">
+            <div className="card-bezel-inner p-12 flex items-center justify-center gap-3">
+              <Loader2 className="w-6 h-6 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
+              <span className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang tải...</span>
+            </div>
           </div>
         ) : users.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-12 text-center">
-            <p className="text-gray-500">Không tìm thấy người dùng nào</p>
+          <div className="card-bezel">
+            <div className="card-bezel-inner p-12 text-center">
+              <p className="text-ink-secondary">Không tìm thấy người dùng nào</p>
+            </div>
           </div>
         ) : (
           <>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Người dùng
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Email
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Vai trò
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Trạng thái
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Tham gia
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                        Thao tác
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                              <span className="text-blue-600 dark:text-blue-400 font-medium">
-                                {user.fullName?.charAt(0) || 'U'}
-                              </span>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: easeFluid }}
+              className="card-bezel"
+            >
+              <div className="card-bezel-inner p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-paper-light dark:bg-ink-700/40 border-b border-ink-200/40 dark:border-ink-700/40">
+                      <tr>
+                        {['Người dùng', 'Email', 'Vai trò', 'Trạng thái', 'Tham gia', 'Thao tác'].map((h) => (
+                          <th key={h} className="px-6 py-3.5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
+                      {users.map((user, idx) => (
+                        <motion.tr
+                          key={user.id}
+                          initial={{ opacity: 0, x: -6 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.04 }}
+                          className="hover:bg-paper-light dark:hover:bg-ink-700/30 transition-colors duration-500 ease-[var(--ease-fluid)]"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center flex-shrink-0 ring-1 ring-ink-700 dark:ring-paper-light">
+                                <span className="text-paper-light dark:text-ink-700 font-semibold text-sm">
+                                  {user.fullName?.charAt(0) || 'U'}
+                                </span>
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate">
+                                  {user.fullName}
+                                </p>
+                                <p className="text-[10px] uppercase tracking-[0.15em] text-ink-muted mt-0.5">
+                                  ID: {user.id}
+                                </p>
+                              </div>
                             </div>
-                            <div className="ml-3">
-                              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{user.fullName}</p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">ID: {user.id}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                          {user.email}
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            user.role === 'admin'
-                              ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
-                              : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-                          }`}>
-                            {getRoleText(user.role)}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.status)}`}>
-                            {getStatusText(user.status)}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                          {getTimeAgo(user.createdAt)}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex gap-2">
+                          </td>
+                          <td className="px-6 py-4 text-sm text-ink-secondary truncate max-w-[200px]">
+                            {user.email}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`eyebrow-tag text-[10px] ${
+                              user.role === 'admin'
+                                ? 'bg-[#E5EDF6] text-[#3D5A80]'
+                                : 'bg-paper-light text-ink-secondary'
+                            }`}>
+                              {getRoleText(user.role)}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`eyebrow-tag text-[10px] ${
+                              user.status === 'active'
+                                ? 'bg-[#EDF3EC] text-[#346538]'
+                                : 'bg-[#FDEBEC] text-[#9F2F2D]'
+                            }`}>
+                              {getStatusText(user.status)}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-ink-secondary">
+                            {getTimeAgo(user.createdAt)}
+                          </td>
+                          <td className="px-6 py-4">
                             {user.status === 'active' ? (
                               <button
                                 onClick={() => handleStatusChange(user.id, 'banned', user.fullName)}
-                                className="p-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
-                                title="Khóa tài khoản"
                                 disabled={user.role === 'admin'}
+                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#9F2F2D] hover:bg-[#FDEBEC] dark:hover:bg-[#9F2F2D]/15 hover:ring-[#9F2F2D]/30 transition-all duration-500 ease-[var(--ease-fluid)] disabled:opacity-30 disabled:cursor-not-allowed"
+                                title="Khóa tài khoản"
                               >
-                                <Lock className="w-4 h-4" />
+                                <Lock className="w-4 h-4" strokeWidth={1.5} />
                               </button>
                             ) : (
                               <button
                                 onClick={() => handleStatusChange(user.id, 'active', user.fullName)}
-                                className="p-1.5 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 rounded"
+                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#346538] hover:bg-[#EDF3EC] dark:hover:bg-[#346538]/15 hover:ring-[#346538]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
                                 title="Mở khóa tài khoản"
                               >
-                                <Unlock className="w-4 h-4" />
+                                <Unlock className="w-4 h-4" strokeWidth={1.5} />
                               </button>
                             )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between bg-white dark:bg-gray-800 px-6 py-4 rounded-xl shadow-sm">
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                Hiển thị <span className="font-medium">{(page - 1) * limit + 1}</span> đến{' '}
-                <span className="font-medium">{Math.min(page * limit, total)}</span> trong tổng số{' '}
-                <span className="font-medium">{total}</span> kết quả
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Trước
-                </button>
-                <span className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
-                  Trang {page}
-                </span>
-                <button
-                  onClick={() => setPage(p => p + 1)}
-                  disabled={page * limit >= total}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Sau
-                </button>
+            <motion.div
+              variants={cardReveal}
+              initial="hidden"
+              animate="visible"
+              className="card-bezel"
+            >
+              <div className="card-bezel-inner p-4 flex items-center justify-between flex-wrap gap-3">
+                <p className="text-sm text-ink-secondary">
+                  Hiển thị <span className="font-semibold text-ink-primary dark:text-paper-light">{(page - 1) * limit + 1}</span> đến{' '}
+                  <span className="font-semibold text-ink-primary dark:text-paper-light">{Math.min(page * limit, total)}</span> trong tổng số{' '}
+                  <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> kết quả
+                </p>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
+                  >
+                    <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
+                    Trước
+                  </button>
+                  <span className="px-4 text-xs uppercase tracking-[0.2em] text-ink-secondary">
+                    Trang {page} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setPage(p => p + 1)}
+                    disabled={page * limit >= total}
+                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
+                  >
+                    Sau <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
-            </div>
+            </motion.div>
           </>
         )}
       </div>

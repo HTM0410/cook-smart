@@ -32,7 +32,9 @@ docker compose --env-file monitoring/.env `
 ```
 
 Grafana automatically provisions the Prometheus datasource and the
-`Food Suggest MLOps` dashboard.
+`Food Suggest MLOps` dashboard. The dashboard includes service health,
+latency, detection confidence, empty detections, model schema compatibility,
+and the loaded model version labels from `yolo_model_info`.
 
 ## Verify
 
@@ -73,9 +75,21 @@ Configured alerts:
 
 - Node backend unavailable for 2 minutes.
 - YOLO service unavailable or model not loaded.
+- YOLO model class schema does not match the application label mapping.
 - Backend 5xx rate above 5% for 5 minutes.
 - YOLO p95 inference latency above 3 seconds.
 - Empty detection rate above 30% for 15 minutes.
+
+## Model Version Visibility
+
+When `MLOPS_ENABLED=true`, the YOLO service loads the configured W&B model
+artifact alias, defaulting to `production`. `/health/detailed` and
+`/metrics` expose the active version:
+
+- `model_metadata.artifact`, `artifact_version`, `git_revision`,
+  `model_sha256`, and `wandb_run_id` in `/health/detailed`.
+- `yolo_model_info` labels for Prometheus/Grafana.
+- `yolo_model_schema_compatible` as a Prometheus gauge and alert signal.
 
 ## Retention
 

@@ -1,10 +1,13 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Header from '../organisms/Header'
 import Footer from '../organisms/Footer'
 import BottomNav from '../organisms/BottomNav'
 import ChatBot from '../organisms/ChatBot'
+import { NoiseOverlay } from '../atoms/NoiseOverlay'
 import { MessageSquare } from 'lucide-react'
+import { easeFluid } from '../../lib/motion'
 
 const Layout: React.FC = () => {
   const location = useLocation()
@@ -13,39 +16,59 @@ const Layout: React.FC = () => {
 
   useEffect(() => {
     setIsTransitioning(true)
-    const timer = setTimeout(() => setIsTransitioning(false), 300)
+    const timer = setTimeout(() => setIsTransitioning(false), 280)
     return () => clearTimeout(timer)
   }, [location.pathname])
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7] dark:bg-[#0E0C09]">
+      <NoiseOverlay />
       <Header />
-      <main
-        className={`flex-1 transition-opacity duration-300 ${
-          isTransitioning ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
-        <Outlet />
+      <main className="flex-1 relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: isTransitioning ? 0 : 1, y: isTransitioning ? 8 : 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.6, ease: easeFluid }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
       <BottomNav />
 
       {/* Chat FAB - only show when not on chat page */}
       {!chatOpen && location.pathname !== '/chat' && (
-        <button
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, ease: easeFluid, delay: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-amber-500 text-white shadow-xl hover:shadow-2xl hover:shadow-primary-500/30 flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 group"
+          className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full bg-[#ff4f00] text-white shadow-ambient flex items-center justify-center group"
           aria-label="Mở trợ lý chat"
         >
-          <MessageSquare className="w-6 h-6 group-hover:animate-bounce-gentle" />
-        </button>
+          <MessageSquare className="w-6 h-6" strokeWidth={1.5} />
+        </motion.button>
       )}
 
-      {chatOpen && location.pathname !== '/chat' && (
-        <div className="fixed bottom-24 right-5 z-50 w-96 h-[600px] max-w-[calc(100vw-2rem)]">
-          <ChatBot isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-        </div>
-      )}
+      <AnimatePresence>
+        {chatOpen && location.pathname !== '/chat' && (
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ duration: 0.7, ease: easeFluid }}
+            className="fixed bottom-24 right-5 z-50 w-[min(384px,calc(100vw-2.5rem))] h-[min(600px,calc(100vh-7rem))]"
+          >
+            <ChatBot isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

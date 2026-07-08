@@ -2,17 +2,36 @@ stages:
   prepare:
     cmd: >-
       python -m mlops.ingredient_detection.prepare
-      --dataset-dir mlops/data/yolo_dataset/V59-2
-      --source-yaml mlops/data/yolo_dataset/V59-2/data.yaml
+      --dataset-dir mlops/data/yolo_dataset/V59_fullset
+      --source-yaml mlops/data/yolo_dataset/V59_fullset/data.yaml
       --output-yaml mlops/artifacts/prepared/data.yaml
       --report mlops/artifacts/reports/dataset.json
+      --require-test
     deps:
       - mlops/ingredient_detection/prepare.py
       - mlops/ingredient_detection/common.py
-      - mlops/data/yolo_dataset/V59-2
+      - mlops/data/yolo_dataset/V59_fullset
     outs:
       - mlops/artifacts/prepared/data.yaml
       - mlops/artifacts/reports/dataset.json
+
+  quality:
+    cmd: >-
+      python -m mlops.ingredient_detection.quality
+      --params params.yaml
+      --prepared-yaml mlops/artifacts/prepared/data.yaml
+      --dataset-report mlops/artifacts/reports/dataset.json
+      --output mlops/artifacts/reports/data_quality.json
+    deps:
+      - mlops/ingredient_detection/quality.py
+      - mlops/ingredient_detection/common.py
+      - mlops/artifacts/prepared/data.yaml
+      - mlops/artifacts/reports/dataset.json
+    params:
+      - data_quality
+    metrics:
+      - mlops/artifacts/reports/data_quality.json:
+          cache: false
 
   train:
     cmd: >-
@@ -26,6 +45,7 @@ stages:
       - mlops/ingredient_detection/train.py
       - mlops/ingredient_detection/common.py
       - mlops/artifacts/prepared/data.yaml
+      - mlops/artifacts/reports/data_quality.json
     params:
       - train
     outs:

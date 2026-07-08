@@ -174,8 +174,10 @@ resource "aws_lb_listener" "prod_https" {
   tags = var.tags
 }
 
-# HTTP redirect to HTTPS
+# HTTP redirect to HTTPS (chi khi co ACM cert)
 resource "aws_lb_listener" "http_redirect" {
+  count = var.acm_arn != null ? 1 : 0
+
   load_balancer_arn = aws_lb.this.arn
   port              = 80
   protocol          = "HTTP"
@@ -188,20 +190,6 @@ resource "aws_lb_listener" "http_redirect" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
-  }
-
-  tags = var.tags
-}
-
-# Test listener (port 9000 -> green) cho CodeDeploy test traffic
-resource "aws_lb_listener" "test" {
-  load_balancer_arn = aws_lb.this.arn
-  port              = 9000
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.green.arn
   }
 
   tags = var.tags
@@ -264,8 +252,4 @@ output "prod_listener_arn" {
     try(aws_lb_listener.prod_https[0].arn, null),
     try(aws_lb_listener.prod_http_fallback[0].arn, null)
   )
-}
-
-output "test_listener_arn" {
-  value = aws_lb_listener.test.arn
 }

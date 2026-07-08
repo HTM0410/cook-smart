@@ -15,7 +15,15 @@ import {
 } from '../controllers/adminController';
 import { authenticateAdmin, requireAdmin } from '../middleware/auth';
 import { generalLimiter } from '../middleware/rateLimiter';
-import { getMlopsOverview } from '../controllers/mlopsAdminController';
+import {
+  getMlopsOverview,
+  getFeedbackQueue,
+  decideFeedback,
+  exportFeedback,
+  syncFeedback,
+  releaseToPipeline,
+  getFeedbackStats,
+} from '../controllers/mlopsAdminController';
 
 const router = Router();
 
@@ -58,6 +66,91 @@ router.get('/dashboard/stats', getDashboardStats);
  *         description: MLOps overview retrieved successfully
  */
 router.get('/mlops/overview', getMlopsOverview);
+
+// =============================================================================
+// MLOps feedback review endpoints (Admin)
+// =============================================================================
+
+/**
+ * @swagger
+ * /api/admin/mlops/feedback/queue:
+ *   get:
+ *     summary: List detection corrections pending or reviewed
+ *     tags: [Admin - MLOps]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         schema: { type: string, enum: [pending, approved, rejected] }
+ *       - in: query
+ *         name: limit
+ *         schema: { type: integer, default: 50 }
+ *     responses:
+ *       200: { description: OK }
+ */
+router.get('/mlops/feedback/queue', getFeedbackQueue);
+
+/**
+ * @swagger
+ * /api/admin/mlops/feedback/stats:
+ *   get:
+ *     summary: Aggregate stats for corrections
+ *     tags: [Admin - MLOps]
+ *     security: [{ bearerAuth: [] }]
+ */
+router.get('/mlops/feedback/stats', getFeedbackStats);
+
+/**
+ * @swagger
+ * /api/admin/mlops/feedback/{id}/decision:
+ *   post:
+ *     summary: Approve or reject a correction
+ *     tags: [Admin - MLOps]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: integer }
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status: { type: string, enum: [approved, rejected] }
+ *               notes: { type: string }
+ */
+router.post('/mlops/feedback/:id/decision', decideFeedback);
+
+/**
+ * @swagger
+ * /api/admin/mlops/feedback/export:
+ *   post:
+ *     summary: Export approved corrections as YOLO labels
+ *     tags: [Admin - MLOps]
+ *     security: [{ bearerAuth: [] }]
+ */
+router.post('/mlops/feedback/export', exportFeedback);
+
+/**
+ * @swagger
+ * /api/admin/mlops/feedback/sync:
+ *   post:
+ *     summary: Sync DetectionHistory modifications into DetectionCorrection rows
+ *     tags: [Admin - MLOps]
+ */
+router.post('/mlops/feedback/sync', syncFeedback);
+
+/**
+ * @swagger
+ * /api/admin/mlops/release-to-pipeline:
+ *   post:
+ *     summary: Promote W&B candidate -> production and trigger CodePipeline
+ *     tags: [Admin - MLOps]
+ */
+router.post('/mlops/release-to-pipeline', releaseToPipeline);
 
 /**
  * @swagger

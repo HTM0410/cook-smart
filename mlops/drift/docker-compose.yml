@@ -1,0 +1,53 @@
+# =============================================================================
+# Docker Compose cho Drift service + Pushgateway + Prometheus (test local)
+# Khong dung cho production. Production chay tren ECS Fargate.
+# =============================================================================
+
+version: "3.9"
+
+services:
+  drift:
+    build:
+      context: ../..
+      dockerfile: docker/drift.Dockerfile
+    container_name: cooksmart-drift
+    environment:
+      - YOLO_METRICS_URL=http://yolo:8000/metrics
+      - PUSHGATEWAY_URL=http://pushgateway:9091
+      - METRICS_TOKEN=
+      - EMBEDDING_ENABLED=false
+      - DRIFT_HISTORY_SIZE=20
+    ports:
+      - "8100:8100"
+    restart: unless-stopped
+    networks:
+      - cooksmart-net
+
+  yolo:
+    image: cooksmart-yolo:latest
+    container_name: cooksmart-yolo
+    volumes:
+      - ../../model_detection:/app/models:ro
+    environment:
+      - MLOPS_ENABLED=false
+      - YOLO_MODEL_PATH=/app/models/best (3).pt
+      - CONF_INFERENCE_FLOOR=0.25
+      - EMBEDDING_ENABLED=false
+      - METRICS_TOKEN=
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - cooksmart-net
+
+  pushgateway:
+    image: prom/pushgateway:v1.10.0
+    container_name: cooksmart-pushgateway
+    ports:
+      - "9091:9091"
+    networks:
+      - cooksmart-net
+
+networks:
+  cooksmart-net:
+    driver: bridge

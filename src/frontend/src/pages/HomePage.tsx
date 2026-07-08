@@ -19,11 +19,10 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       <HeroSection />
-      <div className="relative bg-white dark:bg-gray-900 z-10">
-        <CategoriesSection />
-        <div className="divider-gradient" />
+      <div className="relative bg-[#F7F6F3] dark:bg-[#1a1a1a] z-10">
         <FeaturedRecipes />
         <PopularRecipes />
+        <CategoriesSection />
         <MealPlanCTA />
       </div>
     </div>

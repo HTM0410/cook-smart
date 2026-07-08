@@ -15,7 +15,7 @@ export const getUserFavorites = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = (req as any).user?.id;
+    const userId = req.userId ?? (req as any).user?.id;
 
     if (!userId) {
       throw new UnauthorizedError('Authentication required');
@@ -83,7 +83,7 @@ export const addFavorite = async (
     }
 
     const { recipeId } = req.params;
-    const userId = (req as any).user?.id;
+    const userId = req.userId ?? (req as any).user?.id;
 
     if (!userId) {
       throw new UnauthorizedError('Authentication required');
@@ -142,7 +142,7 @@ export const removeFavorite = async (
     }
 
     const { recipeId } = req.params;
-    const userId = (req as any).user?.id;
+    const userId = req.userId ?? (req as any).user?.id;
 
     if (!userId) {
       throw new UnauthorizedError('Authentication required');
@@ -157,7 +157,10 @@ export const removeFavorite = async (
     });
 
     if (!favorite) {
-      throw new NotFoundError('Favorite not found');
+      res.json(successResponse('Recipe is not in favorites', {
+        favorited: false
+      }));
+      return;
     }
 
     await favorite.destroy();

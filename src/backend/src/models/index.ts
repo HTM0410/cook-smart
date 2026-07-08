@@ -20,6 +20,7 @@ import MealPlan from './MealPlan';
 import MealPlanItem from './MealPlanItem';
 import IngredientConflict from './IngredientConflict';
 import DetectionHistory from './DetectionHistory';
+import DetectionCorrection from './DetectionCorrection';
 // import SearchKeyword from './SearchKeyword'; // Tạm thời comment để debug
 
 // Define associations
@@ -169,6 +170,14 @@ IngredientConflict.belongsTo(Ingredient, { foreignKey: 'ingredientId2', as: 'ing
 User.hasMany(DetectionHistory, { foreignKey: 'submittedBy', as: 'detectionHistory' });
 DetectionHistory.belongsTo(User, { foreignKey: 'submittedBy', as: 'submitter' });
 
+// DetectionHistory -> DetectionCorrection
+DetectionHistory.hasMany(DetectionCorrection, { foreignKey: 'detectionHistoryId', as: 'corrections' });
+DetectionCorrection.belongsTo(DetectionHistory, { foreignKey: 'detectionHistoryId', as: 'detectionHistory' });
+
+// User -> DetectionCorrection (reviewer)
+User.hasMany(DetectionCorrection, { foreignKey: 'reviewedBy', as: 'reviewedCorrections' });
+DetectionCorrection.belongsTo(User, { foreignKey: 'reviewedBy', as: 'reviewer' });
+
 // Export models and sequelize instance
 export {
   sequelize,
@@ -193,6 +202,7 @@ export {
   MealPlanItem,
   IngredientConflict,
   DetectionHistory,
+  DetectionCorrection,
   // SearchKeyword, // Tạm thời comment để debug
 };
 
@@ -219,5 +229,6 @@ export default {
   MealPlanItem,
   IngredientConflict,
   DetectionHistory,
+  DetectionCorrection,
   // SearchKeyword, // Tạm thời comment để debug
 };

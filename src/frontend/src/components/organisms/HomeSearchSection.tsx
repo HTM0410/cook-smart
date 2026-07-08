@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import RecipeFilters, { FilterState } from './RecipeFilters'
 import recipeService from '../../services/recipeService'
 import { IngredientMatchRecipe, Recipe as RecipeType } from '../../types/recipe'
 import FavoriteButton from '../atoms/FavoriteButton'
 import { useAuth } from '../../contexts/AuthContext'
+import { EyebrowTag } from '../atoms/EyebrowTag'
+import { splitRevealLeft, splitRevealRight, viewportOnce, cardReveal, staggerGrid } from '../../lib/motion'
 
 interface HomeSearchSectionProps {
   sectionId?: string
@@ -560,13 +563,13 @@ const HomeSearchSection: React.FC<HomeSearchSectionProps> = ({ sectionId = 'sear
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
       case 'easy':
-        return 'bg-green-100 text-green-800'
+        return 'bg-[#EDF3EC] text-[#346538]'
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-[#FBF3DB] text-[#956400]'
       case 'hard':
-        return 'bg-red-100 text-red-800'
+        return 'bg-[#FDEBEC] text-[#9F2F2D]'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-paper-light text-ink-secondary'
     }
   }
 
@@ -592,33 +595,40 @@ const HomeSearchSection: React.FC<HomeSearchSectionProps> = ({ sectionId = 'sear
   }
 
   return (
-    <section id={sectionId} className="bg-background">
-      <div className="container py-12">
-        <div className="flex items-start justify-between mb-6 flex-col gap-4 lg:flex-row">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-primary">Tìm kiếm tức thì</p>
-            <h2 className="text-3xl font-bold text-foreground mt-2">Nhập nguyên liệu – nhận công thức & bộ lọc nâng cao</h2>
-            <p className="text-muted-foreground mt-2">
-              Kết hợp bộ lọc nâng cao và danh sách nguyên liệu để tìm món chính xác như mong muốn, không cần rời khỏi trang chủ.
+    <section id={sectionId} className="bg-paper-light dark:bg-ink-800 pt-32 md:pt-40 pb-24 section-lg">
+      <div className="container">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end mb-12"
+        >
+          <motion.div variants={splitRevealLeft} className="lg:col-span-7">
+            <EyebrowTag>Tìm kiếm tức thì</EyebrowTag>
+            <h1 className="mt-6 text-display text-5xl md:text-6xl lg:text-7xl text-ink-primary dark:text-paper-light text-balance">
+              Nhập nguyên liệu.
+              <br />
+              <span className="text-ink-muted">Nhận công thức.</span>
+            </h1>
+            <p className="mt-6 text-ink-secondary text-lg leading-relaxed max-w-xl text-pretty">
+              Kết hợp bộ lọc nâng cao và danh sách nguyên liệu để tìm món chính xác như mong muốn.
             </p>
-          </div>
-          {results.length > 0 && (
-            <button
-              onClick={shareURL}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                />
-              </svg>
-              Chia sẻ lượt tìm kiếm
-            </button>
-          )}
-        </div>
+          </motion.div>
+          <motion.div variants={splitRevealRight} className="lg:col-span-5 lg:pb-3">
+            {results.length > 0 && (
+              <button onClick={shareURL} className="btn-editorial-ghost">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <path d="M8.59 13.51l6.83 3.98" />
+                  <path d="M15.41 6.51l-6.82 3.98" />
+                </svg>
+                Chia sẻ tìm kiếm
+              </button>
+            )}
+          </motion.div>
+        </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(320px,0.8fr)]">
           <div className="space-y-6">
@@ -688,72 +698,66 @@ const HomeSearchSection: React.FC<HomeSearchSectionProps> = ({ sectionId = 'sear
 
           {/* Hiển thị từ allMatchedIngredients để giữ nguyên liệu đã ẩn */}
           {(allMatchedIngredients.length > 0 || matchedIngredients.length > 0) && (
-            <div className="card p-4 border border-dashed border-primary/30 bg-primary/5">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-semibold text-primary">Nguyên liệu đang lọc</p>
+            <div className="card-bezel mb-4">
+              <div className="card-bezel-inner p-5">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">Nguyên liệu đang lọc</p>
                 {excludedIngredientIds.size > 0 && (
                   <button
                     onClick={() => {
                       setExcludedIngredientIds(new Set());
-                      // Clear excludeIngredients filter
                       setFilters(prev => ({ ...prev, excludeIngredients: [] }));
-                      // Tìm kiếm lại với tất cả nguyên liệu
                       setTimeout(() => searchRecipes({ updateUrl: true, force: true }), 100);
                     }}
-                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 transition-colors"
+                    className="link-underline text-xs uppercase tracking-[0.2em] text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light"
                   >
                     Hiển thị tất cả ({excludedIngredientIds.size} đã ẩn)
                   </button>
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
-                {/* Sử dụng allMatchedIngredients nếu có, để giữ nguyên liệu đã ẩn */}
                 {(allMatchedIngredients.length > 0 ? allMatchedIngredients : matchedIngredients)
                   .filter(item => !excludedIngredientIds.has(item.id))
                   .map((item) => (
-                  <span 
-                    key={item.id} 
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-white dark:bg-gray-800 text-primary dark:text-primary-400 rounded-full text-xs border border-primary/40 dark:border-primary/60 hover:border-primary dark:hover:border-primary-400 transition-colors group"
+                  <span
+                    key={item.id}
+                    className="chip"
                   >
                     {item.name}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Thêm vào danh sách exclude
                         setExcludedIngredientIds(prev => new Set([...prev, item.id]));
-                        // Thêm vào filters.excludeIngredients để gửi lên backend
                         setFilters(prev => ({
                           ...prev,
                           excludeIngredients: [...(prev.excludeIngredients || []), item.name]
                         }));
                       }}
-                      className="ml-0.5 w-4 h-4 flex items-center justify-center rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors opacity-50 group-hover:opacity-100"
+                      className="ml-0.5 w-4 h-4 flex items-center justify-center rounded-full hover:bg-ink-700/10 dark:hover:bg-paper-light/10 transition-colors"
                       title={`Bỏ ${item.name} khỏi bộ lọc`}
                     >
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
                   </span>
                 ))}
               </div>
-              {excludedIngredientIds.size > 0 && (
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  💡 Tip: Click "Tìm kiếm món ăn" để áp dụng thay đổi
-                </p>
-              )}
+              </div>
             </div>
           )}
 
           {missingIngredients.length > 0 && (
-            <div className="card p-4 bg-amber-50 border border-amber-200 text-amber-900">
-              <p className="text-sm font-semibold mb-1">Chưa có trong kho nguyên liệu:</p>
-              <p className="text-sm">
-                {missingIngredients.join(', ')}{' '}
-                <span className="text-amber-800/80">
-                  (đã gửi admin duyệt, bạn có thể thử lại sau hoặc bổ sung từ khóa khác)
-                </span>
-              </p>
+            <div className="card-bezel mb-4">
+              <div className="card-bezel-inner p-5 bg-[#FBF3DB]/30 dark:bg-[#956400]/10 text-[#956400] dark:text-[#FBF3DB]">
+                <p className="text-xs uppercase tracking-[0.2em] font-medium mb-1">Chưa có trong kho nguyên liệu</p>
+                <p className="text-sm">
+                  {missingIngredients.join(', ')}{' '}
+                  <span className="opacity-70">
+                    (đã gửi admin duyệt, bạn có thể thử lại sau hoặc bổ sung từ khóa khác)
+                  </span>
+                </p>
+              </div>
             </div>
           )}
 
@@ -773,250 +777,177 @@ const HomeSearchSection: React.FC<HomeSearchSectionProps> = ({ sectionId = 'sear
                         }.`}
                   </p>
                 </div>
-                <div className="space-y-4">
-                  {results.map((recipe) => {
-                    // Get all searched ingredients from both sources
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerGrid}
+                  className="space-y-4"
+                >
+                  {results.map((recipe, idx) => {
                     const allSearchedIngredients = [
-                      ...ingredients, // From main search bar
-                      ...(filters.ingredients || []), // From advanced filter
-                      ...(matchedIngredients.map(i => i.name) || []) // From matched results
+                      ...ingredients,
+                      ...(filters.ingredients || []),
+                      ...(matchedIngredients.map(i => i.name) || [])
                     ].filter(Boolean);
-                    
-                    // Remove duplicates
                     const uniqueIngredients = [...new Set(allSearchedIngredients)];
-                    
-                    console.log('🔗 All searched ingredients:', {
-                      fromMainSearch: ingredients,
-                      fromFilters: filters.ingredients,
-                      fromMatched: matchedIngredients.map(i => i.name),
-                      final: uniqueIngredients
-                    });
-                    
-                    const searchedParam = uniqueIngredients.length > 0 
+                    const searchedParam = uniqueIngredients.length > 0
                       ? `?searched=${encodeURIComponent(uniqueIngredients.join(','))}`
                       : '';
-                    console.log('🔗 URL will be:', `/recipes/${recipe.id}${searchedParam}`);
-                    
+
                     return (
-                      <Link 
-                        key={recipe.id} 
-                        to={`/recipes/${recipe.id}${searchedParam}`}
-                        className="block group"
-                      >
-                      <div className="relative overflow-hidden border border-border/50 rounded-2xl bg-white shadow-sm hover:shadow-2xl hover:border-primary/40 transition-all duration-300 cursor-pointer">
-                        {/* Layout với ảnh lớn bên trái */}
-                        <div className="flex flex-col sm:flex-row">
-                          {/* Ảnh món ăn */}
-                          <div className="relative w-full sm:w-56 md:w-64 h-48 sm:h-auto flex-shrink-0 overflow-hidden">
-                            {recipe.imageUrl ? (
-                              <img 
-                                src={recipe.imageUrl} 
-                                alt={recipe.recipeName}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.onerror = null;
-                                  target.src = `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&q=80`;
-                                }}
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-orange-400 via-amber-500 to-yellow-500 flex items-center justify-center">
-                                <span className="text-6xl text-white/90 font-bold drop-shadow-lg">
-                                  {recipe.recipeName.charAt(0).toUpperCase()}
-                                </span>
-                              </div>
-                            )}
-                            {/* Overlay gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            
-                            {/* Badge độ khó góc trên */}
-                            <div className="absolute top-3 left-3">
-                              <span className={`px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm ${
-                                recipe.difficulty.toLowerCase() === 'easy' 
-                                  ? 'bg-emerald-500/90 text-white' 
-                                  : recipe.difficulty.toLowerCase() === 'medium'
-                                  ? 'bg-amber-500/90 text-white'
-                                  : 'bg-rose-500/90 text-white'
-                              }`}>
-                                {getDifficultyText(recipe.difficulty)}
-                              </span>
-                            </div>
-
-                            {/* Nút yêu thích góc trên phải */}
-                            <div className="absolute top-3 right-3" onClick={(e) => e.preventDefault()}>
-                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-lg hover:bg-white transition-colors">
-                                <FavoriteButton
-                                  recipeId={recipe.id}
-                                  initialFavoriteCount={0}
-                                  initialIsFavorited={false}
-                                  userId={user?.id}
-                                  size="md"
-                                  showCount={false}
-                                  showTooltip={true}
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Nội dung bên phải */}
-                          <div className="flex-1 p-5 flex flex-col">
-                            {/* Tiêu đề và mô tả */}
-                            <div className="flex-1">
-                              <h4 className="text-xl font-bold text-gray-800 group-hover:text-primary transition-colors line-clamp-1">
-                                {recipe.recipeName}
-                              </h4>
-                              <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">
-                                {recipe.description || 'Món ăn ngon miệng, dễ làm, phù hợp cho cả gia đình.'}
-                              </p>
-                            </div>
-
-                            {/* Categories */}
-                            {(recipe as any).categories && (recipe as any).categories.length > 0 && (
-                              <div className="flex flex-wrap gap-1.5 mt-3">
-                                {(recipe as any).categories.slice(0, 2).map((category: any) => (
-                                  <span
-                                    key={category.id}
-                                    className="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/30 px-2.5 py-1 text-xs font-medium text-orange-700 dark:text-orange-400"
-                                  >
-                                    {category.categoryName}
-                                  </span>
-                                ))}
-                                {(recipe as any).categories.length > 2 && (
-                                  <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-gray-700 px-2.5 py-1 text-xs font-medium text-gray-600 dark:text-gray-400">
-                                    +{(recipe as any).categories.length - 2}
-                                  </span>
+                      <motion.div key={recipe.id} custom={idx} variants={cardReveal}>
+                        <Link
+                          to={`/recipes/${recipe.id}${searchedParam}`}
+                          className="block group"
+                        >
+                          <article className="card-bezel">
+                            <div className="card-bezel-inner flex flex-col sm:flex-row overflow-hidden p-0">
+                              <div className="relative w-full sm:w-56 md:w-64 h-48 sm:h-auto flex-shrink-0 overflow-hidden">
+                                {recipe.imageUrl ? (
+                                  <img
+                                    src={recipe.imageUrl}
+                                    alt={recipe.recipeName}
+                                    loading="lazy"
+                                    className="w-full h-full object-cover transition-transform duration-[1100ms] ease-[var(--ease-fluid)] group-hover:scale-105"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.onerror = null;
+                                      target.src = `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&q=80`;
+                                    }}
+                                  />
+                                ) : (
+                                  <div className="w-full h-full bg-gradient-to-br from-paper-light to-ink-200 dark:from-ink-700 dark:to-ink-800 flex items-center justify-center">
+                                    <span className="text-display text-5xl text-ink-300">
+                                      {recipe.recipeName.charAt(0).toUpperCase()}
+                                    </span>
+                                  </div>
                                 )}
-                              </div>
-                            )}
-
-                            {/* Thông tin match */}
-                            <div className="flex flex-wrap items-center gap-2 mt-4">
-                              {recipe.matchPercent > 0 && (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-emerald-50 to-green-50 text-emerald-700 border border-emerald-200">
-                                  <span className="text-sm">🎯</span>
-                                  {recipe.matchPercent}% phù hợp
-                                </span>
-                              )}
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-700 border border-amber-200">
-                                <span className="text-sm">⭐</span>
-                                {(() => {
-                                  const rating = recipe.averageRating;
-                                  if (rating == null) return '0.0';
-                                  const numRating = typeof rating === 'number' ? rating : Number(rating);
-                                  return isNaN(numRating) ? '0.0' : numRating.toFixed(1);
-                                })()} ({recipe.reviewCount || 0})
-                              </span>
-                            </div>
-
-                            {/* Hiển thị số từ khóa khớp (thay vì số nguyên liệu) */}
-                            {(recipe as any).matchedGroupCount > 0 && (recipe as any).totalGroups > 0 && (
-                              <div className="flex items-center gap-2 text-sm text-emerald-600 mt-3 font-medium">
-                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                Khớp {(recipe as any).matchedGroupCount}/{(recipe as any).totalGroups} từ khóa bạn đã chọn
-                                {(recipe as any).matchedGroups && (recipe as any).matchedGroups.length > 0 && (
-                                  <span className="text-gray-500 ml-1">
-                                    ({(recipe as any).matchedGroups.join(', ')})
+                                <div className="absolute inset-0 bg-gradient-to-t from-ink-700/20 to-transparent" />
+                                <div className="absolute top-3 left-3">
+                                  <span className={`eyebrow-tag ${getDifficultyColor(recipe.difficulty)}`}>
+                                    {getDifficultyText(recipe.difficulty)}
                                   </span>
-                                )}
+                                </div>
+                                <div className="absolute top-3 right-3" onClick={(e) => e.preventDefault()}>
+                                  <FavoriteButton
+                                    recipeId={recipe.id}
+                                    initialFavoriteCount={0}
+                                    initialIsFavorited={false}
+                                    userId={user?.id}
+                                    size="sm"
+                                    showCount={false}
+                                    showTooltip={true}
+                                  />
+                                </div>
                               </div>
-                            )}
 
-                            {/* Thông tin thời gian */}
-                            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100">
-                              <div className="flex items-center gap-1.5 text-gray-500 text-sm">
-                                <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{recipe.prepTime + recipe.cookTime}p</span>
-                              </div>
-                              <div className="flex items-center gap-1.5 text-gray-500 text-sm">
-                                <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                                </svg>
-                                <span>Nấu {recipe.cookTime}p</span>
-                              </div>
-                              <div className="flex items-center gap-1.5 text-gray-500 text-sm">
-                                <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                                <span>{recipe.servings} người</span>
-                              </div>
-                              
-                              {/* Nút xem chi tiết */}
-                              <div className="ml-auto">
-                                <span className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all">
-                                  Xem chi tiết
-                                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                  </svg>
-                                </span>
+                              <div className="flex-1 p-5 md:p-6 flex flex-col">
+                                <div className="flex-1">
+                                  <h4 className="text-xl font-semibold text-ink-primary dark:text-paper-light group-hover:text-[#ff4f00] transition-colors duration-700 ease-[var(--ease-fluid)] line-clamp-1">
+                                    {recipe.recipeName}
+                                  </h4>
+                                  <p className="text-sm text-ink-secondary mt-2 line-clamp-2 leading-relaxed">
+                                    {recipe.description || 'Món ăn ngon miệng, dễ làm, phù hợp cho cả gia đình.'}
+                                  </p>
+                                </div>
+
+                                {(recipe as any).categories && (recipe as any).categories.length > 0 && (
+                                  <div className="flex flex-wrap gap-1.5 mt-3">
+                                    {(recipe as any).categories.slice(0, 2).map((category: any) => (
+                                      <span key={category.id} className="eyebrow-tag">
+                                        {category.categoryName}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+
+                                <div className="flex flex-wrap items-center gap-2 mt-4">
+                                  {recipe.matchPercent > 0 && (
+                                    <span className="eyebrow-tag bg-[#EDF3EC] text-[#346538]">
+                                      {recipe.matchPercent}% phù hợp
+                                    </span>
+                                  )}
+                                  <span className="eyebrow-tag bg-[#FBF3DB] text-[#956400]">
+                                    {typeof recipe.averageRating === 'number' ? recipe.averageRating.toFixed(1) : '0.0'} ({recipe.reviewCount || 0})
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center justify-between mt-auto pt-4 border-t border-ink-200/40 dark:border-ink-700/40">
+                                  <div className="flex items-center gap-4 text-xs uppercase tracking-[0.2em] text-ink-secondary">
+                                    <span>{recipe.prepTime + recipe.cookTime}p</span>
+                                    <span>·</span>
+                                    <span>{recipe.servings} người</span>
+                                  </div>
+                                  <span className="inline-flex items-center gap-2 text-sm font-medium text-ink-primary dark:text-paper-light group-hover:text-[#ff4f00] transition-colors duration-700 ease-[var(--ease-fluid)]">
+                                    Xem
+                                    <span className="w-7 h-7 rounded-full bg-paper-light dark:bg-ink-700 ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:text-paper-light group-hover:ring-[#ff4f00] transition-all duration-700 ease-[var(--ease-fluid)]">
+                                      →
+                                    </span>
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
+                          </article>
+                        </Link>
+                      </motion.div>
                     );
                   })}
-                </div>
+                </motion.div>
               </div>
             )}
 
             {!loading && results.length === 0 && (ingredients.length > 0 || query) && !error && (
-              <div className="card p-8 text-center">
-                <p className="text-muted-foreground">
-                  {query 
-                    ? `Không tìm thấy công thức nào có tên "${query}".`
-                    : 'Không tìm thấy công thức nào phù hợp với bộ nguyên liệu hiện tại.'}
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  {query 
-                    ? 'Hãy thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc nâng cao.'
-                    : 'Hãy thử bỏ bớt một nguyên liệu hoặc điều chỉnh bộ lọc nâng cao.'}
-                </p>
-                
-                {/* Gợi ý tìm theo nguyên liệu nếu đang tìm theo tên */}
-                {query && searchType === 'keyword' && (
-                  <div className="mt-4">
-                    <p className="text-sm text-muted-foreground mb-3">
-                      💡 <strong>"{query}"</strong> có thể là nguyên liệu?
-                    </p>
-                    <button
-                      onClick={() => {
-                        // Chuyển query thành ingredients và tìm lại
-                        const newIngredients = query.split(',').map(s => s.trim()).filter(Boolean);
-                        setIngredients(prev => [...new Set([...prev, ...newIngredients])]);
-                        setQuery('');
-                        // Trigger search ngay
-                        setTimeout(() => {
-                          searchRecipes({ updateUrl: true, force: true, extraIngredients: newIngredients });
-                        }, 100);
-                      }}
-                      className="px-6 py-2.5 bg-orange-500 text-white rounded-full font-medium hover:bg-orange-600 transition-colors"
-                    >
-                      🔍 Tìm các món có nguyên liệu "{query}"
-                    </button>
-                  </div>
-                )}
+              <div className="card-bezel">
+                <div className="card-bezel-inner p-10 text-center">
+                  <p className="text-ink-secondary text-lg mb-2">
+                    {query
+                      ? `Không tìm thấy công thức nào có tên "${query}".`
+                      : 'Không tìm thấy công thức nào phù hợp với bộ nguyên liệu hiện tại.'}
+                  </p>
+                  <p className="text-sm text-ink-muted mb-6">
+                    {query
+                      ? 'Hãy thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc nâng cao.'
+                      : 'Hãy thử bỏ bớt một nguyên liệu hoặc điều chỉnh bộ lọc nâng cao.'}
+                  </p>
 
-              {suggestedRecipes.length > 0 && (
-                <div className="mt-6">
-                  <p className="text-sm font-semibold text-foreground mb-2">Gợi ý dành cho bạn:</p>
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {suggestedRecipes.map((recipe) => (
-                      <Link
-                        key={recipe.id}
-                        to={`/recipes/${recipe.id}`}
-                        className="px-4 py-2 border border-border rounded-full text-sm hover:bg-gray-50 transition-colors"
+                  {query && searchType === 'keyword' && (
+                    <div className="space-y-4">
+                      <p className="text-sm text-ink-secondary">
+                        <span className="font-semibold">"{query}"</span> có thể là nguyên liệu?
+                      </p>
+                      <button
+                        onClick={() => {
+                          const newIngredients = query.split(',').map(s => s.trim()).filter(Boolean);
+                          setIngredients(prev => [...new Set([...prev, ...newIngredients])]);
+                          setQuery('');
+                          setTimeout(() => {
+                            searchRecipes({ updateUrl: true, force: true, extraIngredients: newIngredients });
+                          }, 100);
+                        }}
+                        className="btn-editorial-ghost"
                       >
-                        {recipe.recipeName}
-                      </Link>
-                    ))}
-                  </div>
+                        Tìm món có nguyên liệu "{query}"
+                      </button>
+                    </div>
+                  )}
+
+                  {suggestedRecipes.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-ink-200/40 dark:border-ink-700/40">
+                      <p className="text-xs uppercase tracking-[0.2em] text-ink-secondary mb-4">Gợi ý dành cho bạn</p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {suggestedRecipes.map((recipe) => (
+                          <Link
+                            key={recipe.id}
+                            to={`/recipes/${recipe.id}`}
+                            className="chip"
+                          >
+                            {recipe.recipeName}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
               </div>
             )}
           </div>

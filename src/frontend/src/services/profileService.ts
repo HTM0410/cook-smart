@@ -47,6 +47,15 @@ export const profileService = {
     const res = await api.put('/api/profile/password', data);
     return res.data;
   },
+
+  async uploadAvatar(file: File) {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    const res = await api.post('/api/profile/avatar', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data;
+  },
 };
 
 export default profileService;

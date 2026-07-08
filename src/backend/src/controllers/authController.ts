@@ -137,7 +137,11 @@ export const loginAdmin = async (req: Request, res: Response): Promise<void> => 
         admin: {
           id: admin.id,
           username: admin.username,
-          role: admin.role,
+          email: `${admin.username}@cooksmart.local`,
+          fullName: admin.username,
+          role: 'admin',
+          adminRole: admin.role,
+          isAdmin: true,
           createdAt: admin.createdAt
         },
         token,
@@ -186,6 +190,7 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
 export const getCurrentAdmin = async (req: Request, res: Response): Promise<void> => {
   try {
     const admin = req.admin
+    const user = req.user
 
     res.json({
       success: true,
@@ -193,7 +198,11 @@ export const getCurrentAdmin = async (req: Request, res: Response): Promise<void
         admin: {
           id: admin.id,
           username: admin.username,
-          role: admin.role,
+          email: user?.email || `${admin.username}@cooksmart.local`,
+          fullName: user?.fullName || admin.username,
+          role: 'admin',
+          adminRole: admin.role,
+          isAdmin: true,
           createdAt: admin.createdAt,
           updatedAt: admin.updatedAt
         }
