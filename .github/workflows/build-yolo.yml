@@ -3,7 +3,10 @@ name: Build YOLO Docker Image
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
+      - '.github/workflows/build-yolo.yml'
       - 'src/backend/src/model_detection/yolo_inference_service/**'
       - 'buildspec.yml'
 
