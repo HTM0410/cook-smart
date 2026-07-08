@@ -14,12 +14,12 @@ WORKDIR /var/task
 
 # Cache layer: chi copy lockfile truoc
 COPY src/backend/package*.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --legacy-peer-deps
 
 # Build source
 COPY src/backend/tsconfig.json ./
 COPY src/backend/src ./src
-RUN npm run build && npm prune --production
+RUN npm run build && npm prune --production --legacy-peer-deps
 
 # -----------------------------------------------------------------------------
 # Stage 2: runtime - chi giu dist + production deps
