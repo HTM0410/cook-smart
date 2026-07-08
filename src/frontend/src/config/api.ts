@@ -1,21 +1,24 @@
 // API Configuration
-// In production, use VITE_API_URL or Render URL
-// In development, use VITE_API_URL or fallback to localhost:3000
+// Production: require VITE_API_URL to avoid accidental legacy fallbacks.
+// Development: use VITE_API_URL or fallback to localhost.
 
 import axios from 'axios';
 
 const getApiBaseUrl = (): string => {
-  // In production, use VITE_API_URL or Render backend URL
-  if (import.meta.env.PROD) {
-    return (import.meta.env.VITE_API_URL as string) || 'https://food-suggest-s5lf.onrender.com';
+  const envUrl = import.meta.env.VITE_API_URL as string | undefined;
+  if (!envUrl) {
+    throw new Error('Missing VITE_API_URL');
   }
-  
-  // In development, use VITE_API_URL or localhost:3000
-  return (import.meta.env.VITE_API_URL as string) || 'http://localhost:3000';
+
+  if (import.meta.env.PROD) {
+    return envUrl;
+  }
+
+  return envUrl || 'http://localhost:3000';
 };
 
-// Full API base path (includes /api prefix used by backend)
-export const API_BASE_URL = `${getApiBaseUrl()}/api`;
+// API base URL used by services (do NOT append /api here; services already use /api/... paths)
+export const API_BASE_URL = getApiBaseUrl();
 
 // Axios instance
 const api = axios.create({
@@ -43,8 +46,25 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const reqUrl = error.config?.url || '';
+      // Never trigger global redirect for the login/register endpoints themselves
+      const isAuthEndpoint = reqUrl.includes('/auth/login') || reqUrl.includes('/auth/register') || reqUrl.includes('/auth/refresh-token');
+      if (!isAuthEndpoint) {
+        // Clear stale token
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        window.dispatchEvent(new Event('auth:unauthorized'));
+        // Only force redirect to /login if user is currently on a protected route
+        // Avoid forcing login when user is just exploring (e.g. opening chatbot while logged out)
+        const currentPath = window.location.pathname;
+        const isChatEndpoint = reqUrl.includes('/chat/');
+        const isPublicRoute = currentPath === '/' || currentPath.startsWith('/recipes') || currentPath.startsWith('/chat');
+        // Don't redirect if user is already on an auth page
+        const isAuthPage = currentPath === '/login' || currentPath === '/register';
+        if (!isChatEndpoint && !isPublicRoute && !isAuthPage) {
+          window.location.href = '/login';
+        }
+      }
     }
     return Promise.reject(error);
   }
@@ -52,7 +72,5 @@ api.interceptors.response.use(
 
 export default api;
 
-// Socket.IO URL - Render supports WebSocket, so enable in production
-export const SOCKET_URL = import.meta.env.PROD
-  ? ((import.meta.env.VITE_API_URL as string) || 'https://food-suggest-s5lf.onrender.com')
-  : ((import.meta.env.VITE_API_URL as string) || 'http://localhost:3000');
+// Socket.IO URL
+export const SOCKET_URL = import.meta.env.VITE_WS_URL || API_BASE_URL;

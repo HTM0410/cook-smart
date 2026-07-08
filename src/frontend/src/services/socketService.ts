@@ -64,7 +64,7 @@ class SocketService {
       return;
     }
 
-    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const socketUrl = import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
     this.socket = io(socketUrl, {
       auth: { token },
@@ -166,7 +166,7 @@ class SocketService {
       console.warn('Socket not connected, cannot join recipe room');
       return;
     }
-    this.socket.emit('recipe:join', { recipeId });
+    this.socket.emit('join-recipe', recipeId);
   }
 
   /**
@@ -174,7 +174,7 @@ class SocketService {
    */
   leaveRecipeRoom(recipeId: number): void {
     if (!this.socket?.connected) return;
-    this.socket.emit('recipe:leave', { recipeId });
+    this.socket.emit('leave-recipe', recipeId);
   }
 
   /**
@@ -185,7 +185,7 @@ class SocketService {
       console.warn('Socket not connected, cannot get favorite status');
       return;
     }
-    this.socket.emit('favorite:status', { recipeId });
+    this.socket.emit('get-favorite-status', { recipeId });
   }
 
   /**
@@ -196,7 +196,7 @@ class SocketService {
       console.warn('Socket not connected, cannot toggle favorite');
       return;
     }
-    this.socket.emit('favorite:toggle', { recipeId });
+    this.socket.emit('toggle-favorite', { recipeId });
   }
 
   /**

@@ -1,0 +1,59 @@
+name: Deploy Frontend to Netlify
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy-frontend:
+    name: Build and Deploy Frontend
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./src/frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./src/frontend
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_WS_URL: ${{ vars.VITE_WS_URL }}
+        run: npm run build
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        id: deploy
+        shell: pwsh
+        run: |
+          $output = netlify deploy --prod --dir=./src/frontend/dist --json | ConvertFrom-Json
+          Write-Output $output | ConvertTo-Json -Depth 10
+          $siteUrl = if ($output.deploy_url) { $output.deploy_url } else { $output.siteInfo.url }
+          if ($siteUrl) {
+            Write-Output "deploy_url=$siteUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          }
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Output deployment info
+        run: |
+          echo "Frontend deployed to Netlify"
+          echo "Deploy URL: ${{ steps.deploy.outputs.deploy_url }}"

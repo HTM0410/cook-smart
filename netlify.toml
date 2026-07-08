@@ -1,37 +1,17 @@
 [build]
-  # Thư mục chứa source code frontend
   base = "src/frontend"
-  # Lệnh build - build cả frontend và backend
-  command = "cd src/frontend && npm install && npm run build && cd ../../src/backend && npm install && npm run build"
-  # Thư mục output sau khi build
-  publish = "src/frontend/dist"
-  # Functions directory
-  functions = "netlify/functions"
+  command = "npm run build"
+  publish = "dist"
 
 [build.environment]
-  # Node version
-  NODE_VERSION = "18"
-  # Build timeout (seconds)
-  NETLIFY_BUILD_TIMEOUT = 600
-
-# Redirects cho SPA routing và API
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/health"
-  to = "/.netlify/functions/api/health"
-  status = 200
+  NODE_VERSION = "20"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
 
-# Headers cho security và performance
 [[headers]]
   for = "/*"
   [headers.values]
@@ -70,7 +50,3 @@
   for = "/*.svg"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Environment variables sẽ được set trong Netlify dashboard
-# VITE_API_URL = your_backend_api_url
-
