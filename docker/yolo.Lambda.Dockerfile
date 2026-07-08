@@ -39,7 +39,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/var/task
 
 # AWS Lambda Web Adapter (chuyen ASGI/WSGI app thanh Lambda handler)
-COPY --from=public.ecr.aws/awslabs/aws-lambda-web-adapter:0.8.4-arm64 \
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
      /lambda-adapter /opt/extensions/lambda-adapter
 
 ENV PORT=8000

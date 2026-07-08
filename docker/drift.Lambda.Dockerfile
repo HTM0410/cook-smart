@@ -28,7 +28,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/var/task:/var/task/drift
 
 # AWS Lambda Web Adapter (drift service cung la FastAPI app)
-COPY --from=public.ecr.aws/awslabs/aws-lambda-web-adapter:0.8.4-arm64 \
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
      /lambda-adapter /opt/extensions/lambda-adapter
 
 WORKDIR /var/task
