@@ -44,6 +44,36 @@ variable "prometheus_push_token_secret_arn" {
   type        = string
 }
 
+variable "s3_model_bucket_arn" {
+  description = "ARN S3 bucket chua model weights (cooksmart-models)"
+  type        = string
+  default     = null
+}
+
+variable "model_versions_table" {
+  description = "Ten DynamoDB table luu model versions"
+  type        = string
+  default     = "cooksmart-model-versions"
+}
+
+variable "yolo_function_name" {
+  description = "Ten Lambda yolo-infer"
+  type        = string
+  default     = null
+}
+
+variable "backend_function_name" {
+  description = "Ten Lambda backend-api"
+  type        = string
+  default     = null
+}
+
+variable "drift_function_name" {
+  description = "Ten Lambda drift-job"
+  type        = string
+  default     = null
+}
+
 variable "github_repo" {
   description = "GitHub repo name (vd: htm0410/food-suggest)"
   type        = string
@@ -153,6 +183,62 @@ resource "aws_iam_role_policy" "github_actions" {
           "logs:PutLogEvents"
         ]
         Resource = "arn:aws:logs:*:*:*"
+      },
+      # Lambda permissions (deploy script goi update-function-code)
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:UpdateFunctionCode",
+          "lambda:UpdateAlias",
+          "lambda:GetAlias",
+          "lambda:GetFunction",
+          "lambda:ListVersionsByFunction",
+          "lambda:PublishVersion",
+          "lambda:UpdateFunctionConfiguration",
+          "lambda:WaitFunctionUpdated"
+        ]
+        Resource = compact([
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-backend-api",
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-yolo-infer",
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-drift-job",
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-backend-api:*",
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-yolo-infer:*",
+          "arn:aws:lambda:${data.aws_caller_identity.current.account_id}:function:${var.name}-drift-job:*",
+        ])
+      },
+      # S3 model bucket (write permissions cho promote_and_mirror.py)
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ]
+        Resource = var.s3_model_bucket_arn != null ? [
+          var.s3_model_bucket_arn,
+          "${var.s3_model_bucket_arn}/*"
+        ] : []
+      },
+      # DynamoDB model versions table
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:Query",
+          "dynamodb:Scan",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem"
+        ]
+        Resource = "arn:aws:dynamodb:${data.aws_caller_identity.current.account_id}:table/${var.model_versions_table}"
+      },
+      # API Gateway (for smoke test)
+      {
+        Effect = "Allow"
+        Action = [
+          "apigatewayv2:GetApi"
+        ]
+        Resource = "*"
       }
     ]
   })

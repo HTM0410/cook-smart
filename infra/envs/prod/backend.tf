@@ -7,6 +7,8 @@
 #     --attribute-definitions AttributeName=LockID,AttributeType=S \
 #     --key-schema AttributeName=LockID,KeyType=HASH \
 #     --billing-mode PAY_PER_REQUEST
+#
+# Stack key: prod-v2 = ECS (legacy), prod-v2-lambda = Lambda (new, parallel)
 # =============================================================================
 
 terraform {
@@ -27,6 +29,11 @@ terraform {
     encrypt        = true
   }
 }
+
+# Stack Lambda (main.tf.lambda) su dung key rieng. Khi switch:
+# 1. cp main.tf main.tf.ecs && cp main.tf.lambda main.tf
+# 2. doi key = "prod-v2-lambda/terraform.tfstate" trong backend block
+# 3. terraform init -migrate-state (hoac -reconfigure neu state moi)
 
 # Stub providers - thuc te terraform set region tu backend hoac CLI
 provider "aws" {

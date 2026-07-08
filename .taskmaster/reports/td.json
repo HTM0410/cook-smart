@@ -1,0 +1,151 @@
+﻿{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:294060270105:task-definition/cooksmart-prod-v2-yolo:1",
+    "containerDefinitions": [
+        {
+            "name": "yolo",
+            "image": "294060270105.dkr.ecr.ap-southeast-1.amazonaws.com/cooksmart-yolo",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "CUDA_VISIBLE_DEVICES",
+                    "value": ""
+                },
+                {
+                    "name": "MLOPS_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "EMBEDDING_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "PORT",
+                    "value": "8000"
+                },
+                {
+                    "name": "MLOPS_REGISTRY",
+                    "value": "wandb"
+                },
+                {
+                    "name": "WANDB_MODEL_ALIAS",
+                    "value": "production"
+                },
+                {
+                    "name": "HOST",
+                    "value": "0.0.0.0"
+                },
+                {
+                    "name": "WANDB_MODEL_ARTIFACT",
+                    "value": "ingredient-detector"
+                },
+                {
+                    "name": "EMBEDDING_MODEL",
+                    "value": "BAAI/bge-m3"
+                },
+                {
+                    "name": "WANDB_PROJECT",
+                    "value": "ingredient-detection"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "WANDB_API_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:294060270105:secret:cooksmart-prod-v2/wandb-api-key-N3ipiK"
+                },
+                {
+                    "name": "DATABASE_URL",
+                    "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:294060270105:secret:cooksmart-prod-v2/database-url-vK8G2A"
+                },
+                {
+                    "name": "METRICS_TOKEN",
+                    "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:294060270105:secret:cooksmart-prod-v2/metrics-token-uAalOv"
+                }
+            ],
+            "readonlyRootFilesystem": false,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/cooksmart-prod-v2/yolo",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "yolo"
+                }
+            },
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "curl -fsS http://localhost:8000/health || exit 1"
+                ],
+                "interval": 30,
+                "timeout": 10,
+                "retries": 3,
+                "startPeriod": 120
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "cooksmart-prod-v2-yolo",
+    "taskRoleArn": "arn:aws:iam::294060270105:role/cooksmart-prod-v2-task-role",
+    "executionRoleArn": "arn:aws:iam::294060270105:role/cooksmart-prod-v2-task-execution-role",
+    "networkMode": "awsvpc",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.secrets.asm.environment-variables"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.container-health-check"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE",
+        "MANAGED_INSTANCES"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "2048",
+    "memory": "4096",
+    "registeredAt": "2026-07-07T23:08:31.597000+07:00",
+    "registeredBy": "arn:aws:iam::294060270105:user/mlops-deployer"
+}

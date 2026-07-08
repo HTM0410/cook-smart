@@ -1,0 +1,90 @@
+# ============================================================
+# Docker Compose - Local stack mo phong Lambda + API Gateway
+# 3 service: backend-api, yolo-infer, drift-job
+# Su dung SAM CLI / localstack de test Lambda locally neu can
+# Stack nay chi de smoke test Dockerfiles Lambda truoc khi push ECR
+# ============================================================
+# Su dung:
+#   docker compose -f docker-compose.lambda.yml up --build
+#   docker compose -f docker-compose.lambda.yml down
+# ============================================================
+
+services:
+  # ---- YOLO inference (Lambda) ----
+  yolo:
+    build:
+      context: .
+      dockerfile: docker/yolo.Lambda.Dockerfile
+    image: cooksmart-yolo:lambda-local
+    container_name: cooksmart-yolo-lambda
+    environment:
+      - MLOPS_ENABLED=true
+      - MLOPS_REGISTRY=s3
+      - S3_MODEL_BUCKET=cooksmart-models-local
+      - S3_MODEL_PREFIX=ingredient-detector/latest
+      - CONF_INFERENCE_FLOOR=0.25
+      - METRICS_TOKEN=${METRICS_TOKEN:-}
+      - WANDB_API_KEY=${WANDB_API_KEY:-}
+      - WANDB_ENTITY=${WANDB_ENTITY:-local}
+      - WANDB_PROJECT=ingredient-detection
+      - WANDB_MODEL_ARTIFACT=ingredient-detector
+      - WANDB_MODEL_ALIAS=production
+    volumes:
+      - ./models:/var/task/models:ro
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    restart: unless-stopped
+
+  # ---- Backend API (Lambda) ----
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Lambda.Dockerfile
+    image: cooksmart-backend:lambda-local
+    container_name: cooksmart-backend-lambda
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - YOLO_SERVICE_URL=http://yolo:8000
+      - DB_DIALECT=${DB_DIALECT:-postgres}
+      - DB_HOST=${DB_HOST:-host.docker.internal}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-cooksmart}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASS=${DB_PASS:-changeme}
+      - JWT_SECRET=${JWT_SECRET:-please-change-me}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+    ports:
+      - "3000:3000"
+    depends_on:
+      yolo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---- Drift job (Lambda) - chi chay khi duoc trigger thu cong ----
+  drift:
+    build:
+      context: .
+      dockerfile: docker/drift.Lambda.Dockerfile
+    image: cooksmart-drift:lambda-local
+    container_name: cooksmart-drift-lambda
+    environment:
+      - YOLO_METRICS_URL=http://yolo:8000/metrics
+      - METRICS_TOKEN=${METRICS_TOKEN:-}
+      - BASELINE_DATA_PATH=/var/task/baselines/data_baseline.npz
+      - BASELINE_PRED_PATH=/var/task/baselines/pred_baseline.json
+      - BASELINE_CONCEPT_PATH=/var/task/baselines/concept_baseline.npz
+    volumes:
+      - ./mlops/drift/baselines:/var/task/baselines:ro
+    ports:
+      - "8100:8100"
+    depends_on:
+      - yolo
+    profiles: ["full"]
+    restart: unless-stopped

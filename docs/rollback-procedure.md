@@ -1,130 +1,211 @@
-# Rollback Procedure
+# Rollback Procedure (Lambda)
 
 ## Khi nào cần rollback
 
-- Smoke test fail ngay sau deploy.
-- `IngredientDriftAlertHigh` (severity critical) kéo dài > 15 phút.
-- 5xx rate > 5% trong 5 phút sau deploy.
-- Schema mismatch (`yolo_model_schema_compatible == 0`).
-- Bất kỳ lỗi nào ảnh hưởng user-facing detection.
+- Smoke test fail ngay sau deploy (xem workflow `deploy-prod.yml` step "Smoke test").
+- CloudWatch alarm `*-backend-errors-high` hoặc `*-yolo-errors-high` kich hoat.
+- API Gateway 5xx > 10 trong 5 phut.
+- YOLO init duration > 5s lien tuc (Provisioned Concurrency exhausted).
+- Drift job fail 2 lan lien tiep.
+- Bat ky loi nao anh huong user-facing detection.
 
-## Các cấp rollback
+## Cac cap rollback
 
-### Cấp 1: Rollback trong CodeDeploy (Blue/Green)
+### Cap 1: Lambda alias revert (khuyen nghi - 30 giay)
 
-Áp dụng khi: deployment vừa xong, có vấn đề, chưa ai dùng version mới lâu.
+Lambda alias `prod` luon tro ve 1 version cu the. Moi deployment publish version moi
+va update alias. Rollback chi can tro alias ve version truoc do.
 
-CodeDeploy tự động rollback nếu:
-
-- `validate_service.sh` exit code != 0.
-- Health check fail trong 5 phút sau switch.
-- Auto rollback event triggered (`DEPLOYMENT_FAILURE`, alarm, manual stop).
-
-Manual rollback qua console:
+Bang AWS CLI:
 
 ```bash
-# CodePipeline chạy lại artifact truoc do
-aws deploy stop-deployment \
-    --deployment-id <id> \
-    --auto-rollback-enabled
+# Lay version hien tai cua alias
+CURRENT=$(aws lambda get-alias \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --name prod \
+    --region ap-southeast-1 \
+    --query 'FunctionVersion' --output text)
+echo "Current version: $CURRENT"
+
+# Lay version truoc do
+PREVIOUS=$(aws lambda list-versions-by-function \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --region ap-southeast-1 \
+    --query 'Versions[?Version!=`$LATEST`].Version' --output text \
+    | tr '\t' '\n' | sort -rn \
+    | awk -v c="$CURRENT" '$0 > c' | tail -1)
+
+# Revert alias
+aws lambda update-alias \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --name prod \
+    --function-version "$PREVIOUS" \
+    --region ap-southeast-1
 ```
 
-Hoặc:
+Bang script helper (PowerShell - Windows dev):
+
+```powershell
+.\infra\scripts\deploy-lambda.ps1 `
+    -Function cooksmart-prod-v2-yolo-infer `
+    -Rollback
+```
+
+Bang script helper (Bash - CI/Linux):
 
 ```bash
-# Trong AWS Console:
-# CodeDeploy > Applications > cooksmart-yolo > Deployment groups > cooksmart-yolo-dg
-# Chon deployment > Stop. CodeDeploy se revert traffic ve blue (production version truoc).
+bash infra/scripts/deploy-lambda.sh \
+    --function cooksmart-prod-v2-yolo-infer \
+    --rollback
 ```
 
-### Cấp 2: Rollback ECS Task Definition
+**Thoi gian revert:** < 30 giay (alias update la atomic, moi request moi se dung version moi).
 
-Áp dụng khi: container cũ vẫn chạy ổn nhưng deployment mới không trigger được rollback tự động.
+### Cap 2: Rollback model artifact (W&B alias + S3 pointer)
 
-```bash
-# Lay danh sach task definition
-aws ecs list-task-definitions --family-prefix cooksmart-prod-yolo --sort DESC
+Ap dung khi: container code work, nhung model moi bi loi logic detection.
 
-# Update service ve task definition cu
-aws ecs update-service \
-    --cluster cooksmart-prod \
-    --service cooksmart-prod-yolo-svc \
-    --task-definition cooksmart-prod-yolo:<revision-old> \
-    --force-new-deployment
-```
-
-### Cấp 3: Swap ALB Target Group thủ công
-
-Áp dụng khi: cả 2 task set đều unhealthy, cần swap về version cũ bằng tay.
-
-```bash
-# Lay ARN cua production listener
-LISTENER_ARN=$(aws elbv2 describe-listeners \
-    --load-balancer-arn <alb-arn> \
-    --query 'Listeners[?Port==`443`].ListenerArn' \
-    --output text)
-
-# Lay ARN target group blue (production version cu)
-BLUE_TG=$(aws elbv2 describe-target-groups \
-    --names cooksmart-prod-blue-tg \
-    --query 'TargetGroups[0].TargetGroupArn' \
-    --output text)
-
-# Force forward ve blue
-aws elbv2 modify-listener \
-    --listener-arn $LISTENER_ARN \
-    --default-actions Type=forward,TargetGroupArn=$BLUE_TG
-```
-
-### Cấp 4: Rollback W&B alias
-
-Áp dụng khi: model mới bị lỗi logic mà version container vẫn work, cần revert về artifact cũ.
+#### 2a. W&B alias revert (training pipeline)
 
 ```python
 import wandb
 api = wandb.Api()
-
-# Dat alias production ve version cu
-artifact_path = "htm0410/ingredient-detection/ingredient-detector"
-art = api.artifact(f"{artifact_path}:v_old_hash")
+art = api.artifact("htm0410/ingredient-detection/ingredient-detector:v_old_hash")
 art.aliases.append("production")
 art.save()
 ```
 
-Hoặc qua W&B web UI: Artifacts → ingredient-detector → chọn version → Set alias.
+#### 2b. S3 + DynamoDB revert (runtime serving - primary)
 
-Sau khi đổi alias, **trigger thêm một deployment**:
+Dung CLI moi:
 
 ```bash
-python -m mlops.serving.promotion trigger-pipeline \
-    --pipeline-name cooksmart-prod-pipeline \
-    --region us-east-1
+python -m mlops.serving.promote_and_mirror promote-and-mirror \
+    --entity htm0410 \
+    --project ingredient-detection \
+    --artifact ingredient-detector \
+    --from-alias candidate \
+    --to-alias production \
+    --bucket cooksmart-models \
+    --semver v2026.07.08-rollback
 ```
 
-YOLO service khi khởi động lại task set sẽ pull artifact từ W&B với alias mới.
+Hoac update DynamoDB truc tiep de alias 'production' tro ve version cu:
 
-### Cấp 5: Rollback toàn bộ (disaster)
+```bash
+aws dynamodb put-item \
+    --table-name cooksmart-model-versions \
+    --item '{
+        "PK": {"S": "ALIAS#production"},
+        "SK": {"S": "POINTER"},
+        "alias": "production",
+        "version": "v2026.07.05-previous",
+        "updated_at": {"S": "'"$(date -u +%FT%TZ)"'"}
+    }' \
+    --region ap-southeast-1
+```
 
-Trong tình huống nghiêm trọng (downtime > 5 phút, rollback automatic không work):
+Sau do restart Lambda function de no reload model tu S3 (Lambda khong
+auto-poll S3 path; can redeploy hoac restart):
 
-1. Gọi team SRE ngay lập tức.
-2. Mở war room: gọi conference bridge, pin status updates vào Slack `#incidents`.
-3. Nếu Blue/Green ECS service failed: scale toàn bộ về 0, sau đó chạy task definition gốc với image `cooksmart-yolo:git-revision-before`.
-4. Nếu ALB/CodeDeploy có vấn đề: dùng Route 53 health check để reroute traffic về static S3 + CloudFront page "We're back soon".
+```bash
+# Force Lambda restart: publish version moi voi cung code
+aws lambda publish-version \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --region ap-southeast-1
+
+# Update alias tro ve version moi (se trigger init lai)
+aws lambda update-alias \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --name prod \
+    --function-version <new-version> \
+    --region ap-southeast-1
+```
+
+### Cap 3: Re-deploy service cu (khi Cap 1+2 khong work)
+
+Neu code moi gay crash Lambda, alias revert van se crash (vi alias chi doi
+function version, code van vay). Can deploy image cu len Lambda:
+
+```bash
+# Lay image cu tu ECR
+OLD_IMAGE="294060270105.dkr.ecr.ap-southeast-1.amazonaws.com/cooksmart-yolo:v2026.07.05"
+
+# Update function code (khong publish)
+aws lambda update-function-code \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --image-uri "$OLD_IMAGE" \
+    --region ap-southeast-1
+
+# Publish version moi
+NEW_VER=$(aws lambda publish-version \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --region ap-southeast-1 \
+    --query 'Version' --output text)
+
+# Update alias
+aws lambda update-alias \
+    --function-name cooksmart-prod-v2-yolo-infer \
+    --name prod \
+    --function-version "$NEW_VER" \
+    --region ap-southeast-1
+```
+
+### Cap 4: Switch sang ECS stack cu (disaster recovery)
+
+Stack Lambda va ECS chay song song (Terraform state rieng:
+`prod-v2-lambda` vs `prod-v2`). Neu Lambda co van de lon, revert DNS/traffic
+ve ECS:
+
+```bash
+# 1. Lay ALB DNS cua ECS stack
+ECS_ALB=$(terraform -chdir=infra/envs/prod-ecs output -raw alb_dns_name)
+
+# 2. Update Route 53 record set tro ve ECS ALB
+aws route53 change-resource-record-sets \
+    --hosted-zone-id Z123... \
+    --change-batch '{
+        "Changes": [{
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "api.cooksmart.example.com",
+                "Type": "CNAME",
+                "TTL": 60,
+                "ResourceRecords": [{"Value": "'"$ECS_ALB"'"}]
+            }
+        }]
+    }'
+
+# 3. Verify ECS service van healthy
+aws ecs describe-services \
+    --cluster cooksmart-prod-v2 \
+    --services cooksmart-prod-v2-yolo-svc \
+    --query 'services[0].deployments[0].status'
+```
+
+### Cap 5: Disaster toan bo (downtime > 5 phut)
+
+1. Goi team SRE ngay lap tuc.
+2. Mo war room: conference bridge, pin status updates vao Slack `#incidents`.
+3. Neu Lambda stack failed: switch DNS ve ECS stack (xem Cap 4).
+4. Neu ca hai stack failed: dung Route 53 health check reroute traffic ve
+   static S3 + CloudFront page "We're back soon".
 
 ## Post-rollback checklist
 
-- [ ] Xác nhận tất cả traffic production trỏ về blue task cũ (hoặc pre-rollback version).
-- [ ] Verify Grafana hiển thị model metric ổn định.
-- [ ] Tạo incident report: timeline, root cause, impact, mitigation.
-- [ ] Update `BAO_CAO_MLOPS.md` với section "Sự cố & phản hồi" ghi nhận vụ này.
-- [ ] Mở ticket để fix root cause → schedule retrain pipeline.
+- [ ] Xac nhan API Gateway responses 200 (smoke test workflow `deploy-prod.yml`).
+- [ ] Verify CloudWatch metrics (errors, duration, throttles) on dinh.
+- [ ] Verify `/yolo/health` va `/health` tra ve `200` qua curl.
+- [ ] Verify drift job chay thanh cong o chu ky tiep theo.
+- [ ] Tao incident report: timeline, root cause, impact, mitigation.
+- [ ] Update `BAO_CAO_MLOPS.md` voi section "Su co & phan hoi" ghi nhan vu nay.
+- [ ] Mo ticket de fix root cause -> schedule retrain pipeline.
 
-## Vai trò khi rollback
+## Vai tro khi rollback
 
-| Người | Hành động |
+| Nguoi | Hanh dong |
 |-------|-----------|
-| SRE primary | Thực hiện rollback, kiểm tra metrics |
-| ML Engineer | Verify W&B alias revert, prepare fix |
-| Product Owner | Approve communication tới users (nếu cần) |
+| SRE primary | Thuc hien rollback, kiem tra CloudWatch metrics |
+| ML Engineer | Verify W&B alias + S3 pointer revert, prepare fix |
+| Product Owner | Approve communication toi users (neu can) |
 | Incident Commander | Coordinate, lead war room |

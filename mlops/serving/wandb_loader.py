@@ -1,9 +1,20 @@
+"""Legacy W&B-only loader (backward compat cho training script).
+
+Implementation moi hon (S3 + W&B + local) song song voi file nay
+nam o: src/backend/src/model_detection/yolo_inference_service/wandb_loader.py
+
+Script training cu van goi load_yolo_model_from_registry() o day de lay
+model tu W&B (alias 'production' hoac alias khac) phuc vu cho evaluation.
+"""
 from __future__ import annotations
 
 import json
+import logging
 import os
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger("wandb_loader")
 
 
 def load_yolo_model_from_registry() -> tuple[Any, dict[str, Any]]:
