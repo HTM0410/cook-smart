@@ -1,5 +1,7 @@
 name: Build YOLO Docker Image
 
+# NOTE: Commit a placeholder change to re-trigger this workflow after GitHubActionsRole creation.
+
 on:
   workflow_dispatch:
   push:
