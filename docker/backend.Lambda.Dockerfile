@@ -14,11 +14,10 @@ WORKDIR /var/task
 
 # Cache layer: chi copy lockfile truoc
 COPY src/backend/package*.json ./
-RUN npm ci --no-audit --no-fund --legacy-peer-deps
-
-# Build source
+# Copy tsconfig.json + source TRƯỚC npm ci (tranh postinstall tsc khong co config)
 COPY src/backend/tsconfig.json ./
 COPY src/backend/src ./src
+RUN npm ci --no-audit --no-fund --legacy-peer-deps --ignore-scripts
 RUN npm run build && npm prune --production --legacy-peer-deps
 
 # -----------------------------------------------------------------------------
