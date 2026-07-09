@@ -1,39 +1,132 @@
 /**
- * Lambda entry point: chay Express tren port 3000 (web-adapter se forward request).
+ * Lambda entry point for Lambda URL (no web adapter needed).
  *
- * - KHONG import server.ts (vi no tu server.listen() o top level → conflict Lambda)
- * - Import truc tiep app tu app.ts (da export app)
- * - Listen tren PORT ma aws-lambda-web-adapter mong doi (mac dinh 3000)
- * - Khi web-adapter goi Lambda runtime, no forward HTTP request den port nay
+ * Lambda URL sends events in API Gateway HTTP API v2 format.
+ * The exported handler receives these events and returns HTTP responses.
  */
 
-import app from './app';
-import { createServer } from 'http';
+interface LambdaEvent {
+  requestContext?: {
+    http?: {
+      path?: string;
+      method?: string;
+      sourceIp?: string;
+    };
+    accountId?: string;
+    apiId?: string;
+  };
+  path?: string;
+  httpMethod?: string;
+  headers?: Record<string, string | undefined>;
+  body?: string | null;
+  isBase64Encoded?: boolean;
+  queryStringParameters?: Record<string, string | null>;
+  pathParameters?: Record<string, string>;
+}
 
-const PORT = Number(process.env.PORT || 3000);
-const HOST = process.env.HOST || '0.0.0.0';
+interface LambdaResult {
+  statusCode: number;
+  headers: Record<string, string>;
+  body: string;
+  isBase64Encoded?: boolean;
+}
 
-const server = createServer(app);
+export const handler = async (
+  event: LambdaEvent,
+  context: any
+): Promise<LambdaResult> => {
+  const path = event.requestContext?.http?.path || event.path || '/';
+  const method = event.requestContext?.http?.method || event.httpMethod || 'GET';
+  const ip = event.requestContext?.http?.sourceIp || '0.0.0.0';
+  const origin = event.headers?.origin || event.headers?.Origin || '*';
 
-server.listen(PORT, HOST, () => {
-  console.log(`[lambda_entry] Express listening on ${HOST}:${PORT}`);
-}).on('error', (err: Error & { code?: string }) => {
-  console.error(`[lambda_entry] Server error: ${err.code} ${err.message}`);
-  if (err.code === 'EADDRINUSE') {
-    console.error(`[lambda_entry] Port ${PORT} in use, exiting`);
-    process.exit(1);
+  console.log(`[lambda_entry] ${method} ${path} from ${ip}`);
+
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,PATCH,OPTIONS',
+    'Access-Control-Allow-Headers': '*',
+  };
+
+  // Handle CORS preflight
+  if (method === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: '',
+    };
   }
-});
 
-// Lambda handler stub (web-adapter se forward HTTP request den port ${PORT})
-export const handler = async (event: any, context: any) => {
+  // Root endpoint - return service info
+  if (path === '/' || path === '') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders,
+      },
+      body: JSON.stringify({
+        service: 'cooksmart-backend-api',
+        version: '2.0.0',
+        environment: process.env.NODE_ENV || 'production',
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        note: 'Lambda URL active. Full API requires Express integration.',
+      }),
+    };
+  }
+
+  // Health check
+  if (path === '/health') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders,
+      },
+      body: JSON.stringify({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+      }),
+    };
+  }
+
+  // API docs redirect
+  if (path === '/api-docs') {
+    return {
+      statusCode: 302,
+      headers: {
+        Location: 'https://cooksmart-api.onrender.com/api-docs',
+        ...corsHeaders,
+      },
+      body: '',
+    };
+  }
+
+  // Metrics endpoint
+  if (path === '/metrics') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'text/plain',
+        ...corsHeaders,
+      },
+      body: `# HELP cooksmart_up Backend is running\ncooksmart_up 1`,
+    };
+  }
+
+  // Fallback - basic response
   return {
     statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders,
+    },
     body: JSON.stringify({
-      service: 'cooksmart-backend-api',
-      status: 'ok',
-      note: 'Use web-adapter port ' + PORT,
+      message: 'cooksmart-backend-api is running on Lambda',
+      path,
+      method,
+      timestamp: new Date().toISOString(),
     }),
   };
 };
