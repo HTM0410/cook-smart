@@ -62,6 +62,8 @@ jobs:
 
       - name: Build and push Backend image
         uses: docker/build-push-action@v6
+        env:
+          BUILDKIT_NO_CACHE: "true"
         with:
           context: .
           push: true
@@ -111,6 +113,8 @@ jobs:
 
       - name: Build and push YOLO image
         uses: docker/build-push-action@v6
+        env:
+          BUILDKIT_NO_CACHE: "true"
         with:
           context: .
           push: true
