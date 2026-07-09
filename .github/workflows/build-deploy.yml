@@ -93,7 +93,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        id: login-ecr-yolo
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Set up Docker Buildx
@@ -103,12 +103,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_YOLO }}
+          images: ${{ steps.login-ecr-yolo.outputs.registry }}/${{ env.ECR_REPOSITORY_YOLO }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
 
       - name: Build and push YOLO image
         uses: docker/build-push-action@v6
@@ -188,7 +185,7 @@ jobs:
         with:
           task-definition: .aws/ecs-task-def-yolo.json
           container-name: yolo
-          image: ${{ needs.build-yolo.outputs.image_tag }}
+          image: ${{ fromJSON(needs.build-yolo.outputs.image_tag)[0] }}
 
       - name: Deploy YOLO task definition
         id: deploy-yolo
