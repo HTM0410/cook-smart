@@ -6,7 +6,6 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "postinstall": "npm run build",
     "build:render": "npm install --include=dev && npm run build",
     "dev": "concurrently --kill-others-on-fail -n \"YOLO,API\" -c \"yellow,cyan\" \"npm run yolo:start\" \"npx ts-node src/server.ts\"",
     "yolo:start": "powershell -ExecutionPolicy Bypass -File start-yolo.ps1",
