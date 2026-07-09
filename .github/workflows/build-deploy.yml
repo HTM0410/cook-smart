@@ -55,10 +55,7 @@ jobs:
         with:
           images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_BACKEND }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
 
       - name: Build and push Backend image
         uses: docker/build-push-action@v6
@@ -145,7 +142,7 @@ jobs:
         with:
           task-definition: .aws/ecs-task-def-backend.json
           container-name: backend
-          image: ${{ fromJSON(needs.build-backend.outputs.image_tag)[0] }}
+          image: ${{ needs.build-backend.outputs.image_tag }}
 
       - name: Deploy Backend task definition
         id: deploy-backend
@@ -185,7 +182,7 @@ jobs:
         with:
           task-definition: .aws/ecs-task-def-yolo.json
           container-name: yolo
-          image: ${{ fromJSON(needs.build-yolo.outputs.image_tag)[0] }}
+          image: ${{ needs.build-yolo.outputs.image_tag }}
 
       - name: Deploy YOLO task definition
         id: deploy-yolo
