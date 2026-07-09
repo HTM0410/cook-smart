@@ -138,17 +138,22 @@ jobs:
 
       - name: Download task definition
         id: task-def-backend
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: .aws/ecs-task-def-backend.json
-          container-name: backend
-          image: ${{ needs.build-backend.outputs.image_tag }}
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition .aws/ecs-task-def-backend.json \
+            --query taskDefinition > task-def-backend.json
+          
+          ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
+          sed -i "s/\${AWS_ACCOUNT_ID}/$ACCOUNT_ID/g" task-def-backend.json
+          
+          cat task-def-backend.json | jq '.executionRoleArn = "arn:aws:iam::'"$ACCOUNT_ID"':role/ecsTaskExecutionRole"' > task-def-backend-final.json
+          cat task-def-backend-final.json
 
       - name: Deploy Backend task definition
         id: deploy-backend
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-def-backend.outputs.task-definition }}
+          task-definition: task-def-backend-final.json
           service: ${{ vars.ECS_SERVICE_BACKEND || 'cooksmart-backend' }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
@@ -178,17 +183,21 @@ jobs:
 
       - name: Download task definition
         id: task-def-yolo
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: .aws/ecs-task-def-yolo.json
-          container-name: yolo
-          image: ${{ needs.build-yolo.outputs.image_tag }}
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition .aws/ecs-task-def-yolo.json \
+            --query taskDefinition > task-def-yolo.json
+          
+          ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
+          sed -i "s/\${AWS_ACCOUNT_ID}/$ACCOUNT_ID/g" task-def-yolo.json
+          
+          cat task-def-yolo.json | jq '.executionRoleArn = "arn:aws:iam::'"$ACCOUNT_ID"':role/ecsTaskExecutionRole"' > task-def-yolo-final.json
 
       - name: Deploy YOLO task definition
         id: deploy-yolo
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-def-yolo.outputs.task-definition }}
+          task-definition: task-def-yolo-final.json
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
