@@ -108,5 +108,8 @@ src/backend/dist
 .eslintrc*
 .prettierrc*
 jest.config*
+# Ignore root tsconfig but keep backend tsconfig
 tsconfig*.json
+!src/backend/tsconfig.json
+!src/frontend/tsconfig.json
 !.gitignore
