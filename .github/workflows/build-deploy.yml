@@ -145,7 +145,7 @@ jobs:
         with:
           task-definition: .aws/ecs-task-def-backend.json
           container-name: backend
-          image: ${{ needs.build-backend.outputs.image_tag }}
+          image: ${{ fromJSON(needs.build-backend.outputs.image_tag)[0] }}
 
       - name: Deploy Backend task definition
         id: deploy-backend
