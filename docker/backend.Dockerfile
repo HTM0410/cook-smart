@@ -22,7 +22,7 @@ COPY src/backend/src ./src
 RUN npm run build
 
 # -----------------------------------------------------------------------------
-# Stage 2: runtime - chỉ giữ dist + production deps
+# Stage 2: runtime - chỉ giữ production deps, skip postinstall
 # -----------------------------------------------------------------------------
 FROM node:22-alpine AS runtime
 WORKDIR /app
@@ -32,9 +32,9 @@ ENV NODE_ENV=production \
 # Cài đặt curl cho healthcheck (wget có sẵn trên busybox alpine)
 RUN apk add --no-cache curl
 
-# Cài production dependencies
+# Cài production dependencies - KHÔNG chạy postinstall/scripts
 COPY src/backend/package.json src/backend/package-lock.json* ./
-RUN npm ci --omit=dev --no-audit --no-fund --legacy-peer-deps \
+RUN npm ci --omit=dev --no-audit --no-fund --legacy-peer-deps --ignore-scripts \
     && npm cache clean --force
 
 # Copy compiled output
