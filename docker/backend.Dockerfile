@@ -3,26 +3,28 @@
 # CookSmart Backend - Production Dockerfile
 # Multi-stage build: TypeScript compile -> lean runtime image
 # =============================================================================
+# Context: project root (.)
+# Files are in src/backend/
 
 # -----------------------------------------------------------------------------
 # Stage 1: build - compile TypeScript
 # -----------------------------------------------------------------------------
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 WORKDIR /app
 
-# Copy lockfile trước để cache tốt
-COPY package.json package-lock.json* ./
+# Copy from src/backend/ since context is project root
+COPY src/backend/package.json src/backend/package-lock.json* ./
 RUN npm ci --no-audit --no-fund
 
 # Copy source + build
-COPY tsconfig.json ./
-COPY src ./src
+COPY src/backend/tsconfig.json ./
+COPY src/backend/src ./src
 RUN npm run build
 
 # -----------------------------------------------------------------------------
 # Stage 2: runtime - chỉ giữ dist + production deps
 # -----------------------------------------------------------------------------
-FROM node:20-alpine AS runtime
+FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     PORT=3000
@@ -31,7 +33,7 @@ ENV NODE_ENV=production \
 RUN apk add --no-cache curl
 
 # Cài production dependencies
-COPY package.json package-lock.json* ./
+COPY src/backend/package.json src/backend/package-lock.json* ./
 RUN npm ci --omit=dev --no-audit --no-fund \
     && npm cache clean --force
 
