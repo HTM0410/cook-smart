@@ -60,21 +60,22 @@ EOF
             --query 'Version' --output text)
         echo "   Published version: $NEW_VER"
 
-        # Create or update alias 'prod' pointing to new version
-        # put-alias: creates if not exists, updates if exists
-        aws lambda put-alias \
+        # Try to create alias, if exists then update
+        if aws lambda create-alias \
             --function-name "$func_name" \
             --name "$ALIAS" \
             --function-version "$NEW_VER" \
             --region "$REGION" \
-            --routing-config AdditionalVersionWeights="{$NEW_VER=1.0}" \
-            2>/dev/null || \
-        aws lambda put-alias \
-            --function-name "$func_name" \
-            --name "$ALIAS" \
-            --function-version "$NEW_VER" \
-            --region "$REGION"
-        echo "   Alias $ALIAS -> version $NEW_VER"
+            2>/dev/null; then
+            echo "   Alias $ALIAS created -> version $NEW_VER"
+        else
+            aws lambda update-alias \
+                --function-name "$func_name" \
+                --name "$ALIAS" \
+                --function-version "$NEW_VER" \
+                --region "$REGION" \
+                2>/dev/null && echo "   Alias $ALIAS updated -> version $NEW_VER"
+        fi
     else
         aws lambda update-function-code \
             --function-name "$func_name" \
@@ -109,19 +110,19 @@ rollback_function() {
         exit 1
     fi
 
-    # Create or update alias
-    aws lambda put-alias \
+    # Try to create alias if not exists, update if exists
+    if ! aws lambda update-alias \
         --function-name "$func_name" \
         --name "$ALIAS" \
         --function-version "$PREVIOUS" \
         --region "$REGION" \
-        --routing-config AdditionalVersionWeights="{$PREVIOUS=1.0}" \
-        2>/dev/null || \
-    aws lambda put-alias \
-        --function-name "$func_name" \
-        --name "$ALIAS" \
-        --function-version "$PREVIOUS" \
-        --region "$REGION"
+        2>/dev/null; then
+        aws lambda create-alias \
+            --function-name "$func_name" \
+            --name "$ALIAS" \
+            --function-version "$PREVIOUS" \
+            --region "$REGION"
+    fi
     echo "   Rolled back to version $PREVIOUS"
 }
 
