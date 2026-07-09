@@ -139,14 +139,24 @@ jobs:
       - name: Download task definition
         id: task-def-backend
         run: |
+          FAMILY=$(jq -r '.family' .aws/ecs-task-def-backend.json)
+          echo "Family: $FAMILY"
+          
+          # Lấy task definition hiện tại từ ECS, hoặc dùng file JSON local nếu chưa tồn tại
           aws ecs describe-task-definition \
-            --task-definition .aws/ecs-task-def-backend.json \
-            --query taskDefinition > task-def-backend.json
+            --task-definition "$FAMILY" \
+            --query taskDefinition > task-def-backend.json 2>/dev/null || \
+            jq '. | del(.revision, .status, .registeredAt, .registeredBy, .compatibilities, .runtimePlatform, .requiresAttributes, .taskDefinitionArn)' .aws/ecs-task-def-backend.json > task-def-backend.json
           
           ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
           sed -i "s/\${AWS_ACCOUNT_ID}/$ACCOUNT_ID/g" task-def-backend.json
           
-          cat task-def-backend.json | jq '.executionRoleArn = "arn:aws:iam::'"$ACCOUNT_ID"':role/ecsTaskExecutionRole"' > task-def-backend-final.json
+          jq --arg ROLE "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskExecutionRole" \
+            '.executionRoleArn = $ROLE' task-def-backend.json > task-def-backend-final.json
+          
+          # Substitute image URL
+          sed -i "s|REPLACE_WITH_IMAGE_URL|${{ needs.build-backend.outputs.image_tag }}|g" task-def-backend-final.json
+          
           cat task-def-backend-final.json
 
       - name: Deploy Backend task definition
@@ -184,14 +194,21 @@ jobs:
       - name: Download task definition
         id: task-def-yolo
         run: |
+          FAMILY=$(jq -r '.family' .aws/ecs-task-def-yolo.json)
+          echo "Family: $FAMILY"
+          
           aws ecs describe-task-definition \
-            --task-definition .aws/ecs-task-def-yolo.json \
-            --query taskDefinition > task-def-yolo.json
+            --task-definition "$FAMILY" \
+            --query taskDefinition > task-def-yolo.json 2>/dev/null || \
+            jq '. | del(.revision, .status, .registeredAt, .registeredBy, .compatibilities, .runtimePlatform, .requiresAttributes, .taskDefinitionArn)' .aws/ecs-task-def-yolo.json > task-def-yolo.json
           
           ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
           sed -i "s/\${AWS_ACCOUNT_ID}/$ACCOUNT_ID/g" task-def-yolo.json
           
-          cat task-def-yolo.json | jq '.executionRoleArn = "arn:aws:iam::'"$ACCOUNT_ID"':role/ecsTaskExecutionRole"' > task-def-yolo-final.json
+          jq --arg ROLE "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskExecutionRole" \
+            '.executionRoleArn = $ROLE' task-def-yolo.json > task-def-yolo-final.json
+          
+          sed -i "s|REPLACE_WITH_IMAGE_URL|${{ needs.build-yolo.outputs.image_tag }}|g" task-def-yolo-final.json
 
       - name: Deploy YOLO task definition
         id: deploy-yolo
