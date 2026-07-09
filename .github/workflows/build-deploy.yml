@@ -62,13 +62,12 @@ jobs:
 
       - name: Build and push Backend image
         uses: docker/build-push-action@v6
-        env:
-          BUILDKIT_NO_CACHE: "true"
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           file: ./docker/backend.Dockerfile
+          no-cache: true
           build-args: |
             NODE_ENV=production
 
@@ -113,13 +112,12 @@ jobs:
 
       - name: Build and push YOLO image
         uses: docker/build-push-action@v6
-        env:
-          BUILDKIT_NO_CACHE: "true"
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           file: ./docker/yolo.Dockerfile
+          no-cache: true
 
   deploy-backend:
     name: Deploy Backend to ECS
