@@ -14,7 +14,7 @@ WORKDIR /app
 
 # Copy from src/backend/ since context is project root
 COPY src/backend/package.json src/backend/package-lock.json* ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --legacy-peer-deps
 
 # Copy source + build
 COPY src/backend/tsconfig.json ./
@@ -34,7 +34,7 @@ RUN apk add --no-cache curl
 
 # Cài production dependencies
 COPY src/backend/package.json src/backend/package-lock.json* ./
-RUN npm ci --omit=dev --no-audit --no-fund \
+RUN npm ci --omit=dev --no-audit --no-fund --legacy-peer-deps \
     && npm cache clean --force
 
 # Copy compiled output
