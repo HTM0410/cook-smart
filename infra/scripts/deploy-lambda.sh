@@ -45,7 +45,7 @@ Examples:
 EOF
 }
 
-update_function() {
+    update_function() {
     local func_name="$1"
     local image="$2"
     local wait="$3"
@@ -60,13 +60,21 @@ update_function() {
             --query 'Version' --output text)
         echo "   Published version: $NEW_VER"
 
-        # Update alias 'prod' tro ve version moi
-        aws lambda update-alias \
+        # Create or update alias 'prod' pointing to new version
+        # put-alias: creates if not exists, updates if exists
+        aws lambda put-alias \
             --function-name "$func_name" \
             --name "$ALIAS" \
             --function-version "$NEW_VER" \
             --region "$REGION" \
-            --query 'FunctionVersion' --output text | xargs -I {} echo "   Alias $ALIAS -> version {}"
+            --routing-config AdditionalVersionWeights="{$NEW_VER=1.0}" \
+            2>/dev/null || \
+        aws lambda put-alias \
+            --function-name "$func_name" \
+            --name "$ALIAS" \
+            --function-version "$NEW_VER" \
+            --region "$REGION"
+        echo "   Alias $ALIAS -> version $NEW_VER"
     else
         aws lambda update-function-code \
             --function-name "$func_name" \
@@ -86,12 +94,12 @@ rollback_function() {
     local func_name="$1"
 
     echo ">> Rolling back $func_name via alias $ALIAS"
-    # Lay version hien tai cua alias
+    # Get current version from alias
     CURRENT=$(aws lambda get-alias --function-name "$func_name" --name "$ALIAS" --region "$REGION" \
-        --query 'FunctionVersion' --output text)
+        --query 'FunctionVersion' --output text 2>/dev/null || echo "")
     echo "   Current version: $CURRENT"
 
-    # List versions, lay version truoc do
+    # List versions, get previous one
     PREVIOUS=$(aws lambda list-versions-by-function --function-name "$func_name" --region "$REGION" \
         --query 'Versions[?Version!=`$LATEST`].Version' --output text | tr '\t' '\n' \
         | sort -rn | grep -A1 "^${CURRENT}$" | tail -1 || echo "")
@@ -101,12 +109,20 @@ rollback_function() {
         exit 1
     fi
 
-    aws lambda update-alias \
+    # Create or update alias
+    aws lambda put-alias \
         --function-name "$func_name" \
         --name "$ALIAS" \
         --function-version "$PREVIOUS" \
         --region "$REGION" \
-        --query 'FunctionVersion' --output text | xargs -I {} echo "   Rolled back to version {}"
+        --routing-config AdditionalVersionWeights="{$PREVIOUS=1.0}" \
+        2>/dev/null || \
+    aws lambda put-alias \
+        --function-name "$func_name" \
+        --name "$ALIAS" \
+        --function-version "$PREVIOUS" \
+        --region "$REGION"
+    echo "   Rolled back to version $PREVIOUS"
 }
 
 ALL=false
