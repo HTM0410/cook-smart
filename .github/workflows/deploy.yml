@@ -28,7 +28,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install promotion deps
-        run: pip install click boto3 wandb
+        run: pip install click boto3 wandb && pip install -e . --no-deps
 
       - name: Trigger pipeline
         env:
