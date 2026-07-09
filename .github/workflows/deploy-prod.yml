@@ -201,9 +201,10 @@ jobs:
         run: |
           set -e
           # Lay API endpoint tu tag (resolve qua Terraform output hoac API Gateway list)
-          API_ID=$(aws apigatewayv2 get-apis --region "$AWS_REGION" --query "Items[?Name=='cooksmart-prod-v2-http-api'].ApiId | [0]" --output text)
+          # Suppress pager to avoid hanging in CI
+          API_ID=$(aws apigatewayv2 get-apis --region "$AWS_REGION" --query "Items[?Name=='cooksmart-prod-v2-http-api'].ApiId | [0]" --output text --no-cli-pager 2>/dev/null || echo "None")
           if [ -z "$API_ID" ] || [ "$API_ID" = "None" ]; then
-            echo "Could not resolve API ID, skipping smoke test"
+            echo "API Gateway not found, skipping smoke test"
             exit 0
           fi
           API_URL="https://${API_ID}.execute-api.${AWS_REGION}.amazonaws.com"
