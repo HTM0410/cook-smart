@@ -39,8 +39,9 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/var/task
 
 # AWS Lambda Web Adapter (chuyen ASGI/WSGI app thanh Lambda handler)
-COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
-     /lambda-adapter /opt/extensions/lambda-adapter
+# aws-lambda-web-adapter: DISABLED - su dung Lambda URL thay vi API Gateway + web adapter
+# COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
+#      /lambda-adapter /opt/extensions/lambda-adapter
 
 ENV PORT=8000
 ENV HOST=0.0.0.0

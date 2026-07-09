@@ -28,8 +28,9 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/var/task:/var/task/drift
 
 # AWS Lambda Web Adapter (drift service cung la FastAPI app)
-COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
-     /lambda-adapter /opt/extensions/lambda-adapter
+# aws-lambda-web-adapter: DISABLED - su dung Lambda URL thay vi API Gateway + web adapter
+# COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 \
+#      /lambda-adapter /opt/extensions/lambda-adapter
 
 WORKDIR /var/task
 
