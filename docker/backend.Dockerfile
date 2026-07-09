@@ -13,13 +13,15 @@ FROM node:22-alpine AS build
 WORKDIR /app
 
 # Copy from src/backend/ since context is project root
+# Phải copy TRƯỚC npm ci vì postinstall chạy tsc ngay
 COPY src/backend/package.json src/backend/package-lock.json* ./
-RUN npm ci --no-audit --no-fund --legacy-peer-deps
-
-# Copy source + build
 COPY src/backend/tsconfig.json ./
 COPY src/backend/src ./src
-RUN npm run build
+
+RUN npm ci --no-audit --no-fund --legacy-peer-deps --ignore-scripts
+
+# Build TypeScript sau khi đã có đủ source
+RUN npx tsc
 
 # -----------------------------------------------------------------------------
 # Stage 2: runtime - chỉ giữ production deps, skip postinstall
