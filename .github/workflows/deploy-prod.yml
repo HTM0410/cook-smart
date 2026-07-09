@@ -113,6 +113,8 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
           platforms: linux/arm64
+          provenance: false
+          sbom: false
 
       - name: Verify image in ECR
         run: |
