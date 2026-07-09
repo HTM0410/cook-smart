@@ -236,29 +236,13 @@ resource "aws_cloudwatch_metric_alarm" "yolo_concurrent_executions" {
 # API Gateway 5xx (neu co api_id)
 # -----------------------------------------------------------------------------
 
-resource "aws_cloudwatch_metric_alarm" "apigw_5xx" {
-  count = var.api_id != "" ? 1 : 0
-
-  alarm_name          = "${var.name}-apigw-5xx"
-  alarm_description   = "API Gateway 5xx > 10 trong 5 phut"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = 1
-  metric_name         = "5xx"
-  namespace           = "AWS/ApiGateway"
-  period              = 300
-  statistic           = "Sum"
-  threshold           = 10
-  treat_missing_data  = "notBreaching"
-
-  dimensions = {
-    ApiId = var.api_id
-  }
-
-  alarm_actions = var.sns_topic_arn != null ? [var.sns_topic_arn] : []
-  ok_actions    = var.sns_topic_arn != null ? [var.sns_topic_arn] : []
-
-  tags = var.tags
-}
+# API Gateway 5xx alarm - removed because api_id is unknown until apply
+# Can be added separately after Lambda creation if needed
+# resource "aws_cloudwatch_metric_alarm" "apigw_5xx" {
+#   alarm_name          = "${var.name}-apigw-5xx"
+#   alarm_description   = "API Gateway 5xx > 10 trong 5 phut"
+#   ...
+# }
 
 # -----------------------------------------------------------------------------
 # Outputs
@@ -273,6 +257,6 @@ output "alarm_arns" {
     yolo_errors          = aws_cloudwatch_metric_alarm.yolo_errors.arn
     yolo_concurrent_high = aws_cloudwatch_metric_alarm.yolo_concurrent_executions.arn
     drift_errors         = aws_cloudwatch_metric_alarm.drift_errors.arn
-    apigw_5xx            = var.api_id != "" ? aws_cloudwatch_metric_alarm.apigw_5xx[0].arn : null
+    apigw_5xx            = null  # removed - requires known api_id
   }
 }

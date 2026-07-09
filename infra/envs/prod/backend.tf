@@ -23,7 +23,7 @@ terraform {
 
   backend "s3" {
     bucket         = "cooksmart-tfstate"
-    key            = "prod-v2/terraform.tfstate"
+    key            = "prod-v2-lambda/terraform.tfstate"
     region         = "ap-southeast-1"
     dynamodb_table = "cooksmart-tflock"
     encrypt        = true

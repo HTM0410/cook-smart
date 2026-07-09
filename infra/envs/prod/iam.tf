@@ -1,9 +1,9 @@
 # =============================================================================
-# IAM policies gan truc tiep vao task execution role cua ECS
-# Resource gan role policy attachment vao module.ecs_blue_green.task_execution_role_arn
+# IAM policies gan truc tiep vao Lambda execution role
+# Resource gan role policy attachment vao module.lambda.lambda_exec_role_arn
 # =============================================================================
 
-# Policy doc cho task execution role (pull image + lay secret)
+# Policy doc cho Lambda execution role (pull image + lay secret)
 data "aws_iam_policy_document" "task_secrets_access" {
   statement {
     sid    = "AllowReadAllAppSecrets"
@@ -29,8 +29,8 @@ resource "aws_iam_policy" "task_secrets_access" {
   tags   = var.tags
 }
 
-# Attach policy vao task execution role
+# Attach policy vao Lambda execution role
 resource "aws_iam_role_policy_attachment" "task_secrets_access" {
-  role       = basename(module.ecs.task_execution_role_arn)
+  role       = basename(module.lambda.lambda_exec_role_arn)
   policy_arn = aws_iam_policy.task_secrets_access.arn
 }

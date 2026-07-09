@@ -1,11 +1,13 @@
 # =============================================================================
-# Production entry point - SIMPLIFIED VERSION
-# Chi dung: secrets, ecr, alb, ecs (rolling), monitoring
-# Deploy se duoc thuc hien boi GitHub Actions thay vi CodePipeline
+# Production entry point - LAMBDA VERSION (parallel stack with ECS)
+# Day vao state rieng (key=prod-v2-lambda/terraform.tfstate) de khong pha
+# prod ECS dang chay o key=prod-v2/terraform.tfstate.
+# Su dung: copy file nay thanh main.tf, doi backend key sang prod-v2-lambda,
+# roi terraform init + apply.
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Security foundations
+# Security foundations (Secrets Manager - 4 secrets)
 # -----------------------------------------------------------------------------
 
 module "secrets" {
@@ -16,7 +18,7 @@ module "secrets" {
 }
 
 # -----------------------------------------------------------------------------
-# Container registry
+# Container registry (ECR - 3 repos)
 # -----------------------------------------------------------------------------
 
 module "ecr" {
@@ -26,66 +28,75 @@ module "ecr" {
 }
 
 # -----------------------------------------------------------------------------
-# Networking: Application Load Balancer
+# Model registry (S3 + DynamoDB)
 # -----------------------------------------------------------------------------
 
-module "alb" {
-  source            = "../../modules/alb"
-  name              = var.name
-  vpc_id            = var.vpc_id
-  public_subnets    = var.public_subnets
-  acm_arn           = var.acm_arn
-  container_port    = 8000
-  health_check_path = "/health"
-  tags              = var.tags
+module "model_registry" {
+  source = "../../modules/model_registry"
+  name   = var.name
+  tags   = var.tags
 }
 
 # -----------------------------------------------------------------------------
-# Compute: ECS Fargate (Rolling Update - khong dung CodeDeploy)
+# Compute: AWS Lambda + API Gateway (thay the ECS Fargate)
 # -----------------------------------------------------------------------------
 
-module "ecs" {
-  source = "../../modules/ecs_simple"
+module "lambda" {
+  source = "../../modules/lambda"
   name   = var.name
 
   vpc_id          = var.vpc_id
   private_subnets = var.private_subnets
 
-  alb_security_group_id = module.alb.alb_security_group_id
-  target_group_arn      = module.alb.blue_tg_arn
-
-  ecr_repo_url = module.ecr.yolo_repo_url
-
   secrets_arn = {
     wandb_api_key         = module.secrets.secret_arns.wandb_api_key
-    database_url         = module.secrets.secret_arns.database_url
-    metrics_token        = module.secrets.secret_arns.metrics_token
+    database_url          = module.secrets.secret_arns.database_url
+    metrics_token         = module.secrets.secret_arns.metrics_token
     prometheus_push_token = module.secrets.secret_arns.prometheus_push_token
   }
 
-  region = var.region
-  tags   = var.tags
+  ecr_images = {
+    backend = module.ecr.backend_repo_url
+    yolo    = module.ecr.yolo_repo_url
+    drift   = module.ecr.drift_repo_url
+  }
+
+  s3_model_bucket        = module.model_registry.bucket_name
+  s3_model_prefix        = "ingredient-detector/"
+  model_versions_table   = module.model_registry.table_name
+
+  yolo_provisioned_concurrency = 1
+  yolo_memory                  = 10240
+  yolo_timeout                 = 60
+  backend_memory               = 512
+  backend_timeout              = 30
+  drift_memory                 = 512
+  drift_timeout                = 300
+
+  cors_allow_origins = ["*"]
+  sns_topic_arn      = var.approval_sns_topic_arn
+  tags               = var.tags
 }
 
 # -----------------------------------------------------------------------------
-# Monitoring: CloudWatch alarms
+# Monitoring: CloudWatch alarms (Lambda metrics)
 # -----------------------------------------------------------------------------
 
 module "monitoring" {
   source = "../../modules/monitoring"
   name   = var.name
 
-  alb_arn_suffix               = module.alb.alb_arn
-  yolo_target_group_arn_suffix = module.alb.blue_tg_arn
-  ecs_cluster_name             = module.ecs.cluster_name
-  yolo_service_name            = module.ecs.service_name
-
-  sns_topic_arn = var.approval_sns_topic_arn
-  tags          = var.tags
+  yolo_function_name     = module.lambda.yolo_function_name
+  backend_function_name  = module.lambda.backend_function_name
+  drift_function_name    = module.lambda.drift_function_name
+  api_id                 = module.lambda.api_id  # placeholder, su dung cho 5xx alarm
+  sns_topic_arn          = var.approval_sns_topic_arn
+  tags                   = var.tags
 }
 
 # -----------------------------------------------------------------------------
 # CI/CD: GitHub Actions IAM Role
+# Quyen update Lambda function code, publish version, update alias
 # -----------------------------------------------------------------------------
 
 module "github_actions" {
@@ -93,15 +104,23 @@ module "github_actions" {
   name   = var.name
   tags   = var.tags
 
-  ecs_task_execution_role_arn = module.ecs.task_execution_role_arn
-  ecs_task_role_arn           = module.ecs.task_role_arn
+  # Khong can ECS role nua (Lambda khong can task role rieng - dung Lambda exec role)
+  ecs_task_execution_role_arn = module.lambda.lambda_exec_role_arn
+  ecs_task_role_arn           = module.lambda.lambda_exec_role_arn
 
   database_url_secret_arn          = module.secrets.secret_arns.database_url
   wandb_api_key_secret_arn         = module.secrets.secret_arns.wandb_api_key
   metrics_token_secret_arn         = module.secrets.secret_arns.metrics_token
   prometheus_push_token_secret_arn = module.secrets.secret_arns.prometheus_push_token
 
-  github_repo = "HTM0410/cook-smart"
+  # Them quyen Lambda + S3 + DynamoDB cho GHA (mo rong policy o module)
+  s3_model_bucket_arn   = module.model_registry.bucket_arn
+  model_versions_table  = module.model_registry.table_name
+  yolo_function_name    = module.lambda.yolo_function_name
+  backend_function_name = module.lambda.backend_function_name
+  drift_function_name   = module.lambda.drift_function_name
+
+  github_repo = var.github_repo
 }
 
 # -----------------------------------------------------------------------------
@@ -109,8 +128,8 @@ module "github_actions" {
 # -----------------------------------------------------------------------------
 
 output "alb_dns_name" {
-  description = "Public DNS cua ALB production"
-  value       = module.alb.alb_dns_name
+  description = "Public URL cua API Gateway"
+  value       = module.lambda.api_endpoint
 }
 
 output "ecr_backend_url" {
@@ -125,16 +144,36 @@ output "ecr_drift_url" {
   value = module.ecr.drift_repo_url
 }
 
-output "ecs_cluster_name" {
-  value = module.ecs.cluster_name
+output "model_bucket" {
+  value = module.model_registry.bucket_name
 }
 
-output "ecs_service_name" {
-  value = module.ecs.service_name
+output "model_versions_table" {
+  value = module.model_registry.table_name
 }
 
-output "log_group_name" {
-  value = module.ecs.log_group_name
+output "yolo_function_name" {
+  value = module.lambda.yolo_function_name
+}
+
+output "backend_function_name" {
+  value = module.lambda.backend_function_name
+}
+
+output "drift_function_name" {
+  value = module.lambda.drift_function_name
+}
+
+output "log_group_backend" {
+  value = module.lambda.log_group_backend
+}
+
+output "log_group_yolo" {
+  value = module.lambda.log_group_yolo
+}
+
+output "log_group_drift" {
+  value = module.lambda.log_group_drift
 }
 
 output "sns_topic_arn" {
