@@ -204,8 +204,8 @@ const HeroSection: React.FC = () => {
                 className="absolute top-0 right-0 w-64 md:w-80 aspect-[4/5] rounded-squircle overflow-hidden shadow-ambient-lg rotate-[3deg] z-30"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=1000&fit=crop"
-                  alt="Bát salad tươi"
+                  src="https://images.unsplash.com/photo-1766050586763-723571af4dde?w=800&h=1000&fit=crop&q=80"
+                  alt="Phở bò — món phở truyền thống Việt Nam"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-700/30 to-transparent" />
@@ -219,8 +219,8 @@ const HeroSection: React.FC = () => {
                 className="absolute top-12 left-0 w-44 md:w-56 aspect-square rounded-squircle overflow-hidden shadow-ambient -rotate-[4deg] z-20"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=600&fit=crop"
-                  alt="Món pasta hấp dẫn"
+                  src="https://images.unsplash.com/photo-1647169953827-a7c85f324caf?w=600&h=600&fit=crop&q=80"
+                  alt="Bánh mì — ổ bánh mì Việt Nam đầy nhân"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
@@ -233,8 +233,8 @@ const HeroSection: React.FC = () => {
                 className="absolute bottom-0 left-12 md:left-20 w-52 md:w-64 aspect-[4/3] rounded-squircle overflow-hidden shadow-ambient rotate-[2deg] z-10"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=450&fit=crop"
-                  alt="Pizza tươi"
+                  src="https://images.unsplash.com/photo-1763703544688-2ac7839b0659?w=600&h=450&fit=crop&q=80"
+                  alt="Bún chả — bún chả Hà Nội với thịt nướng và rau sống"
                   className="w-full h-full object-cover"
                 />
                 {/* Editorial stat overlay */}
