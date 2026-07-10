@@ -7,6 +7,12 @@ on:
         description: 'YOLO source directory relative to repo root (default: src/backend/src/model_detection/yolo_inference_service)'
         required: false
         default: 'src/backend/src/model_detection/yolo_inference_service'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/backend/src/model_detection/yolo_inference_service/**'
+      - '.github/workflows/build-yolo-only.yml'
 
 env:
   AWS_REGION: ap-southeast-1

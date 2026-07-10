@@ -740,3 +740,5 @@ def _read_threshold_updated_at() -> Optional[str]:
     except Exception:  # noqa: BLE001
         return None
     return None
+
+# Trigger rebuild 2026-07-11 03:43:41 - PUT /config/threshold
