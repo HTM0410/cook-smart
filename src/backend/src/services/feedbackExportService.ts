@@ -1,8 +1,21 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import os from 'os';
 import { DetectionHistory, DetectionCorrection } from '../models';
 
-const DEFAULT_EXPORT_ROOT = path.resolve(__dirname, '../../../../mlops/data/corrections');
+// Resolve DEFAULT_EXPORT_ROOT tu thu muc lam viec thay vi __dirname vi
+// `dist/services/feedbackExportService.js` trong container prod co __dirname = /app/dist/services,
+// khong phu hop de ghi ra `mlops/`. Dung process.cwd() (=/app) cho path on dinh giua dev/prod.
+function resolveDefaultExportRoot(): string {
+  const cwd = process.cwd();
+  // Skip parent nếu cwd là root (tránh mkdir '/mlops' trong container)
+  if (cwd === '/' || cwd === os.homedir()) {
+    return path.join(os.tmpdir(), 'cooksmart-mlops', 'data', 'corrections');
+  }
+  return path.resolve(cwd, 'mlops', 'data', 'corrections');
+}
+
+const DEFAULT_EXPORT_ROOT = resolveDefaultExportRoot();
 
 function difference<T>(source: T[], target: T[]): T[] {
   const set = new Set(target);

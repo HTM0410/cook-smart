@@ -62,6 +62,7 @@ export interface YoloLabelsResponse {
 
 class YoloService {
   private client: AxiosInstance;
+  private inferenceClient: AxiosInstance;
   private healthCache: {
     data: YoloHealthResponse | null;
     timestamp: number;
@@ -85,42 +86,79 @@ class YoloService {
       },
     });
 
+    // Separate client for heavy inference endpoints (detect-ingredients) so
+    // they get the larger 30s budget instead of the 6s used for control plane.
+    this.inferenceClient = axios.create({
+      baseURL: baseURL || 'http://yolo.invalid',
+      timeout: yoloConfig.inferenceTimeout,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      maxContentLength: 50 * 1024 * 1024,
+      maxBodyLength: 50 * 1024 * 1024,
+    });
+
     // Add response interceptor for error handling
     this.client.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        const config = error.config as any;
-        
-        // Retry logic
-        if (config && config._retryCount === undefined) {
-          config._retryCount = 0;
-        }
-        
-        if (
-          config &&
-          config._retryCount < yoloConfig.maxRetries &&
-          this.isRetryableError(error)
-        ) {
-          config._retryCount += 1;
-          
-          await this.delay(yoloConfig.retryDelay * config._retryCount);
-          console.log(`[YoloService] Retrying request (attempt ${config._retryCount}/${yoloConfig.maxRetries})`);
-          
-          return this.client(config);
-        }
-        
-        throw error;
+        return this.handleRetryableError(error, this.client);
+      }
+    );
+    this.inferenceClient.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        return this.handleRetryableError(error, this.inferenceClient);
       }
     );
   }
 
+  private async handleRetryableError(error: AxiosError, client: AxiosInstance): Promise<any> {
+    const config = error.config as any;
+
+    if (config && config._retryCount === undefined) {
+      config._retryCount = 0;
+    }
+
+    if (
+      config &&
+      config._retryCount < yoloConfig.maxRetries &&
+      this.isRetryableError(error)
+    ) {
+      config._retryCount += 1;
+
+      const backoffMs = yoloConfig.retryDelay * config._retryCount;
+      await this.delay(backoffMs);
+      console.log(
+        `[YoloService] Retrying ${config.method?.toUpperCase()} ${config.url} ` +
+          `(attempt ${config._retryCount}/${yoloConfig.maxRetries}, ` +
+          `backoff ${backoffMs}ms)`
+      );
+
+      return client(config);
+    }
+
+    throw error;
+  }
+
   private isRetryableError(error: AxiosError): boolean {
-    if (!error.response) {
-      // Network error or timeout
+    // ECONNABORTED with timeout=true means we exceeded our own timeout; the
+    // downstream service may simply be slow on this call. Retry with fresh
+    // budget so the user doesn't see a hard 500 on the first cold-start.
+    const isOwnTimeout =
+      error.code === 'ECONNABORTED' &&
+      (error.message?.includes('timeout') || (error as any).timeout);
+
+    if (isOwnTimeout) {
       return true;
     }
-    
-    // Retry on 5xx errors or 429 (rate limit)
+
+    if (!error.response) {
+      // Network error (DNS, connection refused, reset): retry once.
+      return true;
+    }
+
+    // Retry on 5xx errors or 429 (rate limit).
     const status = error.response.status;
     return status >= 500 || status === 429;
   }
@@ -156,6 +194,7 @@ class YoloService {
    */
   updateBaseUrl(url: string): void {
     this.client.defaults.baseURL = url;
+    this.inferenceClient.defaults.baseURL = url;
     // Clear health cache when URL changes
     this.healthCache = { data: null, timestamp: 0 };
   }
@@ -216,11 +255,14 @@ class YoloService {
       throw new Error('YOLO service is not available');
     }
     try {
-      const response = await this.client.post<DetectIngredientsResponse>('/detect-ingredients', {
-        imageBase64,
-        mimeType,
-        minConfidence: minConfidence ?? yoloConfig.defaultConfidence,
-      });
+      const response = await this.inferenceClient.post<DetectIngredientsResponse>(
+        '/detect-ingredients',
+        {
+          imageBase64,
+          mimeType,
+          minConfidence: minConfidence ?? yoloConfig.defaultConfidence,
+        }
+      );
       return response.data;
     } catch (error) {
       console.error('[YoloService] Ingredient detection failed:', error);
