@@ -6,6 +6,8 @@ import { EyebrowTag } from '../atoms/EyebrowTag'
 import { ButtonEditorial } from '../atoms/ButtonEditorial'
 import { splitRevealLeft, splitRevealRight, cardReveal, staggerGrid, viewportOnce } from '../../lib/motion'
 
+// Curated Unsplash photos that actually match the category name.
+// Each image was picked so the hero plate reads as the dish the label promises.
 const CATEGORIES = [
   {
     id: 1,
@@ -13,7 +15,8 @@ const CATEGORIES = [
     description: 'Đầy đủ dinh dưỡng cho cả gia đình',
     count: 45,
     featured: true,
-    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=900&fit=crop',
+    // Bữa cơm gia đình đầy đặn — khay cơm nhiều món
+    image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1200&h=900&fit=crop&q=80',
   },
   {
     id: 2,
@@ -21,7 +24,8 @@ const CATEGORIES = [
     description: 'Ngon miệng, hấp dẫn',
     count: 23,
     featured: false,
-    image: 'https://picsum.photos/seed/cat-appetizer/600/600',
+    // Đĩa salad / gỏi khai vị tươi
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=900&h=900&fit=crop&q=80',
   },
   {
     id: 3,
@@ -29,7 +33,8 @@ const CATEGORIES = [
     description: 'Ngọt ngào, tinh tế',
     count: 18,
     featured: false,
-    image: 'https://picsum.photos/seed/cat-dessert/600/600',
+    // Bánh ngọt / kem tráng miệng
+    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=900&h=900&fit=crop&q=80',
   },
   {
     id: 4,
@@ -37,7 +42,8 @@ const CATEGORIES = [
     description: 'Giải khát, thơm ngon',
     count: 12,
     featured: false,
-    image: 'https://picsum.photos/seed/cat-drink/600/600',
+    // Ly cocktail / nước ép mát mẻ
+    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=900&h=900&fit=crop&q=80',
   },
   {
     id: 5,
@@ -45,7 +51,8 @@ const CATEGORIES = [
     description: 'Bổ dưỡng, lành mạnh',
     count: 31,
     featured: false,
-    image: 'https://picsum.photos/seed/cat-vegan/600/600',
+    // Bowl chay rau củ quinoa
+    image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=900&h=900&fit=crop&q=80',
   },
   {
     id: 6,
@@ -53,7 +60,8 @@ const CATEGORIES = [
     description: 'Dễ làm, tiện lợi',
     count: 27,
     featured: false,
-    image: 'https://picsum.photos/seed/cat-quick/600/600',
+    // Sandwich / bữa nhanh gọn
+    image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=900&h=900&fit=crop&q=80',
   },
 ]
 
