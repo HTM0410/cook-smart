@@ -8,7 +8,6 @@ import {
   Loader2,
   Rocket,
   ShieldCheck,
-  Sparkles,
   XCircle,
 } from 'lucide-react';
 import AdminLayout from '../components/templates/AdminLayout';
@@ -39,6 +38,9 @@ const fmt = (value: string | null | undefined) => {
     timeStyle: 'short',
   }).format(new Date(value));
 };
+
+const statusLabel = (s: CorrectionStatus) =>
+  s === 'pending' ? 'Cần duyệt' : s === 'approved' ? 'Đã duyệt' : 'Bị từ chối';
 
 const AdminFeedbackQueue: React.FC = () => {
   const [status, setStatus] = useState<CorrectionStatus>('pending');
@@ -126,172 +128,174 @@ const AdminFeedbackQueue: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="mx-auto max-w-[1500px] space-y-6">
-        <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="eyebrow-tag text-[10px]">
-              <Filter className="h-3 w-3" strokeWidth={2} />
-              Feedback queue
-            </p>
-            <h1 className="mt-3 text-display text-3xl md:text-4xl text-ink-primary dark:text-paper-light">
-              Duyệt phản hồi & xuất dataset increment
-            </h1>
-            <p className="mt-2 text-ink-secondary text-sm max-w-3xl">
-              Phê duyệt các correction người dùng, xuất YOLO labels ra thư mục DVC, rồi promote model và triển khai Blue/Green
-              thông qua CodePipeline.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            {(['pending', 'approved', 'rejected'] as CorrectionStatus[]).map(s => (
+      <div className="space-y-6 max-w-[1500px]">
+        <div className="admin-page-header">
+          <h1 className="admin-page-title">Duyệt phản hồi & xuất dataset</h1>
+          <p className="admin-page-subtitle">
+            Phê duyệt các correction của người dùng, xuất YOLO labels ra thư mục DVC, sau đó promote model và triển khai Blue/Green
+            thông qua CodePipeline.
+          </p>
+          <div className="flex flex-wrap items-center gap-2 mt-3">
+            {(['pending', 'approved', 'rejected'] as CorrectionStatus[]).map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => setStatus(s)}
-                className={`btn-editorial-${status === s ? 'primary' : 'ghost'}`}
+                className={`admin-tab ${status === s ? 'active' : ''}`}
+                style={{
+                  height: 32,
+                  padding: '0 12px',
+                  borderRadius: 'var(--admin-radius-sm)',
+                  background: status === s ? 'var(--admin-accent)' : 'var(--admin-surface)',
+                  color: status === s ? '#fff' : 'var(--admin-text-secondary)',
+                  border: '1px solid',
+                  borderColor: status === s ? 'var(--admin-accent)' : 'var(--admin-border-strong)',
+                  borderBottom: '1px solid',
+                  borderBottomColor: status === s ? 'var(--admin-accent)' : 'var(--admin-border-strong)',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  marginBottom: 0,
+                }}
               >
-                {s === 'pending' ? 'Cần duyệt' : s === 'approved' ? 'Đã duyệt' : 'Bị từ chối'}
-                <span className="ml-2 inline-flex items-center justify-center rounded-full bg-paper-light px-2 py-0.5 text-[10px] font-bold uppercase text-ink-secondary">
+                {statusLabel(s)}
+                <span
+                  style={{
+                    background: status === s ? 'rgba(255,255,255,0.25)' : 'var(--admin-surface-alt)',
+                    color: status === s ? '#fff' : 'var(--admin-text-secondary)',
+                    padding: '1px 8px',
+                    borderRadius: 999,
+                    fontSize: 11,
+                    fontWeight: 700,
+                  }}
+                >
                   {stats?.[s] ?? '…'}
                 </span>
               </button>
             ))}
           </div>
-        </header>
+        </div>
 
         {error && (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-4 bg-[#FDEBEC] dark:bg-[#9F2F2D]/15 flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-[#9F2F2D]" strokeWidth={1.5} />
-              <span className="text-sm text-[#9F2F2D]">{error}</span>
-            </div>
+          <div className="admin-alert admin-alert-danger">
+            <AlertTriangle className="w-4 h-4" strokeWidth={2} />
+            <span>{error}</span>
           </div>
         )}
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {/* Action cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
             type="button"
             disabled={actionInProgress === -1}
             onClick={handleSync}
-            className="card-bezel h-full text-left"
+            className="admin-stat text-left"
+            style={{ cursor: 'pointer' }}
           >
-            <div className="card-bezel-inner p-5 min-h-[110px]">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">Đồng bộ</p>
-                  <p className="mt-2 text-base font-bold text-ink-primary dark:text-paper-light">
-                    Đồng bộ history → correction queue
-                  </p>
-                </div>
-                <Sparkles className="h-6 w-6 text-[#3D5A80]" strokeWidth={1.5} />
-              </div>
-              <p className="mt-2 text-xs text-ink-secondary">
-                Quét <code>DetectionHistory.wasModified = true</code> và tạo row <code>DetectionCorrection</code> trạng thái
-                <em> pending</em>.
-              </p>
+            <div className="flex items-center justify-between">
+              <span className="admin-stat-label">Đồng bộ</span>
+              <Filter className="w-4 h-4" style={{ color: 'var(--admin-info)' }} strokeWidth={2} />
             </div>
+            <span className="text-base font-semibold" style={{ color: 'var(--admin-text)' }}>
+              Đồng bộ history → correction queue
+            </span>
+            <p className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+              Quét DetectionHistory.wasModified = true và tạo row DetectionCorrection trạng thái pending.
+            </p>
           </button>
 
           <button
             type="button"
             disabled={actionInProgress === -2}
             onClick={handleExport}
-            className="card-bezel h-full text-left"
+            className="admin-stat text-left"
+            style={{ cursor: 'pointer' }}
           >
-            <div className="card-bezel-inner p-5 min-h-[110px]">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">Export</p>
-                  <p className="mt-2 text-base font-bold text-ink-primary dark:text-paper-light">
-                    Export YOLO labels từ approved corrections
-                  </p>
-                </div>
-                <Download className="h-6 w-6 text-[#346538]" strokeWidth={1.5} />
-              </div>
-              <p className="mt-2 text-xs text-ink-secondary">
-                Xuất placeholder bbox toàn ảnh, file <code>classes.txt</code>, <code>manifest.json</code> và hướng dẫn
-                <code> dvc add</code>.
-              </p>
+            <div className="flex items-center justify-between">
+              <span className="admin-stat-label">Export</span>
+              <Download className="w-4 h-4" style={{ color: 'var(--admin-success)' }} strokeWidth={2} />
             </div>
+            <span className="text-base font-semibold" style={{ color: 'var(--admin-text)' }}>
+              Export YOLO labels từ approved corrections
+            </span>
+            <p className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+              Xuất placeholder bbox toàn ảnh, classes.txt, manifest.json, hướng dẫn dvc add.
+            </p>
           </button>
 
           <button
             type="button"
             disabled={releasing}
             onClick={handleRelease}
-            className="card-bezel h-full text-left"
+            className="admin-stat text-left"
+            style={{ cursor: 'pointer' }}
           >
-            <div className="card-bezel-inner p-5 min-h-[110px]">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">Pipeline</p>
-                  <p className="mt-2 text-base font-bold text-ink-primary dark:text-paper-light">
-                    Promote W&B + trigger CodePipeline
-                  </p>
-                </div>
-                {releasing ? (
-                  <Loader2 className="h-6 w-6 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
-                ) : (
-                  <Rocket className="h-6 w-6 text-[#ff4f00]" strokeWidth={1.5} />
-                )}
-              </div>
-              <p className="mt-2 text-xs text-ink-secondary">
-                Alias <code>candidate → production</code>, gọi <code>start_pipeline_execution</code>, chờ SNS approval.
-              </p>
+            <div className="flex items-center justify-between">
+              <span className="admin-stat-label">Pipeline</span>
+              {releasing ? (
+                <Loader2 className="w-4 h-4 animate-spin" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+              ) : (
+                <Rocket className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+              )}
             </div>
+            <span className="text-base font-semibold" style={{ color: 'var(--admin-text)' }}>
+              Promote W&B + trigger CodePipeline
+            </span>
+            <p className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+              Alias candidate → production, gọi start_pipeline_execution, chờ SNS approval.
+            </p>
           </button>
         </div>
 
         {exportResult && (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-4 bg-[#EDF3EC] dark:bg-[#346538]/15 flex items-center gap-3">
-              <CheckCircle2 className="h-5 w-5 text-[#346538]" strokeWidth={1.5} />
-              <div className="text-sm text-[#346538]">
-                Đã export {exportResult.exported} corrections ({exportResult.classesWritten} lớp) ra{' '}
-                <code className="ml-1">{exportResult.directory}</code>. Tiếp theo chạy{' '}
-                <code>dvc add</code> để DVC track.
-              </div>
-            </div>
+          <div className="admin-alert admin-alert-success">
+            <CheckCircle2 className="w-4 h-4" strokeWidth={2} />
+            <span>
+              Đã export <strong>{exportResult.exported}</strong> corrections ({exportResult.classesWritten} lớp) ra{' '}
+              <code>{exportResult.directory}</code>. Tiếp theo chạy <code>dvc add</code> để DVC track.
+            </span>
           </div>
         )}
 
         {pipelineResult && (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-4 bg-[#E5EDF6] dark:bg-[#3D5A80]/15 flex items-center gap-3">
-              <Rocket className="h-5 w-5 text-[#3D5A80]" strokeWidth={1.5} />
-              <div className="text-sm text-[#3D5A80]">
-                Pipeline <strong>{pipelineResult.pipelineName}</strong> đã khởi chạy, execution{' '}
-                <code className="ml-1 font-mono">{pipelineResult.executionId}</code>. Vào AWS console để duyệt Approval
-                stage.
-              </div>
-            </div>
+          <div className="admin-alert admin-alert-info">
+            <Rocket className="w-4 h-4" strokeWidth={2} />
+            <span>
+              Pipeline <strong>{pipelineResult.pipelineName}</strong> đã khởi chạy, execution{' '}
+              <code style={{ fontFamily: 'monospace' }}>{pipelineResult.executionId}</code>. Vào AWS console để duyệt Approval stage.
+            </span>
           </div>
         )}
 
         {loading ? (
-          <div className="flex min-h-[300px] items-center justify-center">
-            <Loader2 className="h-9 w-9 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
+          <div className="admin-card">
+            <div className="admin-loading" style={{ minHeight: 300 }}>
+              <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+              <span>Đang tải...</span>
+            </div>
           </div>
         ) : items.length === 0 ? (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-10 text-center text-sm text-ink-secondary">
-              <ShieldCheck className="mx-auto mb-3 h-7 w-7 text-[#346538]" strokeWidth={1.5} />
-              Không có correction nào đang ở trạng thái <strong>{status}</strong>.
+          <div className="admin-card">
+            <div className="admin-empty">
+              <ShieldCheck className="w-10 h-10" style={{ color: 'var(--admin-success)' }} strokeWidth={1.5} />
+              <span>Không có correction nào đang ở trạng thái <strong>{statusLabel(status)}</strong>.</span>
             </div>
           </div>
         ) : (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-0 overflow-hidden">
-              <ul className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
-                {items.map(item => (
-                  <CorrectionRow
-                    key={item.id}
-                    item={item}
-                    busy={actionInProgress === item.id}
-                    onDecide={handleDecision}
-                  />
-                ))}
-              </ul>
-            </div>
+          <div className="admin-card">
+            <ul>
+              {items.map((item) => (
+                <CorrectionRow
+                  key={item.id}
+                  item={item}
+                  busy={actionInProgress === item.id}
+                  onDecide={handleDecision}
+                />
+              ))}
+            </ul>
           </div>
         )}
       </div>
@@ -310,39 +314,52 @@ const CorrectionRow: React.FC<RowProps> = ({ item, busy, onDecide }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <li className="grid gap-3 p-4 lg:grid-cols-[1.4fr_1fr_1fr]">
+    <li
+      style={{
+        borderTop: '1px solid var(--admin-border)',
+        padding: 16,
+        display: 'grid',
+        gap: 16,
+        gridTemplateColumns: '1fr',
+      }}
+      className="lg:!grid-cols-[1.4fr_1fr_1fr]"
+    >
       <div>
-        <p className="font-mono text-xs text-ink-muted">#{item.id} · history #{item.detectionHistoryId}</p>
-        <p className="mt-1 break-all text-xs text-ink-secondary">hash: {item.imageHash}</p>
-        <p className="mt-1 text-xs text-ink-secondary">Cập nhật: {fmt(item.updatedAt)}</p>
+        <p style={{ fontFamily: 'monospace', fontSize: 12, color: 'var(--admin-text-muted)' }}>
+          #{item.id} · history #{item.detectionHistoryId}
+        </p>
+        <p className="mt-1 text-xs break-all" style={{ color: 'var(--admin-text-secondary)' }}>
+          hash: {item.imageHash}
+        </p>
+        <p className="mt-1 text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+          Cập nhật: {fmt(item.updatedAt)}
+        </p>
         {item.reviewedBy && (
-          <p className="mt-1 text-xs text-ink-secondary">
+          <p className="mt-1 text-xs" style={{ color: 'var(--admin-text-secondary)' }}>
             Reviewed by <strong>{item.reviewedBy.fullName}</strong> · {fmt(item.reviewedAt)}
           </p>
         )}
         <button
           type="button"
-          onClick={() => setOpen(o => !o)}
-          className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#3D5A80]"
+          onClick={() => setOpen((o) => !o)}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold"
+          style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--admin-info)', padding: 0 }}
         >
           Ghi chú review <ChevronDown className={`h-3 w-3 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
           <textarea
             value={notes}
-            onChange={e => setNotes(e.target.value)}
-            placeholder="Lý do approve / reject ..."
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Lý do approve / reject..."
             rows={2}
-            className="input-bezel-inner mt-2 w-full text-xs"
+            className="admin-textarea"
+            style={{ marginTop: 8, fontSize: 13 }}
           />
         )}
       </div>
 
-      <IngredientDiff
-        label="Model dự đoán"
-        items={item.originalIngredients}
-        tone="neutral"
-      />
+      <IngredientDiff label="Model dự đoán" items={item.originalIngredients} tone="neutral" />
 
       <div>
         <IngredientDiff
@@ -358,12 +375,25 @@ const CorrectionRow: React.FC<RowProps> = ({ item, busy, onDecide }) => {
               type="button"
               disabled={busy}
               onClick={() => onDecide(item.id, 'approved', notes)}
-              className="btn-editorial-primary"
+              style={{
+                height: 36,
+                padding: '0 14px',
+                background: 'var(--admin-success)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 'var(--admin-radius-sm)',
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
             >
               {busy ? (
-                <Loader2 className="h-4 w-4 animate-spin" strokeWidth={1.5} />
+                <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
               ) : (
-                <CheckCircle2 className="h-4 w-4" strokeWidth={1.5} />
+                <CheckCircle2 className="h-4 w-4" strokeWidth={2} />
               )}
               Approve
             </button>
@@ -371,17 +401,28 @@ const CorrectionRow: React.FC<RowProps> = ({ item, busy, onDecide }) => {
               type="button"
               disabled={busy}
               onClick={() => onDecide(item.id, 'rejected', notes)}
-              className="btn-editorial-ghost"
+              style={{
+                height: 36,
+                padding: '0 14px',
+                background: 'var(--admin-surface)',
+                color: 'var(--admin-danger)',
+                border: '1px solid var(--admin-danger)',
+                borderRadius: 'var(--admin-radius-sm)',
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
             >
-              <XCircle className="h-4 w-4" strokeWidth={1.5} /> Reject
+              <XCircle className="h-4 w-4" strokeWidth={2} /> Reject
             </button>
           </div>
         ) : (
-          <span className={`eyebrow-tag mt-3 inline-flex items-center gap-1 text-[10px] ${
-            item.status === 'approved'
-              ? 'bg-[#EDF3EC] text-[#346538]'
-              : 'bg-[#FDEBEC] text-[#9F2F2D]'
-          }`}>
+          <span
+            className={`admin-badge mt-3 ${item.status === 'approved' ? 'admin-badge-success' : 'admin-badge-danger'}`}
+          >
             {item.status === 'approved' ? (
               <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
             ) : (
@@ -405,28 +446,38 @@ interface DiffProps {
 
 const IngredientDiff: React.FC<DiffProps> = ({ label, items, added = [], removed = [], tone }) => (
   <div>
-    <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-ink-secondary">{label}</p>
-    <div className="flex flex-wrap gap-1.5">
-      {items.map(item => {
+    <p
+      className="mb-2 text-xs font-semibold"
+      style={{
+        textTransform: 'uppercase',
+        letterSpacing: '0.04em',
+        color: 'var(--admin-text-muted)',
+      }}
+    >
+      {label}
+    </p>
+    <div className="flex flex-wrap" style={{ gap: 4 }}>
+      {items.map((item) => {
         const isAdded = added.includes(item);
         const isRemoved = removed.includes(item);
-        const style = isAdded
-          ? 'ring-[#346538]/30 bg-[#EDF3EC] text-[#346538]'
+        const className = isAdded
+          ? 'added'
           : isRemoved
-          ? 'ring-[#9F2F2D]/30 bg-[#FDEBEC] text-[#9F2F2D] line-through'
+          ? 'removed'
           : tone === 'final'
-          ? 'ring-[#3D5A80]/30 bg-[#E5EDF6] text-[#3D5A80]'
-          : 'ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700/30 text-ink-secondary';
+          ? 'final'
+          : 'neutral';
         return (
-          <span
-            key={item}
-            className={`rounded-full ring-1 px-2.5 py-1 text-xs font-medium ${style}`}
-          >
+          <span key={item} className={`admin-diff-tag ${className}`}>
             {item}
           </span>
         );
       })}
-      {items.length === 0 && <span className="text-xs text-ink-muted">Không có nguyên liệu</span>}
+      {items.length === 0 && (
+        <span className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+          Không có nguyên liệu
+        </span>
+      )}
     </div>
   </div>
 );

@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { Search, Camera, Upload, ChefHat, Sparkles } from 'lucide-react'
 import IngredientDetectionModal from './IngredientDetectionModal'
 import { EyebrowTag } from '../atoms/EyebrowTag'
-import { ButtonEditorial } from '../atoms/ButtonEditorial'
 import {
   easeFluid,
   splitRevealLeft,
@@ -115,57 +114,61 @@ const HeroSection: React.FC = () => {
               Chỉ cần một cuộc chăm là có ngay công thức phù hợp.
             </p>
 
-            {/* Search bar - Double Bezel with nested icon buttons */}
+            {/* Search bar - clean rectangle with icon + submit */}
             <form onSubmit={handleSubmit} className="max-w-xl mb-8">
-              <div className="input-bezel">
-                <div className="relative flex items-center">
-                  <Search className="absolute left-6 w-4 h-4 text-ink-secondary" strokeWidth={1.5} />
-                  <input
-                    id="hero-search-input"
-                    name="search"
-                    type="text"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="Tìm công thức, nguyên liệu..."
-                    className="input-bezel-inner pl-14 pr-44 h-14 text-sm md:text-base"
-                  />
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileInputChange}
-                  />
-                  <div className="absolute right-2 flex items-center gap-1">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      type="button"
-                      onClick={handleUploadClick}
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-ink-secondary hover:text-ink-primary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors"
-                      title="Tải ảnh nguyên liệu"
-                    >
-                      <Upload className="w-4 h-4" strokeWidth={1.5} />
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      type="button"
-                      onClick={handleCameraClick}
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-ink-secondary hover:text-ink-primary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors"
-                      title="Chụp ảnh nguyên liệu"
-                    >
-                      <Camera className="w-4 h-4" strokeWidth={1.5} />
-                    </motion.button>
-                    <ButtonEditorial
-                      type="submit"
-                      size="sm"
-                      className="ml-1"
-                      aria-label="Tìm kiếm"
-                    >
-                      Tìm
-                    </ButtonEditorial>
-                  </div>
+              <div
+                className="flex items-center gap-2 rounded-xl bg-white dark:bg-[#161310] px-4 h-14 transition-all"
+                style={{
+                  border: '1px solid var(--admin-border-strong, #E2E8F0)',
+                  boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
+                }}
+              >
+                <Search className="w-4 h-4 flex-shrink-0" style={{ color: '#64748B' }} strokeWidth={2} />
+                <input
+                  id="hero-search-input"
+                  name="search"
+                  type="text"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  placeholder="Tìm công thức, nguyên liệu..."
+                  className="flex-1 min-w-0 bg-transparent outline-none text-sm md:text-base placeholder:text-[#64748B] h-full"
+                  style={{ color: '#0F172A' }}
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileInputChange}
+                />
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleUploadClick}
+                    className="w-9 h-9 rounded-md flex items-center justify-center hover:bg-[#F1F5F9] transition-colors"
+                    style={{ color: '#475569' }}
+                    title="Tải ảnh nguyên liệu"
+                  >
+                    <Upload className="w-4 h-4" strokeWidth={2} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCameraClick}
+                    className="w-9 h-9 rounded-md flex items-center justify-center hover:bg-[#F1F5F9] transition-colors"
+                    style={{ color: '#475569' }}
+                    title="Chụp ảnh nguyên liệu"
+                  >
+                    <Camera className="w-4 h-4" strokeWidth={2} />
+                  </button>
+                  <button
+                    type="submit"
+                    className="h-9 px-3 rounded-md text-sm font-semibold flex items-center gap-1.5 ml-1"
+                    style={{ background: '#ff4f00', color: '#fff' }}
+                    aria-label="Tìm kiếm"
+                  >
+                    <Search className="w-4 h-4" strokeWidth={2} />
+                    Tìm
+                  </button>
                 </div>
               </div>
             </form>

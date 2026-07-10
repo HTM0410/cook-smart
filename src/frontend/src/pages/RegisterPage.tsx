@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ChefHat, Check, ArrowUpRight } from 'lucide-react'
 import { EyebrowTag } from '../components/atoms/EyebrowTag'
-import { ButtonEditorial } from '../components/atoms/ButtonEditorial'
 import { splitRevealLeft, splitRevealRight } from '../lib/motion'
 
 const RegisterPage: React.FC = () => {
@@ -130,63 +129,102 @@ const RegisterPage: React.FC = () => {
           )}
 
           <form onSubmit={onSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">Họ và tên</label>
-              <div className="input-bezel">
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={e => setFullName(e.target.value)}
-                  placeholder="Nguyễn Văn A"
-                  className="input-bezel-inner h-12 text-base"
-                  autoComplete="name"
-                />
-              </div>
+            <style>{`
+              .clean-input {
+                width: 100%;
+                height: 48px;
+                padding: 0 14px;
+                background: #FFFFFF;
+                border: 1px solid #CBD5E1;
+                border-radius: 10px;
+                color: #0F172A;
+                font-size: 15px;
+                font-family: inherit;
+                outline: none;
+                transition: border-color 150ms ease, box-shadow 150ms ease;
+                box-sizing: border-box;
+              }
+              .clean-input::placeholder { color: #94A3B8; }
+              .clean-input:focus {
+                border-color: #ff4f00;
+                box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+              }
+              .dark .clean-input {
+                background: #0F172A;
+                border-color: #334155;
+                color: #F1F5F9;
+              }
+              .dark .clean-input::placeholder { color: #64748B; }
+              .eye-btn {
+                position: absolute;
+                right: 6px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 6px;
+                border: none;
+                background: transparent;
+                color: #64748B;
+                cursor: pointer;
+              }
+              .eye-btn:hover { background: #F1F5F9; }
+            `}</style>
+            <div>
+              <label className="block text-sm font-medium text-ink-primary dark:text-paper-light mb-1.5">Họ và tên</label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                placeholder="Nguyễn Văn A"
+                className="clean-input"
+                autoComplete="name"
+              />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">Email</label>
-              <div className="input-bezel">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="email@example.com"
-                  className="input-bezel-inner h-12 text-base"
-                  autoComplete="email"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-ink-primary dark:text-paper-light mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                className="clean-input"
+                autoComplete="email"
+              />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">Mật khẩu</label>
-              <div className="input-bezel">
-                <div className="relative">
-                  <input
-                    type={showPwd ? 'text' : 'password'}
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="input-bezel-inner h-12 pr-12 text-base"
-                    autoComplete="new-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPwd(v => !v)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-ink-secondary hover:text-ink-primary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors"
-                    aria-label="Hiện mật khẩu"
-                  >
-                    {showPwd ? <EyeOff className="w-4 h-4" strokeWidth={1.5} /> : <Eye className="w-4 h-4" strokeWidth={1.5} />}
-                  </button>
-                </div>
+            <div>
+              <label className="block text-sm font-medium text-ink-primary dark:text-paper-light mb-1.5">Mật khẩu</label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showPwd ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="clean-input"
+                  style={{ paddingRight: 44 }}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd(v => !v)}
+                  className="eye-btn"
+                  aria-label="Hiện mật khẩu"
+                >
+                  {showPwd ? <EyeOff className="w-4 h-4" strokeWidth={2} /> : <Eye className="w-4 h-4" strokeWidth={2} />}
+                </button>
               </div>
               {password.length > 0 && (
-                <div className="space-y-2 pt-1">
+                <div className="space-y-2 pt-2">
                   <div className="flex gap-1.5">
                     {[1, 2, 3].map(level => (
                       <div
                         key={level}
-                        className={`h-1 flex-1 rounded-full transition-all duration-700 ease-[var(--ease-fluid)] ${
+                        className={`h-1 flex-1 rounded-full transition-all duration-300 ${
                           strength >= level
                             ? strength === 1 ? 'bg-[#9F2F2D]' : strength === 2 ? 'bg-[#956400]' : 'bg-[#346538]'
                             : 'bg-ink-200/40 dark:bg-ink-700/40'
@@ -196,7 +234,7 @@ const RegisterPage: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     {passwordRequirements.map((req, i) => (
-                      <div key={i} className={`flex items-center gap-2 text-[11px] font-medium tracking-wide ${req.met ? 'text-[#346538]' : 'text-ink-muted'}`}>
+                      <div key={i} className={`flex items-center gap-2 text-[11px] font-medium ${req.met ? 'text-[#346538]' : 'text-ink-muted'}`}>
                         <Check className="w-3 h-3" strokeWidth={2} />
                         {req.label}
                       </div>
@@ -206,40 +244,53 @@ const RegisterPage: React.FC = () => {
               )}
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">Xác nhận mật khẩu</label>
-              <div className="input-bezel">
-                <div className="relative">
-                  <input
-                    type={showConfirm ? 'text' : 'password'}
-                    value={confirm}
-                    onChange={e => setConfirm(e.target.value)}
-                    placeholder="••••••••"
-                    className="input-bezel-inner h-12 pr-12 text-base"
-                    autoComplete="new-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirm(v => !v)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-ink-secondary hover:text-ink-primary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors"
-                  >
-                    {showConfirm ? <EyeOff className="w-4 h-4" strokeWidth={1.5} /> : <Eye className="w-4 h-4" strokeWidth={1.5} />}
-                  </button>
-                </div>
+            <div>
+              <label className="block text-sm font-medium text-ink-primary dark:text-paper-light mb-1.5">Xác nhận mật khẩu</label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showConfirm ? 'text' : 'password'}
+                  value={confirm}
+                  onChange={e => setConfirm(e.target.value)}
+                  placeholder="••••••••"
+                  className="clean-input"
+                  style={{ paddingRight: 44 }}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(v => !v)}
+                  className="eye-btn"
+                >
+                  {showConfirm ? <EyeOff className="w-4 h-4" strokeWidth={2} /> : <Eye className="w-4 h-4" strokeWidth={2} />}
+                </button>
               </div>
               {confirm && password !== confirm && (
-                <p className="text-xs text-[#9F2F2D] tracking-wide">Mật khẩu không khớp</p>
+                <p className="text-xs text-[#9F2F2D] mt-1">Mật khẩu không khớp</p>
               )}
             </div>
 
-            <ButtonEditorial
+            <button
               type="submit"
-              size="lg"
-              className="w-full justify-between"
               disabled={loading}
+              className="w-full"
+              style={{
+                height: 48,
+                padding: '0 16px',
+                background: loading ? '#94A3B8' : '#ff4f00',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 10,
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+              }}
             >
               {loading ? 'Đang tạo tài khoản...' : 'Tạo tài khoản'}
-            </ButtonEditorial>
+            </button>
           </form>
 
           <p className="text-center text-sm text-ink-secondary">

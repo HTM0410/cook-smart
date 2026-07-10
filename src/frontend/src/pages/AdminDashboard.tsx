@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService from '../services/adminService';
-import { EyebrowTag } from '../components/atoms/EyebrowTag';
-import { splitRevealLeft, splitRevealRight, cardReveal, staggerGrid, easeFluid } from '../lib/motion';
 import {
   Loader2,
   Users,
@@ -79,11 +76,9 @@ const AdminDashboard: React.FC = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center space-y-3">
-            <Loader2 className="w-10 h-10 animate-spin text-[#ff4f00] mx-auto" strokeWidth={1.5} />
-            <p className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang tải dữ liệu...</p>
-          </div>
+        <div className="admin-loading">
+          <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+          <span>Đang tải dữ liệu...</span>
         </div>
       </AdminLayout>
     );
@@ -92,16 +87,25 @@ const AdminDashboard: React.FC = () => {
   if (error) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center max-w-md">
-            <div className="w-16 h-16 bg-[#FDEBEC] dark:bg-[#9F2F2D]/15 rounded-full ring-1 ring-[#9F2F2D]/30 flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">⚠️</span>
-            </div>
-            <p className="text-[#9F2F2D] mb-4 font-medium">{error}</p>
-            <button onClick={fetchDashboardData} className="btn-editorial-primary">
-              Thử lại
-            </button>
+        <div className="admin-loading">
+          <div className="admin-alert admin-alert-danger" style={{ maxWidth: 480 }}>
+            <span>⚠️</span>
+            <span>{error}</span>
           </div>
+          <button
+            onClick={fetchDashboardData}
+            style={{
+              padding: '8px 16px',
+              background: 'var(--admin-accent)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 'var(--admin-radius-sm)',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Thử lại
+          </button>
         </div>
       </AdminLayout>
     );
@@ -116,6 +120,8 @@ const AdminDashboard: React.FC = () => {
       icon: Users,
       trend: '+12%',
       trendUp: true,
+      iconBg: 'rgba(59, 130, 246, 0.12)',
+      iconColor: 'var(--admin-info)',
     },
     {
       label: 'Tổng công thức',
@@ -123,6 +129,8 @@ const AdminDashboard: React.FC = () => {
       icon: ChefHat,
       trend: '+8%',
       trendUp: true,
+      iconBg: 'rgba(249, 115, 22, 0.12)',
+      iconColor: 'var(--admin-accent)',
     },
     {
       label: 'Nguyên liệu',
@@ -130,6 +138,8 @@ const AdminDashboard: React.FC = () => {
       icon: Carrot,
       trend: '+5%',
       trendUp: true,
+      iconBg: 'rgba(34, 197, 94, 0.12)',
+      iconColor: 'var(--admin-success)',
     },
     {
       label: 'Bình luận',
@@ -137,6 +147,8 @@ const AdminDashboard: React.FC = () => {
       icon: MessageSquare,
       trend: '+23%',
       trendUp: true,
+      iconBg: 'rgba(168, 85, 247, 0.12)',
+      iconColor: '#7C3AED',
     },
   ];
 
@@ -145,308 +157,312 @@ const AdminDashboard: React.FC = () => {
       label: 'Người dùng hoạt động',
       value: formatNumber(stats.overview.activeUsers),
       icon: UserCheck,
-      accent: 'bg-[#EDF3EC] text-[#346538]',
+      badge: 'success' as const,
     },
     {
       label: 'Công thức ẩn',
       value: formatNumber(stats.overview.hiddenRecipes),
       icon: Clock,
-      accent: 'bg-[#FBF3DB] text-[#956400]',
+      badge: 'warning' as const,
     },
     {
       label: 'Tỷ lệ hoạt động',
-      value: stats.overview.totalUsers > 0
-        ? `${Math.round((stats.overview.activeUsers / stats.overview.totalUsers) * 100)}%`
-        : '0%',
+      value:
+        stats.overview.totalUsers > 0
+          ? `${Math.round((stats.overview.activeUsers / stats.overview.totalUsers) * 100)}%`
+          : '0%',
       icon: Activity,
-      accent: 'bg-[#fff4ed] text-[#ff4f00]',
+      badge: 'info' as const,
     },
   ];
 
   return (
     <AdminLayout>
-      <div className="space-y-8 max-w-7xl">
-        {/* Editorial Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <motion.div initial="hidden" animate="visible" variants={splitRevealLeft} className="lg:col-span-7">
-            <EyebrowTag>Bảng điều khiển</EyebrowTag>
-            <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
-              Tổng quan <span className="text-[#ff4f00]">hệ thống.</span>
-            </h1>
-            <p className="mt-4 text-ink-secondary text-pretty">
-              Chào mừng đến với bảng điều khiển quản trị CookSmart.
-            </p>
-          </motion.div>
-
-          <motion.div initial="hidden" animate="visible" variants={splitRevealRight} className="lg:col-span-5 lg:pb-2">
-            <div className="flex items-center gap-3 flex-wrap lg:justify-end">
-              <span className="chip chip-active">
-                <span className="w-1.5 h-1.5 bg-[#346538] rounded-full animate-pulse" />
-                Hệ thống hoạt động
-              </span>
-            </div>
-          </motion.div>
+      <div className="space-y-6 max-w-7xl">
+        {/* Page header */}
+        <div className="admin-page-header">
+          <h1 className="admin-page-title">Tổng quan hệ thống</h1>
+          <p className="admin-page-subtitle">
+            Chào mừng đến với bảng điều khiển quản trị CookSmart — theo dõi số liệu và hoạt động gần đây.
+          </p>
+          <div className="mt-2">
+            <span className="admin-badge admin-badge-success">
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ background: 'var(--admin-success)' }}
+              />
+              Hệ thống hoạt động bình thường
+            </span>
+          </div>
         </div>
 
-        {/* Stats Grid - Bento */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerGrid}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"
-        >
-          {statsCards.map((stat, index) => {
-            const IconComponent = stat.icon;
+        {/* Stats grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {statsCards.map((stat) => {
+            const Icon = stat.icon;
             return (
-              <motion.div key={index} custom={index} variants={cardReveal}>
-                <div className="card-bezel h-full">
-                  <div className="card-bezel-inner p-6">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="w-11 h-11 rounded-full bg-[#ff4f00]/10 ring-1 ring-[#ff4f00]/20 flex items-center justify-center">
-                        <IconComponent className="h-5 w-5 text-[#ff4f00]" strokeWidth={1.5} />
-                      </div>
-                      {stat.trendUp ? (
-                        <div className="flex items-center gap-1 text-[#346538]">
-                          <TrendingUp className="h-3.5 w-3.5" strokeWidth={1.5} />
-                          <span className="text-xs font-semibold uppercase tracking-[0.15em]">{stat.trend}</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1 text-[#9F2F2D]">
-                          <TrendingDown className="h-3.5 w-3.5" strokeWidth={1.5} />
-                          <span className="text-xs font-semibold uppercase tracking-[0.15em]">{stat.trend}</span>
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-ink-secondary font-semibold">
-                      {stat.label}
-                    </p>
-                    <p className="text-display text-4xl text-ink-primary dark:text-paper-light mt-2">
-                      {stat.value}
-                    </p>
-                  </div>
+              <div key={stat.label} className="admin-stat">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="admin-stat-label">{stat.label}</span>
+                  <span className="admin-stat-icon" style={{ background: stat.iconBg, color: stat.iconColor, width: 36, height: 36 }}>
+                    <Icon className="w-4 h-4" strokeWidth={2} />
+                  </span>
                 </div>
-              </motion.div>
+                <span className="admin-stat-value">{stat.value}</span>
+                <div className="admin-stat-meta">
+                  <span
+                    className="inline-flex items-center gap-1 font-semibold text-xs"
+                    style={{ color: stat.trendUp ? 'var(--admin-success)' : 'var(--admin-danger)' }}
+                  >
+                    {stat.trendUp ? (
+                      <TrendingUp className="w-3.5 h-3.5" strokeWidth={2} />
+                    ) : (
+                      <TrendingDown className="w-3.5 h-3.5" strokeWidth={2} />
+                    )}
+                    {stat.trend}
+                  </span>
+                  <span style={{ color: 'var(--admin-text-muted)' }}>so với tháng trước</span>
+                </div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Main content grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Recent Users */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeFluid, delay: 0.2 }}
-            className="lg:col-span-2 card-bezel"
-          >
-            <div className="card-bezel-inner p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-display text-xl text-ink-primary dark:text-paper-light flex items-center gap-2.5">
-                  <Users className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
-                  Người dùng mới
-                </h2>
-                <span className="text-xs uppercase tracking-[0.2em] text-ink-muted">
-                  {stats.recentActivities.users.length} người dùng
-                </span>
-              </div>
-              <div className="space-y-2">
-                {stats.recentActivities.users.length > 0 ? (
-                  stats.recentActivities.users.slice(0, 5).map((user: any, idx: number) => (
-                    <motion.div
+          <div className="admin-card lg:col-span-2">
+            <div className="admin-card-header">
+              <h2 className="admin-card-title">
+                <Users className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                Người dùng mới
+              </h2>
+              <span className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+                {stats.recentActivities.users.length} người dùng
+              </span>
+            </div>
+            <div className="admin-card-body">
+              {stats.recentActivities.users.length > 0 ? (
+                <ul className="space-y-1">
+                  {stats.recentActivities.users.slice(0, 5).map((user: any) => (
+                    <li
                       key={user.id}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.05 }}
-                      className="flex items-center gap-4 p-3 rounded-2xl ring-1 ring-transparent hover:ring-ink-200/40 dark:hover:ring-ink-700/40 hover:bg-paper-light dark:hover:bg-ink-700/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors"
+                      style={{ background: 'transparent' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--admin-surface-alt)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
-                      <div className="w-11 h-11 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center flex-shrink-0 ring-1 ring-ink-700 dark:ring-paper-light">
-                        <span className="text-paper-light dark:text-ink-700 font-semibold text-sm">
-                          {user.fullName?.charAt(0)?.toUpperCase() || 'U'}
-                        </span>
+                      <div className="admin-avatar admin-avatar-success">
+                        {user.fullName?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate">
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--admin-text)' }}>
                           {user.fullName || 'Người dùng'}
                         </p>
-                        <p className="text-xs text-ink-muted truncate mt-0.5">
+                        <p className="text-xs truncate" style={{ color: 'var(--admin-text-muted)' }}>
                           {user.email}
                         </p>
-                        <p className="text-[10px] uppercase tracking-[0.15em] text-ink-muted mt-1 flex items-center gap-1">
-                          <Clock className="h-3 w-3" strokeWidth={1.5} />
-                          <span>{getTimeAgo(user.createdAt)}</span>
-                        </p>
                       </div>
-                      <span className={`eyebrow-tag text-[10px] flex-shrink-0 ${
-                        user.status === 'active'
-                          ? 'bg-[#EDF3EC] text-[#346538]'
-                          : 'bg-[#FDEBEC] text-[#9F2F2D]'
-                      }`}>
-                        {user.status === 'active' ? 'Hoạt động' : 'Bị khóa'}
-                      </span>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="text-center py-12">
-                    <Users className="h-10 w-10 text-ink-muted mx-auto mb-3" strokeWidth={1} />
-                    <p className="text-sm text-ink-secondary">Chưa có người dùng mới</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Quick Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeFluid, delay: 0.3 }}
-            className="card-bezel"
-          >
-            <div className="card-bezel-inner p-6">
-              <h2 className="text-display text-xl text-ink-primary dark:text-paper-light mb-6 flex items-center gap-2.5">
-                <Activity className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
-                Thống kê nhanh
-              </h2>
-              <div className="space-y-3">
-                {quickStats.map((stat, index) => {
-                  const IconComponent = stat.icon;
-                  return (
-                    <div
-                      key={index}
-                      className="p-4 rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 hover:ring-[#ff4f00]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className={`w-9 h-9 rounded-full ${stat.accent} flex items-center justify-center flex-shrink-0`}>
-                            <IconComponent className="h-4 w-4" strokeWidth={1.5} />
-                          </div>
-                          <span className="text-sm font-medium text-ink-secondary truncate">
-                            {stat.label}
-                          </span>
-                        </div>
-                        <span className="text-display text-lg text-ink-primary dark:text-paper-light">
-                          {stat.value}
+                      <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                        <span
+                          className={`admin-badge ${
+                            user.status === 'active' ? 'admin-badge-success' : 'admin-badge-danger'
+                          }`}
+                        >
+                          {user.status === 'active' ? 'Hoạt động' : 'Bị khóa'}
+                        </span>
+                        <span className="text-[11px] flex items-center gap-1" style={{ color: 'var(--admin-text-muted)' }}>
+                          <Clock className="w-3 h-3" strokeWidth={2} />
+                          {getTimeAgo(user.createdAt)}
                         </span>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="admin-empty">
+                  <Users className="w-8 h-8" style={{ color: 'var(--admin-text-muted)' }} strokeWidth={1.5} />
+                  <span>Chưa có người dùng mới</span>
+                </div>
+              )}
             </div>
-          </motion.div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h2 className="admin-card-title">
+                <Activity className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                Thống kê nhanh
+              </h2>
+            </div>
+            <div className="admin-card-body space-y-2">
+              {quickStats.map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <div
+                    key={stat.label}
+                    className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-md border"
+                    style={{ borderColor: 'var(--admin-border)' }}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span
+                        className={`admin-avatar ${
+                          stat.badge === 'success'
+                            ? 'admin-avatar-success'
+                            : stat.badge === 'warning'
+                            ? 'admin-avatar-warning'
+                            : ''
+                        }`}
+                        style={{
+                          background:
+                            stat.badge === 'info'
+                              ? 'var(--admin-info-bg)'
+                              : stat.badge === 'success'
+                              ? 'var(--admin-success-bg)'
+                              : 'var(--admin-warning-bg)',
+                          color:
+                            stat.badge === 'info'
+                              ? 'var(--admin-info)'
+                              : stat.badge === 'success'
+                              ? 'var(--admin-success)'
+                              : 'var(--admin-warning)',
+                          width: 32,
+                          height: 32,
+                        }}
+                      >
+                        <Icon className="w-4 h-4" strokeWidth={2} />
+                      </span>
+                      <span className="text-sm font-medium" style={{ color: 'var(--admin-text-secondary)' }}>
+                        {stat.label}
+                      </span>
+                    </div>
+                    <span className="text-base font-bold tabular-nums" style={{ color: 'var(--admin-text)' }}>
+                      {stat.value}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Recent Recipes & Popular Recipes */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeFluid, delay: 0.4 }}
-            className="card-bezel"
-          >
-            <div className="card-bezel-inner p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-display text-xl text-ink-primary dark:text-paper-light flex items-center gap-2.5">
-                  <FileText className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
-                  Công thức mới nhất
-                </h2>
-                <span className="text-xs uppercase tracking-[0.2em] text-ink-muted">
-                  {stats.recentActivities.recipes.length} công thức
-                </span>
-              </div>
-              <div className="space-y-2">
-                {stats.recentActivities.recipes.length > 0 ? (
-                  stats.recentActivities.recipes.slice(0, 5).map((recipe: any, idx: number) => (
-                    <motion.div
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h2 className="admin-card-title">
+                <FileText className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                Công thức mới nhất
+              </h2>
+              <span className="text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+                {stats.recentActivities.recipes.length} công thức
+              </span>
+            </div>
+            <div className="admin-card-body">
+              {stats.recentActivities.recipes.length > 0 ? (
+                <ul className="space-y-1">
+                  {stats.recentActivities.recipes.slice(0, 5).map((recipe: any) => (
+                    <li
                       key={recipe.id}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.05 }}
-                      className="flex items-center gap-4 p-3 rounded-2xl ring-1 ring-transparent hover:ring-ink-200/40 dark:hover:ring-ink-700/40 hover:bg-paper-light dark:hover:bg-ink-700/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors"
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--admin-surface-alt)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
-                      <div className="w-11 h-11 rounded-full bg-[#346538]/15 ring-1 ring-[#346538]/30 flex items-center justify-center flex-shrink-0">
-                        <ChefHat className="h-5 w-5 text-[#346538]" strokeWidth={1.5} />
+                      <div className="admin-avatar" style={{ background: 'rgba(249, 115, 22, 0.12)', color: 'var(--admin-accent)' }}>
+                        <ChefHat className="w-4 h-4" strokeWidth={2} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate mb-1">
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--admin-text)' }}>
                           {recipe.recipeName}
-                        </h3>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="flex items-center gap-1 text-[10px] uppercase tracking-[0.15em] text-ink-muted">
-                            <Clock className="h-3 w-3" strokeWidth={1.5} />
-                            <span>{getTimeAgo(recipe.createdAt)}</span>
+                        </p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-xs flex items-center gap-1" style={{ color: 'var(--admin-text-muted)' }}>
+                            <Clock className="w-3 h-3" strokeWidth={2} />
+                            {getTimeAgo(recipe.createdAt)}
                           </span>
-                          <span className={`eyebrow-tag text-[10px] ${
-                            recipe.status === 'visible'
-                              ? 'bg-[#EDF3EC] text-[#346538]'
+                          <span
+                            className={`admin-badge ${
+                              recipe.status === 'visible'
+                                ? 'admin-badge-success'
+                                : recipe.status === 'pending'
+                                ? 'admin-badge-warning'
+                                : 'admin-badge-neutral'
+                            }`}
+                          >
+                            {recipe.status === 'visible'
+                              ? 'Hiển thị'
                               : recipe.status === 'pending'
-                              ? 'bg-[#FBF3DB] text-[#956400]'
-                              : 'bg-paper-light text-ink-secondary'
-                          }`}>
-                            {recipe.status === 'visible' ? 'Hiển thị' : recipe.status === 'pending' ? 'Chờ duyệt' : 'Ẩn'}
+                              ? 'Chờ duyệt'
+                              : 'Ẩn'}
                           </span>
                         </div>
                       </div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="text-center py-12">
-                    <ChefHat className="h-10 w-10 text-ink-muted mx-auto mb-3" strokeWidth={1} />
-                    <p className="text-sm text-ink-secondary">Chưa có công thức nào</p>
-                  </div>
-                )}
-              </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="admin-empty">
+                  <ChefHat className="w-8 h-8" style={{ color: 'var(--admin-text-muted)' }} strokeWidth={1.5} />
+                  <span>Chưa có công thức nào</span>
+                </div>
+              )}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeFluid, delay: 0.5 }}
-            className="card-bezel"
-          >
-            <div className="card-bezel-inner p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-display text-xl text-ink-primary dark:text-paper-light flex items-center gap-2.5">
-                  <Star className="h-4 w-4 text-[#ff4f00]" strokeWidth={1.5} />
-                  Công thức phổ biến
-                </h2>
-              </div>
-              <div className="space-y-2">
-                {stats.popularRecipes && stats.popularRecipes.length > 0 ? (
-                  stats.popularRecipes.slice(0, 5).map((recipe: any, index: number) => (
-                    <motion.div
+          <div className="admin-card">
+            <div className="admin-card-header">
+              <h2 className="admin-card-title">
+                <Star className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                Công thức phổ biến
+              </h2>
+            </div>
+            <div className="admin-card-body">
+              {stats.popularRecipes && stats.popularRecipes.length > 0 ? (
+                <ul className="space-y-1">
+                  {stats.popularRecipes.slice(0, 5).map((recipe: any, index: number) => (
+                    <li
                       key={recipe.id || index}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, ease: easeFluid, delay: index * 0.05 }}
-                      className="flex items-center gap-4 p-3 rounded-2xl ring-1 ring-transparent hover:ring-ink-200/40 dark:hover:ring-ink-700/40 hover:bg-paper-light dark:hover:bg-ink-700/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors"
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--admin-surface-alt)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#ff4f00] flex items-center justify-center flex-shrink-0 font-semibold text-white text-sm">
+                      <div
+                        className="admin-avatar"
+                        style={{
+                          background: 'var(--admin-accent)',
+                          color: '#fff',
+                          fontSize: 13,
+                          width: 32,
+                          height: 32,
+                        }}
+                      >
                         {index + 1}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate mb-1">
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--admin-text)' }}>
                           {recipe.recipeName || 'Công thức'}
-                        </h3>
-                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-ink-muted">
-                          <Star className="h-3 w-3 text-[#ff4f00] fill-[#ff4f00]" />
-                          <span>{recipe.averageRating?.toFixed(1) || '0.0'}</span>
-                          <span className="text-ink-muted">·</span>
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-0.5 text-xs" style={{ color: 'var(--admin-text-muted)' }}>
+                          <Star className="w-3 h-3" style={{ color: '#F59E0B', fill: '#F59E0B' }} />
+                          <span className="font-semibold tabular-nums" style={{ color: 'var(--admin-text-secondary)' }}>
+                            {recipe.averageRating?.toFixed(1) || '0.0'}
+                          </span>
+                          <span>·</span>
                           <span>{recipe.ratingCount || 0} đánh giá</span>
                         </div>
                       </div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="text-center py-12">
-                    <Star className="h-10 w-10 text-ink-muted mx-auto mb-3" strokeWidth={1} />
-                    <p className="text-sm text-ink-secondary">Chưa có công thức phổ biến</p>
-                  </div>
-                )}
-              </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="admin-empty">
+                  <Star className="w-8 h-8" style={{ color: 'var(--admin-text-muted)' }} strokeWidth={1.5} />
+                  <span>Chưa có công thức phổ biến</span>
+                </div>
+              )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </AdminLayout>

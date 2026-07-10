@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService from '../services/adminService';
-import { EyebrowTag } from '../components/atoms/EyebrowTag';
-import { splitRevealLeft, splitRevealRight, cardReveal, easeFluid } from '../lib/motion';
 import { Loader2, Lock, Unlock, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface User {
@@ -68,8 +65,8 @@ const AdminUsers: React.FC = () => {
     }
   };
 
-  const getStatusText = (status: string) => status === 'active' ? 'Hoạt động' : 'Bị khóa';
-  const getRoleText = (role: string) => role === 'admin' ? 'Quản trị viên' : 'Người dùng';
+  const getStatusText = (status: string) => (status === 'active' ? 'Hoạt động' : 'Bị khóa');
+  const getRoleText = (role: string) => (role === 'admin' ? 'Quản trị viên' : 'Người dùng');
 
   const getTimeAgo = (date: string) => {
     const now = new Date();
@@ -88,210 +85,205 @@ const AdminUsers: React.FC = () => {
   return (
     <AdminLayout>
       <div className="space-y-6 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <motion.div initial="hidden" animate="visible" variants={splitRevealLeft} className="lg:col-span-7">
-            <EyebrowTag>Quản trị</EyebrowTag>
-            <h1 className="mt-4 text-display text-4xl md:text-5xl text-ink-primary dark:text-paper-light text-balance">
-              Người dùng.
-            </h1>
-            <p className="mt-4 text-ink-secondary text-pretty">
-              Tổng số: <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> người dùng
-            </p>
-          </motion.div>
+        <div className="admin-page-header">
+          <h1 className="admin-page-title">Người dùng</h1>
+          <p className="admin-page-subtitle">
+            Quản lý tài khoản và quyền truy cập — tổng cộng{' '}
+            <span className="font-semibold" style={{ color: 'var(--admin-text)' }}>
+              {total}
+            </span>{' '}
+            người dùng.
+          </p>
         </div>
 
         {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: easeFluid }}
-          className="card-bezel"
-        >
-          <div className="card-bezel-inner p-5">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative md:col-span-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-secondary pointer-events-none" strokeWidth={1.5} />
+        <div className="admin-card">
+          <div className="admin-card-body">
+            <div className="admin-toolbar">
+              <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
+                <Search
+                  className="w-4 h-4"
+                  style={{
+                    position: 'absolute',
+                    left: 12,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--admin-text-muted)',
+                    pointerEvents: 'none',
+                  }}
+                  strokeWidth={2}
+                />
                 <input
                   type="text"
                   placeholder="Tìm tên hoặc email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="input-bezel-inner h-11 pl-11 pr-4 text-sm w-full"
+                  style={{ width: '100%', paddingLeft: 36 }}
                 />
               </div>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
               >
                 <option value="">Tất cả trạng thái</option>
                 <option value="active">Hoạt động</option>
                 <option value="banned">Bị khóa</option>
               </select>
-              <select
-                value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value)}
-                className="h-11 px-4 text-sm rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 bg-paper-light dark:bg-ink-700 text-ink-primary dark:text-paper-light focus:outline-none focus:ring-2 focus:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] cursor-pointer"
-              >
+              <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
                 <option value="">Tất cả vai trò</option>
                 <option value="user">Người dùng</option>
                 <option value="admin">Quản trị viên</option>
               </select>
-              <button onClick={handleSearch} className="btn-editorial-primary w-full justify-center">
-                <Search className="w-4 h-4" strokeWidth={1.5} />
+              <button onClick={handleSearch}>
+                <Search className="w-4 h-4" strokeWidth={2} />
                 Tìm kiếm
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {loading ? (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-12 flex items-center justify-center gap-3">
-              <Loader2 className="w-6 h-6 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
-              <span className="text-sm uppercase tracking-[0.2em] text-ink-secondary">Đang tải...</span>
+          <div className="admin-card">
+            <div className="admin-loading">
+              <Loader2 className="w-6 h-6 animate-spin" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+              <span>Đang tải...</span>
             </div>
           </div>
         ) : users.length === 0 ? (
-          <div className="card-bezel">
-            <div className="card-bezel-inner p-12 text-center">
-              <p className="text-ink-secondary">Không tìm thấy người dùng nào</p>
-            </div>
+          <div className="admin-card">
+            <div className="admin-empty">Không tìm thấy người dùng nào</div>
           </div>
         ) : (
           <>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeFluid }}
-              className="card-bezel"
-            >
-              <div className="card-bezel-inner p-0 overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-paper-light dark:bg-ink-700/40 border-b border-ink-200/40 dark:border-ink-700/40">
-                      <tr>
-                        {['Người dùng', 'Email', 'Vai trò', 'Trạng thái', 'Tham gia', 'Thao tác'].map((h) => (
-                          <th key={h} className="px-6 py-3.5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-ink-secondary">
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-ink-200/40 dark:divide-ink-700/40">
-                      {users.map((user, idx) => (
-                        <motion.tr
-                          key={user.id}
-                          initial={{ opacity: 0, x: -6 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.4, ease: easeFluid, delay: idx * 0.04 }}
-                          className="hover:bg-paper-light dark:hover:bg-ink-700/30 transition-colors duration-500 ease-[var(--ease-fluid)]"
-                        >
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center flex-shrink-0 ring-1 ring-ink-700 dark:ring-paper-light">
-                                <span className="text-paper-light dark:text-ink-700 font-semibold text-sm">
-                                  {user.fullName?.charAt(0) || 'U'}
-                                </span>
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate">
-                                  {user.fullName}
-                                </p>
-                                <p className="text-[10px] uppercase tracking-[0.15em] text-ink-muted mt-0.5">
-                                  ID: {user.id}
-                                </p>
-                              </div>
+            <div className="admin-card">
+              <div className="overflow-x-auto">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Người dùng</th>
+                      <th>Email</th>
+                      <th>Vai trò</th>
+                      <th>Trạng thái</th>
+                      <th>Tham gia</th>
+                      <th className="text-right">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td>
+                          <div className="flex items-center gap-3">
+                            <div className="admin-avatar admin-avatar-success">
+                              {user.fullName?.charAt(0)?.toUpperCase() || 'U'}
                             </div>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-ink-secondary truncate max-w-[200px]">
+                            <div className="min-w-0">
+                              <p
+                                className="text-sm font-semibold truncate"
+                                style={{ color: 'var(--admin-text)' }}
+                              >
+                                {user.fullName}
+                              </p>
+                              <p
+                                className="text-xs"
+                                style={{ color: 'var(--admin-text-muted)' }}
+                              >
+                                ID: {user.id}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          className="text-sm"
+                          style={{ color: 'var(--admin-text-secondary)', maxWidth: 240 }}
+                        >
+                          <span className="truncate block" title={user.email}>
                             {user.email}
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className={`eyebrow-tag text-[10px] ${
-                              user.role === 'admin'
-                                ? 'bg-[#E5EDF6] text-[#3D5A80]'
-                                : 'bg-paper-light text-ink-secondary'
-                            }`}>
-                              {getRoleText(user.role)}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className={`eyebrow-tag text-[10px] ${
-                              user.status === 'active'
-                                ? 'bg-[#EDF3EC] text-[#346538]'
-                                : 'bg-[#FDEBEC] text-[#9F2F2D]'
-                            }`}>
-                              {getStatusText(user.status)}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-ink-secondary">
-                            {getTimeAgo(user.createdAt)}
-                          </td>
-                          <td className="px-6 py-4">
-                            {user.status === 'active' ? (
-                              <button
-                                onClick={() => handleStatusChange(user.id, 'banned', user.fullName)}
-                                disabled={user.role === 'admin'}
-                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#9F2F2D] hover:bg-[#FDEBEC] dark:hover:bg-[#9F2F2D]/15 hover:ring-[#9F2F2D]/30 transition-all duration-500 ease-[var(--ease-fluid)] disabled:opacity-30 disabled:cursor-not-allowed"
-                                title="Khóa tài khoản"
-                              >
-                                <Lock className="w-4 h-4" strokeWidth={1.5} />
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() => handleStatusChange(user.id, 'active', user.fullName)}
-                                className="w-9 h-9 rounded-full ring-1 ring-ink-200/40 dark:ring-ink-700/40 flex items-center justify-center text-[#346538] hover:bg-[#EDF3EC] dark:hover:bg-[#346538]/15 hover:ring-[#346538]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
-                                title="Mở khóa tài khoản"
-                              >
-                                <Unlock className="w-4 h-4" strokeWidth={1.5} />
-                              </button>
-                            )}
-                          </td>
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`admin-badge ${
+                              user.role === 'admin' ? 'admin-badge-info' : 'admin-badge-neutral'
+                            }`}
+                          >
+                            {getRoleText(user.role)}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`admin-badge ${
+                              user.status === 'active' ? 'admin-badge-success' : 'admin-badge-danger'
+                            }`}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{
+                                background:
+                                  user.status === 'active' ? 'var(--admin-success)' : 'var(--admin-danger)',
+                              }}
+                            />
+                            {getStatusText(user.status)}
+                          </span>
+                        </td>
+                        <td className="text-sm" style={{ color: 'var(--admin-text-secondary)' }}>
+                          {getTimeAgo(user.createdAt)}
+                        </td>
+                        <td className="text-right">
+                          {user.status === 'active' ? (
+                            <button
+                              onClick={() => handleStatusChange(user.id, 'banned', user.fullName)}
+                              disabled={user.role === 'admin'}
+                              className="admin-action admin-action-danger"
+                              title="Khóa tài khoản"
+                              style={user.role === 'admin' ? { opacity: 0.3, cursor: 'not-allowed' } : undefined}
+                            >
+                              <Lock className="w-4 h-4" strokeWidth={2} />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleStatusChange(user.id, 'active', user.fullName)}
+                              className="admin-action admin-action-success"
+                              title="Mở khóa tài khoản"
+                            >
+                              <Unlock className="w-4 h-4" strokeWidth={2} />
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </motion.div>
+            </div>
 
             {/* Pagination */}
-            <motion.div
-              variants={cardReveal}
-              initial="hidden"
-              animate="visible"
-              className="card-bezel"
-            >
-              <div className="card-bezel-inner p-4 flex items-center justify-between flex-wrap gap-3">
-                <p className="text-sm text-ink-secondary">
-                  Hiển thị <span className="font-semibold text-ink-primary dark:text-paper-light">{(page - 1) * limit + 1}</span> đến{' '}
-                  <span className="font-semibold text-ink-primary dark:text-paper-light">{Math.min(page * limit, total)}</span> trong tổng số{' '}
-                  <span className="font-semibold text-ink-primary dark:text-paper-light">{total}</span> kết quả
-                </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
-                  >
-                    <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
-                    Trước
-                  </button>
-                  <span className="px-4 text-xs uppercase tracking-[0.2em] text-ink-secondary">
-                    Trang {page} / {totalPages}
-                  </span>
-                  <button
-                    onClick={() => setPage(p => p + 1)}
-                    disabled={page * limit >= total}
-                    className="h-10 px-4 rounded-full text-sm font-medium ring-1 ring-ink-200/40 dark:ring-ink-700/40 text-ink-primary dark:text-paper-light disabled:opacity-30 disabled:cursor-not-allowed hover:ring-ink-primary/30 transition-all duration-500 ease-[var(--ease-fluid)] flex items-center gap-2"
-                  >
-                    Sau <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
-                  </button>
-                </div>
+            <div className="admin-pagination">
+              <span>
+                Hiển thị <strong style={{ color: 'var(--admin-text)' }}>{(page - 1) * limit + 1}</strong>–
+                <strong style={{ color: 'var(--admin-text)' }}>{Math.min(page * limit, total)}</strong> trong tổng số{' '}
+                <strong style={{ color: 'var(--admin-text)' }}>{total}</strong> kết quả
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                >
+                  <ChevronLeft className="w-4 h-4" strokeWidth={2} />
+                  Trước
+                </button>
+                <span style={{ color: 'var(--admin-text-secondary)' }}>
+                  Trang {page} / {totalPages}
+                </span>
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={page * limit >= total}
+                >
+                  Sau
+                  <ChevronRight className="w-4 h-4" strokeWidth={2} />
+                </button>
               </div>
-            </motion.div>
+            </div>
           </>
         )}
       </div>

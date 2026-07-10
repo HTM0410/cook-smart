@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ChefHat, Sparkles, ArrowUpRight } from 'lucide-react'
 import { EyebrowTag } from '../components/atoms/EyebrowTag'
-import { ButtonEditorial } from '../components/atoms/ButtonEditorial'
 import { easeFluid, splitRevealLeft, splitRevealRight, viewportOnce } from '../lib/motion'
 
 const LoginPage: React.FC = () => {
@@ -140,69 +139,137 @@ const LoginPage: React.FC = () => {
           )}
 
           <form onSubmit={onSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">
+            <style>{`
+              .clean-input {
+                width: 100%;
+                height: 48px;
+                padding: 0 14px;
+                background: #FFFFFF;
+                border: 1px solid #CBD5E1;
+                border-radius: 10px;
+                color: #0F172A;
+                font-size: 15px;
+                font-family: inherit;
+                outline: none;
+                transition: border-color 150ms ease, box-shadow 150ms ease;
+                box-sizing: border-box;
+              }
+              .clean-input::placeholder { color: #94A3B8; }
+              .clean-input:focus {
+                border-color: #ff4f00;
+                box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+              }
+              .dark .clean-input {
+                background: #0F172A;
+                border-color: #334155;
+                color: #F1F5F9;
+              }
+              .dark .clean-input::placeholder { color: #64748B; }
+            `}</style>
+            <div>
+              <label className="block text-sm font-medium text-ink-primary dark:text-paper-light mb-1.5">
                 Email hoặc Username
               </label>
-              <div className="input-bezel">
-                <input
-                  type="text"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="email@example.com"
-                  className="input-bezel-inner h-12 text-base"
-                  autoComplete="email"
-                />
-              </div>
+              <input
+                type="text"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                className="clean-input"
+                autoComplete="email"
+              />
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs uppercase tracking-[0.2em] text-ink-secondary font-medium">
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-sm font-medium text-ink-primary dark:text-paper-light">
                   Mật khẩu
                 </label>
-                <a href="#" className="text-xs uppercase tracking-[0.2em] text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light transition-colors link-underline">
+                <a
+                  href="#"
+                  className="text-sm text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light transition-colors"
+                >
                   Quên?
                 </a>
               </div>
-              <div className="input-bezel">
-                <div className="relative">
-                  <input
-                    type={showPwd ? 'text' : 'password'}
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="input-bezel-inner h-12 pr-12 text-base"
-                    autoComplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPwd(v => !v)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-ink-secondary hover:text-ink-primary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors"
-                    aria-label={showPwd ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-                  >
-                    {showPwd ? <EyeOff className="w-4 h-4" strokeWidth={1.5} /> : <Eye className="w-4 h-4" strokeWidth={1.5} />}
-                  </button>
-                </div>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showPwd ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="clean-input"
+                  style={{ paddingRight: 44 }}
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd(v => !v)}
+                  style={{
+                    position: 'absolute',
+                    right: 6,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 36,
+                    height: 36,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 6,
+                    border: 'none',
+                    background: 'transparent',
+                    color: '#64748B',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#F1F5F9')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  aria-label={showPwd ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                >
+                  {showPwd ? <EyeOff className="w-4 h-4" strokeWidth={2} /> : <Eye className="w-4 h-4" strokeWidth={2} />}
+                </button>
               </div>
             </div>
 
-            <ButtonEditorial
+            <button
               type="submit"
-              size="lg"
-              className="w-full justify-between"
               disabled={loading}
-              trailingIcon={
-                loading ? (
-                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              className="w-full"
+              style={{
+                height: 48,
+                padding: '0 16px',
+                background: loading ? '#94A3B8' : '#ff4f00',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 10,
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+              }}
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <circle cx="12" cy="12" r="10" opacity="0.25" />
                     <path d="M12 2a10 10 0 0 1 10 10" />
                   </svg>
-                ) : undefined
-              }
-            >
-              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-            </ButtonEditorial>
+                  Đang đăng nhập...
+                </>
+              ) : (
+                'Đăng nhập'
+              )}
+            </button>
           </form>
 
           <p className="text-center text-sm text-ink-secondary">

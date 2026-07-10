@@ -52,44 +52,52 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     return location.pathname.startsWith(path)
   }
 
+  const currentTitle = navigation.find(item => isActive(item.href))?.name || 'Dashboard'
+
   return (
-    <div className="flex h-screen bg-paper-light dark:bg-ink-800">
+    <div className="admin-scope flex h-screen" style={{ background: 'var(--admin-bg)', color: 'var(--admin-text)' }}>
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-paper-light dark:bg-ink-700 transform transition-transform duration-500 ease-[var(--ease-fluid)] lg:relative lg:translate-x-0 ring-1 ring-ink-200/40 dark:ring-ink-700/40 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        {/* Header */}
-        <div className="h-20 flex items-center justify-between px-6 border-b border-ink-200/40 dark:border-ink-700/40">
-          <Link to="/admin" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#ff4f00] flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" strokeWidth={1.5} />
+      <aside
+        className={`admin-sidebar fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Brand */}
+        <div className="h-16 flex items-center justify-between px-5 border-b" style={{ borderColor: 'var(--admin-border)' }}>
+          <Link to="/admin" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'var(--admin-accent)' }}>
+              <Sparkles className="w-4 h-4 text-white" strokeWidth={2} />
             </div>
             <div>
-              <h1 className="text-base font-semibold text-ink-primary dark:text-paper-light text-display">
+              <h1 className="text-base font-semibold leading-tight" style={{ color: 'var(--admin-text)' }}>
                 Admin Panel
               </h1>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-ink-muted mt-0.5">
+              <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--admin-text-muted)' }}>
                 CookSmart
               </p>
             </div>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 rounded-full hover:bg-paper-light dark:hover:bg-ink-700"
+            className="lg:hidden p-1.5 rounded-md hover:bg-[var(--admin-surface-alt)]"
+            style={{ color: 'var(--admin-text-secondary)' }}
           >
-            <X className="w-4 h-4 text-ink-secondary" strokeWidth={1.5} />
+            <X className="w-4 h-4" strokeWidth={2} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto h-[calc(100vh-220px)]">
+        <nav className="flex-1 py-4 overflow-y-auto" style={{ height: 'calc(100vh - 180px)' }}>
           <Link
             to="/"
-            className="flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-500 ease-[var(--ease-fluid)] text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700 ring-1 ring-transparent hover:ring-ink-200/40 dark:hover:ring-ink-700/40 mb-3"
+            className="admin-nav-item"
+            onClick={() => setSidebarOpen(false)}
           >
-            <Home className="mr-3 w-4 h-4" strokeWidth={1.5} />
+            <Home className="admin-nav-icon" strokeWidth={2} />
             Về trang chủ
           </Link>
+
+          <div className="admin-sidebar-section-title">Quản lý</div>
 
           {navigation.map((item) => {
             const Icon = item.icon
@@ -99,20 +107,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 key={item.name}
                 to={item.href}
                 onClick={() => setSidebarOpen(false)}
-                className={`relative flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-500 ease-[var(--ease-fluid)] ${
-                  active
-                    ? 'text-ink-primary dark:text-paper-light bg-paper-light dark:bg-ink-700/40 ring-1 ring-ink-200/40 dark:ring-ink-700/40'
-                    : 'text-ink-secondary hover:text-ink-primary dark:hover:text-paper-light hover:bg-paper-light dark:hover:bg-ink-700/30 ring-1 ring-transparent'
-                }`}
+                className={`admin-nav-item ${active ? 'active' : ''}`}
               >
-                {active && (
-                  <motion.span
-                    layoutId="admin-active"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#ff4f00] rounded-r-full"
-                    transition={{ duration: 0.4, ease: easeFluid }}
-                  />
-                )}
-                <Icon className={`mr-3 h-4 w-4 flex-shrink-0 ${active ? 'text-[#ff4f00]' : ''}`} strokeWidth={1.5} />
+                <Icon className="admin-nav-icon" strokeWidth={2} />
                 <span>{item.name}</span>
               </Link>
             )
@@ -120,26 +117,31 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </nav>
 
         {/* User info + Logout */}
-        <div className="absolute bottom-0 w-full border-t border-ink-200/40 dark:border-ink-700/40 bg-paper-light dark:bg-ink-700/30">
-          <div className="p-4">
-            <div className="flex items-center mb-3">
-              <div className="w-9 h-9 rounded-full bg-ink-700 dark:bg-paper-light flex items-center justify-center text-paper-light dark:text-ink-700 font-semibold text-sm ring-1 ring-ink-700 dark:ring-paper-light">
-                {user?.fullName?.charAt(0) || 'A'}
+        <div className="absolute bottom-0 w-full border-t" style={{ borderColor: 'var(--admin-border)', background: 'var(--admin-surface)' }}>
+          <div className="p-3">
+            <div className="flex items-center mb-3 px-2 py-2 rounded-md" style={{ background: 'var(--admin-surface-alt)' }}>
+              <div className="admin-avatar admin-avatar-success" style={{ width: 32, height: 32, fontSize: 13 }}>
+                {user?.fullName?.charAt(0)?.toUpperCase() || 'A'}
               </div>
-              <div className="ml-3 flex-1 min-w-0">
-                <p className="text-sm font-semibold text-ink-primary dark:text-paper-light truncate">
+              <div className="ml-2.5 flex-1 min-w-0">
+                <p className="text-sm font-semibold truncate" style={{ color: 'var(--admin-text)' }}>
                   {user?.fullName || 'Admin'}
                 </p>
-                <p className="text-xs text-ink-muted truncate">
+                <p className="text-[11px] truncate" style={{ color: 'var(--admin-text-muted)' }}>
                   {user?.email || 'admin@example.com'}
                 </p>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center px-4 py-2.5 text-sm font-medium text-[#9F2F2D] hover:bg-[#FDEBEC] dark:hover:bg-[#9F2F2D]/15 rounded-2xl ring-1 ring-transparent hover:ring-[#9F2F2D]/30 transition-all duration-500 ease-[var(--ease-fluid)]"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-semibold rounded-md transition-colors"
+              style={{
+                color: 'var(--admin-danger)',
+                background: 'var(--admin-surface)',
+                border: '1px solid var(--admin-border-strong)',
+              }}
             >
-              <LogOut className="w-4 h-4 mr-2" strokeWidth={1.5} />
+              <LogOut className="w-4 h-4" strokeWidth={2} />
               Đăng xuất
             </button>
           </div>
@@ -153,8 +155,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-40 bg-ink-700/40 lg:hidden"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -162,19 +164,23 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-paper-light dark:bg-ink-700/40 flex items-center px-4 lg:hidden border-b border-ink-200/40 dark:border-ink-700/40">
+        <header
+          className="h-14 flex items-center px-4 lg:hidden border-b"
+          style={{ background: 'var(--admin-surface)', borderColor: 'var(--admin-border)' }}
+        >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-full text-ink-secondary hover:bg-paper-light dark:hover:bg-ink-700 transition-colors duration-500 ease-[var(--ease-fluid)]"
+            className="p-2 rounded-md"
+            style={{ color: 'var(--admin-text-secondary)' }}
           >
-            <Menu className="w-5 h-5" strokeWidth={1.5} />
+            <Menu className="w-5 h-5" strokeWidth={2} />
           </button>
-          <h1 className="ml-4 text-base font-semibold text-ink-primary dark:text-paper-light text-display">
-            {navigation.find(item => isActive(item.href))?.name || 'Dashboard'}
+          <h1 className="ml-3 text-base font-semibold" style={{ color: 'var(--admin-text)' }}>
+            {currentTitle}
           </h1>
         </header>
 
-        <main className="flex-1 overflow-y-auto bg-paper-light dark:bg-ink-800 p-4 lg:p-8">
+        <main className="flex-1 overflow-y-auto p-5 lg:p-8" style={{ background: 'var(--admin-bg)' }}>
           {children}
         </main>
       </div>
