@@ -33,21 +33,31 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [justToggled, setJustToggled] = useState(false);
   const isOptimisticRef = useRef(false);
-  // Size configurations
+  // Pill button — a soft rounded rectangle with a frosted backdrop so it
+  // reads cleanly on top of any recipe image (dark or light) and stays
+  // visually anchored to the card instead of looking like a floating dot.
+  // When showCount is false we collapse the pill to a rounded square so
+  // it doesn't look stranded with nothing inside.
   const sizeConfig = {
     sm: {
-      button: 'h-8 w-8',
-      icon: 'h-4 w-4',
+      button: 'h-9 px-3 gap-1.5 rounded-xl',
+      buttonOnly: 'h-9 w-9 rounded-xl',
+      iconBox: 'w-5 h-5',
+      icon: 'h-[14px] w-[14px]',
       text: 'text-xs',
     },
     md: {
-      button: 'h-10 w-10',
-      icon: 'h-5 w-5',
+      button: 'h-10 px-3.5 gap-2 rounded-xl',
+      buttonOnly: 'h-10 w-10 rounded-xl',
+      iconBox: 'w-6 h-6',
+      icon: 'h-[16px] w-[16px]',
       text: 'text-sm',
     },
     lg: {
-      button: 'h-12 w-12',
-      icon: 'h-6 w-6',
+      button: 'h-12 px-4 gap-2 rounded-2xl',
+      buttonOnly: 'h-12 w-12 rounded-2xl',
+      iconBox: 'w-7 h-7',
+      icon: 'h-5 w-5',
       text: 'text-base',
     },
   };
@@ -232,7 +242,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
 
   return (
     <div className="flex flex-col items-start" onClick={(e) => e.stopPropagation()}>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center">
         <div className="relative group">
           <button
             onClick={(e) => {
@@ -242,46 +252,56 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
             }}
             disabled={isLoading || isOptimistic}
             className={`
-              ${config.button}
-              flex items-center justify-center rounded-full border-2 transition-all duration-200
+              ${showCount ? config.button : config.buttonOnly}
+              inline-flex items-center justify-center font-semibold
+              backdrop-blur-md transition-all duration-200
               ${isFavorited
-                ? 'border-red-500 bg-red-500 text-white hover:bg-red-600 hover:border-red-600'
-                : 'border-gray-300 bg-white text-gray-500 hover:border-red-400 hover:text-red-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-red-500 dark:hover:text-red-400'
+                ? 'bg-rose-500 text-white border border-rose-600/30 shadow-[0_4px_14px_rgba(244,63,94,0.45)] hover:bg-rose-600'
+                : 'bg-white/90 text-ink-primary border border-white/50 shadow-[0_4px_14px_rgba(0,0,0,0.18)] hover:bg-white dark:bg-ink-700/90 dark:text-paper-light dark:border-white/10'
               }
               ${isLoading || isOptimistic ? 'opacity-75 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}
-              ${error ? 'ring-2 ring-red-400' : ''}
-              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+              ${error ? 'ring-2 ring-rose-400' : ''}
+              focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2
             `}
             aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           >
             {isLoading || isOptimistic ? (
               <Loader2 className={`${config.icon} animate-spin`} />
             ) : (
-              <Heart
-                className={`${config.icon} ${isFavorited ? 'fill-current' : ''} ${justToggled && isFavorited ? 'animate-heart-pop' : ''}`}
-              />
+              <span className={`inline-flex items-center justify-center rounded-md ${
+                isFavorited ? 'bg-white/20' : 'bg-rose-50 dark:bg-rose-500/15'
+              } ${config.iconBox} ${showCount ? 'mr-1' : ''}`}>
+                <Heart
+                  className={`${config.icon} ${
+                    isFavorited
+                      ? 'fill-current text-white'
+                      : 'text-rose-500 dark:text-rose-400'
+                  } ${justToggled && isFavorited ? 'animate-heart-pop' : ''}`}
+                  strokeWidth={isFavorited ? 0 : 2}
+                />
+              </span>
+            )}
+            {showCount && (
+              <span className={`${config.text} tabular-nums ${
+                isFavorited ? 'text-white' : 'text-ink-primary dark:text-paper-light'
+              } ${isOptimistic ? 'italic opacity-70' : ''}`}>
+                {favoriteCount}
+              </span>
             )}
           </button>
-          
+
           {showTooltip && !error && (
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-ink-700 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
               {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
               {isOptimistic && ' (pending...)'}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-ink-700"></div>
             </div>
           )}
         </div>
-        
-        {showCount && (
-          <span className={`${config.text} font-medium ${isOptimistic ? 'text-gray-400 italic' : 'text-gray-600 dark:text-gray-400'}`}>
-            {favoriteCount}
-            {isOptimistic && <span className="ml-1 text-xs">(pending)</span>}
-          </span>
-        )}
       </div>
-      
+
       {error && (
-        <div className="mt-1 text-xs text-red-500 animate-fade-in">
+        <div className="mt-1 text-xs text-rose-500 animate-fade-in">
           {error}
         </div>
       )}
