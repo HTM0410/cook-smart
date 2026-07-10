@@ -23,6 +23,8 @@ import {
   syncFeedback,
   releaseToPipeline,
   getFeedbackStats,
+  updateConfidenceThreshold,
+  getConfidenceThreshold,
 } from '../controllers/mlopsAdminController';
 
 const router = Router();
@@ -151,6 +153,17 @@ router.post('/mlops/feedback/sync', syncFeedback);
  *     tags: [Admin - MLOps]
  */
 router.post('/mlops/release-to-pipeline', releaseToPipeline);
+
+/**
+ * @swagger
+ * /api/admin/mlops/threshold:
+ *   get:
+ *     summary: Read the current effective YOLO confidence threshold
+ *   put:
+ *     summary: Update YOLO confidence threshold at runtime (persists on the service)
+ */
+router.get('/mlops/threshold', getConfidenceThreshold);
+router.put('/mlops/threshold', updateConfidenceThreshold);
 
 /**
  * @swagger

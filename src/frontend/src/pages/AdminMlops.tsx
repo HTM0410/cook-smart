@@ -22,7 +22,6 @@ import {
 import { Link } from 'react-router-dom';
 import AdminLayout from '../components/templates/AdminLayout';
 import adminService, { MlopsOverview } from '../services/adminService';
-
 type ViewMode = 'overview' | 'feedback' | 'classes';
 
 const metricLabels: Record<string, string> = {
@@ -66,6 +65,12 @@ const AdminMlops: React.FC = () => {
   const [view, setView] = useState<ViewMode>('overview');
   const [classSearch, setClassSearch] = useState('');
 
+  // Confidence threshold (admin-tunable at runtime)
+  const [thresholdDraft, setThresholdDraft] = useState<number | null>(null);
+  const [thresholdSaving, setThresholdSaving] = useState(false);
+  const [thresholdError, setThresholdError] = useState<string | null>(null);
+  const [thresholdNotice, setThresholdNotice] = useState<string | null>(null);
+
   const loadData = useCallback(async (refresh = false) => {
     try {
       refresh ? setRefreshing(true) : setLoading(true);
@@ -82,6 +87,59 @@ const AdminMlops: React.FC = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // Keep the slider in sync with the live threshold (skip while user is editing).
+  useEffect(() => {
+    if (data?.service.confidenceThreshold != null && !thresholdSaving) {
+      setThresholdDraft(data.service.confidenceThreshold);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.service.confidenceThreshold]);
+
+  const handleSaveThreshold = useCallback(async () => {
+    if (thresholdDraft == null) return;
+    const value = Math.max(0, Math.min(1, thresholdDraft));
+    setThresholdSaving(true);
+    setThresholdError(null);
+    setThresholdNotice(null);
+    try {
+      const response = await adminService.updateConfidenceThreshold(value);
+      const updated = response?.data ?? response;
+      setThresholdNotice(
+        `Đã lưu ngưỡng ${updated.confidence_threshold.toFixed(2)} trên YOLO service.`
+      );
+      // Reload to pull fresh `service.confidenceThreshold`.
+      await loadData(true);
+    } catch (err: any) {
+      setThresholdError(
+        err.response?.data?.message || 'Không thể cập nhật ngưỡng trên YOLO service.'
+      );
+    } finally {
+      setThresholdSaving(false);
+    }
+  }, [thresholdDraft, loadData]);
+
+  const handleResetThreshold = useCallback(async () => {
+    if (!data || data.service.confidenceThreshold == null) return;
+    setThresholdSaving(true);
+    setThresholdError(null);
+    setThresholdNotice(null);
+    try {
+      // Push the current effective value back through the API to refresh the
+      // server's persisted state. There is no separate "default" endpoint, so
+      // we round to the same value.
+      const value = data.service.confidenceThreshold;
+      await adminService.updateConfidenceThreshold(value);
+      setThresholdNotice('Đã đồng bộ lại ngưỡng với YOLO service.');
+      await loadData(true);
+    } catch (err: any) {
+      setThresholdError(
+        err.response?.data?.message || 'Không thể đồng bộ ngưỡng.'
+      );
+    } finally {
+      setThresholdSaving(false);
+    }
+  }, [data, loadData]);
 
   const metrics = useMemo(() => {
     if (!data) return [];
@@ -301,13 +359,16 @@ const AdminMlops: React.FC = () => {
                         label="Số lớp"
                         value={`${data.model.classCount}/${data.schema.mappedClassCount}`}
                       />
-                      <InfoCell
-                        label="Ngưỡng confidence"
-                        value={
-                          data.service.confidenceThreshold !== null
-                            ? data.service.confidenceThreshold.toFixed(2)
-                            : 'Chưa có'
-                        }
+                      <ThresholdControl
+                        value={data.service.confidenceThreshold}
+                        draft={thresholdDraft}
+                        onDraftChange={setThresholdDraft}
+                        onSave={handleSaveThreshold}
+                        onRefresh={handleResetThreshold}
+                        saving={thresholdSaving}
+                        notice={thresholdNotice}
+                        error={thresholdError}
+                        available={data.service.available}
                       />
                       <InfoCell label="Cập nhật service" value={formatDate(data.service.timestamp)} />
                       <InfoCell label="Git revision" value={shortValue(data.model.gitRevision)} mono />
@@ -617,6 +678,199 @@ const InfoCell = ({ label, value, mono = false }: { label: string; value: string
     </p>
   </div>
 );
+
+const ThresholdControl = ({
+  value,
+  draft,
+  onDraftChange,
+  onSave,
+  onRefresh,
+  saving,
+  notice,
+  error,
+  available,
+}: {
+  value: number | null;
+  draft: number | null;
+  onDraftChange: (next: number) => void;
+  onSave: () => void;
+  onRefresh: () => void;
+  saving: boolean;
+  notice: string | null;
+  error: string | null;
+  available: boolean;
+}) => {
+  const effective = value ?? 0.25;
+  const safeDraft = draft != null ? Math.min(1, Math.max(0, draft)) : effective;
+  const dirty = draft != null && Math.abs(safeDraft - effective) > 0.005;
+
+  const handleSlider = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const next = Number(event.target.value);
+    onDraftChange(Number.isFinite(next) ? next : effective);
+  };
+
+  const handleNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const next = Number(event.target.value);
+    if (Number.isFinite(next)) {
+      onDraftChange(Math.min(1, Math.max(0, next)));
+    }
+  };
+
+  return (
+    <div className="admin-info-cell" style={{ gridColumn: '1 / -1' }}>
+      <div className="flex items-center justify-between gap-3">
+        <p className="admin-info-label">Ngưỡng confidence</p>
+        <span
+          className="text-xs tabular-nums"
+          style={{ color: 'var(--admin-text-secondary)' }}
+        >
+          Hiện tại: {value == null ? 'Chưa có' : value.toFixed(2)}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-3 mt-2">
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={safeDraft}
+          onChange={handleSlider}
+          disabled={!available || saving}
+          aria-label="Ngưỡng confidence"
+          style={{
+            flex: 1,
+            accentColor: 'var(--admin-accent, #ff4f00)',
+          }}
+        />
+        <input
+          type="number"
+          min={0}
+          max={1}
+          step={0.01}
+          value={safeDraft.toFixed(2)}
+          onChange={handleNumber}
+          disabled={!available || saving}
+          className="tabular-nums"
+          style={{
+            width: 78,
+            height: 32,
+            padding: '0 8px',
+            borderRadius: 'var(--admin-radius-sm)',
+            border: '1px solid var(--admin-border-strong)',
+            background: 'var(--admin-surface)',
+            color: 'var(--admin-text)',
+            fontSize: 13,
+            textAlign: 'right',
+          }}
+          aria-label="Ngưỡng confidence (số)"
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 mt-3">
+        <button
+          type="button"
+          onClick={onSave}
+          disabled={!available || saving || !dirty}
+          style={{
+            height: 32,
+            padding: '0 14px',
+            background:
+              !available || saving || !dirty
+                ? 'var(--admin-surface-alt)'
+                : 'var(--admin-accent)',
+            color: !available || saving || !dirty ? 'var(--admin-text-muted)' : '#fff',
+            border: 'none',
+            borderRadius: 'var(--admin-radius-sm)',
+            fontSize: 13,
+            fontWeight: 600,
+            cursor:
+              !available || saving || !dirty ? 'not-allowed' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          <SaveIcon spinning={saving} />
+          {saving ? 'Đang lưu...' : 'Lưu ngưỡng'}
+        </button>
+        <button
+          type="button"
+          onClick={onRefresh}
+          disabled={!available || saving}
+          style={{
+            height: 32,
+            padding: '0 12px',
+            background: 'var(--admin-surface)',
+            color: 'var(--admin-text)',
+            border: '1px solid var(--admin-border-strong)',
+            borderRadius: 'var(--admin-radius-sm)',
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: !available || saving ? 'not-allowed' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${saving ? 'animate-spin' : ''}`} strokeWidth={2} />
+          Đồng bộ lại
+        </button>
+        <span
+          className="text-xs"
+          style={{ color: 'var(--admin-text-muted)' }}
+        >
+          Khoảng hợp lệ: 0.00 – 1.00
+        </span>
+      </div>
+
+      {!available && (
+        <p
+          className="text-xs mt-2"
+          style={{ color: 'var(--admin-warning, #b45309)' }}
+        >
+          YOLO service hiện không khả dụng — không thể lưu ngưỡng.
+        </p>
+      )}
+      {error && (
+        <p
+          className="text-xs mt-2"
+          style={{ color: 'var(--admin-danger, #b91c1c)' }}
+        >
+          {error}
+        </p>
+      )}
+      {notice && !error && (
+        <p
+          className="text-xs mt-2"
+          style={{ color: 'var(--admin-success, #15803d)' }}
+        >
+          {notice}
+        </p>
+      )}
+    </div>
+  );
+};
+
+const SaveIcon = ({ spinning }: { spinning: boolean }) =>
+  spinning ? (
+    <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+  ) : (
+    <svg
+      className="h-4 w-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+      <polyline points="17 21 17 13 7 13 7 21" />
+      <polyline points="7 3 7 8 15 8" />
+    </svg>
+  );
 
 const IngredientDiff = ({
   label,

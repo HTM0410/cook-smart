@@ -1,6 +1,12 @@
 ﻿import axios, { AxiosInstance, AxiosError } from 'axios';
-import { yoloConfig, getYoloServiceUrl } from '../config/yolo';
+import { yoloConfig, getYoloServiceUrl, isYoloAvailable } from '../config/yolo';
 import { yoloServiceAvailable } from '../middleware/monitoring';
+
+const UNAVAILABLE_HEALTH: import('./yoloService').YoloHealthResponse = {
+  ok: false,
+  model_loaded: false,
+  timestamp: new Date().toISOString(),
+};
 
 export interface DetectedIngredient {
   yoloLabel: string;
@@ -28,7 +34,20 @@ export interface YoloHealthResponse {
   class_count?: number;
   class_names?: string[];
   confidence_threshold?: number;
+  default_confidence_threshold?: number;
+  runtime_confidence_threshold?: number;
+  threshold_overridden?: boolean;
   timestamp?: string;
+}
+
+export interface YoloThresholdResponse {
+  confidence_threshold: number;
+  default_confidence_threshold: number;
+  runtime_confidence_threshold: number;
+  threshold_overridden: boolean;
+  min: number;
+  max: number;
+  updated_at?: string | null;
 }
 
 export interface YoloLabel {
@@ -52,8 +71,14 @@ class YoloService {
   };
 
   constructor() {
+    const baseURL = getYoloServiceUrl();
+    if (!baseURL) {
+      console.warn(
+        '[YoloService] YOLO base URL is not configured. Service will fail-fast on all calls.'
+      );
+    }
     this.client = axios.create({
-      baseURL: getYoloServiceUrl(),
+      baseURL: baseURL || 'http://yolo.invalid',
       timeout: yoloConfig.timeout,
       headers: {
         'Content-Type': 'application/json',
@@ -139,6 +164,10 @@ class YoloService {
    * Check if YOLO service is available and healthy
    */
   async checkHealth(forceRefresh = false): Promise<YoloHealthResponse> {
+    if (!isYoloAvailable()) {
+      yoloServiceAvailable.set(0);
+      return UNAVAILABLE_HEALTH;
+    }
     // Return cached health if available
     if (!forceRefresh) {
       const cached = this.getCachedHealth();
@@ -165,6 +194,7 @@ class YoloService {
    * Get detailed health information including model metadata
    */
   async getDetailedHealth(): Promise<YoloHealthResponse> {
+    if (!isYoloAvailable()) return UNAVAILABLE_HEALTH;
     try {
       const response = await this.client.get<YoloHealthResponse>('/health/detailed');
       return response.data;
@@ -182,6 +212,9 @@ class YoloService {
     mimeType?: string,
     minConfidence?: number
   ): Promise<DetectIngredientsResponse> {
+    if (!isYoloAvailable()) {
+      throw new Error('YOLO service is not available');
+    }
     try {
       const response = await this.client.post<DetectIngredientsResponse>('/detect-ingredients', {
         imageBase64,
@@ -199,6 +232,7 @@ class YoloService {
    * Get all supported labels from the YOLO service
    */
   async getLabels(): Promise<YoloLabelsResponse> {
+    if (!isYoloAvailable()) return { labels: [], total_count: 0 };
     try {
       const response = await this.client.get<YoloLabelsResponse>('/labels');
       return response.data;
@@ -212,11 +246,56 @@ class YoloService {
    * Get service root information
    */
   async getServiceInfo(): Promise<any> {
+    if (!isYoloAvailable()) return null;
     try {
       const response = await this.client.get('/');
       return response.data;
     } catch (error) {
       console.error('[YoloService] Get service info failed:', error);
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Read the current runtime confidence threshold from the YOLO service.
+   */
+  async getRuntimeThreshold(): Promise<YoloThresholdResponse> {
+    if (!isYoloAvailable()) {
+      throw new Error('YOLO service is not available');
+    }
+    try {
+      const response = await this.client.get<YoloThresholdResponse>('/config/threshold');
+      return response.data;
+    } catch (error) {
+      console.error('[YoloService] Get runtime threshold failed:', error);
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Update the runtime confidence threshold. Value is clamped to [0, 1] by
+   * the YOLO service and persisted to disk so changes survive restarts.
+   */
+  async updateRuntimeThreshold(confidenceThreshold: number): Promise<YoloThresholdResponse> {
+    if (!isYoloAvailable()) {
+      throw new Error('YOLO service is not available');
+    }
+    const value = Number(confidenceThreshold);
+    if (!Number.isFinite(value)) {
+      throw new Error('Confidence threshold phải là số hợp lệ.');
+    }
+    if (value < 0 || value > 1) {
+      throw new Error('Confidence threshold phải nằm trong khoảng [0, 1].');
+    }
+    try {
+      const response = await this.client.put<YoloThresholdResponse>('/config/threshold', {
+        confidence_threshold: value,
+      });
+      // Clear health cache so the next overview reads the new value
+      this.healthCache = { data: null, timestamp: 0 };
+      return response.data;
+    } catch (error) {
+      console.error('[YoloService] Update runtime threshold failed:', error);
       throw this.handleError(error);
     }
   }

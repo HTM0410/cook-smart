@@ -207,6 +207,16 @@ export const adminService = {
     const res = await api.post('/api/admin/mlops/release-to-pipeline', {});
     return res.data;
   },
+
+  async getConfidenceThreshold() {
+    const res = await api.get('/api/admin/mlops/threshold');
+    return res.data;
+  },
+
+  async updateConfidenceThreshold(confidenceThreshold: number) {
+    const res = await api.put('/api/admin/mlops/threshold', { confidenceThreshold });
+    return res.data;
+  },
 };
 
 export default adminService;

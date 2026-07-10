@@ -67,6 +67,53 @@ MODEL_PATH = os.getenv("YOLO_MODEL_PATH", os.path.join(SCRIPT_DIR, "best59.pt"))
 CONF_INFERENCE_FLOOR = float(os.getenv("CONF_INFERENCE_FLOOR", "0.25"))
 METRICS_TOKEN = os.getenv("METRICS_TOKEN", "")
 
+# Allow admins to retune the inference floor at runtime. The default value
+# comes from CONF_INFERENCE_FLOOR; an admin PUT to /config/threshold updates
+# the in-memory value and persists it to disk so the change survives restarts.
+RUNTIME_CONF_FILE = os.getenv("YOLO_RUNTIME_CONF_FILE", os.path.join(SCRIPT_DIR, "runtime_config.json"))
+_MIN_CONF = 0.0
+_MAX_CONF = 1.0
+
+
+def _clamp_conf(value: float) -> float:
+    return max(_MIN_CONF, min(_MAX_CONF, float(value)))
+
+
+def _load_runtime_conf() -> float:
+    """Load persisted admin overrides from disk (if any)."""
+    try:
+        if os.path.exists(RUNTIME_CONF_FILE):
+            with open(RUNTIME_CONF_FILE, "r", encoding="utf-8") as fp:
+                data = json.load(fp)
+            raw = data.get("confidence_threshold")
+            if raw is not None:
+                return _clamp_conf(float(raw))
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("[yolo_inference_service] Khong the doc runtime config: %s", exc)
+    return CONF_INFERENCE_FLOOR
+
+
+def _save_runtime_conf(threshold: float) -> None:
+    """Persist the admin-tuned threshold to disk for restart durability."""
+    try:
+        os.makedirs(os.path.dirname(RUNTIME_CONF_FILE), exist_ok=True)
+        payload = {
+            "confidence_threshold": threshold,
+            "updated_at": datetime.now().isoformat(),
+        }
+        with open(RUNTIME_CONF_FILE, "w", encoding="utf-8") as fp:
+            json.dump(payload, fp, ensure_ascii=False, indent=2)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("[yolo_inference_service] Khong the ghi runtime config: %s", exc)
+
+
+# Mutable runtime threshold (admin-tunable via /config/threshold).
+RUNTIME_CONFIDENCE: float = _load_runtime_conf()
+
+
+def _get_runtime_conf() -> float:
+    return _clamp_conf(RUNTIME_CONFIDENCE)
+
 HTTP_REQUESTS = Counter(
     "yolo_http_requests_total",
     "Total HTTP requests received by the YOLO service.",
@@ -395,7 +442,10 @@ def health_detailed() -> Dict[str, Any]:
         "class_count": len(model_class_names) if model else 0,
         "class_names": model_class_names if model else [],
         "schema_compatible": model_schema_compatible(),
-        "confidence_threshold": CONF_INFERENCE_FLOOR,
+        "confidence_threshold": _get_runtime_conf(),
+        "default_confidence_threshold": CONF_INFERENCE_FLOOR,
+        "runtime_confidence_threshold": _get_runtime_conf(),
+        "threshold_overridden": abs(RUNTIME_CONFIDENCE - CONF_INFERENCE_FLOOR) > 1e-9,
         "embedding_model": EMBEDDING_MODEL,
         "embedding_load_error": embedding_load_error,
         "mlops_enabled": MLOPS_ENABLED,
@@ -449,7 +499,7 @@ def infer(req: InferRequest) -> Dict[str, Any]:
             tmp_path = tmp.name
 
         with INFERENCE_DURATION.labels("infer").time():
-            results = model.predict(source=tmp_path, conf=CONF_INFERENCE_FLOOR, verbose=False, device="cpu")
+            results = model.predict(source=tmp_path, conf=_get_runtime_conf(), verbose=False, device="cpu")
     finally:
         if tmp_path and os.path.exists(tmp_path):
             os.unlink(tmp_path)
@@ -632,7 +682,61 @@ def root() -> Dict[str, Any]:
             "infer": "/infer",
             "detect_ingredients": "/detect-ingredients",
             "embed": "/embed",
+            "get_threshold": "GET /config/threshold",
+            "update_threshold": "PUT /config/threshold",
         },
         "model_loaded": model is not None,
         "embedding_available": embed_model is not None,
     }
+
+
+# =============================================================================
+# Runtime configuration (admin-tunable inference thresholds)
+# =============================================================================
+
+
+class _ThresholdBody(BaseModel):
+    confidence_threshold: float
+
+
+@app.get("/config/threshold")
+def get_runtime_threshold() -> Dict[str, Any]:
+    """Read the current effective confidence threshold (admin-overridable)."""
+    return {
+        "confidence_threshold": _get_runtime_conf(),
+        "default_confidence_threshold": CONF_INFERENCE_FLOOR,
+        "runtime_confidence_threshold": _get_runtime_conf(),
+        "threshold_overridden": abs(RUNTIME_CONFIDENCE - CONF_INFERENCE_FLOOR) > 1e-9,
+        "min": _MIN_CONF,
+        "max": _MAX_CONF,
+        "updated_at": _read_threshold_updated_at(),
+    }
+
+
+@app.put("/config/threshold")
+def set_runtime_threshold(body: _ThresholdBody) -> Dict[str, Any]:
+    """Update the runtime confidence floor. Persists to disk for restart durability."""
+    global RUNTIME_CONFIDENCE
+    value = _clamp_conf(body.confidence_threshold)
+    RUNTIME_CONFIDENCE = value
+    _save_runtime_conf(value)
+    return {
+        "confidence_threshold": value,
+        "default_confidence_threshold": CONF_INFERENCE_FLOOR,
+        "runtime_confidence_threshold": value,
+        "threshold_overridden": abs(RUNTIME_CONFIDENCE - CONF_INFERENCE_FLOOR) > 1e-9,
+        "min": _MIN_CONF,
+        "max": _MAX_CONF,
+        "updated_at": _read_threshold_updated_at(),
+    }
+
+
+def _read_threshold_updated_at() -> Optional[str]:
+    try:
+        if os.path.exists(RUNTIME_CONF_FILE):
+            with open(RUNTIME_CONF_FILE, "r", encoding="utf-8") as fp:
+                data = json.load(fp)
+            return data.get("updated_at")
+    except Exception:  # noqa: BLE001
+        return None
+    return None

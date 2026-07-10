@@ -529,3 +529,74 @@ export const getFeedbackStats = async (
     next(error);
   }
 };
+
+/**
+ * PUT /api/admin/mlops/threshold
+ * Body: { confidenceThreshold: number }  (0..1)
+ *
+ * Forwards the new threshold to the YOLO inference service, which updates
+ * its in-memory floor (used by /infer) and persists it to disk so the value
+ * survives container restarts.
+ */
+export const updateConfidenceThreshold = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const rawValue = (req.body ?? {}).confidenceThreshold ?? (req.body ?? {}).confidence_threshold;
+    const value = Number(rawValue);
+    if (!Number.isFinite(value)) {
+      res.status(400).json({
+        success: false,
+        message: 'confidenceThreshold phải là số hợp lệ.',
+      });
+      return;
+    }
+    if (value < 0 || value > 1) {
+      res.status(400).json({
+        success: false,
+        message: 'confidenceThreshold phải nằm trong khoảng [0, 1].',
+      });
+      return;
+    }
+
+    const updated = await yoloService.updateRuntimeThreshold(value);
+    res.json({
+      success: true,
+      message: 'Đã cập nhật ngưỡng confidence trên YOLO service.',
+      data: updated,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      // Forward underlying service errors with status 502 (bad gateway)
+      res.status(502).json({
+        success: false,
+        message: `Không thể cập nhật ngưỡng trên YOLO service: ${error.message}`,
+      });
+      return;
+    }
+    next(error);
+  }
+};
+
+/**
+ * GET /api/admin/mlops/threshold
+ * Returns the current effective threshold (read-only mirror).
+ */
+export const getConfidenceThreshold = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const data = await yoloService.getRuntimeThreshold();
+    res.json({
+      success: true,
+      message: 'Runtime threshold retrieved',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
