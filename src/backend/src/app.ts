@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 
 console.log('📦 app.ts: Starting imports...');
+// ECS Deploy: 2026-07-10 - Updated for production deployment
 
 import swaggerUi from 'swagger-ui-express';
 
@@ -68,23 +69,32 @@ const defaultOrigins = isDevelopment
 
 const allowedOrigins = (process.env.CORS_ORIGIN || process.env.CLIENT_URL || defaultOrigins)
   .split(',')
-  .map(o => o.trim());
+  .map(o => o.trim())
+  .filter(Boolean);
+
+// Optional wildcard subdomain matching (e.g. *.netlify.app) so Netlify preview
+// deploys are accepted without redeploying env vars.
+const allowedOriginRegexes: RegExp[] = (process.env.CORS_ORIGIN_REGEX || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean)
+  .map((pattern) => new RegExp(pattern));
+
+function isOriginAllowed(origin: string): boolean {
+  if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) return true;
+  return allowedOriginRegexes.some((re) => re.test(origin));
+}
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     // In development, allow any origin (including all localhost ports)
-    if (isDevelopment || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+    if (isDevelopment || isOriginAllowed(origin)) {
       return callback(null, true);
     }
-    
-    // Check if origin is in allowed list
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    
+
     // Log rejected origins for debugging
     console.warn(`⚠️ CORS: Origin ${origin} not allowed`);
     return callback(new Error('Not allowed by CORS'));
