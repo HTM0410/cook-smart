@@ -21,6 +21,7 @@ env:
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER || 'cooksmart-prod-v2' }}
   ECS_SERVICE_YOLO: ${{ vars.ECS_SERVICE_YOLO || 'cooksmart-prod-v2-yolo-svc' }}
   YOLO_FAMILY: ${{ vars.YOLO_FAMILY || 'cooksmart-prod-v2-yolo' }}
+  YOLO_SOURCE_DIR: ${{ github.event.inputs.source_dir || 'src/backend/src/model_detection/yolo_inference_service' }}
 
 jobs:
   build-yolo:
@@ -62,10 +63,10 @@ jobs:
       - name: Build and push YOLO image
         uses: docker/build-push-action@v6
         with:
-          context: ${{ github.event.inputs.source_dir }}
+          context: ${{ env.YOLO_SOURCE_DIR }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          file: ${{ github.event.inputs.source_dir }}/Dockerfile
+          file: ${{ env.YOLO_SOURCE_DIR }}/Dockerfile
           no-cache: true
           provenance: false
 
