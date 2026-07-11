@@ -4,7 +4,7 @@
 # ===========================================
 # Stage 1: Builder - Install dependencies
 # ===========================================
-FROM python:3.10-slim as builder
+FROM python:3.10-slim AS builder
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -14,12 +14,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libgomp1 \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+# retry once on transient mirror failures, then fall back to deb.debian.org
+RUN for i in 1 2 3; do \
+      apt-get update && break || sleep 5; \
+    done && \
+    apt-get install -y --no-install-recommends --fix-missing \
+      build-essential \
+      libgomp1 \
+      libgl1 \
+      libglib2.0-0 \
+      && rm -rf /var/lib/apt/lists/*
 
 # Create virtual environment
 RUN python -m venv /opt/venv
@@ -33,7 +37,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # ===========================================
 # Stage 2: Production
 # ===========================================
-FROM python:3.10-slim as production
+FROM python:3.10-slim AS production
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -44,15 +48,18 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     HOST=0.0.0.0
 
 # Install runtime dependencies only
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender1 \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN for i in 1 2 3; do \
+      apt-get update && break || sleep 5; \
+    done && \
+    apt-get install -y --no-install-recommends --fix-missing \
+      libgomp1 \
+      libgl1 \
+      libglib2.0-0 \
+      libsm6 \
+      libxext6 \
+      libxrender1 \
+      curl \
+      && rm -rf /var/lib/apt/lists/*
 
 # Copy virtual environment from builder
 COPY --from=builder /opt/venv /opt/venv
@@ -68,6 +75,12 @@ WORKDIR /app
 COPY --chown=appuser:appgroup app.py .
 COPY --chown=appuser:appgroup wandb_loader.py .
 
+# Copy model downloader script
+COPY --chown=appuser:appgroup download_model.py .
+
+# Create models directory
+RUN mkdir -p /app/models && chown -R appuser:appgroup /app/models
+
 # Copy model weights if exists (can be mounted as volume)
 # RUN mkdir -p /app/models && mv best.pt /app/models/ 2>/dev/null || true
 
@@ -82,4 +95,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 USER appuser
 
 # Run the application
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "python download_model.py && uvicorn app:app --host 0.0.0.0 --port 8000"]
