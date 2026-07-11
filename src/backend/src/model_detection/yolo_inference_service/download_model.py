@@ -4,11 +4,11 @@ import os
 import sys
 
 try:
-    import boto3
-except ImportError:
-    print("boto3 not available, installing...")
-    os.system(f"{sys.executable} -m pip install boto3 --quiet")
-    import boto3
+    import boto3  # noqa: F401
+except ImportError as exc:
+    print(f"[download_model] FATAL: boto3 missing in runtime image: {exc}", file=sys.stderr)
+    print("[download_model] Add 'boto3' to requirements.txt and rebuild the image.", file=sys.stderr)
+    sys.exit(1)
 
 
 BUCKET = os.getenv("YOLO_MODEL_BUCKET", "cooksmart-yolo-models")
