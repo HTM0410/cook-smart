@@ -26,6 +26,17 @@ import {
   updateConfidenceThreshold,
   getConfidenceThreshold,
 } from '../controllers/mlopsAdminController';
+import {
+  listModels,
+  getModel,
+  uploadModel,
+  updateModel,
+  deleteModel,
+  setActiveModel,
+  addAlias,
+  removeAlias,
+  uploadMiddleware,
+} from '../controllers/modelRegistryController';
 
 const router = Router();
 
@@ -164,6 +175,19 @@ router.post('/mlops/release-to-pipeline', releaseToPipeline);
  */
 router.get('/mlops/threshold', getConfidenceThreshold);
 router.put('/mlops/threshold', updateConfidenceThreshold);
+
+// =============================================================================
+// Model Registry endpoints (Admin)
+// =============================================================================
+
+router.get('/models', listModels);
+router.get('/models/:version', getModel);
+router.post('/models/upload', uploadMiddleware, uploadModel);
+router.put('/models/:version', updateModel);
+router.delete('/models/:version', deleteModel);
+router.post('/models/:version/set-active', setActiveModel);
+router.post('/models/:version/aliases', addAlias);
+router.delete('/models/:version/aliases/:alias', removeAlias);
 
 /**
  * @swagger

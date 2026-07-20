@@ -69,6 +69,36 @@ export interface MlopsOverview {
   warnings: string[];
 }
 
+// ====================================================================
+// Model Registry Types
+// ====================================================================
+
+export interface RegistryModel {
+  version: string;
+  filename: string;
+  createdAt: string;
+  trainedAt: string;
+  metrics: {
+    precision?: number;
+    recall?: number;
+    mAP50?: number;
+    mAP50_95?: number;
+  };
+  aliases: string[];
+  sha256: string;
+  size: number;
+  notes?: string;
+  baseModel?: string;
+  classes?: number;
+  exists: boolean;
+  filePath: string;
+}
+
+export interface RegistryOverview {
+  active: string;
+  models: RegistryModel[];
+}
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
@@ -215,6 +245,52 @@ export const adminService = {
 
   async updateConfidenceThreshold(confidenceThreshold: number) {
     const res = await api.put('/api/admin/mlops/threshold', { confidenceThreshold });
+    return res.data;
+  },
+
+  // ====================================================================
+  // Model Registry endpoints
+  // ====================================================================
+
+  async getModelRegistry(): Promise<RegistryOverview> {
+    const res = await api.get('/api/admin/models');
+    return res.data.data;
+  },
+
+  async getModel(version: string): Promise<RegistryModel> {
+    const res = await api.get(`/api/admin/models/${version}`);
+    return res.data.data;
+  },
+
+  async uploadModel(formData: FormData): Promise<any> {
+    const res = await api.post('/api/admin/models/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data;
+  },
+
+  async updateModel(version: string, updates: Partial<RegistryModel>): Promise<RegistryModel> {
+    const res = await api.put(`/api/admin/models/${version}`, updates);
+    return res.data.data;
+  },
+
+  async deleteModel(version: string): Promise<void> {
+    const res = await api.delete(`/api/admin/models/${version}`);
+    return res.data;
+  },
+
+  async setActiveModel(version: string): Promise<void> {
+    const res = await api.post(`/api/admin/models/${version}/set-active`);
+    return res.data;
+  },
+
+  async addModelAlias(version: string, alias: string): Promise<void> {
+    const res = await api.post(`/api/admin/models/${version}/aliases`, { alias });
+    return res.data;
+  },
+
+  async removeModelAlias(version: string, alias: string): Promise<void> {
+    const res = await api.delete(`/api/admin/models/${version}/aliases/${alias}`);
     return res.data;
   },
 };

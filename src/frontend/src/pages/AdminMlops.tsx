@@ -12,17 +12,22 @@ import {
   Layers3,
   Link as LinkIcon,
   Loader2,
+  Package,
+  Plus,
   RefreshCw,
   Server,
   ShieldCheck,
   SlidersHorizontal,
+  Star,
+  Trash2,
+  Upload,
   UserRoundCheck,
   XCircle,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../components/templates/AdminLayout';
-import adminService, { MlopsOverview } from '../services/adminService';
-type ViewMode = 'overview' | 'feedback' | 'classes';
+import adminService, { MlopsOverview, RegistryOverview, RegistryModel } from '../services/adminService';
+type ViewMode = 'overview' | 'feedback' | 'classes' | 'registry';
 
 const metricLabels: Record<string, string> = {
   'metrics/precision(B)': 'Precision',
@@ -65,6 +70,15 @@ const AdminMlops: React.FC = () => {
   const [view, setView] = useState<ViewMode>('overview');
   const [classSearch, setClassSearch] = useState('');
 
+  // Model Registry state
+  const [registryData, setRegistryData] = useState<RegistryOverview | null>(null);
+  const [registryLoading, setRegistryLoading] = useState(false);
+  const [registryError, setRegistryError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+
   // Confidence threshold (admin-tunable at runtime)
   const [thresholdDraft, setThresholdDraft] = useState<number | null>(null);
   const [thresholdSaving, setThresholdSaving] = useState(false);
@@ -84,9 +98,28 @@ const AdminMlops: React.FC = () => {
     }
   }, []);
 
+  const loadRegistry = useCallback(async () => {
+    setRegistryLoading(true);
+    setRegistryError(null);
+    try {
+      setRegistryData(await adminService.getModelRegistry());
+    } catch (err: any) {
+      setRegistryError(err.response?.data?.message || 'Không thể tải model registry.');
+    } finally {
+      setRegistryLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // Load registry when switching to registry tab
+  useEffect(() => {
+    if (view === 'registry' && !registryData) {
+      loadRegistry();
+    }
+  }, [view, registryData, loadRegistry]);
 
   // Keep the slider in sync with the live threshold (skip while user is editing).
   useEffect(() => {
@@ -140,6 +173,56 @@ const AdminMlops: React.FC = () => {
       setThresholdSaving(false);
     }
   }, [data, loadData]);
+
+  // Model Registry handlers
+  const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError(null);
+    setUploadSuccess(null);
+    setUploadProgress(`Đang upload ${file.name}...`);
+
+    try {
+      const formData = new FormData();
+      formData.append('model', file);
+      formData.append('version', `v${Date.now()}`);
+      formData.append('alias', 'candidate');
+
+      await adminService.uploadModel(formData);
+      setUploadSuccess(`Model ${file.name} đã được upload thành công!`);
+      setUploadProgress(null);
+      await loadRegistry();
+    } catch (err: any) {
+      setUploadError(err.response?.data?.message || 'Upload thất bại');
+      setUploadProgress(null);
+    } finally {
+      setUploading(false);
+      event.target.value = '';
+    }
+  }, [loadRegistry]);
+
+  const handleSetActive = useCallback(async (version: string) => {
+    try {
+      await adminService.setActiveModel(version);
+      await loadRegistry();
+      await loadData(true);
+    } catch (err: any) {
+      setRegistryError(err.response?.data?.message || 'Không thể đặt model active');
+    }
+  }, [loadRegistry, loadData]);
+
+  const handleDeleteModel = useCallback(async (version: string) => {
+    if (!confirm(`Xóa model ${version} khỏi registry?`)) return;
+
+    try {
+      await adminService.deleteModel(version);
+      await loadRegistry();
+    } catch (err: any) {
+      setRegistryError(err.response?.data?.message || 'Không thể xóa model');
+    }
+  }, [loadRegistry]);
 
   const metrics = useMemo(() => {
     if (!data) return [];
@@ -337,6 +420,14 @@ const AdminMlops: React.FC = () => {
                 >
                   <Layers3 className="w-4 h-4" strokeWidth={2} />
                   Lớp nhận diện
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setView('registry')}
+                  className={`admin-tab ${view === 'registry' ? 'active' : ''}`}
+                >
+                  <Package className="w-4 h-4" strokeWidth={2} />
+                  Model Registry
                 </button>
               </div>
             </div>
@@ -609,6 +700,278 @@ const AdminMlops: React.FC = () => {
                   <SchemaList title="Thiếu mapping" items={data.schema.missingMappings} tone="red" />
                   <SchemaList title="Mapping không dùng" items={data.schema.unusedMappings} tone="amber" />
                 </aside>
+              </div>
+            )}
+
+            {view === 'registry' && (
+              <div className="space-y-4">
+                {/* Registry Header */}
+                <div className="admin-card">
+                  <div className="admin-card-header">
+                    <h2 className="admin-card-title">
+                      <Package className="w-4 h-4" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                      Model Registry
+                    </h2>
+                    <div className="flex items-center gap-2">
+                      <label
+                        htmlFor="model-upload"
+                        style={{
+                          height: 36,
+                          padding: '0 14px',
+                          background: 'var(--admin-accent)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: 'var(--admin-radius-sm)',
+                          fontSize: 13,
+                          fontWeight: 600,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Upload className="h-4 w-4" strokeWidth={2} />
+                        Upload Model
+                        <input
+                          id="model-upload"
+                          type="file"
+                          accept=".pt"
+                          onChange={handleFileUpload}
+                          disabled={uploading}
+                          style={{ display: 'none' }}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={loadRegistry}
+                        disabled={registryLoading}
+                        style={{
+                          height: 36,
+                          padding: '0 14px',
+                          background: 'var(--admin-surface)',
+                          color: 'var(--admin-text)',
+                          border: '1px solid var(--admin-border-strong)',
+                          borderRadius: 'var(--admin-radius-sm)',
+                          fontSize: 13,
+                          fontWeight: 600,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <RefreshCw className={`h-4 w-4 ${registryLoading ? 'animate-spin' : ''}`} strokeWidth={2} />
+                        Làm mới
+                      </button>
+                    </div>
+                  </div>
+                  <div className="admin-card-body">
+                    {/* Upload status */}
+                    {uploadProgress && (
+                      <div className="admin-alert admin-alert-info mb-4">
+                        <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+                        <span>{uploadProgress}</span>
+                      </div>
+                    )}
+                    {uploadError && (
+                      <div className="admin-alert admin-alert-danger mb-4">
+                        <XCircle className="h-4 w-4" strokeWidth={2} />
+                        <span>{uploadError}</span>
+                      </div>
+                    )}
+                    {uploadSuccess && (
+                      <div className="admin-alert admin-alert-success mb-4">
+                        <CheckCircle2 className="h-4 w-4" strokeWidth={2} />
+                        <span>{uploadSuccess}</span>
+                      </div>
+                    )}
+                    {registryError && (
+                      <div className="admin-alert admin-alert-danger mb-4">
+                        <XCircle className="h-4 w-4" strokeWidth={2} />
+                        <span>{registryError}</span>
+                      </div>
+                    )}
+
+                    {/* Models list */}
+                    {registryLoading ? (
+                      <div className="admin-loading">
+                        <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--admin-accent)' }} strokeWidth={2} />
+                        <span>Đang tải registry...</span>
+                      </div>
+                    ) : registryData ? (
+                      <div className="space-y-3">
+                        {registryData.models.length === 0 ? (
+                          <div className="admin-empty">
+                            <Package className="w-12 h-12 mb-2" style={{ color: 'var(--admin-text-muted)' }} strokeWidth={1.5} />
+                            <p>Chưa có model nào trong registry.</p>
+                            <p className="text-sm" style={{ color: 'var(--admin-text-secondary)' }}>
+                              Upload model .pt để bắt đầu.
+                            </p>
+                          </div>
+                        ) : (
+                          registryData.models.map((model) => (
+                            <div
+                              key={model.version}
+                              style={{
+                                border: `1px solid ${registryData.active === model.version ? 'var(--admin-accent)' : 'var(--admin-border)'}`,
+                                borderRadius: 'var(--admin-radius)',
+                                padding: 16,
+                                background: registryData.active === model.version ? 'var(--admin-surface-alt)' : 'var(--admin-surface)',
+                              }}
+                            >
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span
+                                      style={{
+                                        fontFamily: 'monospace',
+                                        fontSize: 14,
+                                        fontWeight: 700,
+                                        color: 'var(--admin-text)',
+                                      }}
+                                    >
+                                      {model.version}
+                                    </span>
+                                    {registryData.active === model.version && (
+                                      <span
+                                        style={{
+                                          height: 20,
+                                          padding: '0 8px',
+                                          background: 'var(--admin-accent)',
+                                          color: '#fff',
+                                          borderRadius: 10,
+                                          fontSize: 11,
+                                          fontWeight: 700,
+                                          display: 'inline-flex',
+                                          alignItems: 'center',
+                                        }}
+                                      >
+                                        ACTIVE
+                                      </span>
+                                    )}
+                                    {model.aliases.filter(a => a !== 'production' && a !== model.version).map((alias) => (
+                                      <span
+                                        key={alias}
+                                        className="admin-badge admin-badge-info"
+                                      >
+                                        {alias}
+                                      </span>
+                                    ))}
+                                  </div>
+                                  <div
+                                    className="flex flex-wrap gap-4 text-sm"
+                                    style={{ color: 'var(--admin-text-secondary)' }}
+                                  >
+                                    <span>
+                                      <strong>File:</strong> {model.filename}
+                                    </span>
+                                    <span>
+                                      <strong>Size:</strong> {(model.size / 1024 / 1024).toFixed(2)} MB
+                                    </span>
+                                    <span>
+                                      <strong>Created:</strong> {formatDate(model.createdAt)}
+                                    </span>
+                                    {model.baseModel && (
+                                      <span>
+                                        <strong>Base:</strong> {model.baseModel}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {model.notes && (
+                                    <p className="mt-2 text-sm" style={{ color: 'var(--admin-text-muted)' }}>
+                                      {model.notes}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  {registryData.active !== model.version && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleSetActive(model.version)}
+                                      style={{
+                                        height: 32,
+                                        padding: '0 12px',
+                                        background: 'var(--admin-success)',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: 'var(--admin-radius-sm)',
+                                        fontSize: 12,
+                                        fontWeight: 600,
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: 4,
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <Star className="h-3.5 w-3.5" strokeWidth={2} />
+                                      Set Active
+                                    </button>
+                                  )}
+                                  {registryData.active !== model.version && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteModel(model.version)}
+                                      style={{
+                                        height: 32,
+                                        padding: '0 12px',
+                                        background: 'transparent',
+                                        color: 'var(--admin-danger)',
+                                        border: '1px solid var(--admin-danger)',
+                                        borderRadius: 'var(--admin-radius-sm)',
+                                        fontSize: 12,
+                                        fontWeight: 600,
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: 4,
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
+                                      Xóa
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                              {/* Metrics */}
+                              {model.metrics && Object.keys(model.metrics).length > 0 && (
+                                <div className="flex flex-wrap gap-3 mt-3 pt-3" style={{ borderTop: '1px solid var(--admin-border)' }}>
+                                  {model.metrics.precision !== undefined && (
+                                    <div className="text-xs">
+                                      <span style={{ color: 'var(--admin-text-muted)' }}>Precision:</span>{' '}
+                                      <span className="font-semibold">{(model.metrics.precision * 100).toFixed(1)}%</span>
+                                    </div>
+                                  )}
+                                  {model.metrics.recall !== undefined && (
+                                    <div className="text-xs">
+                                      <span style={{ color: 'var(--admin-text-muted)' }}>Recall:</span>{' '}
+                                      <span className="font-semibold">{(model.metrics.recall * 100).toFixed(1)}%</span>
+                                    </div>
+                                  )}
+                                  {model.metrics.mAP50 !== undefined && (
+                                    <div className="text-xs">
+                                      <span style={{ color: 'var(--admin-text-muted)' }}>mAP@50:</span>{' '}
+                                      <span className="font-semibold">{(model.metrics.mAP50 * 100).toFixed(1)}%</span>
+                                    </div>
+                                  )}
+                                  {model.metrics.mAP50_95 !== undefined && (
+                                    <div className="text-xs">
+                                      <span style={{ color: 'var(--admin-text-muted)' }}>mAP@50-95:</span>{' '}
+                                      <span className="font-semibold">{(model.metrics.mAP50_95 * 100).toFixed(1)}%</span>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    ) : (
+                      <div className="admin-empty">
+                        Nhấn "Làm mới" để tải registry.
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </>
