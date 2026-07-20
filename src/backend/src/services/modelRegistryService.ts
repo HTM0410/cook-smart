@@ -33,6 +33,8 @@ export interface ModelVersion {
   notes?: string;
   baseModel?: string;
   classes?: number;
+  exists?: boolean;
+  filePath?: string;
 }
 
 export interface ModelRegistry {
