@@ -8,6 +8,7 @@ const memoryCache = new Map<string, { data: any; expires: number }>();
 export const CACHE_KEYS = {
   SEARCH_RESULTS: (query: string, filters: string) => `search:${query}:${filters}`,
   RECIPE_DETAIL: (recipeId: number) => `recipe:${recipeId}`,
+  RECIPE_LIST: (params: string) => `recipes:list:${params}`,
   POPULAR_RECIPES: (limit: number) => `popular:${limit}`,
   RECENT_RECIPES: (limit: number) => `recent:${limit}`,
   USER_FAVORITES: (userId: number) => `user:favorites:${userId}`,
@@ -18,6 +19,7 @@ export const CACHE_KEYS = {
 export const CACHE_TTL = {
   SEARCH_RESULTS: 15 * 60, // 15 minutes
   RECIPE_DETAIL: 30 * 60, // 30 minutes
+  RECIPE_LIST: 10 * 60, // 10 minutes - shorter because admin can edit recipes often
   POPULAR_RECIPES: 10 * 60, // 10 minutes
   RECENT_RECIPES: 5 * 60, // 5 minutes
   USER_FAVORITES: 5 * 60, // 5 minutes
@@ -265,20 +267,46 @@ class CacheService {
   }
 
   /**
+   * Cache recipe list (paginated)
+   */
+  async cacheRecipeList(params: string, data: any, ttl: number = CACHE_TTL.RECIPE_LIST): Promise<boolean> {
+    const key = CACHE_KEYS.RECIPE_LIST(params);
+    return await this.set(key, data, ttl);
+  }
+
+  /**
+   * Get cached recipe list
+   */
+  async getCachedRecipeList(params: string): Promise<any | null> {
+    const key = CACHE_KEYS.RECIPE_LIST(params);
+    return await this.get<any>(key);
+  }
+
+  /**
+   * Invalidate all recipe list caches (called when any recipe is created/updated/deleted)
+   */
+  async invalidateRecipeListCaches(): Promise<number> {
+    return await this.delPattern('recipes:list:*');
+  }
+
+  /**
    * Invalidate recipe-related caches
    */
   async invalidateRecipeCaches(recipeId: number): Promise<void> {
     try {
       // Delete recipe detail cache
       await this.del(CACHE_KEYS.RECIPE_DETAIL(recipeId));
-      
+
       // Delete all search result caches (they might contain this recipe)
       await this.delPattern('search:*');
-      
+
       // Delete popular and recent recipe caches
       await this.delPattern('popular:*');
       await this.delPattern('recent:*');
-      
+
+      // Delete recipe list caches (paginated lists)
+      await this.delPattern('recipes:list:*');
+
       console.log(`🔄 Invalidated caches for recipe ${recipeId}`);
     } catch (error) {
       console.error(`❌ Error invalidating caches for recipe ${recipeId}:`, error);

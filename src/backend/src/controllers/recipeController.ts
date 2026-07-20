@@ -13,10 +13,10 @@ import { sequelize } from '../models'
 // Get all recipes with pagination and filters
 export const getAllRecipes = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      search, 
+    const {
+      page = 1,
+      limit = 10,
+      search,
       status = 'visible',
       sortBy = 'createdAt',
       order = 'DESC'
@@ -26,9 +26,18 @@ export const getAllRecipes = async (req: Request, res: Response): Promise<void> 
     const limitNum = parseInt(limit as string)
     const offset = (pageNum - 1) * limitNum
 
+    // Build cache key from query params
+    const cacheParams = `p=${pageNum}&l=${limitNum}&s=${search || ''}&st=${status}&sb=${sortBy}&o=${order}&off=${offset}`
+    const cached = await cacheService.getCachedRecipeList(cacheParams)
+    if (cached) {
+      console.log(`🎯 Recipe list cache HIT: ${cacheParams}`)
+      res.json(cached)
+      return
+    }
+
     // Build where clause
     const whereClause: any = {}
-    
+
     if (status) {
       whereClause.status = status
     }
@@ -149,7 +158,7 @@ export const getAllRecipes = async (req: Request, res: Response): Promise<void> 
       };
     });
 
-    res.json({
+    const responsePayload = {
       success: true,
       message: 'Recipes retrieved successfully',
       data: {
@@ -163,7 +172,14 @@ export const getAllRecipes = async (req: Request, res: Response): Promise<void> 
           hasPreviousPage: pageNum > 1
         }
       }
-    })
+    }
+
+    // Cache the response (best-effort, do not fail the request if Redis is down)
+    cacheService.cacheRecipeList(cacheParams, responsePayload).catch(err =>
+      console.warn('cacheRecipeList failed:', err.message)
+    )
+
+    res.json(responsePayload)
   } catch (error) {
     console.error('Get all recipes error:', error)
     res.status(500).json({
@@ -358,6 +374,9 @@ export const createRecipe = async (req: Request, res: Response): Promise<void> =
       message: 'Recipe created successfully',
       data: { recipe: completeRecipe }
     })
+
+    // Invalidate all recipe list caches (new recipe should appear in lists)
+    await cacheService.invalidateRecipeListCaches()
   } catch (error) {
     console.error('Create recipe error:', error)
     res.status(500).json({
@@ -438,6 +457,9 @@ export const updateRecipe = async (req: Request, res: Response): Promise<void> =
       message: 'Recipe updated successfully',
       data: { recipe: updatedRecipe }
     })
+
+    // Invalidate caches (recipe detail + all list variants)
+    await cacheService.invalidateRecipeCaches(parseInt(id))
   } catch (error) {
     console.error('Update recipe error:', error)
     res.status(500).json({
@@ -482,6 +504,9 @@ export const deleteRecipe = async (req: Request, res: Response): Promise<void> =
       success: true,
       message: 'Recipe deleted successfully'
     })
+
+    // Invalidate caches after delete
+    await cacheService.invalidateRecipeCaches(parseInt(id))
   } catch (error) {
     console.error('Delete recipe error:', error)
     res.status(500).json({
@@ -523,6 +548,9 @@ export const toggleRecipeVisibility = async (req: Request, res: Response): Promi
       message: `Recipe ${newStatus === 'visible' ? 'shown' : 'hidden'} successfully`,
       data: { recipe }
     })
+
+    // Invalidate caches (visibility affects what shows in lists)
+    await cacheService.invalidateRecipeCaches(parseInt(id))
   } catch (error) {
     console.error('Toggle recipe visibility error:', error)
     res.status(500).json({
@@ -569,6 +597,9 @@ export const addRecipeStep = async (req: Request, res: Response): Promise<void> 
       message: 'Recipe step added successfully',
       data: { step }
     })
+
+    // Invalidate caches (recipe content changed)
+    await cacheService.invalidateRecipeCaches(parseInt(id))
   } catch (error) {
     console.error('Add recipe step error:', error)
     res.status(500).json({
@@ -633,6 +664,9 @@ export const addRecipeIngredient = async (req: Request, res: Response): Promise<
       message: 'Ingredient added to recipe successfully',
       data: { recipeIngredient: completeIngredient }
     })
+
+    // Invalidate caches (ingredient map affects filtered queries)
+    await cacheService.invalidateRecipeCaches(parseInt(id))
   } catch (error) {
     console.error('Add recipe ingredient error:', error)
     res.status(500).json({

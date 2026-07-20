@@ -8,8 +8,8 @@ dotenv.config();
 const dbUrl = process.env.SUPABASE_DB_URL || 
   `postgresql://${process.env.SUPABASE_DB_USER || 'postgres'}:${process.env.SUPABASE_DB_PASS}@${process.env.SUPABASE_DB_HOST}:${process.env.SUPABASE_DB_PORT || 5432}/${process.env.SUPABASE_DB_NAME || 'postgres'}`;
 
-// Chỉ bật SSL khi dùng Supabase (host *.supabase.co), tắt SSL cho Postgres local
-const useSSL = /supabase\.co/.test(dbUrl);
+// Chỉ bật SSL khi dùng Supabase (host *.supabase.co hoặc *.supabase.com pooler), tắt SSL cho Postgres local
+const useSSL = /supabase\.(co|com)/.test(dbUrl);
 
 export const sequelize = new Sequelize(dbUrl, {
   dialect: 'postgres',

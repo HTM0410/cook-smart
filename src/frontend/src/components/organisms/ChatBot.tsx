@@ -17,6 +17,8 @@ import {
   Sparkles,
   LogIn,
   Plus,
+  ChefHat,
+  ArrowDown,
 } from 'lucide-react';
 
 interface ChatBotProps {
@@ -28,7 +30,8 @@ interface ChatBotProps {
 const WELCOME_MESSAGE: ChatMessage = {
   id: 0,
   role: 'assistant',
-  content: 'Xin chào! Tôi là trợ lý nấu ăn của CookSmart. Bạn có thể hỏi tôi về công thức nấu ăn, nguyên liệu, hoặc gợi ý món ăn nhé!',
+  content:
+    'Xin chào! Tôi là trợ lý nấu ăn của CookSmart. Bạn có thể hỏi tôi về công thức nấu ăn, nguyên liệu, hoặc gợi ý món ăn nhé!',
   createdAt: new Date().toISOString(),
 };
 
@@ -45,7 +48,9 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isCreatingSession, setIsCreatingSession] = useState(false);
+  const [showScrollDown, setShowScrollDown] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const reconnectAttempts = useRef(0);
 
   useEffect(() => {
@@ -331,239 +336,389 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen = true, onClose, initialSessio
     navigate('/login');
   };
 
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+    const atBottom = scrollHeight - scrollTop - clientHeight < 100;
+    setShowScrollDown(!atBottom);
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 w-[420px] max-w-[calc(100vw-3rem)] h-[640px] max-h-[calc(100vh-140px)] bg-paper-light dark:bg-ink-700 rounded-2xl card-bezel overflow-hidden flex flex-col origin-bottom-right animate-fade-in">
-      <div className="card-bezel-inner p-0 overflow-hidden flex flex-col flex-1">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#ff4f00] text-white flex-shrink-0">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur flex items-center justify-center flex-shrink-0 ring-1 ring-white/20">
-              <Sparkles className="w-4 h-4" strokeWidth={1.5} />
-            </div>
-            <div className="min-w-0">
-              <h2 className="font-display font-semibold text-sm leading-tight truncate">CookSmart Assistant</h2>
-              <div className="flex items-center gap-1.5 text-[11px] text-white/85 mt-0.5">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+    <div className="fixed bottom-24 right-5 z-50 w-[420px] max-w-[calc(100vw-2.5rem)] h-[min(680px,calc(100vh-8rem))] origin-bottom-right animate-fade-in">
+      {/* Bezel outer */}
+      <div className="card-bezel h-full">
+        <div className="card-bezel-inner p-0 h-full overflow-hidden flex flex-col">
+          {/* Header - Editorial Luxury */}
+          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-br from-[#ff4f00] via-[#ff6f33] to-[#c72602] text-white flex-shrink-0 relative overflow-hidden">
+            {/* Subtle ambient pattern */}
+            <div
+              className="absolute inset-0 opacity-20 pointer-events-none"
+              style={{
+                background:
+                  'radial-gradient(circle at 20% 0%, rgba(255,255,255,0.4) 0%, transparent 50%)',
+              }}
+            />
+            <div className="flex items-center gap-3 min-w-0 relative">
+              {/* Avatar with double-bezel ring */}
+              <div className="relative flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-white/15 backdrop-blur flex items-center justify-center ring-1 ring-white/25 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                  <Sparkles className="w-4 h-4" strokeWidth={1.5} />
+                </div>
+                {/* Online indicator */}
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#34d399] rounded-full ring-2 ring-[#ff4f00]">
+                  <span className="absolute inset-0 rounded-full bg-[#34d399] animate-ping opacity-75" />
                 </span>
-                <span className="uppercase tracking-[0.15em]">Trực tuyến · Powered by AI</span>
+              </div>
+              <div className="min-w-0">
+                <h2 className="font-display font-semibold text-[14.5px] leading-tight truncate">
+                  CookSmart Assistant
+                </h2>
+                <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-white/90">
+                  <span className="uppercase tracking-[0.18em] font-semibold">Trực tuyến</span>
+                  <span className="w-0.5 h-0.5 rounded-full bg-white/50" />
+                  <span className="uppercase tracking-[0.18em] font-medium opacity-85">
+                    Powered by Gemini · RAG
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-1 flex-shrink-0">
-            {user && (
+            <div className="flex items-center gap-0.5 flex-shrink-0 relative">
+              {user && (
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="p-2 rounded-full hover:bg-white/15 active:bg-white/25 transition-colors duration-500 ease-[var(--ease-fluid)]"
+                  title={isSidebarOpen ? 'Ẩn danh sách' : 'Hiện danh sách'}
+                  aria-label="Toggle sidebar"
+                >
+                  {isSidebarOpen ? (
+                    <PanelLeftClose className="w-4 h-4" strokeWidth={1.5} />
+                  ) : (
+                    <PanelLeftOpen className="w-4 h-4" strokeWidth={1.5} />
+                  )}
+                </button>
+              )}
               <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                onClick={onClose}
                 className="p-2 rounded-full hover:bg-white/15 active:bg-white/25 transition-colors duration-500 ease-[var(--ease-fluid)]"
-                title={isSidebarOpen ? 'Ẩn danh sách' : 'Hiện danh sách'}
-                aria-label="Toggle sidebar"
+                title="Đóng"
+                aria-label="Đóng"
               >
-                {isSidebarOpen ? (
-                  <PanelLeftClose className="w-4 h-4" strokeWidth={1.5} />
-                ) : (
-                  <PanelLeftOpen className="w-4 h-4" strokeWidth={1.5} />
-                )}
+                <X className="w-4 h-4" strokeWidth={1.5} />
               </button>
-            )}
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/15 active:bg-white/25 transition-colors duration-500 ease-[var(--ease-fluid)]"
-              title="Đóng"
-              aria-label="Đóng"
-            >
-              <X className="w-4 h-4" strokeWidth={1.5} />
-            </button>
+            </div>
           </div>
-        </div>
 
-        {/* Content */}
-        <div className="flex-1 flex overflow-hidden min-h-0">
-          {/* Session sidebar */}
-          <AnimatePresence initial={false}>
-            {user && isSidebarOpen && (
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 240, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: easeFluid }}
-                className="flex-shrink-0 border-r border-ink-200/40 dark:border-ink-700/40 overflow-y-auto bg-paper-light dark:bg-ink-700/30"
-              >
-                <ChatSessionList
-                  sessions={sessions}
-                  currentSessionId={currentSession?.id}
-                  onSelectSession={handleSelectSession}
-                  onDeleteSession={handleDeleteSession}
-                  onNewChat={handleNewChat}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Content */}
+          <div className="flex-1 flex overflow-hidden min-h-0">
+            {/* Session sidebar */}
+            <AnimatePresence initial={false}>
+              {user && isSidebarOpen && (
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 248, opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: easeFluid }}
+                  className="flex-shrink-0 border-r border-ink-200/30 dark:border-ink-700/30 overflow-hidden bg-paper-light/40 dark:bg-ink-700/20"
+                >
+                  <ChatSessionList
+                    sessions={sessions}
+                    currentSessionId={currentSession?.id}
+                    onSelectSession={handleSelectSession}
+                    onDeleteSession={handleDeleteSession}
+                    onNewChat={handleNewChat}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          {/* Chat area */}
-          <div className="flex-1 flex flex-col min-w-0 bg-paper-light dark:bg-ink-700/20">
-            {isLoadingSessions && !currentSession ? (
-              <div className="flex-1 flex flex-col items-center justify-center p-6">
-                <Loader2 className="w-8 h-8 animate-spin text-[#ff4f00] mb-3" strokeWidth={1.5} />
-                <p className="text-ink-secondary text-sm">Đang tải cuộc trò chuyện...</p>
-              </div>
-            ) : !currentSession && !isLoading ? (
-              /* Welcome screen */
-              <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
-                <div className="relative mb-5">
-                  <div className="absolute inset-0 bg-[#ff4f00]/20 blur-2xl rounded-full" />
-                  <div className="relative w-16 h-16 rounded-full bg-[#ff4f00] flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-7 h-7 text-white" strokeWidth={1.5} />
-                  </div>
-                </div>
-                <h3 className="text-display text-xl text-ink-primary dark:text-paper-light mb-2 text-center text-balance">
-                  Xin chào! Tôi có thể giúp gì?
-                </h3>
-                <p className="text-sm text-ink-secondary text-center mb-6 max-w-xs text-pretty">
-                  Gợi ý công thức, hướng dẫn nấu ăn, hoặc tìm món phù hợp với nguyên liệu bạn có.
-                </p>
-
-                {!user ? (
-                  <>
-                    <div className="w-full max-w-xs p-3.5 rounded-2xl bg-[#FBF3DB] dark:bg-[#956400]/15 ring-1 ring-[#956400]/30 mb-4 flex items-start gap-2.5">
-                      <LogIn className="w-4 h-4 text-[#956400] flex-shrink-0 mt-0.5" strokeWidth={1.5} />
-                      <p className="text-xs text-[#956400] leading-relaxed">
-                        Đăng nhập để lưu lịch sử trò chuyện và đồng bộ giữa các thiết bị.
-                      </p>
-                    </div>
-                    <div className="w-full max-w-xs space-y-2 mb-4">
-                      {suggestions.slice(0, 3).map((suggestion, index) => (
-                        <div
-                          key={index}
-                          className="w-full px-3.5 py-2.5 text-left rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 opacity-70"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <MessageSquare className="w-3.5 h-3.5 text-ink-muted flex-shrink-0" strokeWidth={1.5} />
-                            <span className="text-xs text-ink-secondary truncate">{suggestion}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      onClick={handleLoginPrompt}
-                      className="btn-editorial-primary inline-flex"
-                    >
-                      <LogIn className="w-4 h-4" strokeWidth={1.5} />
-                      Đăng nhập để bắt đầu
-                    </button>
-                  </>
-                ) : isCreatingSession ? (
-                  <div className="flex items-center gap-2 text-ink-primary dark:text-paper-light">
-                    <Loader2 className="w-5 h-5 animate-spin text-[#ff4f00]" strokeWidth={1.5} />
-                    <span className="text-sm font-medium">Đang tạo cuộc trò chuyện...</span>
-                  </div>
-                ) : (
-                  <>
-                    <div className="w-full max-w-xs space-y-2 mb-5">
-                      {suggestions.slice(0, 3).map((suggestion, index) => (
-                        <motion.button
-                          key={index}
-                          whileHover={{ scale: 1.01 }}
-                          whileTap={{ scale: 0.99 }}
-                          onClick={() => handleSuggestionClick(suggestion)}
-                          disabled={isCreatingSession}
-                          className="group w-full px-3.5 py-2.5 text-left rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 hover:ring-[#ff4f00] transition-all duration-500 ease-[var(--ease-fluid)] disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <MessageSquare className="w-3.5 h-3.5 text-ink-muted group-hover:text-[#ff4f00] flex-shrink-0 transition-colors duration-500 ease-[var(--ease-fluid)]" strokeWidth={1.5} />
-                            <span className="text-xs text-ink-primary dark:text-paper-light truncate">
-                              {suggestion}
-                            </span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                    <button
-                      onClick={handleNewChat}
-                      disabled={isLoading || isCreatingSession}
-                      className="btn-editorial-primary inline-flex disabled:opacity-50"
-                    >
-                      {(isLoading || isCreatingSession) ? (
-                        <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} />
-                      ) : (
-                        <Plus className="w-4 h-4" strokeWidth={1.5} />
-                      )}
-                      Bắt đầu cuộc trò chuyện mới
-                    </button>
-                  </>
-                )}
-              </div>
-            ) : isLoading && currentSession ? (
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-[#ff4f00] mb-3" strokeWidth={1.5} />
-                <p className="text-ink-secondary text-sm">Đang tải tin nhắn...</p>
-              </div>
-            ) : (
-              <>
-                <div className="flex-1 overflow-y-auto px-3 py-3 custom-scrollbar">
-                  {messages.map((message, index) => (
-                    <ChatMessageBubble
-                      key={message.id || index}
-                      id={message.id || index}
-                      role={message.role}
-                      content={message.content}
-                      createdAt={message.createdAt}
-                      sources={message.sources}
-                      onRecipeClick={handleRecipeClick}
+            {/* Chat area */}
+            <div className="flex-1 flex flex-col min-w-0 bg-paper-light dark:bg-ink-800/30">
+              {isLoadingSessions && !currentSession ? (
+                <div className="flex-1 flex flex-col items-center justify-center p-6">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[#ff4f00]/20 blur-xl rounded-full" />
+                    <Loader2
+                      className="relative w-8 h-8 animate-spin text-[#ff4f00]"
+                      strokeWidth={1.5}
                     />
-                  ))}
-
-                  <AnimatePresence>
-                    {isTyping && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease: easeFluid }}
-                        className="flex justify-start mb-3"
-                      >
-                        <div className="flex gap-2.5 items-end">
-                          <div className="w-8 h-8 rounded-full bg-[#ff4f00] flex items-center justify-center flex-shrink-0">
-                            <Sparkles className="w-3.5 h-3.5 text-white" strokeWidth={1.5} />
-                          </div>
-                          <div className="px-4 py-3 rounded-2xl rounded-bl-md bg-paper-light dark:bg-ink-700 ring-1 ring-ink-200/40 dark:ring-ink-700/40">
-                            <div className="flex gap-1.5 items-center">
-                              <span className="w-2 h-2 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                              <span className="w-2 h-2 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                              <span className="w-2 h-2 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <div ref={messagesEndRef} />
+                  </div>
+                  <p className="text-ink-secondary text-sm mt-3">Đang tải cuộc trò chuyện...</p>
                 </div>
+              ) : !currentSession && !isLoading ? (
+                /* Welcome screen - editorial */
+                <div className="flex-1 flex flex-col items-center justify-center px-5 py-6 overflow-y-auto custom-scrollbar">
+                  {/* Brand mark */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: easeFluid }}
+                    className="relative mb-5"
+                  >
+                    <div className="absolute inset-0 bg-[#ff4f00]/25 blur-2xl rounded-full" />
+                    <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#ff4f00] via-[#ff6f33] to-[#c72602] flex items-center justify-center flex-shrink-0 shadow-[0_8px_24px_-6px_rgba(255,79,0,0.5)] ring-1 ring-white/20">
+                      <ChefHat className="w-7 h-7 text-white" strokeWidth={1.5} />
+                    </div>
+                  </motion.div>
 
-                <AnimatePresence>
-                  {error && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: easeFluid, delay: 0.1 }}
+                    className="text-[10px] uppercase tracking-[0.22em] font-semibold text-[#ff4f00] mb-2.5"
+                  >
+                    Trợ lý AI · Phiên bản 2.0
+                  </motion.p>
+
+                  <motion.h3
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: easeFluid, delay: 0.15 }}
+                    className="font-serif italic text-[26px] leading-[1.15] tracking-editorial text-ink-primary dark:text-paper-light mb-2.5 text-center text-balance"
+                  >
+                    Xin chào, tôi có thể giúp gì?
+                  </motion.h3>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: easeFluid, delay: 0.2 }}
+                    className="text-[13px] text-ink-secondary text-center mb-6 max-w-[280px] text-pretty leading-relaxed"
+                  >
+                    Gợi ý công thức, hướng dẫn nấu ăn, hoặc tìm món phù hợp với nguyên liệu bạn có.
+                  </motion.p>
+
+                  {!user ? (
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="mx-3 mb-2 px-3.5 py-2.5 bg-[#FDEBEC] dark:bg-[#9F2F2D]/20 text-[#9F2F2D] text-xs rounded-2xl ring-1 ring-[#9F2F2D]/30 flex-shrink-0"
+                      transition={{ duration: 0.6, ease: easeFluid, delay: 0.25 }}
+                      className="w-full max-w-[300px] flex flex-col items-center"
                     >
-                      {error}
+                      <div className="w-full p-3.5 rounded-2xl bg-[#FBF3DB] dark:bg-[#956400]/15 ring-1 ring-[#956400]/30 mb-4 flex items-start gap-2.5">
+                        <LogIn
+                          className="w-4 h-4 text-[#956400] flex-shrink-0 mt-0.5"
+                          strokeWidth={1.5}
+                        />
+                        <p className="text-xs text-[#956400] leading-relaxed">
+                          Đăng nhập để lưu lịch sử trò chuyện và đồng bộ giữa các thiết bị.
+                        </p>
+                      </div>
+                      <div className="w-full space-y-2 mb-4">
+                        {suggestions.slice(0, 3).map((suggestion, index) => (
+                          <div
+                            key={index}
+                            className="w-full px-3.5 py-2.5 text-left rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 opacity-70"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <MessageSquare
+                                className="w-3.5 h-3.5 text-ink-muted flex-shrink-0"
+                                strokeWidth={1.5}
+                              />
+                              <span className="text-xs text-ink-secondary truncate">
+                                {suggestion}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        onClick={handleLoginPrompt}
+                        className="btn-editorial-primary inline-flex"
+                      >
+                        <LogIn className="w-4 h-4" strokeWidth={1.5} />
+                        Đăng nhập để bắt đầu
+                      </button>
+                    </motion.div>
+                  ) : isCreatingSession ? (
+                    <div className="flex items-center gap-2 text-ink-primary dark:text-paper-light">
+                      <Loader2
+                        className="w-5 h-5 animate-spin text-[#ff4f00]"
+                        strokeWidth={1.5}
+                      />
+                      <span className="text-sm font-medium">Đang tạo cuộc trò chuyện...</span>
+                    </div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, ease: easeFluid, delay: 0.25 }}
+                      className="w-full max-w-[300px] flex flex-col items-center"
+                    >
+                      <div className="w-full space-y-2 mb-5">
+                        {suggestions.slice(0, 3).map((suggestion, index) => (
+                          <motion.button
+                            key={index}
+                            initial={{ opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.5,
+                              ease: easeFluid,
+                              delay: 0.3 + index * 0.06,
+                            }}
+                            whileHover={{ scale: 1.01, x: 2 }}
+                            whileTap={{ scale: 0.99 }}
+                            onClick={() => handleSuggestionClick(suggestion)}
+                            disabled={isCreatingSession}
+                            className="group w-full px-3.5 py-2.5 text-left rounded-2xl ring-1 ring-ink-200/40 dark:ring-ink-700/40 hover:ring-[#ff4f00] hover:bg-[#fff4ed]/40 dark:hover:bg-[#ff4f00]/5 transition-all duration-500 ease-[var(--ease-fluid)] disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <MessageSquare
+                                className="w-3.5 h-3.5 text-ink-muted group-hover:text-[#ff4f00] flex-shrink-0 transition-colors duration-500 ease-[var(--ease-fluid)]"
+                                strokeWidth={1.5}
+                              />
+                              <span className="text-xs text-ink-primary dark:text-paper-light truncate">
+                                {suggestion}
+                              </span>
+                              <svg
+                                className="w-3 h-3 ml-auto text-ink-muted opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[var(--ease-fluid)]"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path d="M5 12h14" />
+                                <path d="M13 5l7 7-7 7" />
+                              </svg>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+                      <button
+                        onClick={handleNewChat}
+                        disabled={isLoading || isCreatingSession}
+                        className="btn-editorial-primary inline-flex disabled:opacity-50"
+                      >
+                        {(isLoading || isCreatingSession) ? (
+                          <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} />
+                        ) : (
+                          <>
+                            <Plus className="w-4 h-4" strokeWidth={1.5} />
+                            <span>Bắt đầu cuộc trò chuyện</span>
+                          </>
+                        )}
+                      </button>
                     </motion.div>
                   )}
-                </AnimatePresence>
-
-                <div className="flex-shrink-0 border-t border-ink-200/40 dark:border-ink-700/40 bg-paper-light dark:bg-ink-700/30">
-                  <ChatInput
-                    onSendMessage={handleSendMessage}
-                    disabled={isTyping || isCreatingSession}
-                    placeholder="Hỏi tôi về công thức nấu ăn..."
-                  />
                 </div>
-              </>
-            )}
+              ) : isLoading && currentSession ? (
+                <div className="flex-1 flex flex-col items-center justify-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[#ff4f00]/20 blur-xl rounded-full" />
+                    <Loader2
+                      className="relative w-8 h-8 animate-spin text-[#ff4f00]"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <p className="text-ink-secondary text-sm mt-3">Đang tải tin nhắn...</p>
+                </div>
+              ) : (
+                <>
+                  <div
+                    ref={messagesContainerRef}
+                    onScroll={handleScroll}
+                    className="flex-1 overflow-y-auto px-3.5 py-4 custom-scrollbar"
+                  >
+                    {/* Date divider */}
+                    <div className="flex items-center gap-3 mb-4 px-1">
+                      <span className="flex-1 h-px bg-ink-200/40 dark:bg-ink-700/40" />
+                      <span className="text-[10px] uppercase tracking-[0.18em] font-semibold text-ink-muted">
+                        Hôm nay
+                      </span>
+                      <span className="flex-1 h-px bg-ink-200/40 dark:bg-ink-700/40" />
+                    </div>
+
+                    {messages.map((message, index) => (
+                      <ChatMessageBubble
+                        key={message.id || index}
+                        id={message.id || index}
+                        role={message.role}
+                        content={message.content}
+                        createdAt={message.createdAt}
+                        sources={message.sources}
+                        onRecipeClick={handleRecipeClick}
+                      />
+                    ))}
+
+                    <AnimatePresence>
+                      {isTyping && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.4, ease: easeFluid }}
+                          className="flex justify-start mb-4"
+                        >
+                          <div className="flex gap-2.5 items-end">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#ff4f00] to-[#c72602] flex items-center justify-center flex-shrink-0 shadow-[0_4px_14px_-4px_rgba(255,79,0,0.4)]">
+                              <Sparkles
+                                className="w-3.5 h-3.5 text-white"
+                                strokeWidth={1.5}
+                              />
+                            </div>
+                            <div className="px-4 py-3 rounded-2xl rounded-bl-md bg-paper-light dark:bg-ink-700 ring-1 ring-ink-200/40 dark:ring-ink-700/40 shadow-soft">
+                              <div className="flex gap-1.5 items-center">
+                                <span className="w-1.5 h-1.5 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                                <span className="w-1.5 h-1.5 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                                <span className="w-1.5 h-1.5 bg-[#ff4f00] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <div ref={messagesEndRef} />
+                  </div>
+
+                  {/* Scroll to bottom button */}
+                  <AnimatePresence>
+                    {showScrollDown && (
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8, y: 8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, y: 8 }}
+                        transition={{ duration: 0.3, ease: easeFluid }}
+                        onClick={scrollToBottom}
+                        className="absolute bottom-[120px] right-5 w-8 h-8 rounded-full bg-paper-light dark:bg-ink-700 ring-1 ring-ink-200/60 dark:ring-ink-700/60 shadow-soft flex items-center justify-center text-ink-secondary hover:text-[#ff4f00] transition-colors"
+                        title="Cuộn xuống"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" strokeWidth={2} />
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
+
+                  <AnimatePresence>
+                    {error && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: easeFluid }}
+                        className="mx-3.5 mb-2 px-3.5 py-2.5 bg-[#FDEBEC] dark:bg-[#9F2F2D]/20 text-[#9F2F2D] text-xs rounded-2xl ring-1 ring-[#9F2F2D]/30 flex-shrink-0 flex items-center gap-2"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#9F2F2D] flex-shrink-0" />
+                        {error}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <div className="flex-shrink-0 border-t border-ink-200/30 dark:border-ink-700/30 bg-paper-light dark:bg-ink-700/30">
+                    <ChatInput
+                      onSendMessage={handleSendMessage}
+                      disabled={isTyping || isCreatingSession}
+                      placeholder="Hỏi tôi về công thức nấu ăn..."
+                    />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

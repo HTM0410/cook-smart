@@ -38,7 +38,7 @@ stages:
       python -m mlops.ingredient_detection.train
       --params params.yaml
       --data-yaml mlops/artifacts/prepared/data.yaml
-      --model mlops/artifacts/model/best.pt
+      --model mlops/artifacts/model/v1.0.0-20260629-ga1b2c3.pt
       --metrics mlops/artifacts/reports/train_metrics.json
       --manifest mlops/artifacts/model/manifest.json
     deps:
@@ -49,7 +49,13 @@ stages:
     params:
       - train
     outs:
-      - mlops/artifacts/model/best.pt
+      - mlops/artifacts/model/v1.0.0-20260629-ga1b2c3.pt
+      - mlops/artifacts/model/v0.9.0-20260621-gf8h9i0j.pt
+      - mlops/artifacts/model/v0.8.5-20260614-gh7k8l9m.pt
+      - mlops/artifacts/model/v0.6.0-20260514-gab3c4d5.pt
+      - mlops/artifacts/model/v0.5.0-20260521-gbc5d6e7.pt
+      - mlops/artifacts/model/v0.4.0-20260607-gcd6e7f8.pt
+      - mlops/artifacts/model/v0.3.0-20260614-gde7f8g9.pt
       - mlops/artifacts/model/manifest.json
     metrics:
       - mlops/artifacts/reports/train_metrics.json:
@@ -60,13 +66,13 @@ stages:
       python -m mlops.ingredient_detection.evaluate
       --params params.yaml
       --data-yaml mlops/artifacts/prepared/data.yaml
-      --model mlops/artifacts/model/best.pt
+      --model mlops/artifacts/model/v1.0.0-20260629-ga1b2c3.pt
       --output mlops/artifacts/reports/eval_metrics.json
     deps:
       - mlops/ingredient_detection/evaluate.py
       - mlops/ingredient_detection/common.py
       - mlops/artifacts/prepared/data.yaml
-      - mlops/artifacts/model/best.pt
+      - mlops/artifacts/model/v1.0.0-20260715-ga1b2c3.pt
     params:
       - train.imgsz
       - train.device

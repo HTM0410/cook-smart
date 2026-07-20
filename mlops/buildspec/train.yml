@@ -1,0 +1,206 @@
+version: 1.0
+
+env:
+  shell: bash
+  variables:
+    PYTHONUNBUFFERED: "1"
+
+phases:
+  install:
+    on-failure: ABORT
+    commands:
+      - echo "=== Setting up training environment ==="
+      - python3 --version
+      - pip install --upgrade pip
+
+      - |
+        echo "=== Installing training dependencies ==="
+        pip install \
+          ultralytics==8.3.0 \
+          wandb==0.18.3 \
+          pyyaml==6.0.2 \
+          numpy==1.26.4 \
+          boto3==1.35.0 \
+          scipy==1.13.1 \
+          scikit-learn==1.5.2 \
+          Pillow==10.4.0 \
+          tqdm==4.66.5 \
+          pandas==2.2.2 \
+          matplotlib==3.9.2 \
+          seaborn==0.13.2 \
+          --quiet
+
+      - |
+        echo "=== Configuring W&B ==="
+        wandb login --anonymously || true
+
+  pre_build:
+    on-failure: ABORT
+    commands:
+      - |
+        echo "=== Downloading training data from S3 ==="
+        mkdir -p Data/raw
+        if [ -n "$AWS_REGION" ] && [ -n "$S3_BUCKET" ]; then
+          aws s3 cp --recursive "s3://$S3_BUCKET/training-data/ingredient-detection/" "Data/raw/" || echo "S3 data not available, using local"
+        fi
+
+      - |
+        echo "=== Checking data paths ==="
+        python3 << 'PYEOF'
+        import os
+        import yaml
+
+        with open("Data/train.yaml") as f:
+            data = yaml.safe_load(f)
+
+        data_root = data.get("path", "Data")
+        train_path = os.path.join(data_root, data.get("train", ""))
+        val_path = os.path.join(data_root, data.get("val", ""))
+
+        print(f"Data root: {data_root}")
+        print(f"Train path: {train_path}")
+        print(f"Val path: {val_path}")
+
+        if not os.path.exists(train_path):
+            print("ERROR: Train path does not exist!")
+            exit(1)
+        print("✓ Training data found")
+        PYEOF
+
+  build:
+    on-failure: ABORT
+    commands:
+      - |
+        echo "=== Loading training parameters ==="
+        python3 << 'PYEOF'
+        import yaml
+        import os
+        import json
+
+        with open("mlops/params.yaml") as f:
+            params = yaml.safe_load(f)
+        train_params = params["train"]
+
+        # Set environment variables for training
+        print(json.dumps({
+            "base_model": train_params["base_model"],
+            "epochs": train_params["epochs"],
+            "imgsz": train_params["imgsz"],
+            "batch": train_params["batch"],
+            "device": train_params["device"]
+        }, indent=2))
+        PYEOF
+
+      - |
+        echo "=== Starting model training ==="
+        echo "Training with wandb logging enabled"
+
+        # Create output directories
+        mkdir -p mlops/artifacts/model
+        mkdir -p mlops/artifacts/metrics
+        mkdir -p mlops/artifacts/logs
+
+        # Run training with full logging
+        python3 -c "
+        import sys
+        sys.path.insert(0, 'mlops')
+        from ingredient_detection.train import train
+        from pathlib import Path
+
+        train(
+            params_path=Path('mlops/params.yaml'),
+            data_yaml=Path('Data/train.yaml'),
+            model_path=Path('mlops/artifacts/model/best.pt'),
+            metrics_path=Path('mlops/artifacts/metrics/training_metrics.json'),
+            manifest_path=Path('mlops/artifacts/model/manifest.json')
+        )
+        print('Training completed successfully!')
+        "
+
+  post_build:
+    on-failure: CONTINUE
+    commands:
+      - |
+        echo "=== Uploading training artifacts to S3 ==="
+        if [ -n "$AWS_REGION" ] && [ -n "$S3_BUCKET" ]; then
+          TIMESTAMP=$(date -u +%Y%m%d_%H%M%S)
+          VERSION="${MODEL_VERSION:-v${TIMESTAMP}}"
+
+          # Upload model
+          aws s3 cp mlops/artifacts/model/best.pt "s3://$S3_BUCKET/$S3_PREFIX/$VERSION/best.pt"
+
+          # Upload manifest
+          aws s3 cp mlops/artifacts/model/manifest.json "s3://$S3_BUCKET/$S3_PREFIX/$VERSION/manifest.json"
+
+          # Upload metrics
+          aws s3 cp mlops/artifacts/metrics/training_metrics.json "s3://$S3_BUCKET/$S3_PREFIX/$VERSION/metrics.json"
+
+          echo "Model uploaded to: s3://$S3_BUCKET/$S3_PREFIX/$VERSION/"
+
+          # Register version in DynamoDB
+          echo "=== Registering version in DynamoDB ==="
+          python3 << 'PYEOF'
+          import boto3
+          import json
+          import os
+          import datetime
+
+          dynamodb = boto3.resource('dynamodb', region_name=os.getenv('AWS_REGION', 'ap-southeast-1'))
+          table = dynamodb.Table(os.getenv('DYNAMODB_TABLE', 'cooksmart-model-versions'))
+
+          version = os.getenv('MODEL_VERSION', 'latest')
+          with open('mlops/artifacts/model/manifest.json') as f:
+              manifest = json.load(f)
+
+          table.put_item(Item={
+              'PK': f'VERSION#{version}',
+              'SK': 'METADATA',
+              'version': version,
+              'git_revision': manifest.get('git_revision', 'unknown'),
+              'git_branch': os.getenv('BRANCH_NAME', 'unknown'),
+              'commit_sha': os.getenv('COMMIT_SHA', 'unknown'),
+              'created_at': datetime.datetime.utcnow().isoformat(),
+              'metrics': manifest.get('metrics', {}),
+              'class_count': manifest.get('class_count', 0),
+              'model_sha256': manifest.get('model_sha256', ''),
+              's3_uri': f"s3://{os.getenv('S3_BUCKET')}/{os.getenv('S3_PREFIX')}/{version}/best.pt",
+              'status': 'trained',
+              'wandb_run_url': manifest.get('wandb_run_url', '')
+          })
+
+          print(f"Version {version} registered in DynamoDB")
+          PYEOF
+        fi
+
+      - |
+        echo "=== Generating training summary ==="
+        python3 << 'PYEOF'
+        import json
+        import os
+
+        metrics_file = "mlops/artifacts/metrics/training_metrics.json"
+        if os.path.exists(metrics_file):
+            with open(metrics_file) as f:
+                metrics = json.load(f)
+            print("\n=== Training Metrics ===")
+            for key, value in metrics.items():
+                print(f"  {key}: {value}")
+        else:
+            print("Metrics file not found")
+        PYEOF
+
+      - |
+        echo "=== Copying artifacts to output ==="
+        cp mlops/artifacts/model/best.pt mlops/artifacts/model/best.pt 2>/dev/null || echo "Model artifact ready"
+        cp mlops/artifacts/metrics/training_metrics.json mlops/artifacts/training_metrics.json 2>/dev/null || echo "No metrics to copy"
+
+      - |
+        echo "=== Training pipeline complete ==="
+
+artifacts:
+  files:
+    - "mlops/artifacts/model/**/*"
+    - "mlops/artifacts/metrics/**/*"
+    - "mlops/artifacts/logs/**/*"
+  discard-paths: yes
+  name: trained-model

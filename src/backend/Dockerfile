@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install all dependencies (including dev for build)
-RUN npm ci --include=dev
+RUN npm ci --include=dev --legacy-peer-deps
 
 # Copy source code
 COPY tsconfig.json ./
@@ -22,13 +22,13 @@ COPY src ./src
 RUN npm run build
 
 # Prune dev dependencies
-RUN npm prune --production
+RUN npm prune --production --legacy-peer-deps
 
 # ===========================================
 # Stage 2: Production
 FROM node:20-alpine AS production
 
-# Security: create non-root user
+# Create app user with HOME=/tmp (writable for non-root)
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
@@ -39,12 +39,15 @@ COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
 
+# Pre-create writable directories (uploads + logs) and give full ownership to nodejs
+RUN mkdir -p /app/uploads /app/logs && chown -R nodejs:nodejs /app
+
 # Environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-# Security: run as non-root
+# Switch to non-root user
 USER nodejs
 
 # Health check

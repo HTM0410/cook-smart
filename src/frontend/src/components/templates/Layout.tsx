@@ -5,8 +5,8 @@ import Header from '../organisms/Header'
 import Footer from '../organisms/Footer'
 import BottomNav from '../organisms/BottomNav'
 import ChatBot from '../organisms/ChatBot'
+import ChatLauncher from '../molecules/ChatLauncher'
 import { NoiseOverlay } from '../atoms/NoiseOverlay'
-import { MessageSquare } from 'lucide-react'
 import { easeFluid } from '../../lib/motion'
 
 const Layout: React.FC = () => {
@@ -18,6 +18,11 @@ const Layout: React.FC = () => {
     setIsTransitioning(true)
     const timer = setTimeout(() => setIsTransitioning(false), 280)
     return () => clearTimeout(timer)
+  }, [location.pathname])
+
+  // Auto-close chat when navigating
+  useEffect(() => {
+    setChatOpen(false)
   }, [location.pathname])
 
   return (
@@ -41,19 +46,8 @@ const Layout: React.FC = () => {
       <BottomNav />
 
       {/* Chat FAB - only show when not on chat page */}
-      {!chatOpen && location.pathname !== '/chat' && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: easeFluid, delay: 0.4 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setChatOpen(true)}
-          className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full bg-[#ff4f00] text-white shadow-ambient flex items-center justify-center group"
-          aria-label="Mở trợ lý chat"
-        >
-          <MessageSquare className="w-6 h-6" strokeWidth={1.5} />
-        </motion.button>
+      {location.pathname !== '/chat' && (
+        <ChatLauncher isOpen={chatOpen} onClick={() => setChatOpen(!chatOpen)} />
       )}
 
       <AnimatePresence>
@@ -63,7 +57,7 @@ const Layout: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.7, ease: easeFluid }}
-            className="fixed bottom-24 right-5 z-50 w-[min(384px,calc(100vw-2.5rem))] h-[min(600px,calc(100vh-7rem))]"
+            className="fixed bottom-24 right-5 z-50"
           >
             <ChatBot isOpen={chatOpen} onClose={() => setChatOpen(false)} />
           </motion.div>

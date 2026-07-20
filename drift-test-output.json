@@ -1,0 +1,1 @@
+{"statusCode": 200, "headers": {"Content-Type": "application/json"}, "body": "{'status': 'ok', 'alert_level': 1, 'duration_seconds': 0.06159400939941406, 'timestamp': '2026-07-10T15:09:26Z'}"}

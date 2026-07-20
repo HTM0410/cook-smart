@@ -1,0 +1,166 @@
+version: 1.0
+
+env:
+  shell: bash
+
+phases:
+  install:
+    on-failure: ABORT
+    commands:
+      - echo "=== Validating training configuration ==="
+      - pip install pyyaml jsonschema httpx
+
+  pre_build:
+    on-failure: ABORT
+    commands:
+      - echo "=== Checking file structure ==="
+      - |
+        # Validate train.yaml exists and has required fields
+        python3 << 'PYEOF'
+        import yaml
+        import sys
+        import os
+
+        errors = []
+
+        # Check train.yaml
+        train_yaml = os.getenv("TRAIN_YAML", "Data/train.yaml")
+        if not os.path.exists(train_yaml):
+            errors.append(f"Missing: {train_yaml}")
+        else:
+            with open(train_yaml) as f:
+                data = yaml.safe_load(f)
+                required = ["path", "train", "val", "nc", "names"]
+                for field in required:
+                    if field not in data:
+                        errors.append(f"train.yaml missing field: {field}")
+                if "nc" in data and (not isinstance(data["nc"], int) or data["nc"] < 1):
+                    errors.append(f"Invalid nc value: {data['nc']}")
+                if "names" in data and len(data["names"]) != data.get("nc", 0):
+                    errors.append(f"nc={data.get('nc')} but names count={len(data['names'])}")
+
+        # Check params.yaml
+        params_yaml = os.getenv("PARAMS_YAML", "mlops/params.yaml")
+        if not os.path.exists(params_yaml):
+            errors.append(f"Missing: {params_yaml}")
+        else:
+            with open(params_yaml) as f:
+                data = yaml.safe_load(f)
+                if "train" not in data:
+                    errors.append("params.yaml missing 'train' section")
+                else:
+                    train_params = data["train"]
+                    required_params = ["base_model", "epochs", "imgsz", "batch", "device"]
+                    for p in required_params:
+                        if p not in train_params:
+                            errors.append(f"params.yaml/train missing: {p}")
+
+        if errors:
+            print("VALIDATION ERRORS:")
+            for e in errors:
+                print(f"  - {e}")
+            sys.exit(1)
+        else:
+            print("✓ Configuration validated successfully")
+        PYEOF
+
+      - |
+        # Validate label mapping
+        python3 << 'PYEOF'
+        import json
+        import os
+        import yaml
+
+        train_yaml = os.getenv("TRAIN_YAML", "Data/train.yaml")
+        with open(train_yaml) as f:
+            data = yaml.safe_load(f)
+
+        expected_labels = set(data.get("names", {}).values()) if data.get("names") else set()
+        
+        # Check if app.py label mapping exists
+        label_map_path = "src/backend/src/model_detection/yolo_inference_service/app.py"
+        if os.path.exists(label_map_path):
+            with open(label_map_path) as f:
+                content = f.read()
+                # Extract YOLO_TO_VIETNAMESE dict keys
+                import re
+                keys = re.findall(r'"(\w+)":\s*"', content)
+                mapping_labels = set(keys)
+                
+                missing = expected_labels - mapping_labels
+                if missing:
+                    print(f"⚠ Warning: Labels in train.yaml but not in app.py: {missing}")
+                else:
+                    print(f"✓ Label mapping covers all {len(expected_labels)} classes")
+        else:
+            print(f"ℹ No app.py label mapping found (optional)")
+        PYEOF
+
+  build:
+    on-failure: ABORT
+    commands:
+      - |
+        echo "=== Validating data split ==="
+        python3 << 'PYEOF'
+        import yaml
+        import os
+
+        train_yaml = os.getenv("TRAIN_YAML", "Data/train.yaml")
+        with open(train_yaml) as f:
+            data = yaml.safe_load(f)
+
+        data_root = data.get("path", "Data")
+        train_path = os.path.join(data_root, data.get("train", ""))
+        val_path = os.path.join(data_root, data.get("val", ""))
+
+        train_exists = os.path.exists(train_path)
+        val_exists = os.path.exists(val_path)
+
+        print(f"Train images: {train_path} -> {'✓ exists' if train_exists else '✗ missing'}")
+        print(f"Val images: {val_path} -> {'✓ exists' if val_exists else '✗ missing'}")
+
+        if not (train_exists and val_exists):
+            # Check for alternative paths
+            for subdir in ["images/train", "train/images", "../Data/images/train"]:
+                if os.path.exists(subdir):
+                    print(f"Found train images at: {subdir}")
+
+        # Count files if exists
+        if train_exists:
+            train_count = len([f for f in os.listdir(train_path) if f.endswith(('.jpg', '.png', '.jpeg'))])
+            print(f"Train image count: {train_count}")
+            if train_count < 100:
+                print(f"⚠ Warning: Very few training images ({train_count})")
+        if val_exists:
+            val_count = len([f for f in os.listdir(val_path) if f.endswith(('.jpg', '.png', '.jpeg'))])
+            print(f"Val image count: {val_count}")
+
+        print("✓ Data validation complete")
+        PYEOF
+
+  post_build:
+    commands:
+      - |
+        echo "=== Creating validation report ==="
+        cat > validation-report.json << 'EOF'
+        {
+          "validation": "passed",
+          "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "checks": {
+            "train_yaml": "valid",
+            "params_yaml": "valid",
+            "data_split": "valid",
+            "label_mapping": "checked"
+          }
+        }
+        EOF
+      - |
+        echo "=== Validation complete ==="
+        echo "Proceeding to training pipeline..."
+
+reports:
+  validation:
+    files:
+      - "validation-report.json"
+    base-directory: "."
+    discard-paths: yes

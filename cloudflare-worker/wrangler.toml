@@ -1,0 +1,7 @@
+name = "cooksmart-api-proxy"
+main = "src/worker.js"
+compatibility_date = "2026-07-01"
+
+# Free tier: 100,000 requests/day
+# Routes /api/health -> ALB /api/health, etc.
+# Worker URL will be: https://cooksmart-api-proxy.<account-subdomain>.workers.dev

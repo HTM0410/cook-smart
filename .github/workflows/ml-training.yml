@@ -1,0 +1,512 @@
+name: ML Training Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - 'ml/**'
+    paths:
+      - 'mlops/**'
+      - 'Data/**'
+      - 'src/backend/src/model_detection/**'
+  workflow_dispatch:
+    inputs:
+      training_data_version:
+        description: 'Training data version (tag or commit)'
+        required: false
+        default: 'latest'
+      base_model:
+        description: 'Base YOLO model'
+        required: false
+        default: 'yolov8m.pt'
+      epochs:
+        description: 'Number of epochs'
+        required: false
+        default: '100'
+      skip_tests:
+        description: 'Skip tests after training'
+        type: boolean
+        default: false
+
+env:
+  AWS_REGION: ap-southeast-1
+  S3_BUCKET: cooksmart-models
+  S3_PREFIX: ingredient-detector
+  DYNAMODB_TABLE: cooksmart-model-versions
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # ============================================================
+  # JOB 1: Validate configuration and data
+  # ============================================================
+  validate:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+    outputs:
+      data_hash: ${{ steps.hash.outputs.data_hash }}
+      class_count: ${{ steps.validate.outputs.class_count }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Validate training configuration
+        id: validate
+        run: |
+          pip install pyyaml jsonschema
+          python3 << 'PYEOF'
+          import yaml
+          import sys
+          import hashlib
+          import json
+
+          errors = []
+          warnings = []
+
+          # Validate train.yaml
+          if not __import__('os').path.exists('Data/train.yaml'):
+              errors.append("Missing: Data/train.yaml")
+          else:
+              with open('Data/train.yaml') as f:
+                  data = yaml.safe_load(f)
+                  required = ['path', 'train', 'val', 'nc', 'names']
+                  for field in required:
+                      if field not in data:
+                          errors.append(f"train.yaml missing field: {field}")
+
+                  # Check class count
+                  if 'nc' in data:
+                      print(f"::set-output name=class_count::{data['nc']}")
+                      names_count = len(data.get('names', {}))
+                      if names_count != data['nc']:
+                          errors.append(f"nc={data['nc']} but names count={names_count}")
+
+          # Validate params.yaml
+          if not __import__('os').path.exists('mlops/params.yaml'):
+              errors.append("Missing: mlops/params.yaml")
+          else:
+              with open('mlops/params.yaml') as f:
+                  data = yaml.safe_load(f)
+                  if 'train' not in data:
+                      errors.append("params.yaml missing 'train' section")
+                  else:
+                      required_params = ['base_model', 'epochs', 'imgsz', 'batch', 'device']
+                      for p in required_params:
+                          if p not in data['train']:
+                              errors.append(f"params.yaml/train missing: {p}")
+
+          # Calculate data hash
+          data_dir = 'Data'
+          if __import__('os').path.exists(data_dir):
+              hasher = hashlib.sha256()
+              for root, dirs, files in __import__('os').walk(data_dir):
+                  for f in sorted(files):
+                      if f.endswith(('.yaml', '.json')):
+                          path = __import__('os').path.join(root, f)
+                          with open(path, 'rb') as pf:
+                              hasher.update(pf.read())
+              print(f"::set-output name=data_hash::{hasher.hexdigest()[:8]}")
+
+          if errors:
+              print("ERRORS:")
+              for e in errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+
+          if warnings:
+              print("WARNINGS:")
+              for w in warnings:
+                  print(f"  - {w}")
+
+          print("✓ Configuration validated successfully")
+          PYEOF
+
+  # ============================================================
+  # JOB 2: Train model (GPU required)
+  # ============================================================
+  train:
+    name: Train Model
+    needs: validate
+    runs-on: [self-hosted, ml-training]
+    timeout-minutes: 480
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install \
+            ultralytics==8.3.0 \
+            wandb==0.18.3 \
+            pyyaml==6.0.2 \
+            numpy==1.26.4 \
+            boto3==1.35.0 \
+            scipy==1.13.1 \
+            scikit-learn==1.5.2
+
+      - name: Configure W&B
+        run: |
+          wandb login --anonymously || true
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+
+      - name: Download training data
+        run: |
+          mkdir -p Data/raw
+          aws s3 cp --recursive "s3://cooksmart-training-data/ingredient-detection/" "Data/raw/" || echo "Using local data"
+
+      - name: Generate version string
+        id: version
+        run: |
+          TIMESTAMP=$(date -u +%Y%m%d_%H%M%S)
+          SHORT_SHA=${GITHUB_SHA:0:8}
+          echo "version=v${TIMESTAMP}-${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "data_hash=${{ needs.validate.outputs.data_hash }}" >> $GITHUB_OUTPUT
+
+      - name: Train model
+        run: |
+          mkdir -p mlops/artifacts/model
+          mkdir -p mlops/artifacts/metrics
+
+          python3 -c "
+          import sys
+          sys.path.insert(0, 'mlops')
+          from ingredient_detection.train import train
+          from pathlib import Path
+
+          train(
+              params_path=Path('mlops/params.yaml'),
+              data_yaml=Path('Data/train.yaml'),
+              model_path=Path('mlops/artifacts/model/best.pt'),
+              metrics_path=Path('mlops/artifacts/metrics/training_metrics.json'),
+              manifest_path=Path('mlops/artifacts/model/manifest.json')
+          )
+          "
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          WANDB_PROJECT: ingredient-detection
+          WANDB_ENTITY: ${{ vars.WANDB_ENTITY || 'cooksmart' }}
+          BRANCH_NAME: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model-${{ github.sha }}
+          path: |
+            mlops/artifacts/model/best.pt
+            mlops/artifacts/model/manifest.json
+            mlops/artifacts/metrics/training_metrics.json
+          retention-days: 30
+
+      - name: Upload to S3
+        if: github.ref == 'refs/heads/main'
+        run: |
+          aws s3 cp mlops/artifacts/model/best.pt \
+            "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.version.outputs.version }}/best.pt"
+          aws s3 cp mlops/artifacts/model/manifest.json \
+            "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${{ steps.version.outputs.version }}/manifest.json"
+
+      - name: Register version in DynamoDB
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python3 << 'PYEOF'
+          import boto3
+          import json
+          from datetime import datetime
+
+          dynamodb = boto3.resource('dynamodb', region_name='${{ env.AWS_REGION }}')
+          table = dynamodb.Table('${{ env.DYNAMODB_TABLE }}')
+
+          version = '${{ steps.version.outputs.version }}'
+          with open('mlops/artifacts/model/manifest.json') as f:
+              manifest = json.load(f)
+
+          table.put_item(Item={
+              'PK': f'VERSION#{version}',
+              'SK': 'METADATA',
+              'version': version,
+              'git_revision': '${{ github.sha }}',
+              'git_branch': '${{ github.ref_name }}',
+              'created_at': datetime.utcnow().isoformat(),
+              'metrics': manifest.get('metrics', {}),
+              'class_count': manifest.get('class_count', 0),
+              'model_sha256': manifest.get('model_sha256', ''),
+              's3_uri': f"s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/{version}/best.pt",
+              'status': 'trained',
+              'wandb_run_url': manifest.get('wandb_run_url', ''),
+              'data_hash': '${{ steps.version.outputs.data_hash }}'
+          })
+
+          # Update candidate alias
+          table.put_item(Item={
+              'PK': 'ALIAS#candidate',
+              'SK': 'POINTER',
+              'version': version,
+              'updated_at': datetime.utcnow().isoformat(),
+              'triggered_by': 'github-actions'
+          })
+
+          print(f"Registered version {version}")
+          PYEOF
+
+  # ============================================================
+  # JOB 3: Run tests on trained model
+  # ============================================================
+  test:
+    name: Test Model
+    needs: [validate, train]
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.skip_tests && github.event_name != 'workflow_dispatch' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download model artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trained-model-${{ github.sha }}
+          path: mlops/artifacts/model
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install \
+            ultralytics==8.3.0 \
+            pytest==8.3.0 \
+            pytest-cov==4.1.0 \
+            numpy==1.26.4 \
+            Pillow==10.4.0
+
+      - name: Run unit tests
+        run: |
+          python -m pytest tests/mlops/ -v --cov=mlops --cov-report=xml
+
+      - name: Run integration tests
+        run: |
+          python -m pytest tests/mlops/test_integration.py -v
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+
+  # ============================================================
+  # JOB 4: Deploy to staging (canary 10%)
+  # ============================================================
+  deploy-staging:
+    name: Deploy to Staging
+    needs: [validate, train]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update ECS task definition (staging)
+        run: |
+          # Get current task definition
+          TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition cooksmart-yolo-staging \
+            --query 'taskDefinition' \
+            --output json)
+
+          # Update image tag
+          NEW_TASK_DEF=$(echo $TASK_DEF | jq '
+            .containerDefinitions[0].image = "294060270105.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/cooksmart-yolo:${{ needs.train.outputs.version }}"
+            | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)
+          ')
+
+          # Register new task definition
+          NEW_TASK_ARN=$(echo $NEW_TASK_DEF | aws ecs register-task-definition \
+            --cli-input-json file:///dev/stdin \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          echo "NEW_TASK_ARN=$NEW_TASK_ARN" >> $GITHUB_OUTPUT
+
+      - name: Deploy to ECS (staging - rolling update)
+        run: |
+          aws ecs update-service \
+            --cluster cooksmart-staging \
+            --service cooksmart-yolo-staging-svc \
+            --task-definition cooksmart-yolo:${{ steps.version.outputs.new_task_revision }} \
+            --force-new-deployment
+
+  # ============================================================
+  # JOB 5: Smoke test staging
+  # ============================================================
+  smoke-test-staging:
+    name: Smoke Test Staging
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run smoke tests
+        run: |
+          pip install httpx==0.27.2
+          python3 << 'PYEOF'
+          import httpx
+          import time
+
+          endpoint = "${{ vars.YOLO_STAGING_URL }}/health"
+          max_retries = 10
+
+          print(f"Waiting for staging service at {endpoint}...")
+
+          for i in range(max_retries):
+              try:
+                  resp = httpx.get(endpoint, timeout=5.0)
+                  if resp.status_code == 200:
+                      data = resp.json()
+                      if data.get('model_loaded'):
+                          print(f"✓ Staging service ready (attempt {i+1})")
+                          print(f"  Model: {data.get('model_metadata', {}).get('source', 'unknown')}")
+                          print(f"  Version: {data.get('model_metadata', {}).get('artifact_version', 'N/A')}")
+                          exit(0)
+              except Exception as e:
+                  print(f"  Attempt {i+1}: {e}")
+
+              if i < max_retries - 1:
+                  time.sleep(10)
+
+          print("✗ Staging service did not become ready")
+          exit(1)
+          PYEOF
+
+  # ============================================================
+  # JOB 6: Deploy to production (manual approval)
+  # ============================================================
+  deploy-production:
+    name: Deploy to Production
+    needs: [smoke-test-staging]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: ${{ vars.YOLO_PRODUCTION_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Tag image for production
+        run: |
+          aws ecr batch-delete-image \
+            --repository-name cooksmart-yolo \
+            --image-ids imageTag=production || true
+
+          aws ecr tag-image \
+            --registry-id 294060270105 \
+            --repository-name cooksmart-yolo \
+            --image-tag ${{ needs.train.outputs.version }} \
+            --image-tag production
+
+      - name: Trigger CodeDeploy (canary)
+        run: |
+          aws deploy create-deployment \
+            --application-name cooksmart-yolo-app \
+            --deployment-group-name cooksmart-yolo-production \
+            --deployment-config-name CodeDeployDefault.Canary10PercentAllAtOnce \
+            --description "Canary deployment from GitHub Actions" \
+            --revision "{
+              \"revisionType\": \"AppSpecContent\",
+              \"appSpecContent\": {
+                \"content\": \"{\\\"version\\\": \\\"0.0\\\", \\\"Resources\\\": [{\\\"TargetService\\\": {\\\"Type\\\": \\\"AWS::ECS::Service\\\", \\\"Properties\\\": {\\\"TaskDefinition\\\": \\\"arn:aws:ecs:${{ env.AWS_REGION }}:294060270105:task-definition/cooksmart-yolo:${{ env.IMAGE_TAG }}\\\", \\\"LoadBalancerInfo\\\": {\\\"ContainerName\\\": \\\"cooksmart-yolo\\\", \\\"ContainerPort\\\": 8000}}}}}]}\",
+                \"env\": \"production\"
+              }
+            }"
+
+      - name: Wait for deployment
+        run: |
+          DEPLOYMENT_ID=$(aws deploy list-deployments \
+            --application-name cooksmart-yolo-app \
+            --deployment-group-name cooksmart-yolo-production \
+            --query 'deployments[0]' \
+            --output text)
+
+          echo "Waiting for deployment $DEPLOYMENT_ID..."
+          aws deploy wait deployment-successful --deployment-id $DEPLOYMENT_ID || {
+            echo "Deployment failed or timed out"
+            exit 1
+          }
+
+      - name: Update production alias
+        run: |
+          python3 << 'PYEOF'
+          import boto3
+          from datetime import datetime
+
+          dynamodb = boto3.resource('dynamodb', region_name='${{ env.AWS_REGION }}')
+          table = dynamodb.Table('${{ env.DYNAMODB_TABLE }}')
+
+          version = '${{ needs.train.outputs.version }}'
+
+          # Update production alias
+          table.put_item(Item={
+              'PK': 'ALIAS#production',
+              'SK': 'POINTER',
+              'version': version,
+              'updated_at': datetime.utcnow().isoformat(),
+              'deployed_by': 'github-actions'
+          })
+
+          print(f"Updated production alias to {version}")
+          PYEOF
+
+      - name: Notify success
+        if: success()
+        run: |
+          echo "✅ Model successfully deployed to production!"
+          echo "   Version: ${{ needs.train.outputs.version }}"
+          echo "   Dashboard: ${{ vars.CLOUDWATCH_DASHBOARD_URL }}"
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "   Check logs at: https://${{ env.AWS_REGION }}.console.aws.amazon.com/codesuite/codepipeline/pipelines"

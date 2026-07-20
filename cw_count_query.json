@@ -1,0 +1,42 @@
+{
+  "MetricDataQueries": [
+    {
+      "Id": "q1",
+      "MetricStat": {
+        "Metric": {
+          "Namespace": "AWS/Usage",
+          "MetricName": "ResourceCount",
+          "Dimensions": [
+            {"Name": "Service", "Value": "CloudWatch"},
+            {"Name": "Type", "Value": "Resource"},
+            {"Name": "Resource", "Value": "Metric"},
+            {"Name": "Class", "Value": "Standard"}
+          ]
+        },
+        "Period": 86400,
+        "Stat": "Maximum"
+      },
+      "ReturnData": true
+    },
+    {
+      "Id": "q2",
+      "MetricStat": {
+        "Metric": {
+          "Namespace": "AWS/Usage",
+          "MetricName": "ResourceCount",
+          "Dimensions": [
+            {"Name": "Service", "Value": "CloudWatch"},
+            {"Name": "Type", "Value": "Resource"},
+            {"Name": "Resource", "Value": "Metric"},
+            {"Name": "Class", "Value": "HighResolution"}
+          ]
+        },
+        "Period": 86400,
+        "Stat": "Maximum"
+      },
+      "ReturnData": true
+    }
+  ],
+  "StartTime": "2026-07-10T00:00:00Z",
+  "EndTime": "2026-07-15T00:00:00Z"
+}

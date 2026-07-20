@@ -67,7 +67,7 @@ def _load_from_s3() -> tuple[Any, dict[str, Any]] | None:
             manifest: dict[str, Any] = {}
             try:
                 obj = s3.get_object(Bucket=bucket, Key=manifest_key)
-                manifest = json.loads(obj["Body"].read().decode("utf-8"))
+                manifest = json.loads(obj["Body"].read().decode("utf-8-sig"))
             except s3.exceptions.NoSuchKey:
                 logger.warning("[s3] manifest.json not found at %s", manifest_key)
             metadata = {
